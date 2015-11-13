@@ -6,7 +6,12 @@
     "start": "node app"
   },
   "dependencies": {
+    "amqp": "^0.2.4",
+    "connect-mongo": "^0.8.2",
+    "ejs": "*",
     "express": "3.0.6",
-    "ejs": "*"
+    "express-session": "^1.12.1",
+    "mongodb": "^2.0.48",
+    "mongoose": "^4.2.5"
   }
 }
