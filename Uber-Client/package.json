@@ -12,6 +12,8 @@
     "express": "3.0.6",
     "express-session": "^1.12.1",
     "mongodb": "^2.0.48",
-    "mongoose": "^4.2.5"
+    "mongoose": "^4.2.5",
+    "mysql": "^2.9.0",
+    "sequelize": "^3.13.0"
   }
 }
