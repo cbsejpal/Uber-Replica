@@ -6,7 +6,22 @@
 var express = require('express')
   , routes = require('./routes')
   , http = require('http')
-  , path = require('path');
+  , path = require('path')
+  , register = require('./routes/register')
+  , login = require('./routes/login')
+  , logout = require('./routes/logout')
+  , ride = require('./routes/ride')
+  , billing = require('./routes/billing')
+  , expressSession = require("express-session")
+  , mongoStore = require("connect-mongo")(expressSession)
+  , mongo = require("./routes/mongo");
+
+//mongoDB session URL
+var mongoSessionConnectURL = "mongodb://localhost:27017/sessions";
+
+//mongoose connection
+var mongoose = require('mongoose');
+var connection = mongoose.connect("mongodb://localhost:27017/uber");
 
 var app = express();
 
@@ -18,6 +33,16 @@ app.configure(function(){
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
+  app.use(expressSession({
+		secret : 'mySECRETMongoDBString',
+		resave : false, // don't save session if unmodified
+		saveUninitialized : false, // don't create session until something stored
+		duration : 30 * 60 * 1000,
+		activeDuration : 5 * 60 * 1000,
+		store : new mongoStore({
+			url : mongoSessionConnectURL
+		})
+	}));
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
 });
@@ -27,7 +52,28 @@ app.configure('development', function(){
 });
 
 app.get('/', routes.index);
+app.get('/logout', logout.logout);
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log("Express server listening on port " + app.get('port'));
+//register
+app.post('/registerCustomer', register.registerCustomer);
+app.post('/registerDriver', register.registerDriver);
+app.post('/registerAdmin', register.registerAdmin);
+
+//login
+app.post('/loginCustomer', login.loginCustomer);
+app.post('/loginDriver', login.loginDriver);
+app.post('/loginAdmin', login.loginAdmin);
+
+//rides
+app.post('/createRide', ride.createRide);
+
+//billing
+app.post('/generateBill', billing.generateBill);
+
+//connect to the mongo collection session and then createServer
+mongo.connect(mongoSessionConnectURL, function() {
+	console.log('Connected to mongo at: ' + mongoSessionConnectURL);
+	http.createServer(app).listen(app.get('port'), function() {
+		console.log('Express server listening on port ' + app.get('port'));
+	});
 });
