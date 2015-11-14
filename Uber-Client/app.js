@@ -7,8 +7,9 @@ var express = require('express')
   , routes = require('./routes')
   , http = require('http')
   , path = require('path')
-  , register = require('./routes/register')
-  , login = require('./routes/login')
+  , customer = require('./routes/customer')
+    , admin = require('./routes/admin')
+    , driver = require('./routes/driver')
   , logout = require('./routes/logout')
   , ride = require('./routes/ride')
   , billing = require('./routes/billing')
@@ -55,14 +56,14 @@ app.get('/', routes.index);
 app.get('/logout', logout.logout);
 
 //register
-app.post('/registerCustomer', register.registerCustomer);
-app.post('/registerDriver', register.registerDriver);
-app.post('/registerAdmin', register.registerAdmin);
+app.post('/registerCustomer', customer.registerCustomer);
+app.post('/registerDriver', driver.registerDriver);
+app.post('/registerAdmin', admin.registerAdmin);
 
 //login
-app.post('/loginCustomer', login.loginCustomer);
-app.post('/loginDriver', login.loginDriver);
-app.post('/loginAdmin', login.loginAdmin);
+app.post('/loginCustomer', customer.loginCustomer);
+app.post('/loginDriver', driver.loginDriver);
+app.post('/loginAdmin', admin.loginAdmin);
 
 //rides
 app.post('/createRide', ride.createRide);
