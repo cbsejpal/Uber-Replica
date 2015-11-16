@@ -61,7 +61,49 @@ exports.loginDriver = function(req, res){
             res.status(500).send(null);
         } else {
             ////console.log("about results" + results);
-            req.session.driverId =  results.user;
+            res.status(results.status).send(results.data);
+        }
+    });
+};
+
+exports.searchDriver = function(req, res){
+
+    var search = req.param('search');
+
+    var msg_payload = {
+        "search" : search,
+        "func" : "searchDriver"
+    };
+
+    mq_client.make_request('driver_queue', msg_payload, function(err,results) {
+        //console.log(results);
+        if (err) {
+            //console.log(err);
+            res.status(500).send(null);
+        } else {
+            ////console.log("about results" + results);
+            res.status(results.status).send(results.data);
+        }
+    });
+};
+
+exports.deleteDriver = function(req, res){
+
+    var email =  req.param('email');
+
+    var msg_payload = {
+        "email": email,
+        "func" : "deleteDriver"
+    };
+
+
+    mq_client.make_request('driver_queue', msg_payload, function(err,results) {
+        //console.log(results);
+        if (err) {
+            //console.log(err);
+            res.status(500).send(null);
+        } else {
+            ////console.log("about results" + results);
             res.status(results.status).send(results.data);
         }
     });

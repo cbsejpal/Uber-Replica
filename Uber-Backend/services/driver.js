@@ -5,7 +5,7 @@ var requestGen = require('./commons/responseGenerator');
 var Driver = driverSchema.Driver; //mysql instance
 var Drivers = driverSchema.Drivers; //mongoDB instance
 
-exports.registerDriver = function(msg, callback){
+exports.registerDriver = function (msg, callback) {
 
     var email = msg.email;
     var password = msg.password;
@@ -33,20 +33,21 @@ exports.registerDriver = function(msg, callback){
         zipCode: zipCode,
         phoneNumber: phoneNumber,
         carDetails: carDetails
-    }).then(function(){
+    }).then(function () {
         //add data in mongodb
         var newDriver = new Drivers({
             firstName: firstName,
-            lastName: lastName
+            lastName: lastName,
+            email: email
         });
 
-        newDriver.save(function(err) {
+        newDriver.save(function (err) {
 
             if (err) {
-                json_responses = requestGen.responseGenerator(500, {message: "error registering driver" });
+                json_responses = requestGen.responseGenerator(500, {message: "error registering driver"});
             }
             else {
-                json_responses = requestGen.responseGenerator(200, {message: "driver registration successfull" });
+                json_responses = requestGen.responseGenerator(200, {message: "driver registration successfull"});
             }
             callback(null, json_responses);
         });
@@ -56,7 +57,7 @@ exports.registerDriver = function(msg, callback){
 };
 
 
-exports.loginDriver = function(msg, callback){
+exports.loginDriver = function (msg, callback) {
 
     var email = msg.email;
     var password = msg.password;
@@ -65,13 +66,88 @@ exports.loginDriver = function(msg, callback){
 
     Driver.findOne({where: {email: email, password: password}}).then(function (user) {
 
-        if(user){
+        if (user) {
             json_responses = requestGen.responseGenerator(200, {message: 'driver login successful', user: user.email});
         }
-        else{
-            json_responses = requestGen.responseGenerator(401, {message: 'driver login failed'});
+        else {
+            json_responses = requestGen.responseGenerator(500, {message: 'driver login failed'});
         }
         callback(null, json_responses);
     });
 
+};
+
+exports.searchDriver = function (msg, callback) {
+
+    var search = msg.search;
+
+    Driver.find({
+        where: {
+            $or: [{
+                email: {$like: '%' + search + '%'}
+            }, {
+                password: {$like: '%' + search + '%'}
+            }, {
+                firstName: {$like: '%' + search + '%'}
+            }, {
+                lastName: {$like: '%' + search + '%'}
+            }, {
+                address: {$like: '%' + search + '%'}
+            }, {
+                city: {$like: '%' + search + '%'}
+            }, {
+                state: {$like: '%' + search + '%'}
+            }, {
+                zipCode: {$like: '%' + search + '%'}
+            }, {
+                phoneNumber: {$like: '%' + search + '%'}
+            }, {
+                carDetails: {$like: '%' + search + '%'}
+            }
+            ]
+        }
+    }).then(function (drivers) {
+        var json_responses;
+        if (drivers) {
+            json_responses = requestGen.responseGenerator(200, drivers);
+        }
+        else {
+            json_responses = requestGen.responseGenerator(500, {message: 'No driver details found.'});
+        }
+        callback(null, json_responses);
+    });
+};
+
+exports.deleteDriver = function (msg, callback) {
+    var email = msg.email;
+    var json_responses;
+
+    Driver.destroy({
+            where: {
+                email: email
+            }
+        }
+    ).then(function (affectedRows) {
+            {
+                if (affectedRows > 0) {
+                    Drivers.remove({email: email}, function (err, removed) {
+                        if (err) {
+                            json_responses = requestGen.responseGenerator(500, {message: 'driver delete failed'});
+                        }
+                        else {
+                            if (removed.result.n > 0) {
+                                json_responses = requestGen.responseGenerator(200, {message: 'Driver Deleted.'});
+                            } else {
+                                json_responses = requestGen.responseGenerator(500, {message: 'No Driver Found'});
+                            }
+                        }
+                        callback(null, json_responses);
+                    });
+                } else {
+                    json_responses = requestGen.responseGenerator(500, {message: 'No Driver Found'});
+                    callback(null, json_responses);
+                }
+            }
+        }
+    );
 };
