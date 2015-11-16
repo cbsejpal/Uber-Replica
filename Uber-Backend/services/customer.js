@@ -78,9 +78,9 @@ exports.deleteCustomer = function(msg, callback){
     var email = msg.email;
     var json_responses;
 
-    Customer.findOneAndDelete({where: {email: email}}).success(function(){
+    Customer.destroy({where: {email: email}}).then(function(){
 
-        Customers.remove({email: email}, function(err){
+        Customers.findOneAndRemove({email: email}, function(err){
             if(err){
                 json_responses = requestGen.responseGenerator(500, {message: 'customer delete failed'});
             }
@@ -105,4 +105,47 @@ exports.listAllCustomers = function(msg, callback){
         }
         callback(null, json_responses);
     });
+};
+
+exports.addImagesToRide = function(msg, callback){
+
+    var json_responses;
+
+    var image = msg.image;
+
+    var mongoose = require('mongoose');
+    var Schema = mongoose.Schema;
+
+    var conn = mongoose.createConnection('mongodb://localhost:27017/uber');
+    var fs = require('fs');
+
+    var Grid = require('gridfs-stream');
+    Grid.mongo = mongoose.mongo;
+
+    conn.once('open', function () {
+        console.log('open');
+        var gfs = Grid(conn.db);
+
+        // streaming to gridfs
+        //filename to store in mongodb
+        var writestream = gfs.createWriteStream({
+            filename: 'newFile.jpg'
+        });
+        fs.createReadStream(image).pipe(writestream);
+
+        writestream.on('close', function (file) {
+            // do something with `file`
+            console.log(file.filename + 'Written To DB');
+            json_responses = requestGen.responseGenerator(200, "Written to DB");
+            callback(null, json_responses);
+        });
+    });
+};
+
+exports.getImagesOfRide = function(msg, callback){
+
+    var json_responses;
+
+    json_responses = requestGen.responseGenerator(200, null);
+    callback(null, json_responses);
 };
