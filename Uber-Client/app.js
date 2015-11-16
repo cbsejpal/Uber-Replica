@@ -7,8 +7,6 @@ var express = require('express')
   , routes = require('./routes')
   , http = require('http')
   , path = require('path')
-  , signup = require('./routes/signup')
-  , login = require('./routes/login')
   , customer = require('./routes/customer')
     , admin = require('./routes/admin')
     , driver = require('./routes/driver')
@@ -21,10 +19,6 @@ var express = require('express')
 
 //mongoDB session URL
 var mongoSessionConnectURL = "mongodb://localhost:27017/sessions";
-
-//mongoose connection
-var mongoose = require('mongoose');
-var connection = mongoose.connect("mongodb://localhost:27017/uber");
 
 var app = express();
 
@@ -57,6 +51,8 @@ app.configure('development', function(){
 app.get('/', routes.index);
 app.get('/loginCustomer',customer.login);
 app.get('/signupCustomer',customer.index);
+app.get('/listAllCustomers', customer.listAllCustomers);
+app.get('/deleteCustomer', customer.deleteCustomer);
 app.get('/logout', logout.logout);
 
 //register

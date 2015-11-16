@@ -15,7 +15,8 @@ exports.createRide = function(req, res){
 		"dropOffLocation" : dropOffLocation,
 		"rideDateTime" : rideDateTime,
 		"customerId" : customerId,
-		"driverId" : driverId
+		"driverId" : driverId,
+		"func": "createRide"
 	};
 
 	mq_client.make_request('ride_queue', msg_payload, function(err,results) {
