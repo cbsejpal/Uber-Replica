@@ -1,7 +1,4 @@
-/**
- * Created by Rushil on 11/14/2015.
- */
-
+//admin
 var adminSchema = require('./model/adminSchema');
 var requestGen = require('./commons/responseGenerator');
 

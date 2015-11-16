@@ -1,6 +1,4 @@
-/**
- * Created by Rushil on 11/14/2015.
- */
+//customer
 var customerSchema = require('./model/customerSchema');
 var requestGen = require('./commons/responseGenerator');
 
