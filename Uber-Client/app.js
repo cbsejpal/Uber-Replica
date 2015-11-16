@@ -55,6 +55,10 @@ app.get('/listAllCustomers', customer.listAllCustomers);
 app.get('/deleteCustomer', customer.deleteCustomer);
 app.get('/logout', logout.logout);
 
+//driver
+app.get('/searchDriver', driver.searchDriver);
+app.post('/deleteDriver', driver.deleteDriver);
+
 //register
 app.post('/registerCustomer', customer.registerCustomer);
 app.post('/registerDriver', driver.registerDriver);

@@ -93,7 +93,7 @@ exports.getRideInformation = function (msg, callback) {
         if (ride) {
             json_responses = requestGen.responseGenerator(200, ride);
         } else {
-            json_responses = requestGen.responseGenerator(401, {message: 'No Ride Found'});
+            json_responses = requestGen.responseGenerator(500, {message: 'No Ride Found'});
         }
         callback(null, json_responses);
     });
@@ -111,12 +111,12 @@ exports.updateRide = function (msg, callback) {
         {pickUpLocation: pickUpLocation, dropOffLocation: dropOffLocation},
         {new: true}, function (err, ride) {
             if (err) {
-                json_responses = requestGen.responseGenerator(401, {message: 'No Ride Found'});
+                json_responses = requestGen.responseGenerator(500, {message: 'No Ride Found'});
             } else {
                 if (ride != null) {
                     json_responses = requestGen.responseGenerator(200, ride);
                 } else {
-                    json_responses = requestGen.responseGenerator(401, {message: 'No Ride Found'});
+                    json_responses = requestGen.responseGenerator(500, {message: 'No Ride Found'});
                 }
             }
             callback(null, json_responses);
@@ -132,12 +132,12 @@ exports.deleteRide = function (msg, callback) {
     Rides.remove({rideId: rideId}, function (err,removed) {
         console.log(removed);
         if (err) {
-            json_responses = requestGen.responseGenerator(401, {message: 'No Ride Found'});
+            json_responses = requestGen.responseGenerator(500, {message: 'No Ride Found'});
         } else {
             if(removed.result.n > 0 ) {
                 json_responses = requestGen.responseGenerator(200, {message: 'Ride Deleted.'});
             }else{
-                json_responses = requestGen.responseGenerator(401, {message: 'No Ride Found'});
+                json_responses = requestGen.responseGenerator(500, {message: 'No Ride Found'});
             }
         }
         callback(null, json_responses);
@@ -151,12 +151,12 @@ exports.customerRideList = function(msg, callback){
     Rides.find({customerId : customerId},function(err,rides){
         var json_responses;
         if(err){
-            json_responses = requestGen.responseGenerator(401, {message: 'No Ride Found'});
+            json_responses = requestGen.responseGenerator(500, {message: 'No Ride Found'});
         }else{
             if(rides.length > 0){
                 json_responses = requestGen.responseGenerator(200, rides);
             }else{
-                json_responses = requestGen.responseGenerator(401, {message: 'No Ride Found'});
+                json_responses = requestGen.responseGenerator(500, {message: 'No Ride Found'});
             }
         }
         callback(null,json_responses);
@@ -170,12 +170,12 @@ exports.driverRideList = function(msg, callback){
     Rides.find({driverId : driverId},function(err,rides){
         var json_responses;
         if(err){
-            json_responses = requestGen.responseGenerator(401, {message: 'No Ride Found'});
+            json_responses = requestGen.responseGenerator(500, {message: 'No Ride Found'});
         }else{
             if(rides.length > 0){
                 json_responses = requestGen.responseGenerator(200, rides);
             }else{
-                json_responses = requestGen.responseGenerator(401, {message: 'No Ride Found'});
+                json_responses = requestGen.responseGenerator(500, {message: 'No Ride Found'});
             }
         }
         callback(null,json_responses);

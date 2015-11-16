@@ -50,6 +50,7 @@ var ridesList = new Schema({
 
 var driverSchema = new Schema({
 	driId: {type: String, required: true},
+	email: {type: String, required: true, unique: true},
 	firstName: {type: String, required: true},
 	lastName: {type: String, required: true},
 	rides: [ridesList],
