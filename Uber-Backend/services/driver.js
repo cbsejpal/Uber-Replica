@@ -151,3 +151,69 @@ exports.deleteDriver = function (msg, callback) {
         }
     );
 };
+
+exports.getDriverInformation = function (msg, callback) {
+    var email = msg.email;
+
+    Driver.findOne({
+        where: {
+            email: email
+        }
+    }).then(function (driver) {
+        var json_responses;
+        if (driver) {
+            json_responses = requestGen.responseGenerator(200, driver);
+        } else {
+            json_responses = requestGen.responseGenerator(500, {message: "No Driver found"});
+        }
+        callback(null, json_responses)
+    });
+};
+
+exports.updateDriver = function (msg, callback) {
+
+    var email = msg.email;
+    var password = msg.password;
+    var firstName = msg.firstName;
+    var lastName = msg.lastName;
+    var address = msg.address;
+    var city = msg.city;
+    var state = msg.state;
+    var zipCode = msg.zipCode;
+    var phoneNumber = msg.phoneNumber;
+    var carDetails = msg.carDetails;
+
+    var json_responses;
+
+    Driver.update({
+        password: password,
+        firstName: firstName,
+        lastName: lastName,
+        address: address,
+        city: city,
+        state: state,
+        zipCode: zipCode,
+        phoneNumber: phoneNumber,
+        carDetails: carDetails
+    }, {where: {email: email}}).then(function (driver) {
+
+        if(driver) {
+            Driver.findOne({
+                where: {
+                    email: email
+                }
+            }).then(function (driver) {
+                var json_responses;
+                if (driver) {
+                    json_responses = requestGen.responseGenerator(200, driver);
+                } else {
+                    json_responses = requestGen.responseGenerator(500, {message: "No Driver found"});
+                }
+                callback(null, json_responses)
+            });
+        }else{
+            json_responses = requestGen.responseGenerator(500, {message: "No Driver found"});
+            callback(null, json_responses);
+        }
+    });
+};

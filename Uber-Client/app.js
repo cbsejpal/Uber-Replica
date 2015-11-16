@@ -58,6 +58,8 @@ app.get('/logout', logout.logout);
 //driver
 app.get('/searchDriver', driver.searchDriver);
 app.post('/deleteDriver', driver.deleteDriver);
+app.get('/getDriverInformation', driver.getDriverInformation);
+app.post('/updateDriver', driver.updateDriver);
 
 //register
 app.post('/registerCustomer', customer.registerCustomer);

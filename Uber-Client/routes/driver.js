@@ -108,3 +108,63 @@ exports.deleteDriver = function(req, res){
         }
     });
 };
+
+exports.getDriverInformation = function(req, res){
+    var email =  req.param('email');
+
+    var msg_payload = {
+        "email": email,
+        "func" : "getDriverInformation"
+    };
+
+    mq_client.make_request('driver_queue', msg_payload, function(err,results) {
+        //console.log(results);
+        if (err) {
+            //console.log(err);
+            res.status(500).send(null);
+        } else {
+            ////console.log("about results" + results);
+            res.status(results.status).send(results.data);
+        }
+    });
+};
+
+exports.updateDriver = function(req,res){
+
+    var email = req.param('email');
+    var password = req.param('password');
+    var firstName = req.param('firstName');
+    var lastName = req.param('lastName');
+    var address = req.param('address');
+    var city = req.param('city');
+    var state = req.param('state');
+    var zipCode = req.param('zipCode');
+    var phoneNumber = req.param('phoneNumber');
+    var carDetails = req.param('carDetails');
+
+    var msg_payload = {
+        "email" : email,
+        "password" : password,
+        "firstName" : firstName,
+        "lastName" : lastName,
+        "address" : address,
+        "city" : city,
+        "state" : state,
+        "zipCode" : zipCode,
+        "phoneNumber" : phoneNumber,
+        "carDetails" : carDetails,
+        "func" : "updateDriver"
+    };
+
+    //add data in mysql
+    mq_client.make_request('driver_queue', msg_payload, function(err,results) {
+        //console.log(results);
+        if (err) {
+            //console.log(err);
+            res.status(500).send(null);
+        } else {
+            ////console.log("about results" + results);
+            res.status(results.status).send(results.data);
+        }
+    });
+};
