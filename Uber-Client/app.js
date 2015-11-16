@@ -55,6 +55,10 @@ app.get('/listAllCustomers', customer.listAllCustomers);
 app.get('/deleteCustomer', customer.deleteCustomer);
 app.get('/logout', logout.logout);
 
+//driver
+app.get('/searchDriver', driver.searchDriver);
+app.post('/deleteDriver', driver.deleteDriver);
+
 //register
 app.post('/registerCustomer', customer.registerCustomer);
 app.post('/registerDriver', driver.registerDriver);
@@ -67,6 +71,11 @@ app.post('/loginAdmin', admin.loginAdmin);
 
 //rides
 app.post('/createRide', ride.createRide);
+app.get('/rideInfo', ride.getRideInformation);
+app.post('/updateRide', ride.updateRide);
+app.post('/deleteRide', ride.deleteRide);
+app.get('/customerRideList', ride.customerRideList);
+app.get('/driverRideList', ride.driverRideList);
 
 //billing
 app.post('/generateBill', billing.generateBill);
