@@ -3,6 +3,7 @@
 var rideSchema = require('./model/rideSchema');
 var customerSchema = require('./model/customerSchema');
 var driverSchema = require('./model/driverSchema');
+var requestGen = require('./commons/responseGenerator');
 
 var Customers = customerSchema.Customers; //mongoDB instance
 var Drivers = driverSchema.Drivers; //mongoDB instance
@@ -25,27 +26,30 @@ exports.createRide = function(msg, callback){
 		driverId: driverId
 	});
 
-	var rideId;
-
 	var json_responses;
+
+	var rideId;
 
 	newRide.save(function(err) {
 
 		if (err) {
 			json_responses = requestGen.responseGenerator(500, {message: " error creating Ride" });
+			callback(null, json_responses);
 		}
 		else {
 
 			Rides.findOne({rideDateTime: rideDateTime, $and: [{customerId: customerId}, {driverId: driverId}]}, function(err, doc){
 				if(err){
 					json_responses = requestGen.responseGenerator(500, {message: " error finding rideId" });
+					callback(null, json_responses);
 				}
 				else{
 					rideId = doc.rideId;
 
 					Customers.findOne({custId: customerId}, function(err, doc){
 						if(err){
-							json_responses = requestGen.responseGenerator(500, {message: " error adding ride to customer" });
+							json_responses = requestGen.responseGenerator(500, {message: " error adding ride to customer"  });
+							callback(null, json_responses);
 						}
 						else{
 							doc.rides.push({
@@ -55,7 +59,8 @@ exports.createRide = function(msg, callback){
 
 							Drivers.findOne({driId: driverId}, function(err, doc){
 								if(err){
-									json_responses = requestGen.responseGenerator(500, {message: " error adding ride to driver" });
+									json_responses = requestGen.responseGenerator(500, {message: " error adding ride to driver"  });
+									callback(null, json_responses);
 								}
 								else{
 									doc.rides.push({
@@ -64,6 +69,7 @@ exports.createRide = function(msg, callback){
 									doc.save();
 
 									json_responses = requestGen.responseGenerator(200, {message: "ride created successfully" });
+									callback(null, json_responses);
 								}
 							});
 						}
@@ -71,6 +77,5 @@ exports.createRide = function(msg, callback){
 				}
 			});
 		}
-		callback(null,json_responses);
-	});  
+	});
 };

@@ -37,7 +37,8 @@ exports.registerCustomer = function(msg, callback){
         //add data in mongodb
         var newCustomer = new Customers({
             firstName: firstName,
-            lastName: lastName
+            lastName: lastName,
+            email: email
         });
 
         newCustomer.save(function(err) {
@@ -81,12 +82,27 @@ exports.deleteCustomer = function(msg, callback){
 
         Customers.remove({email: email}, function(err){
             if(err){
-                json_responses = requestGen.responseGenerator(401, {message: 'customer delete failed'});
+                json_responses = requestGen.responseGenerator(500, {message: 'customer delete failed'});
             }
             else {
                 json_responses = requestGen.responseGenerator(200, {message: 'customer delete successful'});
             }
             callback(null, json_responses);
         });
+    });
+};
+
+exports.listAllCustomers = function(msg, callback){
+
+    var json_responses;
+
+    Customer.findAll().then(function(customers){
+        if(customers.length > 0){
+            json_responses = requestGen.responseGenerator(200, {data: customers});
+        }
+        else{
+            json_responses = requestGen.responseGenerator(404, {data: 'Sorry no customers found'});
+        }
+        callback(null, json_responses);
     });
 };

@@ -96,5 +96,23 @@ exports.deleteCustomer = function(req, res){
             res.status(results.status).send(results.data);
         }
     });
+};
 
+
+exports.listAllCustomers =  function(req, res){
+
+    var msg_payload = {
+        "func" : "listAllCustomers"
+    };
+
+    mq_client.make_request('customer_queue', msg_payload, function(err,results) {
+        //console.log(results);
+        if (err) {
+            //console.log(err);
+            res.status(500).send(null);
+        } else {
+            ////console.log("about results" + results);
+            res.status(results.status).send(results.data);
+        }
+    });
 };

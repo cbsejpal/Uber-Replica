@@ -57,6 +57,7 @@ var ridesList = new Schema({
 
 var customerSchema = new Schema({
 	custId: {type: String, required: true},
+	email: {type: String, required: true, unique: true},
 	firstName: {type: String, required: true},
 	lastName: {type: String, required: true},
 	rides: [ridesList],

@@ -14,6 +14,9 @@ var cnn = amqp.createConnection({
 	host : '127.0.0.1'
 });
 
+var mongoose = require('mongoose');
+var connection = mongoose.connect("mongodb://localhost:27017/uber");
+
 cnn.on('ready', function() {
 	console.log("listening on customer_queue");
 
@@ -52,6 +55,18 @@ cnn.on('ready', function() {
 					break;
 				case "deleteCustomer":
 					customer.deleteCustomer(message, function (err, res) {
+
+						util.log("Correlation ID: " + m.correlationId);
+						// return index sent
+						cnn.publish(m.replyTo, res, {
+							contentType: 'application/json',
+							contentEncoding: 'utf-8',
+							correlationId: m.correlationId
+						});
+					});
+					break;
+				case "listAllCustomers":
+					customer.listAllCustomers(message, function (err, res) {
 
 						util.log("Correlation ID: " + m.correlationId);
 						// return index sent
@@ -137,6 +152,7 @@ cnn.on('ready', function() {
 							correlationId: m.correlationId
 						});
 					});
+					break;
 			}
 		});
 	});
