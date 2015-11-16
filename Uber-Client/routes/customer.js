@@ -1,9 +1,19 @@
-/**
- * Created by Rushil on 11/14/2015.
- */
+
 var mq_client = require('../rpc/client');
 var requestGen = require('./commons/responseGenerator');
 
+
+exports.index = function (req,res){
+	
+	res.render('signupCustomer');
+
+};
+
+exports.login = function(req,res){
+	
+	res.render('loginCustomer');
+
+};
 exports.loginCustomer = function(req, res){
 
     var email = req.param('email');
@@ -41,7 +51,7 @@ exports.registerCustomer = function(req, res){
     var creditCard = req.param('creditCard');
 
     var msg_payload = {
-        "email" : email,
+        "email" : email,	
         "password" : password,
         "firstName" : firstName,
         "lastName" : lastName,
