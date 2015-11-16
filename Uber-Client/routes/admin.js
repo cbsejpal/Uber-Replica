@@ -33,10 +33,10 @@ exports.registerAdmin = function(req, res){
         //console.log(results);
         if (err) {
             //console.log(err);
-            res.send(requestGen.responseGenerator(999,null));
+            res.status(500).send(null);
         } else {
             ////console.log("about results" + results);
-            res.send(results);
+            res.status(results.status).send(results.data);
         }
     });
 };
@@ -56,10 +56,11 @@ exports.loginAdmin = function(req, res){
         //console.log(results);
         if (err) {
             //console.log(err);
-            res.send(requestGen.responseGenerator(999,null));
+            res.status(500).send(null);
         } else {
             ////console.log("about results" + results);
-            res.send(results);
+            req.session.adminId =  results.user;
+            res.status(results.status).send(results.data);
         }
     });
 };

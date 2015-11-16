@@ -29,10 +29,11 @@ exports.loginCustomer = function(req, res){
         //console.log(results);
         if (err) {
             //console.log(err);
-            res.send(requestGen.responseGenerator(999,null));
+            res.status(500).send(null);
         } else {
             ////console.log("about results" + results);
-            res.send(results);
+            req.session.customerId =  results.user;
+            res.status(results.status).send(results.data);
         }
     });
 };
@@ -68,10 +69,32 @@ exports.registerCustomer = function(req, res){
         //console.log(results);
         if (err) {
             //console.log(err);
-            res.send(requestGen.responseGenerator(999,null));
+            res.status(500).send(null);
         } else {
             ////console.log("about results" + results);
-            res.send(results);
+            res.status(results.status).send(results.data);
         }
     });
+};
+
+exports.deleteCustomer = function(req, res){
+
+    var email =  req.param('email');
+
+    var msg_payload = {
+        "email": email,
+        "func" : "deleteCustomer"
+    };
+
+    mq_client.make_request('customer_queue', msg_payload, function(err,results) {
+        //console.log(results);
+        if (err) {
+            //console.log(err);
+            res.status(500).send(null);
+        } else {
+            ////console.log("about results" + results);
+            res.status(results.status).send(results.data);
+        }
+    });
+
 };
