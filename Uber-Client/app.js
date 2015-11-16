@@ -53,6 +53,8 @@ app.get('/loginCustomer',customer.login);
 app.get('/signupCustomer',customer.index);
 app.get('/listAllCustomers', customer.listAllCustomers);
 app.get('/deleteCustomer', customer.deleteCustomer);
+app.post('/addImagesToRide',customer.addImagesToRide);
+app.get('/getImagesOfRide:image', customer.getImagesOfRide);
 app.get('/logout', logout.logout);
 
 //driver

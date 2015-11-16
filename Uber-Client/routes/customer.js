@@ -116,3 +116,94 @@ exports.listAllCustomers =  function(req, res){
         }
     });
 };
+
+exports.addImagesToRide = function(req, res){
+
+    var image = req.param('image');
+
+    /*var msg_payload = {
+        image: image,
+        "func" : "addImagesToRide"
+    };
+
+    mq_client.make_request('customer_queue', msg_payload, function(err,results) {
+        //console.log(results);
+        if (err) {
+            //console.log(err);
+            res.status(500).send(null);
+        } else {
+            ////console.log("about results" + results);
+            res.status(results.status).send(results.data);
+        }
+    });*/
+
+    var mongoose = require('mongoose');
+    var Schema = mongoose.Schema;
+
+    var conn = mongoose.createConnection('mongodb://localhost:27017/uber');
+    var fs = require('fs');
+
+    var Grid = require('gridfs-stream');
+    Grid.mongo = mongoose.mongo;
+
+    conn.once('open', function () {
+        console.log('open');
+        var gfs = Grid(conn.db);
+
+        // streaming to gridfs
+        //filename to store in mongodb
+        var writestream = gfs.createWriteStream({
+            filename: 'newFile1.jpg'
+        });
+        fs.createReadStream(image).pipe(writestream);
+
+        writestream.on('close', function (file) {
+            // do something with `file`
+            console.log(file.filename + 'Written To DB');
+            //json_responses = requestGen.responseGenerator(200, "Written to DB");
+            //callback(null, json_responses);
+        });
+    });
+};
+
+exports.getImagesOfRide = function (req, res) {
+
+    var image = req.param('image');
+
+    var msg_payload = {
+        "func" : "getImagesOfRide"
+    };
+
+    mq_client.make_request('customer_queue', msg_payload, function(err,results) {
+        //console.log(results);
+        if (err) {
+            //console.log(err);
+            res.status(500).send(null);
+        } else {
+            //console.log("about results" + results);
+
+            var mongoose = require('mongoose');
+            var Schema = mongoose.Schema;
+
+            var conn = mongoose.createConnection('mongodb://localhost:27017/uber');
+            var fs = require('fs');
+
+            var Grid = require('gridfs-stream');
+            Grid.mongo = mongoose.mongo;
+
+            conn.once('open', function () {
+                console.log('open');
+                console.log('image name' + image);
+                var gfs = Grid(conn.db);
+
+                gfs.createReadStream({
+                    //"filename": image
+                    _id: '5649b270c73c2e4c1746f9ca'
+                }).pipe(res);
+            });
+
+            //res.status(results.status).send(results.data);
+        }
+    });
+
+};
