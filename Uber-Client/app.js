@@ -7,6 +7,8 @@ var express = require('express')
   , routes = require('./routes')
   , http = require('http')
   , path = require('path')
+  , signup = require('./routes/signup')
+  , login = require('./routes/login')
   , customer = require('./routes/customer')
     , admin = require('./routes/admin')
     , driver = require('./routes/driver')
@@ -53,6 +55,8 @@ app.configure('development', function(){
 });
 
 app.get('/', routes.index);
+app.get('/loginCustomer',customer.login);
+app.get('/signupCustomer',customer.index);
 app.get('/logout', logout.logout);
 
 //register
