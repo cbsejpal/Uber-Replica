@@ -47,11 +47,13 @@ exports.loginAdmin = function(msg, callback){
     var email = msg.email;
     var password = msg.password;
 
+    var json_responses;
+
     Admin.findOne({where: {email: email, password: password}}).then(function (user) {
-        var json_responses;
+
         if(user){
-            req.session.adminId =  user.id;
-            json_responses = requestGen.responseGenerator(200, {message: 'admin login successful'});
+
+            json_responses = requestGen.responseGenerator(200, {message: 'admin login successful', user: user.email});
         }
         else{
             json_responses = requestGen.responseGenerator(401, {message: 'admin login failed'});

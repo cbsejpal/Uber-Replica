@@ -18,6 +18,8 @@ exports.registerDriver = function(msg, callback){
     var phoneNumber = msg.phoneNumber;
     var carDetails = msg.carDetails;
 
+    var json_responses;
+
     //add data in mysql
     Driver.create({
         //id - autoIncrement by default by sequelize
@@ -39,7 +41,7 @@ exports.registerDriver = function(msg, callback){
         });
 
         newDriver.save(function(err) {
-            var json_responses;
+
             if (err) {
                 json_responses = requestGen.responseGenerator(500, {message: "error registering driver" });
             }
@@ -59,11 +61,12 @@ exports.loginDriver = function(msg, callback){
     var email = msg.email;
     var password = msg.password;
 
+    var json_responses;
+
     Driver.findOne({where: {email: email, password: password}}).then(function (user) {
-        var json_responses;
+
         if(user){
-            req.session.driverId =  user.id;
-            json_responses = requestGen.responseGenerator(200, {message: 'driver login successful'});
+            json_responses = requestGen.responseGenerator(200, {message: 'driver login successful', user: user.email});
         }
         else{
             json_responses = requestGen.responseGenerator(401, {message: 'driver login failed'});

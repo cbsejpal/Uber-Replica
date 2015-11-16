@@ -27,8 +27,10 @@ exports.createRide = function(msg, callback){
 
 	var rideId;
 
+	var json_responses;
+
 	newRide.save(function(err) {
-		var json_responses;
+
 		if (err) {
 			json_responses = requestGen.responseGenerator(500, {message: " error creating Ride" });
 		}
