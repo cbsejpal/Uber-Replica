@@ -7,8 +7,9 @@ var express = require('express')
   , routes = require('./routes')
   , http = require('http')
   , path = require('path')
-  , register = require('./routes/register')
-  , login = require('./routes/login')
+  , customer = require('./routes/customer')
+    , admin = require('./routes/admin')
+    , driver = require('./routes/driver')
   , logout = require('./routes/logout')
   , ride = require('./routes/ride')
   , billing = require('./routes/billing')
@@ -18,10 +19,6 @@ var express = require('express')
 
 //mongoDB session URL
 var mongoSessionConnectURL = "mongodb://localhost:27017/sessions";
-
-//mongoose connection
-var mongoose = require('mongoose');
-var connection = mongoose.connect("mongodb://localhost:27017/uber");
 
 var app = express();
 
@@ -52,20 +49,37 @@ app.configure('development', function(){
 });
 
 app.get('/', routes.index);
+app.get('/loginCustomer',customer.login);
+app.get('/signupCustomer',customer.index);
+app.get('/listAllCustomers', customer.listAllCustomers);
+app.get('/deleteCustomer', customer.deleteCustomer);
+app.post('/addImagesToRide',customer.addImagesToRide);
+app.get('/getImagesOfRide:image', customer.getImagesOfRide);
 app.get('/logout', logout.logout);
 
+//driver
+app.get('/searchDriver', driver.searchDriver);
+app.post('/deleteDriver', driver.deleteDriver);
+app.get('/getDriverInformation', driver.getDriverInformation);
+app.post('/updateDriver', driver.updateDriver);
+
 //register
-app.post('/registerCustomer', register.registerCustomer);
-app.post('/registerDriver', register.registerDriver);
-app.post('/registerAdmin', register.registerAdmin);
+app.post('/registerCustomer', customer.registerCustomer);
+app.post('/registerDriver', driver.registerDriver);
+app.post('/registerAdmin', admin.registerAdmin);
 
 //login
-app.post('/loginCustomer', login.loginCustomer);
-app.post('/loginDriver', login.loginDriver);
-app.post('/loginAdmin', login.loginAdmin);
+app.post('/loginCustomer', customer.loginCustomer);
+app.post('/loginDriver', driver.loginDriver);
+app.post('/loginAdmin', admin.loginAdmin);
 
 //rides
 app.post('/createRide', ride.createRide);
+app.get('/rideInfo', ride.getRideInformation);
+app.post('/updateRide', ride.updateRide);
+app.post('/deleteRide', ride.deleteRide);
+app.get('/customerRideList', ride.customerRideList);
+app.get('/driverRideList', ride.driverRideList);
 
 //billing
 app.post('/generateBill', billing.generateBill);

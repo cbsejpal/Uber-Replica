@@ -6,15 +6,14 @@
     "start": "node app"
   },
   "dependencies": {
-    "amqp": "^0.2.4",
+    "amqp": "*",
     "connect-mongo": "^0.8.2",
     "ejs": "*",
     "express": "3.0.6",
     "express-session": "^1.12.1",
+    "fs": "0.0.2",
+    "gridfs-stream": "^1.1.1",
     "mongodb": "^2.0.48",
-    "mongoose": "^4.2.5",
-    "mongoose-auto-increment": "^5.0.1",
-    "mysql": "^2.9.0",
-    "sequelize": "^3.13.0"
+    "underscore": "*"
   }
 }

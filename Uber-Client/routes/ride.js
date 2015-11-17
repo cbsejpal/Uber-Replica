@@ -1,13 +1,6 @@
 //rides
-
-var rideSchema = require('./model/rideSchema');
-var customerSchema = require('./model/customerSchema');
-var driverSchema = require('./model/driverSchema');
-
-var Customers = customerSchema.Customers; //mongoDB instance
-var Drivers = driverSchema.Drivers; //mongoDB instance
-
-var Rides = rideSchema.Rides;
+var mq_client = require('../rpc/client');
+var requestGen = require('./commons/responseGenerator');
 
 exports.createRide = function(req, res){
 
@@ -17,57 +10,126 @@ exports.createRide = function(req, res){
 	var customerId = req.param('customerId');
 	var driverId = req.param('driverId');
 
-	var newRide = new Rides({
-		pickUpLocation: pickUpLocation,
-		dropOffLocation: dropOffLocation,
-		rideDateTime: rideDateTime,
-		customerId: customerId,
-		driverId: driverId
-	});
+	var msg_payload = {
+		"pickUpLocation" : pickUpLocation,
+		"dropOffLocation" : dropOffLocation,
+		"rideDateTime" : rideDateTime,
+		"customerId" : customerId,
+		"driverId" : driverId,
+		"func": "createRide"
+	};
 
-	var rideId;
-
-	newRide.save(function(err) {
-
+	mq_client.make_request('ride_queue', msg_payload, function(err,results) {
+		//console.log(results);
 		if (err) {
-			res.send(500, {message: " error creating Ride" });
+			//console.log(err);
+			res.status(500).send(null);
+		} else {
+			////console.log("about results" + results);
+			res.status(results.status).send(results.data);
 		}
-		else {
+	});
+};
 
-			Rides.findOne({rideDateTime: rideDateTime, $and: [{customerId: customerId}, {driverId: driverId}]}, function(err, doc){
-				if(err){
-					res.send(500, {message: " error finding rideId" });
-				}
-				else{
-					rideId = doc.rideId;
+exports.getRideInformation = function(req, res){
+	var rideId = req.param('rideId');
 
-					Customers.findOne({custId: customerId}, function(err, doc){
-						if(err){
-							res.send(500, {message: " error adding ride to customer" });
-						}
-						else{
-							doc.rides.push({
-								rideId: rideId
-							});
-							doc.save();
+	var msg_payload = {
+		"rideId" : rideId,
+		"func" : "RideInfo"
+	};
 
-							Drivers.findOne({driId: driverId}, function(err, doc){
-								if(err){
-									res.send(500, {message: " error adding ride to driver" });
-								}
-								else{
-									doc.rides.push({
-										rideId: rideId
-									});
-									doc.save();
-
-									res.send(200, {message: "ride created successfully" });
-								}
-							});
-						}
-					});
-				}
-			});
+	mq_client.make_request('ride_queue', msg_payload, function(err,results) {
+		//console.log(results);
+		if (err) {
+			//console.log(err);
+			res.status(500).send(null);
+		} else {
+			////console.log("about results" + results);
+			res.status(results.status).send(results.data);
 		}
-	});  
+	});
+};
+
+exports.updateRide = function(req,res){
+	var pickUpLocation = req.param('pickUpLocation');
+	var dropOffLocation = req.param('dropOffLocation');
+	var rideId = req.param('rideId');
+
+	var msg_payload = {
+		"pickUpLocation" : pickUpLocation,
+		"dropOffLocation" : dropOffLocation,
+		"rideId" : rideId,
+		"func" : "updateRide"
+	};
+
+	mq_client.make_request('ride_queue', msg_payload, function(err,results) {
+		//console.log(results);
+		if (err) {
+			//console.log(err);
+			res.status(500).send(null);
+		} else {
+			////console.log("about results" + results);
+			res.status(results.status).send(results.data);
+		}
+	});
+};
+
+exports.deleteRide = function(req,res){
+	var rideId = req.param('rideId');
+
+	var msg_payload = {
+		"rideId" : rideId,
+		"func" : "deleteRide"
+	};
+	mq_client.make_request('ride_queue', msg_payload, function(err,results) {
+		//console.log(results);
+		if (err) {
+			//console.log(err);
+			res.status(500).send(null);
+		} else {
+			////console.log("about results" + results);
+			res.status(results.status).send(results.data);
+		}
+	});
+};
+
+exports.customerRideList = function (req,res) {
+	var customerId = req.param('customerId');
+
+	var msg_payload = {
+		"customerId" : customerId,
+		"func": "customerRideList"
+	};
+
+	mq_client.make_request('ride_queue', msg_payload, function(err,results) {
+		//console.log(results);
+		if (err) {
+			//console.log(err);
+			res.status(500).send(null);
+		} else {
+			////console.log("about results" + results);
+			res.status(results.status).send(results.data);
+		}
+	});
+};
+
+exports.driverRideList = function (req,res) {
+	var driverId = req.param('driverId');
+
+	var msg_payload = {
+		"driverId" : driverId,
+		"func": "driverRideList"
+	};
+
+	mq_client.make_request('ride_queue', msg_payload, function(err,results) {
+		//console.log(results);
+		if (err) {
+			//console.log(err);
+			res.status(500).send(null);
+		} else {
+			////console.log("about results" + results);
+			res.status(results.status).send(results.data);
+		}
+	});
 };

@@ -1,0 +1,19 @@
+{
+  "name": "RabbitMQ-MongoLoginApplication",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "amqp": "*",
+    "fs": "0.0.2",
+    "gridfs-stream": "^1.1.1",
+    "mongodb": "*",
+    "mongoose": "^4.2.5",
+    "mongoose-auto-increment": "^5.0.1",
+    "mysql": "^2.9.0",
+    "sequelize": "^3.13.0",
+    "underscore": "*"
+  }
+}
