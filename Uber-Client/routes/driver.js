@@ -2,6 +2,18 @@
 var mq_client = require('../rpc/client');
 var requestGen = require('./commons/responseGenerator');
 
+exports.index = function (req,res){
+	
+	res.render('signupDriver');
+
+};
+
+exports.login = function(req,res){
+	
+	res.render('loginDriver');
+
+};
+
 exports.registerDriver = function(req, res){
 
     var email = req.param('email');

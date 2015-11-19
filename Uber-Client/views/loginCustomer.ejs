@@ -1,18 +1,15 @@
 <!DOCTYPE html>
 
 <html lang="en">
-
-<title>Registration Form</title>
-
-<link href="./css/bootstrap.min.css" rel="stylesheet">
-
-<link href="./css/custom.css" rel="stylesheet">
-
-
+<head>
+<title>Driver Customer</title>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
 
 <body style="background-color:#00001a">
-
-
 
 <div class="container">
 
@@ -28,17 +25,20 @@
 
 
 
-	<form id="form" action="registerCustomer" method="post" name='registration'>
+	<form id="form" action="registerDriver" method="post" name='registration'>
 
             
 
 		<h1 style="color:#fff; text-align:center; font-size:40px;">U B E R </h1><hr>
 		
+	<p style = "font-size:16px; color:#fff;">Email</p><input class="form-control" maxlength="40" type="email" name="email" value="" placeholder="Email" required>
+
+		<br><p style = "font-size:16px; color:#fff">Password</p><input class="form-control" maxlength="10" type="text" name="password" value="" placeholder="Password" required>
+
+		<br>
 		
-		  <button type="button" class="btn btn-info" style = "padding : 16px 94px; font-size:18px;">LOG IN AS A RIDER</button>
-		  <br><br>
-		 <button type="button" class="btn btn-info" style = "padding : 16px 89px; font-size:18px; background-color:#999999">LOG IN AS A DRIVER</button>
-		
+		  <button type="button" class="btn btn-info" style = "padding : 16px 154px; font-size:14px;">LOG IN</button>
+		  <br>
 		
 		
 
@@ -53,18 +53,5 @@
 </div>
 
 </div>
-
-
-
-            
-
-<script src="./js/bootstrap.min.js"></script>
-
- 
-
-
-
-
-
 </html>
 
