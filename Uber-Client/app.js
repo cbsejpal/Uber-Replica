@@ -50,6 +50,7 @@ app.configure('development', function(){
 });
 
 app.get('/', routes.index);
+app.get('/login',routes.login);
 app.get('/loginCustomer',customer.login);
 app.get('/signupCustomer',customer.index);
 app.get('/loginDriver',driver.login);
