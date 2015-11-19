@@ -17,7 +17,9 @@ exports.generateBill = function(msg, callback){
 	var rideEndTime = new Date();
 	var rideDistance = msg.rideDistance;
 	var rideAmount = msg.rideAmount;
-	
+
+	var json_responses;
+
 	var newBill = new Billings({
 		rideId: rideId,
 		rideDate: rideDate,
@@ -30,9 +32,9 @@ exports.generateBill = function(msg, callback){
 		customerId: customerId,
 		driverId: driverId
 	});
-	
+
 	newBill.save(function(err) {
-		var json_responses;
+
 		if (err) {
 			json_responses = requestGen.responseGenerator(500, {message: " error generating bill" });
 		}

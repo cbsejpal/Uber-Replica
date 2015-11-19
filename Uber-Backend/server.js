@@ -14,6 +14,9 @@ var cnn = amqp.createConnection({
 	host : '127.0.0.1'
 });
 
+var mongoose = require('mongoose');
+var connection = mongoose.connect("mongodb://localhost:27017/uber");
+
 cnn.on('ready', function() {
 	console.log("listening on customer_queue");
 
@@ -40,6 +43,54 @@ cnn.on('ready', function() {
 
 				case "loginCustomer":
 					customer.loginCustomer(message, function (err, res) {
+
+						util.log("Correlation ID: " + m.correlationId);
+						// return index sent
+						cnn.publish(m.replyTo, res, {
+							contentType: 'application/json',
+							contentEncoding: 'utf-8',
+							correlationId: m.correlationId
+						});
+					});
+					break;
+				case "deleteCustomer":
+					customer.deleteCustomer(message, function (err, res) {
+
+						util.log("Correlation ID: " + m.correlationId);
+						// return index sent
+						cnn.publish(m.replyTo, res, {
+							contentType: 'application/json',
+							contentEncoding: 'utf-8',
+							correlationId: m.correlationId
+						});
+					});
+					break;
+				case "listAllCustomers":
+					customer.listAllCustomers(message, function (err, res) {
+
+						util.log("Correlation ID: " + m.correlationId);
+						// return index sent
+						cnn.publish(m.replyTo, res, {
+							contentType: 'application/json',
+							contentEncoding: 'utf-8',
+							correlationId: m.correlationId
+						});
+					});
+					break;
+				case "addImagesToRide":
+					customer.addImagesToRide(message, function (err, res) {
+
+						util.log("Correlation ID: " + m.correlationId);
+						// return index sent
+						cnn.publish(m.replyTo, res, {
+							contentType: 'application/json',
+							contentEncoding: 'utf-8',
+							correlationId: m.correlationId
+						});
+					});
+					break;
+				case "getImagesOfRide":
+					customer.getImagesOfRide(message, function (err, res) {
 
 						util.log("Correlation ID: " + m.correlationId);
 						// return index sent
@@ -88,6 +139,54 @@ cnn.on('ready', function() {
 						});
 					});
 					break;
+				case "searchDriver":
+					driver.searchDriver(message, function (err, res) {
+
+						util.log("Correlation ID: " + m.correlationId);
+						// return index sent
+						cnn.publish(m.replyTo, res, {
+							contentType: 'application/json',
+							contentEncoding: 'utf-8',
+							correlationId: m.correlationId
+						});
+					});
+					break;
+				case "deleteDriver":
+					driver.deleteDriver(message, function (err, res) {
+
+						util.log("Correlation ID: " + m.correlationId);
+						// return index sent
+						cnn.publish(m.replyTo, res, {
+							contentType: 'application/json',
+							contentEncoding: 'utf-8',
+							correlationId: m.correlationId
+						});
+					});
+					break;
+				case "getDriverInformation":
+					driver.getDriverInformation(message, function (err, res) {
+
+						util.log("Correlation ID: " + m.correlationId);
+						// return index sent
+						cnn.publish(m.replyTo, res, {
+							contentType: 'application/json',
+							contentEncoding: 'utf-8',
+							correlationId: m.correlationId
+						});
+					});
+					break;
+				case "updateDriver":
+					driver.updateDriver(message, function (err, res) {
+
+						util.log("Correlation ID: " + m.correlationId);
+						// return index sent
+						cnn.publish(m.replyTo, res, {
+							contentType: 'application/json',
+							contentEncoding: 'utf-8',
+							correlationId: m.correlationId
+						});
+					});
+					break;
 			}
 		});
 	});
@@ -125,6 +224,7 @@ cnn.on('ready', function() {
 							correlationId: m.correlationId
 						});
 					});
+					break;
 			}
 		});
 	});
@@ -139,6 +239,66 @@ cnn.on('ready', function() {
 			switch (message.func) {
 				case "createRide":
 					ride.createRide(message, function (err, res) {
+
+						util.log("Correlation ID: " + m.correlationId);
+						// return index sent
+						cnn.publish(m.replyTo, res, {
+							contentType: 'application/json',
+							contentEncoding: 'utf-8',
+							correlationId: m.correlationId
+						});
+					});
+					break;
+				case "RideInfo":
+					ride.getRideInformation(message, function (err, res) {
+
+						util.log("Correlation ID: " + m.correlationId);
+						// return index sent
+						cnn.publish(m.replyTo, res, {
+							contentType: 'application/json',
+							contentEncoding: 'utf-8',
+							correlationId: m.correlationId
+						});
+					});
+					break;
+				case "updateRide":
+					ride.updateRide(message, function (err, res) {
+
+						util.log("Correlation ID: " + m.correlationId);
+						// return index sent
+						cnn.publish(m.replyTo, res, {
+							contentType: 'application/json',
+							contentEncoding: 'utf-8',
+							correlationId: m.correlationId
+						});
+					});
+					break;
+				case "deleteRide":
+					ride.deleteRide(message, function (err, res) {
+
+						util.log("Correlation ID: " + m.correlationId);
+						// return index sent
+						cnn.publish(m.replyTo, res, {
+							contentType: 'application/json',
+							contentEncoding: 'utf-8',
+							correlationId: m.correlationId
+						});
+					});
+					break;
+				case "customerRideList":
+					ride.customerRideList(message, function (err, res) {
+
+						util.log("Correlation ID: " + m.correlationId);
+						// return index sent
+						cnn.publish(m.replyTo, res, {
+							contentType: 'application/json',
+							contentEncoding: 'utf-8',
+							correlationId: m.correlationId
+						});
+					});
+					break;
+				case "driverRideList":
+					ride.customerRideList(message, function (err, res) {
 
 						util.log("Correlation ID: " + m.correlationId);
 						// return index sent

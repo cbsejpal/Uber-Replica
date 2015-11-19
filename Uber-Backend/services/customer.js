@@ -1,6 +1,4 @@
-/**
- * Created by Rushil on 11/14/2015.
- */
+//customer
 var customerSchema = require('./model/customerSchema');
 var requestGen = require('./commons/responseGenerator');
 
@@ -20,6 +18,8 @@ exports.registerCustomer = function(msg, callback){
     var phoneNumber = msg.phoneNumber;
     var creditCard = msg.creditCard;
 
+    var json_responses;
+
     //add data in mysql
     Customer.create({
         //id - autoIncrement by default by sequelize
@@ -37,11 +37,12 @@ exports.registerCustomer = function(msg, callback){
         //add data in mongodb
         var newCustomer = new Customers({
             firstName: firstName,
-            lastName: lastName
+            lastName: lastName,
+            email: email
         });
 
         newCustomer.save(function(err) {
-            var json_responses;
+
             if (err) {
                 json_responses = requestGen.responseGenerator(500, {message: " error registering customer" });
             }
@@ -60,15 +61,91 @@ exports.loginCustomer = function(msg, callback){
     var email = msg.email;
     var password = msg.password;
 
+    var json_responses;
+
     Customer.findOne({where: {email: email, password: password}}).then(function (user) {
-        var json_responses;
         if(user){
-            req.session.customerId =  user.id;
-            json_responses = requestGen.responseGenerator(200, {message: 'customer login successful'});
+            json_responses = requestGen.responseGenerator(200, {message: 'customer login successful', user: user.email});
         }
         else{
             json_responses = requestGen.responseGenerator(401, {message: 'customer login failed'});
         }
         callback(null, json_responses);
     });
+};
+
+exports.deleteCustomer = function(msg, callback){
+    var email = msg.email;
+    var json_responses;
+
+    Customer.destroy({where: {email: email}}).then(function(){
+
+        Customers.findOneAndRemove({email: email}, function(err){
+            if(err){
+                json_responses = requestGen.responseGenerator(500, {message: 'customer delete failed'});
+            }
+            else {
+                json_responses = requestGen.responseGenerator(200, {message: 'customer delete successful'});
+            }
+            callback(null, json_responses);
+        });
+    });
+};
+
+exports.listAllCustomers = function(msg, callback){
+
+    var json_responses;
+
+    Customer.findAll().then(function(customers){
+        if(customers.length > 0){
+            json_responses = requestGen.responseGenerator(200, {data: customers});
+        }
+        else{
+            json_responses = requestGen.responseGenerator(404, {data: 'Sorry no customers found'});
+        }
+        callback(null, json_responses);
+    });
+};
+
+exports.addImagesToRide = function(msg, callback){
+
+    var json_responses;
+
+    var image = msg.image;
+
+    var mongoose = require('mongoose');
+    var Schema = mongoose.Schema;
+
+    var conn = mongoose.createConnection('mongodb://localhost:27017/uber');
+    var fs = require('fs');
+
+    var Grid = require('gridfs-stream');
+    Grid.mongo = mongoose.mongo;
+
+    conn.once('open', function () {
+        console.log('open');
+        var gfs = Grid(conn.db);
+
+        // streaming to gridfs
+        //filename to store in mongodb
+        var writestream = gfs.createWriteStream({
+            filename: 'newFile.jpg'
+        });
+        fs.createReadStream(image).pipe(writestream);
+
+        writestream.on('close', function (file) {
+            // do something with `file`
+            console.log(file.filename + 'Written To DB');
+            json_responses = requestGen.responseGenerator(200, "Written to DB");
+            callback(null, json_responses);
+        });
+    });
+};
+
+exports.getImagesOfRide = function(msg, callback){
+
+    var json_responses;
+
+    json_responses = requestGen.responseGenerator(200, null);
+    callback(null, json_responses);
 };
