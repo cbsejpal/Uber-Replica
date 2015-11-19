@@ -52,6 +52,10 @@ app.configure('development', function(){
 app.get('/', routes.index);
 app.get('/loginCustomer',customer.login);
 app.get('/signupCustomer',customer.index);
+app.get('/loginDriver',driver.login);
+app.get('/signupDriver',driver.index);
+
+
 app.get('/listAllCustomers', customer.listAllCustomers);
 app.get('/deleteCustomer', customer.deleteCustomer);
 app.post('/addImagesToRide',customer.addImagesToRide);
