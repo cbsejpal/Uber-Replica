@@ -7,42 +7,34 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
 
-    <title>Dashboard Admin</title>
+
+    <title>Dashboard Customer</title>
 
      <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
  
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-  
-  
 
-    <link href="dashboard.css" rel="stylesheet">
 
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
+
+    <link href="stylesheets/dashboard.css" rel="stylesheet">
+
 
 <script>
 
 $(document).ready( function() {
-    $(".content").load("drivers.html");
-
+    $(".content").load("mytrips.ejs");
+    
     $(".click1").on("click", function() {
-        $(".content").load("drivers.html");
+        $(".content").load("mytrips.ejs");
     });
     $(".click2").on("click", function() {
-        $(".content").load("customers.html");
+        $(".content").load("profile.ejs");
     });
-   
-    
     $(".click3").on("click", function() {
-        $(".content").load("requests.html");
-    });
-    $(".click4").on("click", function() {
-        $(".content").load("analysis.html");
+        $(".content").load("payment.ejs");
     });
     
 });
@@ -73,7 +65,7 @@ $(document).ready( function() {
             <li><a href="#">SOHAM</a></li>
             <li class="divider"></li>
 
-            <li><a href="logout.php">Logout</a></li>
+            <li><a href="logout">Logout</a></li>
           </ul>
 
         </ul>
@@ -87,11 +79,10 @@ $(document).ready( function() {
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li class="active"><a href="#">Admin <span class="sr-only">(current)</span></a></li>
-            <li class=""><a href="javascript:void(0)" class="click1">Drivers</a></li>
-               <li class=""><a href="javascript:void(0)" class="click2">Customers</a></li>
-            <li class=""><a href="javascript:void(0)" class="click3">Requests</a></li>
-            <li><a href="javascript:void(0)" class="click4">Analysis</a></li>
+            <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
+            <li class=""><a href="javascript:void(0)" class="click1">My Trips</a></li>
+            <li><a href="javascript:void(0)" class="click2">Profile</a></li>
+               <li><a href="javascript:void(0)" class="click3">Payment</a></li>
             <li><a href="javascript:void(0)">Log out</a></li>
           </ul>
          
@@ -103,14 +94,8 @@ $(document).ready( function() {
       </div>
     </div>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="../../dist/js/bootstrap.min.js"></script>
-    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
-    <script src="../../assets/js/vendor/holder.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+
   </body>
 </html>
