@@ -55,6 +55,8 @@ app.get('/listAllCustomers', customer.listAllCustomers);
 app.get('/deleteCustomer', customer.deleteCustomer);
 app.post('/addImagesToRide',customer.addImagesToRide);
 app.get('/getImagesOfRide:image', customer.getImagesOfRide);
+app.get('/showCustomers', admin.showCustomers);
+app.get('/showDrivers', admin.showDrivers);
 app.get('/logout', logout.logout);
 
 //driver
@@ -81,10 +83,17 @@ app.post('/deleteRide', ride.deleteRide);
 app.get('/customerRideList', ride.customerRideList);
 app.get('/driverRideList', ride.driverRideList);
 
+//admin
+app.post('/verifyDrivers',admin.verifyDrivers);
+app.post('/verifyCustomers',admin.verifyCustomers);
+
 //billing
 app.post('/generateBill', billing.generateBill);
+app.post('/deleteBill', billing.deleteBill);
+app.post('/searchBills', billing.searchBills);
 
 //connect to the mongo collection session and then createServer
+
 mongo.connect(mongoSessionConnectURL, function() {
 	console.log('Connected to mongo at: ' + mongoSessionConnectURL);
 	http.createServer(app).listen(app.get('port'), function() {

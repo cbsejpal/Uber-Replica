@@ -107,6 +107,29 @@ exports.listAllCustomers = function(msg, callback){
     });
 };
 
+exports.getCustomerInformation = function (msg, callback) {
+    var email = msg.email;
+
+    Customer.findOne({where: {email: email}}).then(function (customer) {
+        var json_responses;
+        if (customer) {
+            Customers.find({email: email}, function(err, customers){
+                if(customers){
+                    json_responses = requestGen.responseGenerator(200, customer, customers);
+                }
+                else{
+                    json_responses = requestGen.responseGenerator(500, customer, {message: "No rides found!"});
+                }
+            });
+
+        } else {
+            json_responses = requestGen.responseGenerator(500, {message: "No Driver found"});
+        }
+        callback(null, json_responses)
+    });
+};
+
+
 exports.addImagesToRide = function(msg, callback){
 
     var json_responses;

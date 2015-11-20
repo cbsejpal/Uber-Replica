@@ -6,8 +6,8 @@ var Sequelize = require('sequelize');
 var sequelize = mysql.sequelize;
 
 var Driver = sequelize.define('Driver', {
-	//id - autoIncrement by default by sequelize
-	email: Sequelize.STRING,
+	//id - autoIncremented and set as primary key by default by sequelize
+	email: {type: Sequelize.STRING, unique: true},
 	password: Sequelize.STRING,
 	firstName: Sequelize.STRING,
 	lastName: Sequelize.STRING,
@@ -16,7 +16,8 @@ var Driver = sequelize.define('Driver', {
 	state: Sequelize.STRING,
 	zipCode: Sequelize.STRING,
 	phoneNumber: Sequelize.BIGINT,
-	carDetails: Sequelize.TEXT
+	carDetails: Sequelize.TEXT,
+	verifyStatus: {type: Sequelize.BOOLEAN, allowNull: false, defaultValue: false}
 },{
 	timestamps: false, //by default sequelize will add createdAt and updatedAt columns into tables so to remove them use this attribute
 	freezeTableName: true //by default sequelize will create customerS table and not customer so this attribute won't allow it to plural the table name
@@ -55,10 +56,12 @@ var driverSchema = new Schema({
 	lastName: {type: String, required: true},
 	rides: [ridesList],
 	imagePath: String,
-	videoPath: String
+	videoPath: String,
+	verifyStatus: {type: Boolean, default: false}
 }, {
 	versionKey : false
-});
+}
+);
 
 //create Drivers model from schema
 var Drivers = mongoose.model('Drivers', driverSchema);
