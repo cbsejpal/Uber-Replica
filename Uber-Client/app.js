@@ -7,6 +7,7 @@ var express = require('express')
   , routes = require('./routes')
   , http = require('http')
   , path = require('path')
+    , index = require('./routes/index')
   , customer = require('./routes/customer')
     , admin = require('./routes/admin')
     , driver = require('./routes/driver')
@@ -91,6 +92,8 @@ app.post('/verifyCustomers',admin.verifyCustomers);
 app.post('/generateBill', billing.generateBill);
 app.post('/deleteBill', billing.deleteBill);
 app.post('/searchBills', billing.searchBills);
+
+app.get('/maps',index.maps);
 
 //connect to the mongo collection session and then createServer
 

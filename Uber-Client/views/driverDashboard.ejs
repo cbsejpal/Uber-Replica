@@ -1,0 +1,171 @@
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+ 
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script>
+
+$(document).ready(function load()
+{
+	$('.vehicle').show();
+    $('.background').hide();
+    $('.video').hide();
+    $('.upload').hide();
+	
+$('.click1').on("click",function(){
+    $('.vehicle').show();
+    $('.background').hide();
+    $('.video').hide();
+    $('.upload').hide();
+});
+
+$('.click2').on("click",function(){
+    $('.vehicle').hide();
+    $('.background').show();
+    $('.upload').hide();
+    $('.video').hide();
+    
+});
+
+$('.click3').on("click",function(){
+    $('.vehicle').hide();
+    $('.background').hide();
+    $('.video').hide();
+    $('.upload').show();
+});
+
+$('.click4').on("click",function(){
+    $('.vehicle').hide();
+    $('.background').hide();
+    $('.video').show();
+    $('.upload').hide();
+});
+
+
+});
+</script>
+
+    <!-- Custom CSS -->
+    <link href="stylesheets/modern-business.css" rel="stylesheet">
+
+</head>
+
+<body>
+ <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                
+                <a class="navbar-brand" href="index.html">UBER</a>
+                
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="logout">Logout</a>
+                    </li>
+                    </ul>
+            </div>
+           
+        </div>
+        <!-- /.container -->
+    </nav>
+<br><br><br>
+
+<div class="col-md-3 column margintop20">
+    		<ul class="nav nav-pills nav-stacked">
+  <li><a href="javascript:void(0)" class="click1"><span class="glyphicon glyphicon-chevron-right"></span> VEHICLE INFORMATION</a></li>
+  <li><a href="javascript:void(0)" class="click2"><span class="glyphicon glyphicon-chevron-right"></span> BACKGROUND CHECK</a></li>
+  <li><a href="javascript:void(0)" class="click3"><span class="glyphicon glyphicon-chevron-right"></span> DOCUMENT UPLOAD</a></li>
+  <li><a href="javascript:void(0)" class="click4"><span class="glyphicon glyphicon-chevron-right"></span> VIDEO</a></li>
+</ul>
+</div>
+<div class="col-md-9">
+
+<div class="vehicle">
+
+
+
+<div class="col-md-5">
+<form id="form" action="#" method="post">
+
+<h2>VEHICLE INFORMATION</h2><hr>
+<p style = "font-size:16px;"> Vehicle Name : <input class="form-control" maxlength="30" type="text" name="CarName" value="" placeholder="Vehicle Name" required></p><br>
+<p style = "font-size:16px;"> Number Plate :<input class="form-control" maxlength="20" type="text" name="NumberPlate" value="" placeholder="Number Plate" required></p><br>
+<input class="btn btn-lg btn-default" type="Submit" value="Continue" />
+</form>
+
+</div>
+
+
+</div>
+</div>
+
+
+
+
+
+<div class="background">
+
+<div class="col-md-5">
+<form id="form" action="#" method="post">
+<h2>BACKGROUND</h2><hr>
+<p style = "font-size:16px;"> SSN : <br><input class="form-control" maxlength="11" type="text" name="ssn" value="" placeholder="000-00-0000" required></p><br>
+<input class="btn btn-lg btn-default" type="Submit" value="Continue" />
+
+</form></div>
+
+</div>
+
+
+
+
+<div class="upload">
+<div class="col-md-2"></div>
+<div class="col-md-6">
+
+<h2>Please upload a photo of your driving license !</h2>
+
+Upload : <br><br><input class="btn btn-lg btn-default" type= "file" >
+
+
+<br>
+<input class="btn btn-lg btn-default" type="submit" value="Continue">
+</div>
+</div>
+
+
+
+<div class="video">
+
+<div class="col-md-5">
+<form id="form" action="#" method="post">
+<h2>BACKGROUND</h2><hr>
+<p style = "font-size:16px;"> Video URL :<br> <br><input class="form-control" maxlength="50" type="text" name="VideoURL" value="" placeholder="Video URL" required></p><br>
+<br><input class="btn btn-lg btn-success" type="Submit" value="Continue" />
+
+</form></div>
+
+</div>
+
+</form>
+</div>
+</div>
+
+
+</body>
+</html>
