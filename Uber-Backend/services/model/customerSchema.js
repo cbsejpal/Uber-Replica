@@ -7,7 +7,7 @@ var sequelize = mysql.sequelize;
 
 var Customer = sequelize.define('Customer', {
 	//id - autoIncrement by default by sequelize
-	email: Sequelize.STRING,
+	email: {type: Sequelize.STRING, unique: true},
 	password: Sequelize.STRING,
 	firstName: Sequelize.STRING,
 	lastName: Sequelize.STRING,
@@ -16,7 +16,8 @@ var Customer = sequelize.define('Customer', {
 	state: Sequelize.STRING,
 	zipCode: Sequelize.STRING,
 	phoneNumber: Sequelize.BIGINT,
-	creditCard: Sequelize.TEXT
+	creditCard: Sequelize.TEXT,
+	verifyStatus: {type: Sequelize.BOOLEAN, allowNull: false, defaultValue: false}
 },{
 	timestamps: false, //by default sequelize will add createdAt and updatedAt columns into tables so to remove them use this attribute
 	freezeTableName: true //by default sequelize will create customerS table and not customer so this attribute won't allow it to plural the table name
@@ -61,7 +62,7 @@ var customerSchema = new Schema({
 	firstName: {type: String, required: true},
 	lastName: {type: String, required: true},
 	rides: [ridesList],
-
+	verifyStatus: {type: Boolean, default: false}
 }, {
 	versionKey : false
 });

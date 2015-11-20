@@ -1,6 +1,7 @@
 //creating billing model
 
 var mongoose = require('mongoose');
+
 var connection = mongoose.createConnection("mongodb://localhost:27017/uber");
 var Schema = mongoose.Schema;
 var autoIncrement = require('mongoose-auto-increment');
@@ -33,5 +34,6 @@ billingSchema.plugin(autoIncrement.plugin, {
 	startAt: 1,
 	incrementBy: 1
 });
+
 
 exports.Billings = Billings;

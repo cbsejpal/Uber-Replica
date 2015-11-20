@@ -15,6 +15,9 @@ var cnn = amqp.createConnection({
 });
 
 var mongoose = require('mongoose');
+//var options = {
+//	server: { poolSize: 5 }
+//};
 var connection = mongoose.connect("mongodb://localhost:27017/uber");
 
 cnn.on('ready', function() {
@@ -225,6 +228,56 @@ cnn.on('ready', function() {
 						});
 					});
 					break;
+				case "verifyDrivers":
+					admin.verifyDrivers(message, function (err, res) {
+
+						util.log("Correlation ID: " + m.correlationId);
+						// return index sent
+						cnn.publish(m.replyTo, res, {
+							contentType: 'application/json',
+							contentEncoding: 'utf-8',
+							correlationId: m.correlationId
+						});
+					});
+					break;
+				case "verifyCustomers":
+					admin.verifyCustomers(message, function (err, res) {
+
+						util.log("Correlation ID: " + m.correlationId);
+						// return index sent
+						cnn.publish(m.replyTo, res, {
+							contentType: 'application/json',
+							contentEncoding: 'utf-8',
+							correlationId: m.correlationId
+						});
+					});
+					break;
+
+				case "showDrivers":
+					admin.showDrivers(message, function (err, res) {
+
+						util.log("Correlation ID: " + m.correlationId);
+						// return index sent
+						cnn.publish(m.replyTo, res, {
+							contentType: 'application/json',
+							contentEncoding: 'utf-8',
+							correlationId: m.correlationId
+						});
+					});
+					break;
+
+				case "showCustomers":
+					admin.showCustomers(message, function (err, res) {
+
+						util.log("Correlation ID: " + m.correlationId);
+						// return index sent
+						cnn.publish(m.replyTo, res, {
+							contentType: 'application/json',
+							contentEncoding: 'utf-8',
+							correlationId: m.correlationId
+						});
+					});
+					break;
 			}
 		});
 	});
@@ -333,6 +386,33 @@ cnn.on('ready', function() {
 						});
 					});
 					break;
+
+				case "billingSearch":
+					billing.billingSearch(message, function (err, res) {
+
+						util.log("Correlation ID: " + m.correlationId);
+						// return index sent
+						cnn.publish(m.replyTo, res, {
+							contentType: 'application/json',
+							contentEncoding: 'utf-8',
+							correlationId: m.correlationId
+						});
+					});
+					break;
+
+				case "deleteBill":
+					billing.deleteBill(message, function (err, res) {
+
+						util.log("Correlation ID: " + m.correlationId);
+						// return index sent
+						cnn.publish(m.replyTo, res, {
+							contentType: 'application/json',
+							contentEncoding: 'utf-8',
+							correlationId: m.correlationId
+						});
+					});
+					break;
+
 			}
 		});
 	});

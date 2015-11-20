@@ -52,7 +52,7 @@ exports.loginAdmin = function(req, res){
         "func" : "loginAdmin"
     };
 
-    mq_client.make_request('admin_queue', msg_payload, function(err,results) {
+        mq_client.make_request('admin_queue', msg_payload, function(err,results) {
         //console.log(results);
         if (err) {
             //console.log(err);
@@ -64,3 +64,83 @@ exports.loginAdmin = function(req, res){
         }
     });
 };
+
+exports.showDrivers = function(req, res){
+
+    var msg_payload = {
+        "func" : "showDrivers"
+    };
+
+    mq_client.make_request('admin_queue', msg_payload, function(err,results) {
+        //console.log(results);
+        if (err) {
+            //console.log(err);
+            res.status(500).send(null);
+        } else {
+            ////console.log("about results" + results);
+            res.status(results.status).send(results.data);
+        }
+    });
+};
+
+exports.showCustomers =  function(req, res){
+
+    var msg_payload = {
+        "func" : "showCustomers"
+    };
+
+    mq_client.make_request('admin_queue', msg_payload, function(err,results) {
+        //console.log(results);
+        if (err) {
+            //console.log(err);
+            res.status(500).send(null);
+        } else {
+            console.log("about results" + results);
+            res.status(results.status).send(results.data);
+        }
+    });
+};
+
+
+
+exports.verifyDrivers =  function(req, res){
+
+    var email = req.param('email');
+    var msg_payload = {
+        "email": email,
+        "func" : "verifyDrivers"
+    };
+
+    mq_client.make_request('admin_queue', msg_payload, function(err,results) {
+        //console.log(results);
+        if (err) {
+            //console.log(err);
+            res.status(500).send(null);
+        } else {
+            ////console.log("about results" + results);
+            res.status(results.status).send(results.data);
+        }
+    });
+};
+
+exports.verifyCustomers =  function(req, res){
+
+    var email = req.param('email');
+    var msg_payload = {
+        "email": email,
+        "func" : "verifyCustomers"
+    };
+
+    mq_client.make_request('admin_queue', msg_payload, function(err,results) {
+        //console.log(results);
+        if (err) {
+            //console.log(err);
+            res.status(500).send(null);
+        } else {
+            console.log("about results" + results);
+            res.status(results.status).send(results.data);
+        }
+    });
+};
+
+
