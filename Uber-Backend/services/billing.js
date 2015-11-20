@@ -41,7 +41,71 @@ exports.generateBill = function(msg, callback){
 		else {
 			json_responses = requestGen.responseGenerator(200, {message: " bill generated for this ride" });
 		}
+//		billingSchema.closeConnection();
 		callback(null,json_responses);
 	});
-	
+
+};
+
+exports.billingSearch = function(msg, callback){
+
+	var json_response;
+
+	var searchText = msg.searchText;
+
+	var data = [];
+
+	Billings.find({ $or : [ { rideDate : new RegExp(searchText, 'i')},
+		{ pickUpLocation : new RegExp(searchText, 'i') },{ dropOffLocation : new RegExp(searchText, 'i') },
+		{ customerId : new RegExp(searchText, 'i') },{ driverId : new RegExp(searchText, 'i') } ] }, function(err, docs) {
+		if (err) {
+			json_response = requestGen.responseGenerator(401, null);
+		} else {
+			console.log("docs" + docs);
+
+			if (docs.length > 0) {
+
+				docs.forEach(function(doc) {
+					data.push({
+						billingId: doc.billingId,
+						rideId: doc.rideId,
+						rideDate: doc.rideDate,
+						rideStartTime: doc.rideStartTime,
+						rideEndTime: doc.rideEndTime,
+						rideDistance: doc.rideDistance,
+						rideAmount: doc.rideAmount,
+						pickUpLocation: doc.pickUpLocation,
+						dropOffLocation: doc.dropOffLocation,
+						customerId: doc.customerId,
+						driverId: doc.driverId
+					});
+				});
+
+				json_response = requestGen.responseGenerator(200, data);
+
+			} else {
+				json_response = requestGen.responseGenerator(200, null);
+			}
+		}
+		callback(null, json_response);
+	});
+};
+
+exports.deleteBill = function (msg, callback) {
+	var billId = msg.billId;
+	var json_responses;
+
+	Billings.remove({billId: billId}, function (err, removed) {
+		if (err) {
+			json_responses = requestGen.responseGenerator(500, {message: 'Bill delete failed'});
+		}
+		else {
+			if (removed.result.n > 0) {
+				json_responses = requestGen.responseGenerator(200, {message: 'Bill Deleted.'});
+			} else {
+				json_responses = requestGen.responseGenerator(500, {message: 'Bill Not Found'});
+			}
+		}
+		callback(null, json_responses);
+	});
 };

@@ -10,6 +10,7 @@ var Drivers = driverSchema.Drivers; //mongoDB instance
 
 var Rides = rideSchema.Rides;
 
+
 exports.createRide = function (msg, callback) {
 
     var pickUpLocation = msg.pickUpLocation;
