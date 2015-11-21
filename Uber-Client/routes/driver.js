@@ -8,6 +8,13 @@ exports.index = function (req,res){
 
 };
 
+exports.driverDashboard =  function(req,res){
+	
+	res.render('driverDashboard');
+
+};
+
+
 exports.login = function(req,res){
 	
 	res.render('loginDriver');

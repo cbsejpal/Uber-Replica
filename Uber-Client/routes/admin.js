@@ -2,6 +2,13 @@
 var mq_client = require('../rpc/client');
 var requestGen = require('./commons/responseGenerator');
 
+exports.adminDashboard =  function(req,res){
+	
+	res.render('adminDashboard');
+
+};
+
+
 exports.registerAdmin = function(req, res){
 
     var email = req.param('email');
