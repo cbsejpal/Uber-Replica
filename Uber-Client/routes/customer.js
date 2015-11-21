@@ -9,6 +9,13 @@ exports.index = function (req,res){
 
 };
 
+exports.customerDashboard =  function(req,res){
+	
+	res.render('customerDashboard');
+
+};
+
+
 exports.login = function(req,res){
 	
 	res.render('loginCustomer');
@@ -26,9 +33,9 @@ exports.loginCustomer = function(req, res){
     };
 
     mq_client.make_request('customer_queue', msg_payload, function(err,results) {
-        //console.log(results);
+        console.log(results);
         if (err) {
-            //console.log(err);
+            console.log(err);
             res.status(500).send(null);
         } else {
             ////console.log("about results" + results);

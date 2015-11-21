@@ -81,6 +81,15 @@ app.post('/loginCustomer', customer.loginCustomer);
 app.post('/loginDriver', driver.loginDriver);
 app.post('/loginAdmin', admin.loginAdmin);
 
+//dashboards
+
+app.get('/customerDashboard',customer.customerDashboard);
+
+app.get('/driverDashboard',driver.driverDashboard);
+
+app.get('/adminDashboard',admin.adminDashboard);
+
+
 //rides
 app.post('/createRide', ride.createRide);
 app.get('/rideInfo', ride.getRideInformation);

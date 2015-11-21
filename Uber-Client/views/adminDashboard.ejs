@@ -10,6 +10,7 @@
 
     <title>Dashboard Admin</title>
 
+
      <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
  
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
@@ -20,13 +21,16 @@
 
     <link href="stylesheets/dashboard.css" rel="stylesheet">
 
+
 <script>
 
 $(document).ready( function() {
-    $(".content").load("drivers.ejs");
+	
+    $(".content").load("/drivers.ejs");
 
     $(".click1").on("click", function() {
         $(".content").load("drivers.ejs");
+       
     });
     $(".click2").on("click", function() {
         $(".content").load("customers.ejs");

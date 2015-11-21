@@ -2,12 +2,13 @@
 
 <html lang="en">
 
-<title>Registration Form</title>
-
-<link href="./css/bootstrap.min.css" rel="stylesheet">
-
-<link href="./css/custom.css" rel="stylesheet">
-
+<head>
+<title>Customer Signup</title>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
 
 
 <body style="background-color:#fff">
@@ -38,7 +39,7 @@
 		
 		<p style = "font-size:16px;"> * Email : </p><input class="form-control" maxlength="40" type="email" name="email" value="" placeholder="Email" required>
 
-		<br><p style = "font-size:16px;"> * Password :</p><input class="form-control" maxlength="10" type="text" name="password" value="" placeholder="Password" required>
+		<br><p style = "font-size:16px;"> * Password :</p><input class="form-control" maxlength="30" type="password" name="password" value="" placeholder="Password" required>
 
 		<br>
 		<br>
@@ -59,6 +60,8 @@
 
 		<br><p style = "font-size:16px;">* Mobile No : </p> <input type="tel" value="" name="mobile" id="mobile" placeholder="+1 (201) 555-5555"><br>
 
+		<br><p style = "font-size:16px;">* Credit Card : </p> <input type="text" value="" name="creditCard" id="cc" placeholder="5555-5555-5555-5555">
+		
 		<br><center><input class="btn btn-lg btn-default" type="Submit" value="Register" /></center>
 
 		<p></p><br>
