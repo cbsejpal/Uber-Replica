@@ -32,21 +32,23 @@ exports.createRide = function(req, res){
 };
 
 exports.getRideInformation = function(req, res){
-	var rideId = req.param('rideId');
+	var customerId = 4;
+	console.log(customerId);
 
 	var msg_payload = {
-		"rideId" : rideId,
+		"customerId" : customerId,
 		"func" : "RideInfo"
 	};
 
 	mq_client.make_request('ride_queue', msg_payload, function(err,results) {
-		//console.log(results);
+		console.log("results " +results);
 		if (err) {
 			//console.log(err);
 			res.status(500).send(null);
 		} else {
+			
 			////console.log("about results" + results);
-			res.status(results.status).send(results.data);
+			res.send(results);
 		}
 	});
 };

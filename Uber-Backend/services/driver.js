@@ -70,7 +70,7 @@ exports.loginDriver = function (msg, callback) {
             json_responses = requestGen.responseGenerator(200, {message: 'driver login successful', user: user.email});
         }
         else {
-            json_responses = requestGen.responseGenerator(500, {message: 'driver login failed'});
+            json_responses = requestGen.responseGenerator(401, {message: 'driver login failed'});
         }
         callback(null, json_responses);
     });
