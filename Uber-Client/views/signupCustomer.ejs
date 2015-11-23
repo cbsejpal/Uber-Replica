@@ -8,10 +8,11 @@
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script src="angular/signupCustomer.js"></script>
 </head>
 
 
-<body style="background-color:#fff">
+<body style="background-color:#fff" ng-app="signupCustomer" ng-controller = "signupCustomer">
 
 
 
@@ -29,7 +30,7 @@
 
 
 
-	<form id="form" action="registerCustomer" method="post" name='registration' style= "border-style:groove;padding : 50px 40px 10px 40px;">
+	<form id="form" method="post" name='registration' style= "border-style:groove;padding : 50px 40px 10px 40px;">
 
             
 
@@ -37,34 +38,36 @@
 		
 		<p style="font-size:26px;">ACCOUNT</p>
 		
-		<p style = "font-size:16px;"> * Email : </p><input class="form-control" maxlength="40" type="email" name="email" value="" placeholder="Email" required>
+		<p style = "font-size:16px;"> * Email : </p><input ng-model="email" class="form-control" maxlength="40" type="email" name="email" value="" placeholder="Email" required>
 
-		<br><p style = "font-size:16px;"> * Password :</p><input class="form-control" maxlength="30" type="password" name="password" value="" placeholder="Password" required>
+		<br><p style = "font-size:16px;"> * Password :</p><input ng-model="password" class="form-control" maxlength="30" type="password" name="password" value="" placeholder="Password" required>
 
 		<br>
 		<br>
 		<p style="font-size:26px;">PROFILE</p>
 		<p style = "font-size:16px;">* Firstname : </p>
-		<input class="form-control" name="firstName" size="20" placeholder="Firstname" required><br>
+		<input ng-model="firstName" class="form-control" name="firstName" size="20" placeholder="Firstname" required><br>
 
 		<p style = "font-size:16px;">* Lastname :</p>
-		<input class="form-control" type="text" name="lastName" value="" placeholder="Lastname" required><br>
+		<input class="form-control" ng-model="lastName" type="text" name="lastName" value="" placeholder="Lastname" required><br>
 
-		<p style = "font-size:16px;">* City : </p><input class="form-control" type="text" name="city" value="" placeholder="City" required>	
+		<p style = "font-size:16px;">* City : </p><input ng-model="city" class="form-control" type="text" name="city" value="" placeholder="City" required>	
 
-		<br><p style = "font-size:16px;">* State : </p><input class="form-control" type="text" name="state" value="" placeholder="State" required>	
+		<br><p style = "font-size:16px;">* State : </p><input ng-model="state" class="form-control" type="text" name="state" value="" placeholder="State" required>	
 
-		<br><p style = "font-size:16px;">* Zipcode : </p><input class="form-control" type="text" name="zipCode" value="" placeholder="zipCode" required>	
+		<br><p style = "font-size:16px;">* Zipcode : </p><input ng-model="zipCode" class="form-control" type="text" name="zipCode" value="" placeholder="zipCode" required>	
 
-		<br><p style = "font-size:16px;">* Address : </p><input class="form-control" type="text" name="address" value="" placeholder="Address" required>	
+		<br><p style = "font-size:16px;">* Address : </p><input ng-model="address" class="form-control" type="text" name="address" value="" placeholder="Address" required>	
 
-		<br><p style = "font-size:16px;">* Mobile No : </p> <input type="tel" value="" name="phoneNumber" id="mobile" placeholder="+1 (201) 555-5555"><br>
+		<br><p style = "font-size:16px;">* Mobile No : </p> <input type="tel" ng-model="phoneNumber" value="" name="phoneNumber" id="mobile" placeholder="+1 (201) 555-5555"><br>
 
-		<br><p style = "font-size:16px;">* Credit Card : </p> <input type="text" value="" name="creditCard" id="cc" placeholder="5555-5555-5555-5555">
+		<br><p style = "font-size:16px;">* Credit Card : </p> <input type="text" ng-model="creditCard" value="" name="creditCard" id="cc" placeholder="5555-5555-5555-5555">
 		
-		<br><center><input class="btn btn-lg btn-default" type="Submit" value="Register" /></center>
+		<br><center><input class="btn btn-lg btn-default" type="submit" ng-click="submit()" value="Register" /></center>
 
 		<p></p><br>
+			
+		
 
                 
 
@@ -79,18 +82,6 @@
 </div>
 
 </div>
-
-
-
-            
-
-<script src="./js/bootstrap.min.js"></script>
-
- 
-
-
-
-
 
 </html>
 
