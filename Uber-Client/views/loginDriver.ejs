@@ -2,15 +2,15 @@
 
 <html lang="en">
 <head>
-<title>Driver Customer</title>
+<title>Driver Login</title>
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-  <script src="angular/loginCustomer.js"></script>
+  <script src="angular/loginDriver.js"></script>
 </head>
 
-<body style="background-color:#00001a" ng-app="loginCustomer" ng-controller="loginCustomer" >
+<body style="background-color:#00001a" ng-app="loginDriver" ng-controller="loginDriver">
 
 <div class="container">
 
@@ -26,7 +26,7 @@
 
 
 
-	<form id="form">
+	<form id="form" method="post" name='registration'>
 
             
 
@@ -38,17 +38,20 @@
 
 		<br>
 		
-			
 		
-		  <button type="submit" ng-click="submit()" class="btn btn-info" style = "padding : 16px 154px; font-size:14px;">LOG IN</button>
-		  <br>
-		  <br>
+		  <button type="submit" ng-click="submit();" class="btn btn-info" style = "padding : 16px 154px; font-size:14px;">LOG IN</button>
+		  <br><br>
 		<div class="alert alert-danger" ng-hide="invalid_login">
-						<strong>Incorrect username or password</strong>
-					</div>
-					<div class="alert alert-danger" ng-hide="unexpected_error">
-						<strong>Unexpected error, try again</strong>
-					</div>
+		
+					<strong>Incorrect username or password</strong>
+		
+		</div>
+		
+		<div class="alert alert-danger" ng-hide="unexpected_error">
+				
+					<strong>Unexpected error, try again</strong>
+		
+		</div>
 		
 
 	</form>

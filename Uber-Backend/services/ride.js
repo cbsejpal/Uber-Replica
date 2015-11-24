@@ -10,6 +10,7 @@ var Drivers = driverSchema.Drivers; //mongoDB instance
 
 var Rides = rideSchema.Rides;
 
+
 exports.createRide = function (msg, callback) {
 
     var pickUpLocation = msg.pickUpLocation;
@@ -85,19 +86,22 @@ exports.createRide = function (msg, callback) {
 
 exports.getRideInformation = function (msg, callback) {
 
-    var rideId = msg.rideId;
+	var json_responses;
+	
+	var customerId = msg.customerId;
 
-    var json_responses;
-
-    Rides.findOne({rideId: rideId}).then(function (ride) {
-        if (ride) {
-            json_responses = requestGen.responseGenerator(200, ride);
+    Rides.find({customerId: customerId}, function(err, docs){
+    
+    	if (docs) {
+            json_responses = requestGen.responseGenerator(200, docs);
         } else {
             json_responses = requestGen.responseGenerator(500, {message: 'No Ride Found'});
         }
         callback(null, json_responses);
     });
+    
 };
+
 
 exports.updateRide = function (msg, callback) {
 

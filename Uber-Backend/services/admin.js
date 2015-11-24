@@ -1,8 +1,16 @@
 //admin
 var adminSchema = require('./model/adminSchema');
+var customerSchema = require('./model/customerSchema');
+var driverSchema = require('./model/driverSchema');
 var requestGen = require('./commons/responseGenerator');
 
 var Admin = adminSchema.Admin;
+var Customer = customerSchema.Customer; //mysql instance
+var Customers = customerSchema.Customers; //mongoDB instance
+var Driver = driverSchema.Driver; //mysql instance
+var Drivers = driverSchema.Drivers; //mongoDB instance
+
+
 
 exports.registerAdmin = function(msg, callback){
 
@@ -61,4 +69,81 @@ exports.loginAdmin = function(msg, callback){
         callback(null, json_responses);
     });
 
+};
+
+
+exports.showCustomers = function(msg, callback){
+
+    var json_responses;
+    Customer.findAll({where: {verifyStatus:0}}).then(function(customers){
+        if(customers.length > 0){
+            json_responses = requestGen.responseGenerator(200, {data: customers});
+        }
+        else{
+            json_responses = requestGen.responseGenerator(404, {data: 'Sorry no customers found'});
+        }
+        callback(null, json_responses);
+    });
+};
+
+exports.showDrivers = function (msg, callback) {
+
+    var json_responses;
+    Driver.findAll({where: {verifyStatus:0}}).then(function(driver) {
+        if (driver.length > 0) {
+            json_responses = requestGen.responseGenerator(200, {data: driver});
+        } else {
+            json_responses = requestGen.responseGenerator(500, {data: "No Driver found"});
+        }
+        callback(null, json_responses);
+    });
+};
+
+exports.verifyDrivers = function (msg, callback) {
+
+    var email = msg.email;
+
+    var json_responses;
+
+    Driver.update({verifyStatus: true}, {where: {email: email}}).then(function(driver){
+        if(driver){
+            Drivers.update({email: email}, {$set: {verifyStatus: true}}, function (err, drivers) {
+                if (drivers) {
+                    json_responses = requestGen.responseGenerator(200, {data: "Driver Verified"});
+                } else {
+                    json_responses = requestGen.responseGenerator(500, {data: "Driver Not Verified"});
+                }
+                callback(null, json_responses)
+            });
+        }
+        else {
+            json_responses = requestGen.responseGenerator(500, {message: "No Driver found"});
+            callback(null, json_responses);
+        }
+    });
+};
+
+exports.verifyCustomers = function (msg, callback) {
+
+    var email = msg.email;
+
+    var json_responses;
+
+    Customer.update({verifyStatus: true}, {where: {email: email}}).then(function(customer){
+        if(customer){
+        Customers.update({email: email}, {$set: {verifyStatus: true}}, function (err, customers) {
+            if (customers) {
+                json_responses = requestGen.responseGenerator(200, {data: "Customer Verified"});
+            } else {
+                json_responses = requestGen.responseGenerator(500, {data: "Customer Not Verified"});
+            }
+            callback(null, json_responses)
+        });
+        }
+        else {
+            json_responses = requestGen.responseGenerator(500, {message: "No Customer found"});
+            callback(null, json_responses);
+        }
+
+    });
 };

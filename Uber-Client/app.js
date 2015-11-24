@@ -50,13 +50,27 @@ app.configure('development', function(){
 });
 
 app.get('/', routes.index);
+app.get('/login',routes.login);
 app.get('/loginCustomer',customer.login);
 app.get('/signupCustomer',customer.index);
+app.get('/loginDriver',driver.login);
+app.get('/signupDriver',driver.index);
+
+
 app.get('/listAllCustomers', customer.listAllCustomers);
-app.get('/deleteCustomer', customer.deleteCustomer);
+
 app.post('/addImagesToRide',customer.addImagesToRide);
 app.get('/getImagesOfRide:image', customer.getImagesOfRide);
+app.get('/showCustomers', admin.showCustomers);
+app.get('/showDrivers', admin.showDrivers);
 app.get('/logout', logout.logout);
+
+//customer
+
+
+app.get('/deleteCustomer', customer.deleteCustomer);
+app.get('/getCustomerInformation', customer.getCustomerInformation);
+
 
 //driver
 app.get('/searchDriver', driver.searchDriver);
@@ -74,6 +88,15 @@ app.post('/loginCustomer', customer.loginCustomer);
 app.post('/loginDriver', driver.loginDriver);
 app.post('/loginAdmin', admin.loginAdmin);
 
+//dashboards
+
+app.get('/customerDashboard',customer.customerDashboard);
+
+app.get('/driverDashboard',driver.driverDashboard);
+
+app.get('/adminDashboard',admin.adminDashboard);
+
+
 //rides
 app.post('/createRide', ride.createRide);
 app.get('/rideInfo', ride.getRideInformation);
@@ -82,12 +105,19 @@ app.post('/deleteRide', ride.deleteRide);
 app.get('/customerRideList', ride.customerRideList);
 app.get('/driverRideList', ride.driverRideList);
 
+//admin
+app.post('/verifyDrivers',admin.verifyDrivers);
+app.post('/verifyCustomers',admin.verifyCustomers);
+
 //billing
 app.post('/generateBill', billing.generateBill);
+app.post('/deleteBill', billing.deleteBill);
+app.post('/searchBills', billing.searchBills);
 
 app.get('/maps',index.maps);
 
 //connect to the mongo collection session and then createServer
+
 mongo.connect(mongoSessionConnectURL, function() {
 	console.log('Connected to mongo at: ' + mongoSessionConnectURL);
 	http.createServer(app).listen(app.get('port'), function() {

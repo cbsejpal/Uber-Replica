@@ -92,6 +92,33 @@ exports.deleteCustomer = function(msg, callback){
     });
 };
 
+exports.getCustomerInformation = function (msg, callback) {
+    var customerId = msg.customerId;
+    var json_responses;
+    
+    Customer.findOne({where: {id: customerId}}).then(function (customer) {
+    	console.log("outside if");
+        if (customer) {
+        	console.log("inside if");
+            Customers.find({custId: customerId}, function(err, customers){
+                if(customers){
+                	console.log("inside second if");
+                    json_responses = requestGen.responseGenerator(200, customer, customers);
+                }
+                else{
+                    json_responses = requestGen.responseGenerator(500, customer, {message: "No rides found!"});
+                }
+                callback(null, json_responses);
+            });
+        } else {
+            json_responses = requestGen.responseGenerator(500, {message: "No Customers found"});
+            callback(null, json_responses);
+        }
+        //callback(null, json_responses);
+    });
+};
+
+
 exports.listAllCustomers = function(msg, callback){
 
     var json_responses;

@@ -70,7 +70,7 @@ exports.loginDriver = function (msg, callback) {
             json_responses = requestGen.responseGenerator(200, {message: 'driver login successful', user: user.email});
         }
         else {
-            json_responses = requestGen.responseGenerator(500, {message: 'driver login failed'});
+            json_responses = requestGen.responseGenerator(401, {message: 'driver login failed'});
         }
         callback(null, json_responses);
     });
@@ -122,13 +122,7 @@ exports.deleteDriver = function (msg, callback) {
     var email = msg.email;
     var json_responses;
 
-    Driver.destroy({
-            where: {
-                email: email
-            }
-        }
-    ).then(function (affectedRows) {
-            {
+    Driver.destroy({where: {email: email}}).then(function (affectedRows) {
                 if (affectedRows > 0) {
                     Drivers.remove({email: email}, function (err, removed) {
                         if (err) {
@@ -147,28 +141,31 @@ exports.deleteDriver = function (msg, callback) {
                     json_responses = requestGen.responseGenerator(500, {message: 'No Driver Found'});
                     callback(null, json_responses);
                 }
-            }
-        }
-    );
+            });
 };
 
 exports.getDriverInformation = function (msg, callback) {
     var email = msg.email;
+    var json_responses;
+    Driver.findOne({where: {email: email}}).then(function (driver) {
 
-    Driver.findOne({
-        where: {
-            email: email
-        }
-    }).then(function (driver) {
-        var json_responses;
         if (driver) {
-            json_responses = requestGen.responseGenerator(200, driver);
+            Drivers.find({email: email}, function(err, drivers){
+                if(drivers){
+                    json_responses = requestGen.responseGenerator(200, driver, drivers);
+                }
+                else{
+                    json_responses = requestGen.responseGenerator(500, driver, {message: "No rides found!"});
+                }
+            });
         } else {
             json_responses = requestGen.responseGenerator(500, {message: "No Driver found"});
         }
         callback(null, json_responses)
     });
 };
+
+
 
 exports.updateDriver = function (msg, callback) {
 
@@ -197,23 +194,24 @@ exports.updateDriver = function (msg, callback) {
         carDetails: carDetails
     }, {where: {email: email}}).then(function (driver) {
 
-        if(driver) {
-            Driver.findOne({
-                where: {
-                    email: email
+        if (driver) {
+            Drivers.update({email: email}, {$set: {firstName: firstName, lastName: lastName}}, function (err, drivers) {
+                if (drivers) {
+                    Driver.findOne({where: {email: email}}).then(function (driver) {
+                        var json_responses;
+                        if (driver) {
+                            json_responses = requestGen.responseGenerator(200, driver);
+                        } else {
+                            json_responses = requestGen.responseGenerator(500, {message: "No Driver found"});
+                        }
+                        callback(null, json_responses)
+                    });
                 }
-            }).then(function (driver) {
-                var json_responses;
-                if (driver) {
-                    json_responses = requestGen.responseGenerator(200, driver);
-                } else {
-                    json_responses = requestGen.responseGenerator(500, {message: "No Driver found"});
+                else {
+                    json_responses = requestGen.responseGenerator(500, {message: "Driver Not found"});
+                    callback(null, json_responses);
                 }
-                callback(null, json_responses)
             });
-        }else{
-            json_responses = requestGen.responseGenerator(500, {message: "No Driver found"});
-            callback(null, json_responses);
         }
     });
 };

@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 
 <html lang="en">
-
 <head>
-<title>Customer Signup</title>
+<title>Driver Signup</title>
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-  <script src="angular/signupCustomer.js"></script>
+  <script src="angular/signupDriver.js"></script>
 </head>
 
 
-<body style="background-color:#fff" ng-app="signupCustomer" ng-controller = "signupCustomer">
+
+<body style="background-color:#fff" ng-app="signupDriver" ng-controller="signupDriver">
 
 
 
@@ -34,7 +34,7 @@
 
             
 
-		<h1 style="color:#1fbad6; font-size:50px;">SIGN UP TO RIDE !</h1><hr>
+		<h1 style="color:#1fbad6; font-size:50px;">SIGN UP - DRIVER !</h1><hr>
 		
 		<p style="font-size:26px;">ACCOUNT</p>
 		
@@ -49,7 +49,7 @@
 		<input ng-model="firstName" class="form-control" name="firstName" size="20" placeholder="Firstname" required><br>
 
 		<p style = "font-size:16px;">* Lastname :</p>
-		<input class="form-control" ng-model="lastName" type="text" name="lastName" value="" placeholder="Lastname" required><br>
+		<input ng-model="lastName" class="form-control" type="text" name="lastName" value="" placeholder="Lastname" required><br>
 
 		<p style = "font-size:16px;">* City : </p><input ng-model="city" class="form-control" type="text" name="city" value="" placeholder="City" required>	
 
@@ -59,15 +59,13 @@
 
 		<br><p style = "font-size:16px;">* Address : </p><input ng-model="address" class="form-control" type="text" name="address" value="" placeholder="Address" required>	
 
-		<br><p style = "font-size:16px;">* Mobile No : </p> <input type="tel" ng-model="phoneNumber" value="" name="phoneNumber" id="mobile" placeholder="+1 (201) 555-5555"><br>
+		<br><p style = "font-size:16px;">* Mobile No : </p> <input ng-model="phoneNumber" type="tel" value="" name="phoneNumber" id="mobile" placeholder="+1 (201) 555-5555"><br>
 
-		<br><p style = "font-size:16px;">* Credit Card : </p> <input type="text" ng-model="creditCard" value="" name="creditCard" id="cc" placeholder="5555-5555-5555-5555">
-		
-		<br><center><input class="btn btn-lg btn-default" type="submit" ng-click="submit()" value="Register" /></center>
+		<br><p style = "font-size:16px;">* Car Details : </p> <input ng-model="carDetails" type="text" value="" name="carDetails" id="cc" placeholder="car details">
+
+		<br><center><input class="btn btn-lg btn-default" ng-click="submit()" type="submit" value="Register" /></center>
 
 		<p></p><br>
-			
-		
 
                 
 
@@ -82,6 +80,11 @@
 </div>
 
 </div>
+
+           
+
+<script src="./js/bootstrap.min.js"></script>
+
 
 </html>
 
