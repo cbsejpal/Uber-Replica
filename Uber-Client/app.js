@@ -70,13 +70,15 @@ app.get('/logout', logout.logout);
 
 app.get('/deleteCustomer', customer.deleteCustomer);
 app.get('/getCustomerInformation', customer.getCustomerInformation);
-
+app.post('/updateCustomer',customer.updateCustomer);
 
 //driver
 app.get('/searchDriver', driver.searchDriver);
 app.post('/deleteDriver', driver.deleteDriver);
 app.get('/getDriverInformation', driver.getDriverInformation);
 app.post('/updateDriver', driver.updateDriver);
+app.get('/driverDetails',driver.driverDetails);
+
 
 //register
 app.post('/registerCustomer', customer.registerCustomer);

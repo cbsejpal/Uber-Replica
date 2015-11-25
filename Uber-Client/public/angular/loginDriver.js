@@ -25,7 +25,7 @@ loginDriver.controller('loginDriver', function($scope, $http) {
 			else{
 				
 				//Making a get call to the '/redirectToHomepage' API
-				window.location.assign("/driverDashboard");
+				window.location.assign("/driverDetails");
 			}
 		}).error(function(error) {
 			$scope.unexpected_error = false;

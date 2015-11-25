@@ -7,6 +7,7 @@ var Sequelize = require('sequelize');
 var sequelize = mysql.sequelize;
 
 var Admin = sequelize.define('Admin', {
+	admin_id: {type: Sequelize.INTEGER(9).ZEROFILL, autoIncrement: true, primaryKey: true},
 	email: Sequelize.STRING,
 	password: Sequelize.STRING,
 	firstName: Sequelize.STRING,

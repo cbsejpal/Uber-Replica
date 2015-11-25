@@ -93,6 +93,48 @@ exports.registerCustomer = function(req, res){
     });
 };
 
+
+exports.updateCustomer = function(req,res){
+	var customerId = req.session.customerId;
+
+    //var email = req.param('email');
+   // var password = req.param('password');
+    var firstName = req.param('firstName');
+    var lastName = req.param('lastName');
+    var state = req.param('state');
+    var city = req.param('city');
+    var phoneNumber = req.param('phoneNumber');
+    console.log(req.param('firstName'));
+    var creditCard = req.param('creditCard');
+   
+
+    var msg_payload = {
+        "email" : customerId,
+        "firstName" : firstName,
+        "lastName" : lastName,
+        "city" : city,
+        "state" : state,
+        "phoneNumber" : phoneNumber,
+        "creditCard" : creditCard,
+        "func" : "updateCustomer"
+    };
+
+    //add data in mysql
+    mq_client.make_request('customer_queue', msg_payload, function(err,results) {
+    	  if (err) {
+              //console.log(err);
+              res.status(500).send(null);
+          }
+    	  	else {
+          
+              json_responses = {"statusCode" : results.status};
+  				res.send(json_responses);
+
+          }
+    });
+};
+
+
 exports.deleteCustomer = function(req, res){
 
     var email =  req.param('email');
@@ -115,7 +157,8 @@ exports.deleteCustomer = function(req, res){
 };
 
 exports.getCustomerInformation = function(req, res){
-	var customerId = 4;
+	var customerId = req.session.customerId;
+	console.log(customerId);
 
     var msg_payload = {
         "customerId": customerId,

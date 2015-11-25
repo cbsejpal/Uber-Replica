@@ -21,6 +21,16 @@ exports.login = function(req,res){
 
 };
 
+
+exports.firstLogIn = function(){
+	res.render('driverLogin', {title: "Login"});
+};
+
+exports.driverDetails = function(req, res){
+	res.render('driverDetails', {title: "Driver Details"});
+};
+
+
 exports.registerDriver = function(req, res){
 
 	var json_responses;
@@ -85,10 +95,16 @@ exports.loginDriver = function(req, res){
 
         } else {
             ////console.log("about results" + results);
+        	
+			if(req.param("firstLogIn") == "yes"){
+				res.render("driverDetails", { title: 'Uber - Add Driver Information' });
+			}
+			else{
+				json_responses = {"statusCode" : results.status};
+				res.send(json_responses);				
+			}
             
-            json_responses = {"statusCode" : results.status};
-			res.send(json_responses);
-
+            
         }
     });
 };
