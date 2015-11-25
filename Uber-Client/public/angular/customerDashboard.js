@@ -1,14 +1,26 @@
-var app = angular.module('rides', []);
+var app = angular.module('customers', []);
 
 app.controller('rides', function($scope, $http) {
 	$http.get("/rideInfo").success(function(response) {
 		if (response.status == 200) {
-			//alert("ds");
+	
 			$scope.rides = response.data;
-			console.log(JSON.stringify($scope.rides));
 		}
 	});
 });
+
+app.controller('navbar', function($scope, $http) {
+
+
+	$http.get("/getCustomerInformation").success(function(response) {
+		if (response.status == 200) {
+			$scope.firstName = response.data.firstName;
+			}
+
+	});
+});
+
+
 
 app.controller('profile', function($scope, $http) {
 

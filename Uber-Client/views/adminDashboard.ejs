@@ -16,6 +16,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+   <script src="angular/adminDashboard.js"></script>
 
 
 
@@ -86,7 +87,7 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user" style="font-size:30px;"></span></a>
           <ul class="dropdown-menu" role="menu">
-            <li><a href="#">SOHAM</a></li>
+            <li><a href="#">Admin</a></li>
             <li class="divider"></li>
 
             <li><a href="logout">Logout</a></li>
@@ -103,7 +104,7 @@
   <div class="row">
     <div class="col-sm-3 col-md-2 sidebar">
       <ul class="nav nav-sidebar">
-        <li class="active"><a href="#">Admin <span class="sr-only">(current)</span></a></li>
+        <li class="active"><a>Admin Dashboard <span class="sr-only">(current)</span></a></li>
         <li class=""><a href="javascript:void(0)" class="click1">Drivers</a></li>
         <li class=""><a href="javascript:void(0)" class="click2">Customers</a></li>
         <li class=""><a href="javascript:void(0)" class="click3">Requests</a></li>
@@ -112,8 +113,8 @@
       </ul>
 
     </div>
-    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-      <div class="drivers">
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" ng-app="admin">
+      <div class="drivers" ng-controller="drivers">
         <center>  <h2 class="sub-header">Drivers' list</h2></center>
         <div class="table-responsive">
           <table class="table table-striped">
@@ -121,18 +122,18 @@
             <tr>
               <th>#</th>
               <th>Driver</th>
-              <th>Car</th>
-              <th>City</th>
+              <th>Lastname</th>
+              <th>Email</th>
               <th>Action</th>
             </tr>
             </thead>
             <tbody>
             <tr>
               <td>1</td>
-              <td>Johan</td>
-              <td>UberX</td>
-              <td>San Jose</td>
-              <td>x</td>
+              <td>{{firstName}}</td>
+              <td>{{lastName}}</td>
+              <td>{{email}}</td>
+              <td><button class="btn btn-danger" type="button" ng-click="deleteDriver()" >Delete</button></td>
             </tr>
             </tbody>
           </table>
@@ -142,26 +143,26 @@
 
       <!-- customers div -->
 
-      <div class="customers">
-        <center>  <h2 class="sub-header">Drivers' list</h2></center>
+      <div class="customers" ng-controller="customers">
+        <center>  <h2 class="sub-header">Customers' list</h2></center>
         <div class="table-responsive">
           <table class="table table-striped">
             <thead>
             <tr>
               <th>#</th>
-              <th>Customer</th>
-              <th>State</th>
-              <th>City</th>
+              <th>Firstname</th>
+              <th>Lastname</th>
+              <th>Email</th>
               <th>Action</th>
             </tr>
             </thead>
             <tbody>
             <tr>
               <td>1</td>
-              <td>Johan</td>
-              <td>UberX</td>
-              <td>San Jose</td>
-              <td>x</td>
+              <td>{{firstName}}</td>
+              <td>{{lastName}}</td>
+              <td>{{email}}</td>
+              <td><button class="btn btn-danger" type="submit" >Delete</button></td>
             </tr>
             </tbody>
           </table>
@@ -170,58 +171,53 @@
 
 
 
-      <div class="requests">
+      <div class="requests" ng-controller="requests">
         <center>  <h2 class="sub-header">Approval needed from admin</h2></center>
-        <p>Customer List :</p> <button class="btn btn-success" type="submit">Approve</button><hr>
-        <p> Driver List : </p><button class="btn btn-success" type="submit" >Approve</button><button type="submit" class="btn btn-danger" >Ignore</button>
+        <p>Customer List :</p> 
+        <table class="table table-striped">
+            <thead>
+            <tr>
+              <th>#</th>
+              <th>Customer</th>
+              <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>1</td>
+              <td>{{firstNameCustomer}}</td>
+              <td><button class="btn btn-success" type="submit" >Approve</button><button class="btn btn-danger" type="submit" >Ignore</button></td>
+              <td></td>
+            </tr>
+            </tbody>
+          </table>
+        
+        <hr>
+        <p> Driver List : </p>
+         <table class="table table-striped">
+            <thead>
+            <tr>
+              <th>#</th>
+              <th>Driver</th>
+              <th>Action</th>
+            </tr>
+            </thead>
+            <tbody ng-controller="requests">
+            <tr>
+              <td>1</td>
+              <td>{{firstNameDriver}}</td>
+              <td><button class="btn btn-success" type="submit" >Approve</button></td>
+            </tr>
+            </tbody>
+          </table>
+        
 
       </div>
+      
 
       <div class="analysis">
-
-        <script>
-
-          $.getScript('http://www.chartjs.org/assets/Chart.js',function(){
-
-            var data = {
-              labels : ["January","February","March","April","May","June","July"],
-              datasets : [
-                {
-                  fillColor : "rgba(220,220,220,0.5)",
-                  strokeColor : "rgba(220,220,220,1)",
-                  pointColor : "rgba(220,220,220,1)",
-                  pointStrokeColor : "#fff",
-                  data : [100,9,0,1,6,5,40]
-                },
-                {
-                  fillColor : "rgba(151,187,205,0.5)",
-                  strokeColor : "rgba(151,187,205,1)",
-                  pointColor : "rgba(151,187,205,1)",
-                  pointStrokeColor : "#fff",
-                  data : [28,48,40,19,96,27,100]
-                }
-              ]
-            }
-
-            var options = {
-              animation: true
-            };
-
-            //Get the context of the canvas element we want to select
-            var c = $('#myChart');
-            var ct = c.get(0).getContext('2d');
-            var ctx = document.getElementById("myChart").getContext("2d");
-            /*********************/
-            new Chart(ctx).Bar(data,options);
-
-          });
-
-        </script>
-
-        <div class="container">
-          <h2>Admin analysis report</h2>
-          <canvas id="myChart" width="400" height="200" class="well"></canvas>
-        </div>
+Analysis graph
+       </div>
       </div>
 
 

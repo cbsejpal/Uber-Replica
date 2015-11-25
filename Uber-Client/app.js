@@ -78,6 +78,7 @@ app.get('/searchDriver', driver.searchDriver);
 app.post('/deleteDriver', driver.deleteDriver);
 app.get('/getDriverInformation', driver.getDriverInformation);
 app.post('/updateDriver', driver.updateDriver);
+app.get('/driverDetails', driver.driverDetails);
 
 //register
 app.post('/registerCustomer', customer.registerCustomer);
@@ -115,7 +116,7 @@ app.post('/generateBill', billing.generateBill);
 app.post('/deleteBill', billing.deleteBill);
 app.post('/searchBills', billing.searchBills);
 
-app.get('/maps',index.maps);
+app.get('/requestRide',index.maps);
 
 //connect to the mongo collection session and then createServer
 mongo.connect(mongoSessionConnectURL, function() {
