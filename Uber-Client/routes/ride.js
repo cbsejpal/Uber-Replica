@@ -32,8 +32,9 @@ exports.createRide = function(req, res){
 };
 
 exports.getRideInformation = function(req, res){
-	var customerId = req.session.customerId;
-	//console.log(customerId);
+	var customerId = 4;
+		//req.session.customerId;
+	//console.log("Rides info :"+customerId);
 
 	var msg_payload = {
 		"customerId" : customerId,
@@ -41,7 +42,8 @@ exports.getRideInformation = function(req, res){
 	};
 
 	mq_client.make_request('ride_queue', msg_payload, function(err,results) {
-		console.log("results " +results);
+		console.log("results for rides " + JSON.stringify(results));
+		
 		if (err) {
 			//console.log(err);
 			res.status(500).send(null);

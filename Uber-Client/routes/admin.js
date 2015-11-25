@@ -85,7 +85,8 @@ exports.showDrivers = function(req, res){
             res.status(500).send(null);
         } else {
             ////console.log("about results" + results);
-            res.status(results.status).send(results.data);
+        	
+            res.status(200).send(results);
         }
     });
 };
@@ -103,7 +104,7 @@ exports.showCustomers =  function(req, res){
             res.status(500).send(null);
         } else {
             console.log("about results" + results);
-            res.status(results.status).send(results.data);
+            res.status(200).send(results);
         }
     });
 };

@@ -100,7 +100,10 @@ exports.loginDriver = function(req, res){
                 res.render("driverDetails", { title: 'Uber - Add Driver Information' });
             }
             else{
-                json_responses = {"statusCode" : results.status};
+            	 req.session.driverId =  results.data.user;
+
+             	console.log(req.session.driverId);
+                 json_responses = {"statusCode" : results.status};
                 res.send(json_responses);
             }
 
@@ -132,7 +135,7 @@ exports.searchDriver = function(req, res){
 
 exports.deleteDriver = function(req, res){
 
-    var email =  req.param('email');
+    var email =  req.session.driverId;
 
     var msg_payload = {
         "email": email,
@@ -147,7 +150,7 @@ exports.deleteDriver = function(req, res){
             res.status(500).send(null);
         } else {
             ////console.log("about results" + results);
-            res.status(results.status).send(results.data);
+            res.status(200).send(results.data);
         }
     });
 };
