@@ -57,7 +57,7 @@ var ridesList = new Schema({
 
 
 var customerSchema = new Schema({
-	customer_Id: {type: String, required: true},
+	custId: {type: String, required: true},
 	email: {type: String, required: true, unique: true},
 	firstName: {type: String, required: true},
 	lastName: {type: String, required: true},
@@ -72,7 +72,7 @@ var Customers = mongoose.model('Customers', customerSchema);
 
 customerSchema.plugin(autoIncrement.plugin, {
 	model: 'Customers',
-	field: 'customer_Id',
+	field: 'custId',
 	startAt: 1,
 	incrementBy: 1
 });
