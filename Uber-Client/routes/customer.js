@@ -9,6 +9,13 @@ exports.index = function (req,res){
 
 };
 
+exports.customerDashboard =  function(req,res){
+	
+	res.render('customerDashboard');
+
+};
+
+
 exports.login = function(req,res){
 	
 	res.render('loginCustomer');
@@ -16,6 +23,7 @@ exports.login = function(req,res){
 };
 exports.loginCustomer = function(req, res){
 
+	var json_responses;
     var email = req.param('email');
     var password = req.param('password');
 
@@ -26,14 +34,19 @@ exports.loginCustomer = function(req, res){
     };
 
     mq_client.make_request('customer_queue', msg_payload, function(err,results) {
-        //console.log(results);
+        console.log(results);
         if (err) {
-            //console.log(err);
-            res.status(500).send(null);
+            console.log(err);
+            json_responses = {"statusCode" : 401};
+            res.send(json_responses);
+
         } else {
             ////console.log("about results" + results);
             req.session.customerId =  results.user;
-            res.status(results.status).send(results.data);
+            //res.status(results.status).send(results.data);
+            json_responses = {"statusCode" : results.status};
+			res.send(json_responses);
+
         }
     });
 };
@@ -65,14 +78,17 @@ exports.registerCustomer = function(req, res){
         "func" : "registerCustomer"
     };
 
+    
     mq_client.make_request('customer_queue', msg_payload, function(err,results) {
         //console.log(results);
         if (err) {
             //console.log(err);
             res.status(500).send(null);
         } else {
-            ////console.log("about results" + results);
-            res.status(results.status).send(results.data);
+        
+            json_responses = {"statusCode" : results.status};
+			res.send(json_responses);
+
         }
     });
 };
@@ -98,7 +114,26 @@ exports.deleteCustomer = function(req, res){
     });
 };
 
+exports.getCustomerInformation = function(req, res){
+	var customerId = 4;
 
+    var msg_payload = {
+        "customerId": customerId,
+        "func" : "getCustomerInformation"
+    };
+
+    mq_client.make_request('customer_queue', msg_payload, function(err,results) {
+        console.log(results.data);
+        if (err) {
+            console.log(err);
+            res.status(500).send(null);
+            
+        } else {
+            console.log("about results");
+            res.send(results);
+        }
+    });
+};
 exports.listAllCustomers =  function(req, res){
 
     var msg_payload = {
