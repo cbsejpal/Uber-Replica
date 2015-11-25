@@ -2,12 +2,12 @@
 
 <html lang="en">
 <head>
-<title>Driver Signup</title>
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-  <script src="angular/signupDriver.js"></script>
+	<title>Driver Signup</title>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script src="angular/signupDriver.js"></script>
 </head>
 
 
@@ -18,73 +18,71 @@
 
 <div class="container">
 
-<br/><br/><br/><br/>
+	<br/><br/><br/><br/>
 
-<div class="row">
-
-
-
-<div class="col-md-3"></div>
-
- <div class="col-md-6" style= "display: block;">
+	<div class="row">
 
 
 
-	<form id="form" method="post" name='registration' style= "border-style:groove;padding : 50px 40px 10px 40px;">
+		<div class="col-md-3"></div>
 
-            
+		<div class="col-md-6" style= "display: block;">
 
-		<h1 style="color:#1fbad6; font-size:50px;">SIGN UP - DRIVER !</h1><hr>
-		
-		<p style="font-size:26px;">ACCOUNT</p>
-		
-		<p style = "font-size:16px;"> * Email : </p><input ng-model="email" class="form-control" maxlength="40" type="email" name="email" value="" placeholder="Email" required>
 
-		<br><p style = "font-size:16px;"> * Password :</p><input ng-model="password" class="form-control" maxlength="30" type="password" name="password" value="" placeholder="Password" required>
 
-		<br>
-		<br>
-		<p style="font-size:26px;">PROFILE</p>
-		<p style = "font-size:16px;">* Firstname : </p>
-		<input ng-model="firstName" class="form-control" name="firstName" size="20" placeholder="Firstname" required><br>
+			<form id="form" method="post" name='registration' style= "border-style:groove;padding : 50px 40px 10px 40px;">
 
-		<p style = "font-size:16px;">* Lastname :</p>
-		<input ng-model="lastName" class="form-control" type="text" name="lastName" value="" placeholder="Lastname" required><br>
 
-		<p style = "font-size:16px;">* City : </p><input ng-model="city" class="form-control" type="text" name="city" value="" placeholder="City" required>	
 
-		<br><p style = "font-size:16px;">* State : </p><input ng-model="state" class="form-control" type="text" name="state" value="" placeholder="State" required>	
+				<h1 style="color:#1fbad6; font-size:50px;">SIGN UP - DRIVER !</h1><hr>
 
-		<br><p style = "font-size:16px;">* Zipcode : </p><input ng-model="zipCode" class="form-control" type="text" name="zipCode" value="" placeholder="zipCode" required>	
+				<p style="font-size:26px;">ACCOUNT</p>
 
-		<br><p style = "font-size:16px;">* Address : </p><input ng-model="address" class="form-control" type="text" name="address" value="" placeholder="Address" required>	
+				<p style = "font-size:16px;"> * Email : </p><input ng-model="email" class="form-control" maxlength="40" type="email" name="email" value="" placeholder="Email" required>
 
-		<br><p style = "font-size:16px;">* Mobile No : </p> <input ng-model="phoneNumber" type="tel" value="" name="phoneNumber" id="mobile" placeholder="+1 (201) 555-5555"><br>
+				<br><p style = "font-size:16px;"> * Password :</p><input ng-model="password" class="form-control" maxlength="30" type="password" name="password" value="" placeholder="Password" required>
 
-		<br><p style = "font-size:16px;">* Car Details : </p> <input ng-model="carDetails" type="text" value="" name="carDetails" id="cc" placeholder="car details">
+				<br>
+				<br>
+				<p style="font-size:26px;">PROFILE</p>
+				<p style = "font-size:16px;">* Firstname : </p>
+				<input ng-model="firstName" class="form-control" name="firstName" size="20" placeholder="Firstname" required><br>
 
-		<br><center><input class="btn btn-lg btn-default" ng-click="submit()" type="submit" value="Register" /></center>
+				<p style = "font-size:16px;">* Lastname :</p>
+				<input ng-model="lastName" class="form-control" type="text" name="lastName" value="" placeholder="Lastname" required><br>
 
-		<p></p><br>
+				<p style = "font-size:16px;">* City : </p><input ng-model="city" class="form-control" type="text" name="city" value="" placeholder="City" required>
 
-                
+				<br><p style = "font-size:16px;">* State : </p><input ng-model="state" class="form-control" type="text" name="state" value="" placeholder="State" required>
 
-	</form>
+				<br><p style = "font-size:16px;">* Zipcode : </p><input ng-model="zipCode" class="form-control" type="text" name="zipCode" value="" placeholder="zipCode" required>
 
-  
+				<br><p style = "font-size:16px;">* Address : </p><input ng-model="address" class="form-control" type="text" name="address" value="" placeholder="Address" required>
+
+				<br><p style = "font-size:16px;">* Mobile No : </p> <input ng-model="phoneNumber" type="tel" value="" name="phoneNumber" id="mobile" placeholder="+1 (201) 555-5555"><br>
+
+				<br><p style = "font-size:16px;">* Car Details : </p> <input ng-model="carDetails" type="text" value="" name="carDetails" id="cc" placeholder="car details">
+
+				<br><center><input class="btn btn-lg btn-default" ng-click="submit()" type="submit" value="Register" /></center>
+
+				<p></p><br>
+
+
+
+			</form>
+
+
+
+		</div>
+
+		<div class="col-md-3"></div>
+
+	</div>
 
 </div>
 
-<div class="col-md-3"></div>
 
-</div>
-
-</div>
-
-           
-
-<script src="./js/bootstrap.min.js"></script>
-
+</body>
 
 </html>
 

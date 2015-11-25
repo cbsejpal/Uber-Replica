@@ -70,7 +70,7 @@ app.get('/logout', logout.logout);
 
 app.get('/deleteCustomer', customer.deleteCustomer);
 app.get('/getCustomerInformation', customer.getCustomerInformation);
-
+app.post('/updateCustomer',customer.updateCustomer);
 
 //driver
 app.get('/searchDriver', driver.searchDriver);
