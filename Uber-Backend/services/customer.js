@@ -97,10 +97,10 @@ exports.getCustomerInformation = function (msg, callback) {
     var json_responses;
 
     Customer.findOne({where: {email: customerId}}).then(function (customer) {
-        console.log("outside if");
+        //console.log("outside if");
         if (customer) {
-            console.log("inside if");
-            Customers.find({custId: customerId}, function(err, customers){
+            //console.log("inside if");
+            Customers.find({email: customerId}, function(err, customers){
                 if(customers){
                     console.log("inside second if");
                     json_responses = requestGen.responseGenerator(200, customer, customers);

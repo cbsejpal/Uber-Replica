@@ -41,8 +41,11 @@ exports.loginCustomer = function(req, res){
             res.send(json_responses);
 
         } else {
-            ////console.log("about results" + results);
-            req.session.customerId =  results.user;
+
+            //console.log("results user " + JSON.stringify(results) );
+            //console.log("about results" + results["user"]);
+            req.session.customerId =  results.data.user;
+            //console.log("session " + req.session.customerId);
             //res.status(results.status).send(results.data);
             json_responses = {"statusCode" : results.status};
             res.send(json_responses);
@@ -158,7 +161,7 @@ exports.deleteCustomer = function(req, res){
 
 exports.getCustomerInformation = function(req, res){
     var customerId = req.session.customerId;
-    console.log(customerId);
+    console.log("get customer info " + customerId);
 
     var msg_payload = {
         "customerId": customerId,
@@ -172,7 +175,7 @@ exports.getCustomerInformation = function(req, res){
             res.status(500).send(null);
 
         } else {
-            console.log("about results");
+            //console.log("about results");
             res.send(results);
         }
     });

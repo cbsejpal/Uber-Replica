@@ -32,8 +32,8 @@ exports.createRide = function(req, res){
 };
 
 exports.getRideInformation = function(req, res){
-	var customerId = 4;
-	console.log(customerId);
+	var customerId = req.session.customerId;
+	//console.log(customerId);
 
 	var msg_payload = {
 		"customerId" : customerId,
