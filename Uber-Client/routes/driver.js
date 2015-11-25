@@ -8,6 +8,13 @@ exports.index = function (req,res){
 
 };
 
+exports.driverDashboard =  function(req,res){
+	
+	res.render('driverDashboard');
+
+};
+
+
 exports.login = function(req,res){
 	
 	res.render('loginDriver');
@@ -16,6 +23,7 @@ exports.login = function(req,res){
 
 exports.registerDriver = function(req, res){
 
+	var json_responses;
     var email = req.param('email');
     var password = req.param('password');
     var firstName = req.param('firstName');
@@ -45,18 +53,20 @@ exports.registerDriver = function(req, res){
     mq_client.make_request('driver_queue', msg_payload, function(err,results) {
         //console.log(results);
         if (err) {
-            //console.log(err);
-            res.status(500).send(null);
+           json_responses = {"statusCode" : 401};
+           res.send("json_responses");
+        	
         } else {
             ////console.log("about results" + results);
-            res.status(results.status).send(results.data);
+        	json_responses = {"statusCode" : results.status};
+            res.send("json_responses");
         }
     });
 
 };
 
 exports.loginDriver = function(req, res){
-
+	var json_responses;
     var email = req.param('email');
     var password = req.param('password');
 
@@ -67,13 +77,18 @@ exports.loginDriver = function(req, res){
     };
 
     mq_client.make_request('driver_queue', msg_payload, function(err,results) {
-        //console.log(results);
+        console.log(results);
         if (err) {
-            //console.log(err);
-            res.status(500).send(null);
+            console.log(err);
+            json_responses = {"statusCode" : 401};
+            res.send(json_responses);
+
         } else {
             ////console.log("about results" + results);
-            res.status(results.status).send(results.data);
+            
+            json_responses = {"statusCode" : results.status};
+			res.send(json_responses);
+
         }
     });
 };

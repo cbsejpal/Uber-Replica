@@ -7,9 +7,10 @@
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script src="angular/loginCustomer.js"></script>
 </head>
 
-<body style="background-color:#00001a">
+<body style="background-color:#00001a" ng-app="loginCustomer" ng-controller="loginCustomer" >
 
 <div class="container">
 
@@ -25,21 +26,29 @@
 
 
 
-	<form id="form" action="registerDriver" method="post" name='registration'>
+	<form id="form">
 
             
 
 		<h1 style="color:#fff; text-align:center; font-size:40px;">U B E R </h1><hr>
 		
-	<p style = "font-size:16px; color:#fff;">Email</p><input class="form-control" maxlength="40" type="email" name="email" value="" placeholder="Email" required>
+	<p style = "font-size:16px; color:#fff;">Email</p><input ng-model="email" class="form-control" maxlength="40" type="email" name="email" value="" placeholder="Email" required>
 
-		<br><p style = "font-size:16px; color:#fff">Password</p><input class="form-control" maxlength="10" type="text" name="password" value="" placeholder="Password" required>
+		<br><p style = "font-size:16px; color:#fff">Password</p><input ng-model="password" class="form-control" maxlength="30" type="password" name="password" value="" placeholder="Password" required>
 
 		<br>
 		
-		  <button type="button" class="btn btn-info" style = "padding : 16px 154px; font-size:14px;">LOG IN</button>
-		  <br>
+			
 		
+		  <button type="submit" ng-click="submit()" class="btn btn-info" style = "padding : 16px 154px; font-size:14px;">LOG IN</button>
+		  <br>
+		  <br>
+		<div class="alert alert-danger" ng-hide="invalid_login">
+						<strong>Incorrect username or password</strong>
+					</div>
+					<div class="alert alert-danger" ng-hide="unexpected_error">
+						<strong>Unexpected error, try again</strong>
+					</div>
 		
 
 	</form>

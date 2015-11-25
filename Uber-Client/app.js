@@ -58,12 +58,19 @@ app.get('/signupDriver',driver.index);
 
 
 app.get('/listAllCustomers', customer.listAllCustomers);
-app.get('/deleteCustomer', customer.deleteCustomer);
+
 app.post('/addImagesToRide',customer.addImagesToRide);
 app.get('/getImagesOfRide:image', customer.getImagesOfRide);
 app.get('/showCustomers', admin.showCustomers);
 app.get('/showDrivers', admin.showDrivers);
 app.get('/logout', logout.logout);
+
+//customer
+
+
+app.get('/deleteCustomer', customer.deleteCustomer);
+app.get('/getCustomerInformation', customer.getCustomerInformation);
+
 
 //driver
 app.get('/searchDriver', driver.searchDriver);
@@ -80,6 +87,15 @@ app.post('/registerAdmin', admin.registerAdmin);
 app.post('/loginCustomer', customer.loginCustomer);
 app.post('/loginDriver', driver.loginDriver);
 app.post('/loginAdmin', admin.loginAdmin);
+
+//dashboards
+
+app.get('/customerDashboard',customer.customerDashboard);
+
+app.get('/driverDashboard',driver.driverDashboard);
+
+app.get('/adminDashboard',admin.adminDashboard);
+
 
 //rides
 app.post('/createRide', ride.createRide);

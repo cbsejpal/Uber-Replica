@@ -17,7 +17,7 @@ var Customer = sequelize.define('Customer', {
 	zipCode: Sequelize.STRING,
 	phoneNumber: Sequelize.BIGINT,
 	creditCard: Sequelize.TEXT,
-	verifyStatus: {type: Sequelize.BOOLEAN, allowNull: false, defaultValue: false}
+	verifyStatus: {type: Sequelize.BOOLEAN, defaultValue: false}
 },{
 	timestamps: false, //by default sequelize will add createdAt and updatedAt columns into tables so to remove them use this attribute
 	freezeTableName: true //by default sequelize will create customerS table and not customer so this attribute won't allow it to plural the table name
