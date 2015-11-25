@@ -50,7 +50,7 @@ var ridesList = new Schema({
 });
 
 var driverSchema = new Schema({
-	driver_Id: {type: String, required: true},
+	driId: {type: String, required: true},
 	email: {type: String, required: true, unique: true},
 	firstName: {type: String, required: true},
 	lastName: {type: String, required: true},
@@ -68,7 +68,7 @@ var Drivers = mongoose.model('Drivers', driverSchema);
 
 driverSchema.plugin(autoIncrement.plugin, {
 	model: 'Drivers',
-	field: 'driver_Id',
+	field: 'driId',
 	startAt: 1,
 	incrementBy: 1
 });
