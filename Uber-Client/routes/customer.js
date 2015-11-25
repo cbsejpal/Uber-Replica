@@ -4,26 +4,26 @@ var requestGen = require('./commons/responseGenerator');
 
 
 exports.index = function (req,res){
-	
-	res.render('signupCustomer');
+
+    res.render('signupCustomer');
 
 };
 
 exports.customerDashboard =  function(req,res){
-	
-	res.render('customerDashboard');
+
+    res.render('customerDashboard');
 
 };
 
 
 exports.login = function(req,res){
-	
-	res.render('loginCustomer');
+
+    res.render('loginCustomer');
 
 };
 exports.loginCustomer = function(req, res){
 
-	var json_responses;
+    var json_responses;
     var email = req.param('email');
     var password = req.param('password');
 
@@ -45,7 +45,7 @@ exports.loginCustomer = function(req, res){
             req.session.customerId =  results.user;
             //res.status(results.status).send(results.data);
             json_responses = {"statusCode" : results.status};
-			res.send(json_responses);
+            res.send(json_responses);
 
         }
     });
@@ -65,7 +65,7 @@ exports.registerCustomer = function(req, res){
     var creditCard = req.param('creditCard');
 
     var msg_payload = {
-        "email" : email,	
+        "email" : email,
         "password" : password,
         "firstName" : firstName,
         "lastName" : lastName,
@@ -78,20 +78,62 @@ exports.registerCustomer = function(req, res){
         "func" : "registerCustomer"
     };
 
-    
+
     mq_client.make_request('customer_queue', msg_payload, function(err,results) {
         //console.log(results);
         if (err) {
             //console.log(err);
             res.status(500).send(null);
         } else {
-        
+
             json_responses = {"statusCode" : results.status};
-			res.send(json_responses);
+            res.send(json_responses);
 
         }
     });
 };
+
+
+exports.updateCustomer = function(req,res){
+    var customerId = req.session.customerId;
+
+    //var email = req.param('email');
+    // var password = req.param('password');
+    var firstName = req.param('firstName');
+    var lastName = req.param('lastName');
+    var state = req.param('state');
+    var city = req.param('city');
+    var phoneNumber = req.param('phoneNumber');
+    console.log(req.param('firstName'));
+    var creditCard = req.param('creditCard');
+
+
+    var msg_payload = {
+        "email" : customerId,
+        "firstName" : firstName,
+        "lastName" : lastName,
+        "city" : city,
+        "state" : state,
+        "phoneNumber" : phoneNumber,
+        "creditCard" : creditCard,
+        "func" : "updateCustomer"
+    };
+
+    //add data in mysql
+    mq_client.make_request('customer_queue', msg_payload, function(err,results) {
+        if (err) {
+            //console.log(err);
+            res.status(500).send(null);
+        }
+        else {
+
+            json_responses = {"statusCode" : results.status};
+            res.send(json_responses);
+
+        }
+    });
+};
+
 
 exports.deleteCustomer = function(req, res){
 
@@ -115,7 +157,8 @@ exports.deleteCustomer = function(req, res){
 };
 
 exports.getCustomerInformation = function(req, res){
-	var customerId = 4;
+    var customerId = req.session.customerId;
+    console.log(customerId);
 
     var msg_payload = {
         "customerId": customerId,
@@ -127,7 +170,7 @@ exports.getCustomerInformation = function(req, res){
         if (err) {
             console.log(err);
             res.status(500).send(null);
-            
+
         } else {
             console.log("about results");
             res.send(results);
@@ -157,20 +200,20 @@ exports.addImagesToRide = function(req, res){
     var image = req.param('image');
 
     /*var msg_payload = {
-        image: image,
-        "func" : "addImagesToRide"
-    };
+     image: image,
+     "func" : "addImagesToRide"
+     };
 
-    mq_client.make_request('customer_queue', msg_payload, function(err,results) {
-        //console.log(results);
-        if (err) {
-            //console.log(err);
-            res.status(500).send(null);
-        } else {
-            ////console.log("about results" + results);
-            res.status(results.status).send(results.data);
-        }
-    });*/
+     mq_client.make_request('customer_queue', msg_payload, function(err,results) {
+     //console.log(results);
+     if (err) {
+     //console.log(err);
+     res.status(500).send(null);
+     } else {
+     ////console.log("about results" + results);
+     res.status(results.status).send(results.data);
+     }
+     });*/
 
     var mongoose = require('mongoose');
     var Schema = mongoose.Schema;
@@ -241,45 +284,4 @@ exports.getImagesOfRide = function (req, res) {
         }
     });
 
-};
-
-
-exports.updateCustomer = function(req,res){
-
-    var email = req.param('email');
-    var password = req.param('password');
-    var firstName = req.param('firstName');
-    var lastName = req.param('lastName');
-    var address = req.param('address');
-    var city = req.param('city');
-    var state = req.param('state');
-    var zipCode = req.param('zipCode');
-    var phoneNumber = req.param('phoneNumber');
-    var creditCard = req.param('creditCard');
-
-    var msg_payload = {
-        "email" : email,
-        "password" : password,
-        "firstName" : firstName,
-        "lastName" : lastName,
-        "address" : address,
-        "city" : city,
-        "state" : state,
-        "zipCode" : zipCode,
-        "phoneNumber" : phoneNumber,
-        "creditCard" : creditCard,
-        "func" : "updateCustomer"
-    };
-
-    //add data in mysql
-    mq_client.make_request('customer_queue', msg_payload, function(err,results) {
-        //console.log(results);
-        if (err) {
-            //console.log(err);
-            res.status(500).send(null);
-        } else {
-            ////console.log("about results" + results);
-            res.status(results.status).send(results.data);
-        }
-    });
 };

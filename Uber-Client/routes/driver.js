@@ -3,27 +3,37 @@ var mq_client = require('../rpc/client');
 var requestGen = require('./commons/responseGenerator');
 
 exports.index = function (req,res){
-	
-	res.render('signupDriver');
+
+    res.render('signupDriver');
 
 };
 
 exports.driverDashboard =  function(req,res){
-	
-	res.render('driverDashboard');
+
+    res.render('driverDashboard');
 
 };
 
 
 exports.login = function(req,res){
-	
-	res.render('loginDriver');
+
+    res.render('loginDriver');
 
 };
 
+
+exports.firstLogIn = function(){
+    res.render('driverLogin', {title: "Login"});
+};
+
+exports.driverDetails = function(req, res){
+    res.render('driverDetails', {title: "Driver Details"});
+};
+
+
 exports.registerDriver = function(req, res){
 
-	var json_responses;
+    var json_responses;
     var email = req.param('email');
     var password = req.param('password');
     var firstName = req.param('firstName');
@@ -53,12 +63,12 @@ exports.registerDriver = function(req, res){
     mq_client.make_request('driver_queue', msg_payload, function(err,results) {
         //console.log(results);
         if (err) {
-           json_responses = {"statusCode" : 401};
-           res.send("json_responses");
-        	
+            json_responses = {"statusCode" : 401};
+            res.send("json_responses");
+
         } else {
             ////console.log("about results" + results);
-        	json_responses = {"statusCode" : results.status};
+            json_responses = {"statusCode" : results.status};
             res.send("json_responses");
         }
     });
@@ -66,7 +76,7 @@ exports.registerDriver = function(req, res){
 };
 
 exports.loginDriver = function(req, res){
-	var json_responses;
+    var json_responses;
     var email = req.param('email');
     var password = req.param('password');
 
@@ -85,9 +95,15 @@ exports.loginDriver = function(req, res){
 
         } else {
             ////console.log("about results" + results);
-            
-            json_responses = {"statusCode" : results.status};
-			res.send(json_responses);
+
+            if(req.param("firstLogIn") == "yes"){
+                res.render("driverDetails", { title: 'Uber - Add Driver Information' });
+            }
+            else{
+                json_responses = {"statusCode" : results.status};
+                res.send(json_responses);
+            }
+
 
         }
     });
