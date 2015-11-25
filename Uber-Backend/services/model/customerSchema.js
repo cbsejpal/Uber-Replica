@@ -6,7 +6,7 @@ var Sequelize = require('sequelize');
 var sequelize = mysql.sequelize;
 
 var Customer = sequelize.define('Customer', {
-	//id - autoIncrement by default by sequelize
+	customer_id: {type: Sequelize.INTEGER(9).ZEROFILL, autoIncrement: true, primaryKey: true},
 	email: {type: Sequelize.STRING, unique: true},
 	password: Sequelize.STRING,
 	firstName: Sequelize.STRING,
@@ -57,7 +57,7 @@ var ridesList = new Schema({
 
 
 var customerSchema = new Schema({
-	custId: {type: String, required: true},
+	customer_Id: {type: String, required: true},
 	email: {type: String, required: true, unique: true},
 	firstName: {type: String, required: true},
 	lastName: {type: String, required: true},
@@ -72,7 +72,7 @@ var Customers = mongoose.model('Customers', customerSchema);
 
 customerSchema.plugin(autoIncrement.plugin, {
 	model: 'Customers',
-	field: 'custId',
+	field: 'customer_Id',
 	startAt: 1,
 	incrementBy: 1
 });
