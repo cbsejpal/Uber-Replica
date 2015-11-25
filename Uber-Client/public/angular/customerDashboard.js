@@ -3,7 +3,7 @@ var app = angular.module('customers', []);
 app.controller('rides', function($scope, $http) {
 	$http.get("/rideInfo").success(function(response) {
 		if (response.status == 200) {
-	
+
 			$scope.rides = response.data;
 		}
 	});
@@ -15,7 +15,7 @@ app.controller('navbar', function($scope, $http) {
 	$http.get("/getCustomerInformation").success(function(response) {
 		if (response.status == 200) {
 			$scope.firstName = response.data.firstName;
-			}
+		}
 
 	});
 });
