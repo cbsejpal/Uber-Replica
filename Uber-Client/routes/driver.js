@@ -21,6 +21,11 @@ exports.login = function(req,res){
 
 };
 
+exports.driverLogin = function(req,res){
+
+    res.render('driverLogin');
+
+};
 
 exports.firstLogIn = function(){
     res.render('driverLogin', {title: "Login"});
@@ -43,8 +48,8 @@ exports.registerDriver = function(req, res){
     var state = req.param('state');
     var zipCode = req.param('zipCode');
     var phoneNumber = req.param('phoneNumber');
-    var carDetails = req.param('carDetails');
-
+//    var carDetails = req.param('carDetails');
+    
     var msg_payload = {
         "email" : email,
         "password" : password,
@@ -55,7 +60,7 @@ exports.registerDriver = function(req, res){
         "state" : state,
         "zipCode" : zipCode,
         "phoneNumber" : phoneNumber,
-        "carDetails" : carDetails,
+  //      "carDetails" : carDetails,
         "func" : "registerDriver"
     };
 
@@ -134,9 +139,10 @@ exports.searchDriver = function(req, res){
 };
 
 exports.deleteDriver = function(req, res){
-
-    var email =  req.session.driverId;
-
+	
+	var email = req.param('email');
+	console.log("email"+email);
+	
     var msg_payload = {
         "email": email,
         "func" : "deleteDriver"
@@ -149,14 +155,13 @@ exports.deleteDriver = function(req, res){
             //console.log(err);
             res.status(500).send(null);
         } else {
-            ////console.log("about results" + results);
-            res.status(200).send(results.data);
+            res.send(results);
         }
     });
 };
 
 exports.getDriverInformation = function(req, res){
-    var email =  req.param('email');
+    var email =  req.session.driverId;
 
     var msg_payload = {
         "email": email,
@@ -177,26 +182,11 @@ exports.getDriverInformation = function(req, res){
 
 exports.updateDriver = function(req,res){
 
-    var email = req.param('email');
-    var password = req.param('password');
-    var firstName = req.param('firstName');
-    var lastName = req.param('lastName');
-    var address = req.param('address');
-    var city = req.param('city');
-    var state = req.param('state');
-    var zipCode = req.param('zipCode');
-    var phoneNumber = req.param('phoneNumber');
+   
     var carDetails = req.param('carDetails');
 
     var msg_payload = {
-        "email" : email,
-        "password" : password,
-        "firstName" : firstName,
-        "lastName" : lastName,
-        "address" : address,
-        "city" : city,
-        "state" : state,
-        "zipCode" : zipCode,
+    		
         "phoneNumber" : phoneNumber,
         "carDetails" : carDetails,
         "func" : "updateDriver"

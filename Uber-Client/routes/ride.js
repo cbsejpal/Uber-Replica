@@ -7,7 +7,7 @@ exports.createRide = function(req, res){
 	var pickUpLocation = req.param('pickUpLocation');
 	var dropOffLocation = req.param('dropOffLocation');
 	var rideDateTime = new Date();
-	var customerId = req.param('customerId');
+	var customerId = req.session.customerId;
 	var driverId = req.param('driverId');
 
 	var msg_payload = {

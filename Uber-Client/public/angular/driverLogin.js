@@ -1,7 +1,7 @@
 //loading the 'login' angularJS module
-var loginDriver = angular.module('loginDriver', []);
+var loginDriver = angular.module('driverLogin', []);
 //defining the login controller
-loginDriver.controller('loginDriver', function($scope, $http) {
+loginDriver.controller('driverLogin', function($scope, $http) {
 	//Initializing the 'invalid_login' and 'unexpected_error' 
 	//to be hidden in the UI by setting them true,
 	//Note: They become visible when we set them to false
@@ -25,7 +25,7 @@ loginDriver.controller('loginDriver', function($scope, $http) {
 			else{
 
 				//Making a get call to the '/redirectToHomepage' API
-				window.location.assign("/driverDashboard");
+				window.location.assign("/driverDetails");
 			}
 		}).error(function(error) {
 			$scope.unexpected_error = false;
