@@ -135,6 +135,7 @@
    */
   var getGeoLocation = function(string, options) {
     var deferred = $q.defer();
+    console.log(string);
     if (!string || string.match(/^current/i)) { // current location
       NavigatorGeolocation.getCurrentPosition(options).then(
         function(position) {

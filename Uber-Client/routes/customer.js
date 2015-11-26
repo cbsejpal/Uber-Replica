@@ -1,60 +1,59 @@
-
 var mq_client = require('../rpc/client');
 var requestGen = require('./commons/responseGenerator');
+var io = require('./socket');
 
-
-exports.index = function (req,res){
+exports.index = function (req, res) {
 
     res.render('signupCustomer');
 
 };
 
-exports.customerDashboard =  function(req,res){
+exports.customerDashboard = function (req, res) {
 
     res.render('customerDashboard');
 
 };
 
 
-exports.login = function(req,res){
+exports.login = function (req, res) {
 
     res.render('loginCustomer');
 
 };
-exports.loginCustomer = function(req, res){
+exports.loginCustomer = function (req, res) {
 
     var json_responses;
     var email = req.param('email');
     var password = req.param('password');
 
     var msg_payload = {
-        "email" : email,
-        "password" : password,
-        "func" : "loginCustomer"
+        "email": email,
+        "password": password,
+        "func": "loginCustomer"
     };
 
-    mq_client.make_request('customer_queue', msg_payload, function(err,results) {
+    mq_client.make_request('customer_queue', msg_payload, function (err, results) {
         console.log(results);
         if (err) {
             console.log(err);
-            json_responses = {"statusCode" : 401};
+            json_responses = {"statusCode": 401};
             res.send(json_responses);
 
         } else {
 
             //console.log("results user " + JSON.stringify(results) );
             //console.log("about results" + results["user"]);
-            req.session.customerId =  results.data.user;
-            //console.log("session " + req.session.customerId);
+            req.session.customerId = results.data.user;
+            console.log("session socket id" + req.session.socketId);
             //res.status(results.status).send(results.data);
-            json_responses = {"statusCode" : results.status};
+            json_responses = {"statusCode": results.status};
             res.send(json_responses);
 
         }
     });
 };
 
-exports.registerCustomer = function(req, res){
+exports.registerCustomer = function (req, res) {
 
     var email = req.param('email');
     var password = req.param('password');
@@ -68,28 +67,28 @@ exports.registerCustomer = function(req, res){
     var creditCard = req.param('creditCard');
 
     var msg_payload = {
-        "email" : email,
-        "password" : password,
-        "firstName" : firstName,
-        "lastName" : lastName,
-        "address" : address,
-        "city" : city,
-        "state" : state,
-        "zipCode" : zipCode,
-        "phoneNumber" : phoneNumber,
-        "creditCard" : creditCard,
-        "func" : "registerCustomer"
+        "email": email,
+        "password": password,
+        "firstName": firstName,
+        "lastName": lastName,
+        "address": address,
+        "city": city,
+        "state": state,
+        "zipCode": zipCode,
+        "phoneNumber": phoneNumber,
+        "creditCard": creditCard,
+        "func": "registerCustomer"
     };
 
 
-    mq_client.make_request('customer_queue', msg_payload, function(err,results) {
+    mq_client.make_request('customer_queue', msg_payload, function (err, results) {
         //console.log(results);
         if (err) {
             //console.log(err);
             res.status(500).send(null);
         } else {
 
-            json_responses = {"statusCode" : results.status};
+            json_responses = {"statusCode": results.status};
             res.send(json_responses);
 
         }
@@ -97,7 +96,7 @@ exports.registerCustomer = function(req, res){
 };
 
 
-exports.updateCustomer = function(req,res){
+exports.updateCustomer = function (req, res) {
     var customerId = req.session.customerId;
 
     //var email = req.param('email');
@@ -112,25 +111,25 @@ exports.updateCustomer = function(req,res){
 
 
     var msg_payload = {
-        "email" : customerId,
-        "firstName" : firstName,
-        "lastName" : lastName,
-        "city" : city,
-        "state" : state,
-        "phoneNumber" : phoneNumber,
-        "creditCard" : creditCard,
-        "func" : "updateCustomer"
+        "email": customerId,
+        "firstName": firstName,
+        "lastName": lastName,
+        "city": city,
+        "state": state,
+        "phoneNumber": phoneNumber,
+        "creditCard": creditCard,
+        "func": "updateCustomer"
     };
 
     //add data in mysql
-    mq_client.make_request('customer_queue', msg_payload, function(err,results) {
+    mq_client.make_request('customer_queue', msg_payload, function (err, results) {
         if (err) {
             //console.log(err);
             res.status(500).send(null);
         }
         else {
 
-            json_responses = {"statusCode" : results.status};
+            json_responses = {"statusCode": results.status};
             res.send(json_responses);
 
         }
@@ -138,16 +137,16 @@ exports.updateCustomer = function(req,res){
 };
 
 
-exports.deleteCustomer = function(req, res){
+exports.deleteCustomer = function (req, res) {
 
-    var email =  req.param('email');
+    var email = req.param('email');
 
     var msg_payload = {
         "email": email,
-        "func" : "deleteCustomer"
+        "func": "deleteCustomer"
     };
 
-    mq_client.make_request('customer_queue', msg_payload, function(err,results) {
+    mq_client.make_request('customer_queue', msg_payload, function (err, results) {
         //console.log(results);
         if (err) {
             //console.log(err);
@@ -159,34 +158,41 @@ exports.deleteCustomer = function(req, res){
     });
 };
 
-exports.getCustomerInformation = function(req, res){
+exports.getCustomerInformation = function (req, res) {
     var customerId = req.session.customerId;
     console.log("get customer info " + customerId);
 
     var msg_payload = {
         "customerId": customerId,
-        "func" : "getCustomerInformation"
+        "func": "getCustomerInformation"
     };
 
-    mq_client.make_request('customer_queue', msg_payload, function(err,results) {
-        console.log(results.data);
+    mq_client.make_request('customer_queue', msg_payload, function (err, results) {
+
         if (err) {
             console.log(err);
             res.status(500).send(null);
 
         } else {
             //console.log("about results");
+            console.log(results.data);
+            setTimeout(function () {
+                io.onInformationretrieved(req.session.customerId);
+                console.log("Emit: ", req.session.customerId);
+            },5000);
+
             res.send(results);
+
         }
     });
 };
-exports.listAllCustomers =  function(req, res){
+exports.listAllCustomers = function (req, res) {
 
     var msg_payload = {
-        "func" : "listAllCustomers"
+        "func": "listAllCustomers"
     };
 
-    mq_client.make_request('customer_queue', msg_payload, function(err,results) {
+    mq_client.make_request('customer_queue', msg_payload, function (err, results) {
         //console.log(results);
         if (err) {
             //console.log(err);
@@ -198,7 +204,7 @@ exports.listAllCustomers =  function(req, res){
     });
 };
 
-exports.addImagesToRide = function(req, res){
+exports.addImagesToRide = function (req, res) {
 
     var image = req.param('image');
 
@@ -252,10 +258,10 @@ exports.getImagesOfRide = function (req, res) {
     var image = req.param('image');
 
     var msg_payload = {
-        "func" : "getImagesOfRide"
+        "func": "getImagesOfRide"
     };
 
-    mq_client.make_request('customer_queue', msg_payload, function(err,results) {
+    mq_client.make_request('customer_queue', msg_payload, function (err, results) {
         //console.log(results);
         if (err) {
             //console.log(err);

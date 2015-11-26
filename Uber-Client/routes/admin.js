@@ -150,4 +150,19 @@ exports.verifyCustomers =  function(req, res){
     });
 };
 
+exports.revenuePerDayWeekly = function(req,res){
+    var msg_payload = {
+        "func" : "revenuePerDayWeekly"
+    };
 
+    mq_client.make_request('admin_queue', msg_payload, function(err,results) {
+        //console.log(results);
+        if (err) {
+            //console.log(err);
+            res.status(500).send(null);
+        } else {
+            console.log("revenue results" + results);
+            res.status(results.status).send(results.data);
+        }
+    });
+};

@@ -14,6 +14,8 @@
     "fs": "0.0.2",
     "gridfs-stream": "^1.1.1",
     "mongodb": "^2.0.48",
-    "underscore": "*"
+    "underscore": "*",
+    "socket.io": "*",
+    "socket.io-express-session" : "*"
   }
 }
