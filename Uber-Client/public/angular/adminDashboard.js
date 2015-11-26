@@ -3,30 +3,51 @@ var app = angular.module('admin', []);
 app.controller('drivers', function($scope, $http) {
 	$http.get("/showDrivers").success(function(response) {
 		if (response.status == 200) {
+	//		alert(response.data.data[0].verifyStatus);
 			
-			$scope.firstName = response.data.data[0].firstName;
-			$scope.lastName= response.data.data[0].lastName;
-			$scope.email = response.data.data[0].email;
+				//$scope.firstName = response.data.data[0].firstName;
+				//$scope.lastName= response.data.data[0].lastName;
+				//$scope.email = response.data.data[0].email;
+			
+				
+				$scope.items = response.data.data;
+				
 		}
+		else
+			{
+				$scope.items = "";
+			}
 	});
 	
-	$scope.deleteDriver = function()
+	$scope.deleteDriver = function(email)
 		{
+		
+		$scope.email = email;
+		
 		$http({
 			method : "GET",
 			url : '/deleteDriver',
-			data : {
+			params : {
 
-				"email" : $scope.email
+				 email : $scope.email
+				 
 			}
 			}).success(function(response) {
+				
 				if (response.status == 200) 
 				{
-				alert("done");
+					
+					$http.get("/showDrivers").success(function(response) {
+						if (response.status == 200) {
+							$scope.items = response.data.data;
+						}
+						else{
+							
+							$scope.items = "";
+						}
+						});
 				}
-				else{
-					alert("no");
-				}
+				
 			});
 		}
 });
@@ -35,31 +56,161 @@ app.controller('drivers', function($scope, $http) {
 app.controller('customers', function($scope, $http) {
 	$http.get("/showCustomers").success(function(response) {
 		if (response.status == 200) {
-			$scope.firstName = response.data.data[0].firstName;
-			$scope.lastName = response.data.data[0].lastName;
-			
-			$scope.email = response.data.data[0].email;
+			$scope.items = response.data.data;
 		}
 	});
+	
+	$scope.deleteCustomer = function(email)
+	{
+		
+	$http({
+		method : "GET",
+		url : '/deleteCustomer',
+		params : {
+			
+			
+			"email" : email
+		}
+		}).success(function(response) {
+			
+			if (response.status == 200) 
+			{
+				
+				$http.get("/showCustomers").success(function(response) {
+					if (response.status == 200) {
+						$scope.items = response.data.data;
+					}
+					else{
+						$scope.items = "";
+					}
+					});
+			}
+			
+		});
+	}
+	
+	
+	
 });
 
 app.controller('requests', function($scope, $http) {
-	$http.get("/showCustomers").success(function(response) {
+	
+
+	$http.get("/showCustomersForApproval").success(function(response) {
+		//alert("This is requests");
 		if (response.status == 200) {
-			if(response.data.data[0].verifyStatus==false){
-				
-			$scope.firstNameCustomer = response.data.data[0].firstName;
-			$scope.email = response.data.data[0].email;
-			}
+			
+				$scope.customers = response.data.data;
+		
 		}
-	});
-	$http.get("/showDrivers").success(function(response) {
+			
+		});
+	
+
+	$http.get("/showDriversForApproval").success(function(response) {
 		if (response.status == 200) {
-			if(response.data.data[0].verifyStatus==false){
-				
-			$scope.firstNameDriver = response.data.data[0].firstName;
-			$scope.email = response.data.data[0].email;
-			}
+			
+			$scope.drivers = response.data.data;	
+			
 		}
-	});
+		});
+	
+	$scope.approveCustomer = function (email)
+		{
+			$http({
+				method : "GET",
+				url : '/verifyCustomers',
+				params : {
+
+					"email" : email
+				}
+				}).success(function(response) {
+					
+					if (response.status == 200) 
+					{
+						
+						$http.get("/showCustomersForApproval").success(function(response) {
+							if(response.status==200)
+								$scope.customers = response.data.data;
+							else
+								$scope.customers = ""
+							
+							});
+					}
+					else
+						{
+							$scope.customers = "";
+						}
+					
+				});
+			}
+
+		
+		$scope.ignoreCustomer = function(email)
+		{
+			
+			$http({
+				method : "GET",
+				url : '/deleteCustomer',
+				params : {
+					"email" : email
+				}
+				}).success(function(response) {
+					
+					if (response.status == 200) 
+					{
+						
+						$http.get("/showCustomers").success(function(response) {
+							if (response.status == 200) {
+								$scope.customers = response.data.data;
+							}
+							else{
+								$scope.customers = "";
+							}
+							});
+					}
+					
+				});
+			}
+			
+			
+		
+		$scope.approveDriver= function (email)
+		{
+
+			alert(email);
+			
+			$http({
+				method : "GET",
+				url : '/verifyDrivers',
+				params : {
+
+					"email" : email
+				}
+				}).success(function(response) {
+					alert(JSON.stringify(response));
+					if (response.status == 200) 
+					{
+						
+						$http.get("/showDriversForApproval").success(function(response) {
+								if(response.status == 200)
+									{
+										$scope.drivers = response.data.data
+									}
+								else
+									{
+									$scope.drivers = ""
+									}
+								});
+					}
+					else
+						{
+							alert("sorry");
+						}
+					
+				});
+			}
+		
+		
+		
 });

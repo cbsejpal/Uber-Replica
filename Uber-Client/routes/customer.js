@@ -140,7 +140,7 @@ exports.updateCustomer = function(req,res){
 
 exports.deleteCustomer = function(req, res){
 
-    var email =  req.param('email');
+	var email = req.param('email');
 
     var msg_payload = {
         "email": email,
@@ -153,8 +153,8 @@ exports.deleteCustomer = function(req, res){
             //console.log(err);
             res.status(500).send(null);
         } else {
-            ////console.log("about results" + results);
-            res.status(results.status).send(results.data);
+        	
+            res.send(results);
         }
     });
 };
@@ -182,7 +182,8 @@ exports.getCustomerInformation = function(req, res){
 };
 exports.listAllCustomers =  function(req, res){
 
-    var msg_payload = {
+    
+	var msg_payload = {
         "func" : "listAllCustomers"
     };
 

@@ -21,8 +21,8 @@ signupDriver.controller('signupDriver', function($scope, $http) {
 				"city" : $scope.city,
 				"state" : $scope.state,
 				"zipCode" : $scope.zipCode,
-				"phoneNumber" : $scope.phoneNumber,
-				"carDetails" : $scope.carDetails
+				"phoneNumber" : $scope.phoneNumber
+				//"carDetails" : $scope.carDetails
 
 			}
 		}).success(function(data) {
@@ -34,7 +34,7 @@ signupDriver.controller('signupDriver', function($scope, $http) {
 			else{
 
 				//Making a get call to the '/redirectToHomepage' API
-				window.location.assign("/loginDriver");
+				window.location.assign("/driverLogin");
 			}
 		}).error(function(error) {
 			$scope.unexpected_error = false;

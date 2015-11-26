@@ -94,13 +94,13 @@
   					<span ng-show="registration.zipCode.$error.required">Address is required.</span>
   		</span>	
 
-		<br><p style = "font-size:16px;">* Mobile No : </p> <input ng-pattern= "^([0-9]{3})?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$"type="tel" ng-model="phoneNumber" value="" name="phoneNumber" id="mobile" placeholder="+1 (201) 555-5555"><br>
+		<br><p style = "font-size:16px;">* Mobile No : </p> <input class="form-control" ng-pattern= "^([0-9]{3})?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$"type="tel" ng-model="phoneNumber" value="" name="phoneNumber" id="mobile" placeholder="+1 (201) 555-5555"><br>
 
 		<span style="color:red" ng-show="registration.phoneNumber.$dirty && registration.phoneNumber.$invalid">
   					<span ng-show="registration.phoneNumber.$error.required">Mobile number is required.</span>
   		</span>	
 
-		<br><p style = "font-size:16px;">* Credit Card : </p> <input type="text" ng-model="creditCard" value="" name="creditCard" id="cc" placeholder="5555-5555-5555-5555">
+		<br><p style = "font-size:16px;">* Credit Card : </p> <input class="form-control" type="text" ng-model="creditCard" value="" name="creditCard" id="cc" placeholder="5555-5555-5555-5555">
 		
 		<span style="color:red" ng-show="registration.creditCard.$dirty && registration.creditCard.$invalid">
   					<span ng-show="registration.creditCard.$error.required">Credit card information is required.</span>

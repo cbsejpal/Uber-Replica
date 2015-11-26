@@ -73,13 +73,15 @@ exports.loginAdmin = function(req, res){
 };
 
 exports.showDrivers = function(req, res){
-
+	
+	email = req.param('email');
     var msg_payload = {
+    	"email" : email,
         "func" : "showDrivers"
     };
 
     mq_client.make_request('admin_queue', msg_payload, function(err,results) {
-        //console.log(results);
+        console.log(results+" Data for drivers");
         if (err) {
             //console.log(err);
             res.status(500).send(null);
@@ -91,14 +93,16 @@ exports.showDrivers = function(req, res){
     });
 };
 
-exports.showCustomers =  function(req, res){
+exports.showDriversForApproval =  function(req, res){
 
+	var email = req.param('email');
     var msg_payload = {
-        "func" : "showCustomers"
+    		"email" : email,
+        "func" : "showDriversForApproval"
     };
 
     mq_client.make_request('admin_queue', msg_payload, function(err,results) {
-        //console.log(results);
+        console.log("drivers : "+results);
         if (err) {
             //console.log(err);
             res.status(500).send(null);
@@ -111,22 +115,64 @@ exports.showCustomers =  function(req, res){
 
 
 
+exports.showCustomers =  function(req, res){
+
+	var email = req.param('email');
+    var msg_payload = {
+    		"email" : email,
+        "func" : "showCustomers"
+    };
+
+    mq_client.make_request('admin_queue', msg_payload, function(err,results) {
+        console.log("customers  : "+JSON.stringify(results));
+        if (err) {
+            //console.log(err);
+            res.status(500).send(null);
+        } else {
+            console.log("about results" + results);
+            res.status(200).send(results);
+        }
+    });
+};
+
+exports.showCustomersForApproval =  function(req, res){
+
+	var email = req.param('email');
+    var msg_payload = {
+    		"email" : email,
+        "func" : "showCustomersForApproval"
+    };
+
+    mq_client.make_request('admin_queue', msg_payload, function(err,results) {
+        console.log("customers  : "+results);
+        if (err) {
+            //console.log(err);
+            res.status(500).send(null);
+        } else {
+            console.log("about results" + results);
+            res.status(200).send(results);
+        }
+    });
+};
+
+
 exports.verifyDrivers =  function(req, res){
 
     var email = req.param('email');
+    console.log(email);
     var msg_payload = {
         "email": email,
         "func" : "verifyDrivers"
     };
 
     mq_client.make_request('admin_queue', msg_payload, function(err,results) {
-        //console.log(results);
+        console.log(JSON.stringify(results)+" drivers data");
         if (err) {
             //console.log(err);
             res.status(500).send(null);
         } else {
             ////console.log("about results" + results);
-            res.status(results.status).send(results.data);
+            res.status(200).send(results);
         }
     });
 };
@@ -138,15 +184,16 @@ exports.verifyCustomers =  function(req, res){
         "email": email,
         "func" : "verifyCustomers"
     };
-
+    
+    console.log(email);	
     mq_client.make_request('admin_queue', msg_payload, function(err,results) {
-        //console.log(results);
+        console.log(results+" customers data");
         if (err) {
             //console.log(err);
             res.status(500).send(null);
         } else {
             console.log("about results" + results);
-            res.status(results.status).send(results.data);
+            res.status(200).send(results);
         }
     });
 };
