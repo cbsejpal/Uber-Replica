@@ -166,7 +166,7 @@ exports.revenuePerDayWeekly = function (msg, callback){
                 json_responses = requestGen.responseGenerator(500, {message:"Error occured in revenue"});
             } else {
                 console.error(results);
-                json_responses = requestGen.responseGenerator(500, results);
+                json_responses = requestGen.responseGenerator(200, results);
             }
             callback(null, json_responses);
         }

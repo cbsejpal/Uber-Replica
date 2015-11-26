@@ -1,12 +1,13 @@
 //rides
 var mq_client = require('../rpc/client');
 var requestGen = require('./commons/responseGenerator');
+var dateFormatter = require('./commons/dateFormatter');
 
 exports.createRide = function(req, res){
 
 	var pickUpLocation = req.param('pickUpLocation');
 	var dropOffLocation = req.param('dropOffLocation');
-	var rideDateTime = new Date();
+	var rideDateTime = dateFormatter.dateMMDDYYYYformater(new Date().getDate());
 	var customerId = req.param('customerId');
 	var driverId = req.param('driverId');
 
@@ -32,8 +33,9 @@ exports.createRide = function(req, res){
 };
 
 exports.getRideInformation = function(req, res){
-	var customerId = req.session.customerId;
-	//console.log(customerId);
+	var customerId = 4;
+		//req.session.customerId;
+	//console.log("Rides info :"+customerId);
 
 	var msg_payload = {
 		"customerId" : customerId,
@@ -41,7 +43,8 @@ exports.getRideInformation = function(req, res){
 	};
 
 	mq_client.make_request('ride_queue', msg_payload, function(err,results) {
-		console.log("results " +results);
+		console.log("results for rides " + JSON.stringify(results));
+		
 		if (err) {
 			//console.log(err);
 			res.status(500).send(null);
@@ -135,3 +138,4 @@ exports.driverRideList = function (req,res) {
 		}
 	});
 };
+

@@ -13,7 +13,7 @@ var rideSchema = new Schema({
 	rideId: {type: String, required: true},
 	pickUpLocation: {type: String, required: true},
 	dropOffLocation: {type: String, required: true},
-	rideDateTime: {type: Date, required: true},
+	rideDateTime: {type: String, required: true},
 	customerId: {type: String, required: true},
 	driverId: {type: String, required: true}
 }, {

@@ -1,6 +1,7 @@
 //billing
 var mq_client = require('../rpc/client');
 var requestGen = require('./commons/responseGenerator');
+var dateFormatter = require('./commons/dateFormatter');
 
 exports.generateBill = function(req, res){
 	
@@ -9,9 +10,9 @@ exports.generateBill = function(req, res){
 	var driverId = req.param('driverId');
 	var pickUpLocation = req.param('pickUpLocation');
 	var dropOffLocation = req.param('dropOffLocation');
-	var rideDate = new Date();
-	var rideStartTime = new Date();
-	var rideEndTime = new Date();
+	var rideDate = dateFormatter.dateMMDDYYYYformater(new Date());
+	var rideStartTime = dateFormatter.dateMMDDYYYYformater(new Date());
+	var rideEndTime = dateFormatter.dateMMDDYYYYformater(new Date());
 	var rideDistance = req.param('rideDistance');
 	var rideAmount = req.param('rideAmount');
 

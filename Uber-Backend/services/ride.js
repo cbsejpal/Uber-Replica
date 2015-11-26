@@ -4,6 +4,7 @@ var rideSchema = require('./model/rideSchema');
 var customerSchema = require('./model/customerSchema');
 var driverSchema = require('./model/driverSchema');
 var requestGen = require('./commons/responseGenerator');
+var dateFormatter = require('./commons/dateFormatter');
 
 var Customers = customerSchema.Customers; //mongoDB instance
 var Drivers = driverSchema.Drivers; //mongoDB instance
@@ -15,7 +16,7 @@ exports.createRide = function (msg, callback) {
 
     var pickUpLocation = msg.pickUpLocation;
     var dropOffLocation = msg.dropOffLocation;
-    var rideDateTime = new Date();
+    var rideDateTime = dateFormatter.dateMMDDYYYYformater(new Date());
     var customerId = msg.customerId;
     var driverId = msg.driverId;
 
