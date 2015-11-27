@@ -3,13 +3,6 @@ var app = angular.module('admin', []);
 app.controller('drivers', function($scope, $http) {
 	$http.get("/showDrivers").success(function(response) {
 		if (response.status == 200) {
-	//		alert(response.data.data[0].verifyStatus);
-			
-				//$scope.firstName = response.data.data[0].firstName;
-				//$scope.lastName= response.data.data[0].lastName;
-				//$scope.email = response.data.data[0].email;
-			
-				
 				$scope.items = response.data.data;
 				
 		}

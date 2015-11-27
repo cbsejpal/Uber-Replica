@@ -32,7 +32,9 @@ exports.createRide = function(req, res){
 };
 
 exports.getRideInformation = function(req, res){
-	var customerId = 4;
+	var customerId = req.param('customerId');
+	console.log(customerId);
+	//var customerId = req.session.customerId;
 		//req.session.customerId;
 	//console.log("Rides info :"+customerId);
 
@@ -119,7 +121,7 @@ exports.customerRideList = function (req,res) {
 };
 
 exports.driverRideList = function (req,res) {
-	var driverId = req.param('driverId');
+	var driverId = req.session.driverId;
 
 	var msg_payload = {
 		"driverId" : driverId,
@@ -132,7 +134,7 @@ exports.driverRideList = function (req,res) {
 			//console.log(err);
 			res.status(500).send(null);
 		} else {
-			////console.log("about results" + results);
+			console.log("about results" + results);
 			res.status(results.status).send(results.data);
 		}
 	});
