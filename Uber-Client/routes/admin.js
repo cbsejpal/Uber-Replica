@@ -4,6 +4,7 @@ var requestGen = require('./commons/responseGenerator');
 
 exports.adminDashboard =  function(req,res){
 
+    console.log("dashboard " + req.session.adminId);
     if(req.session.adminId){
         res.header('Cache-Control','no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
         res.render('adminDashboard');
@@ -78,8 +79,9 @@ exports.loginAdmin = function(req, res){
             //console.log(err);
             res.status(500).send(null);
         } else {
-            ////console.log("about results" + results);
-            req.session.adminId =  results.user;
+            //console.log("about results" + JSON.stringify(results));
+            req.session.adminId =  results.data.user;
+            //console.log("login " + req.session.adminId);
             res.status(results.status).send(results.data);
         }
     });

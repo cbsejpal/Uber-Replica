@@ -27,9 +27,9 @@
 
     $(document).ready( function() {
 
-      $('.drivers').show();
+      $('.drivers').hide();
       $('.customers').hide();
-      $('.requests').hide();
+      $('.requests').show();
       $('.analysis').hide();
 
       $(".click1").on("click", function() {
@@ -105,9 +105,9 @@
     <div class="col-sm-3 col-md-2 sidebar">
       <ul class="nav nav-sidebar">
         <li class="active"><a>Admin Dashboard <span class="sr-only">(current)</span></a></li>
+        <li class=""><a href="javascript:void(0)" class="click3">Requests</a></li>
         <li class=""><a href="javascript:void(0)" class="click1">Drivers</a></li>
         <li class=""><a href="javascript:void(0)" class="click2">Customers</a></li>
-        <li class=""><a href="javascript:void(0)" class="click3">Requests</a></li>
         <li><a href="javascript:void(0)" class="click4">Analysis</a></li>
         <li><a href="javascript:void(0)">Log out</a></li>
       </ul>

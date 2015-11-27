@@ -16,7 +16,7 @@ var Admin = sequelize.define('Admin', {
 	city: Sequelize.STRING,
 	state: Sequelize.STRING,
 	zipCode: Sequelize.STRING,
-	phoneNumber: Sequelize.BIGINT
+	phoneNumber: Sequelize.STRING
 },{
 	timestamps: false, //by default sequelize will add createdAt and updatedAt columns into tables so to remove them use this attribute
 	freezeTableName: true //by default sequelize will create customerS table and not customer so this attribute won't allow it to plural the table name

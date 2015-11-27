@@ -54,7 +54,7 @@
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
-                <li class="active"><a>Overview <span class="sr-only">(current)</span></a></li>
+                <li class="active"><a>Dashboard <span class="sr-only">(current)</span></a></li>
 
                 <li class=""><a href="javascript:void(0)" class="click1">My Trips</a></li>
            
@@ -158,10 +158,11 @@
                     <div class="col-md-2">
                         <p> CarDetails : </p>
                     </div>
-                    <div class="col-md-3"><input class="form-control" type="text" ng-model="carDetails"></div>
+                    <div class="col-md-3"><textarea style="resize: none;" class="form-control" type="text" ng-model="carDetails"></textarea></div>
                 </div>
-                <button type="submit" class="btn btn-success" ng-click="save()">Save </button>
                 <hr>
+                <button type="submit" class="btn btn-success" ng-click="save()">Save </button>
+
             </div>
 
 

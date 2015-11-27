@@ -171,7 +171,7 @@ app.controller('requests', function($scope, $http) {
 		$scope.approveDriver= function (email)
 		{
 
-			alert(email);
+			//alert(email);
 			
 			$http({
 				method : "GET",
@@ -181,7 +181,7 @@ app.controller('requests', function($scope, $http) {
 					"email" : email
 				}
 				}).success(function(response) {
-					alert(JSON.stringify(response));
+					//alert(JSON.stringify(response));
 					if (response.status == 200) 
 					{
 						
