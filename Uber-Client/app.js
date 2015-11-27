@@ -18,23 +18,12 @@ var express = require('express')
     , ride = require('./routes/ride')
     , billing = require('./routes/billing')
     , expressSession = require("express-session")
-    , ios = require('socket.io-express-session')
     , mongoStore = require("connect-mongo")(expressSession)
     , mongo = require("./routes/mongo");
 
 
 //mongoDB session URL
 var mongoSessionConnectURL = "mongodb://localhost:27017/sessions";
-
-var session = expressSession({
-    secret: 'mySECRETMongoDBString',
-    resave: false, // don't save session if unmodified
-    saveUninitialized: false, // don't create session until something stored
-    duration: 30 * 60 * 1000,
-    activeDuration: 5 * 60 * 1000,
-    store: new mongoStore({
-        url: mongoSessionConnectURL
-    })});
 
 app.configure(function () {
     app.set('port', process.env.PORT || 3000);
@@ -44,7 +33,15 @@ app.configure(function () {
     app.use(express.logger('dev'));
     app.use(express.bodyParser());
     app.use(express.methodOverride());
-    app.use(session);
+    app.use(expressSession({
+        secret: 'mySECRETMongoDBString',
+        resave: false, // don't save session if unmodified
+        saveUninitialized: false, // don't create session until something stored
+        duration: 30 * 60 * 1000,
+        activeDuration: 5 * 60 * 1000,
+        store: new mongoStore({
+            url: mongoSessionConnectURL
+        })}));
     app.use(app.router);
     app.use(express.static(path.join(__dirname, 'public')));
 });
@@ -122,7 +119,6 @@ app.post('/searchBills', billing.searchBills);
 
 app.get('/requestRide',index.maps);
 
-var socket;
 //connect to the mongo collection session and then createServer
 mongo.connect(mongoSessionConnectURL, function () {
     console.log('Connected to mongo at: ' + mongoSessionConnectURL);
