@@ -25,8 +25,6 @@
 
             $('.myrides').show();
             $('.profile').hide();
-            $('.payment').hide();
-            //$('.img').hide();
 
             $("tr").click(function(){
                 $(".img").slideToggle();
@@ -34,21 +32,11 @@
             $(".click1").on("click", function() {
                 $(".myrides").show();
                 $('.profile').hide();
-                $('.payment').hide();
-
             });
             $(".click2").on("click", function() {
                 $(".myrides").hide();
                 $('.profile').show();
-                $('.payment').hide();
-
             });
-            $(".click3").on("click", function() {
-                $(".myrides").hide();
-                $('.profile').hide();
-                $('.payment').show();
-            });
-
         });
 
 
@@ -62,12 +50,11 @@
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
-                <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
+                <li class="active"><a href="#">Dashboard <span class="sr-only">(current)</span></a></li>
 
                 <li class=""><a href="javascript:void(0)" class="click1">My Trips</a></li>
                 <li class=""><a href="requestRide" class="clickride">Request a ride</a></li>
                 <li><a href="javascript:void(0)" class="click2">Profile</a></li>
-                <li><a href="javascript:void(0)" class="click3">Payment</a></li>
                 <li><a href="logout">Log out</a></li>
             </ul>
 
@@ -177,15 +164,6 @@
 
             </div>
 
-
-
-
-
-            <div class="payment" ng-controller="payment">
-                <center>  <h2 class="sub-header">PAYMENT</h2></center>
-                <h4>Payment Method</h4><hr>
-                <p>Personal Credit Card : <input type="text" ng-model="creditCard"></p>
-            </div>
 
         </div>
     </div>

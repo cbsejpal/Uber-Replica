@@ -234,7 +234,7 @@ exports.updateDriverDetails = function(msg, callback){
     var videoURL = msg.videoURL;
 
     var carDetails =
-        "Car Type: " + vehicleType +
+        "Car Type: " + vehicleType + "      "
         "Car Number: " + numberPlate;
 
     Driver.update({
