@@ -1,6 +1,6 @@
 var app = angular.module('driverDetails', []);
 
-app.controller('driverDetails', function($scope) {
+app.controller('driverDetails', function($scope, $http) {
 	
 	$scope.vehicle = false;
 	$scope.background = true;
@@ -77,7 +77,28 @@ app.controller('driverDetails', function($scope) {
 				field.$setPristine();
 			});
 
-			//$scope.;
+			$http({
+				method : "POST",
+				url : '/updateDriverDetails',
+				data : {
+					"vehicleType" : $scope.carName,
+					"numberPlate" : $scope.NumberPlate,
+					"license" : $scope.lisence,
+					//"profilePhoto" : $scope.profilePhoto,
+					"videoURL" : $scope.VideoURL
+				}
+			}).success(function(data) {
+				//checking the response data for statusCode
+				if (data.statusCode == 500) {
+
+				}
+				else{
+					window.location.assign("/driverDashboard");
+				}
+			}).error(function(error) {
+
+			});
+
 		}
 	};
 });

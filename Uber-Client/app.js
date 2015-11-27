@@ -122,6 +122,8 @@ app.post('/searchBills', billing.searchBills);
 
 app.get('/requestRide',index.maps);
 
+app.post('/updateDriverDetails', driver.updateDriverDetails);
+
 //connect to the mongo collection session and then createServer
 mongo.connect(mongoSessionConnectURL, function() {
     console.log('Connected to mongo at: ' + mongoSessionConnectURL);

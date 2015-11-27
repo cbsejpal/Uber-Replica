@@ -222,3 +222,35 @@ exports.updateDriver = function(req,res){
         }
     });
 };
+
+
+exports.updateDriverDetails = function(req, res){
+
+    var email = req.session.driverId;
+    var vehicleType = req.param('vehicleType');
+    var numberPlate = req.param('numberPlate');
+    var license = req.param('license');
+    //var profilePhoto = req.param('profilePhoto');
+    var videoURL = req.param('videoURL');
+
+    var msg_payload = {
+        "email" : email,
+        "vehicleType": vehicleType,
+        "numberPlate": numberPlate,
+        "license": license,
+        "videoURL": videoURL,
+        //profilePhoto: profilePhoto
+        "func": "updateDriverDetails"
+    };
+
+    mq_client.make_request('driver_queue', msg_payload, function(err,results) {
+        //console.log(results);
+        if (err) {
+            //console.log(err);
+            res.status(500).send(null);
+        } else {
+            ////console.log("about results" + results);
+            res.send(results);
+        }
+    });
+};

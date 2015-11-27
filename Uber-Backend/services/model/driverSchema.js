@@ -15,8 +15,10 @@ var Driver = sequelize.define('Driver', {
 	city: Sequelize.STRING,
 	state: Sequelize.STRING,
 	zipCode: Sequelize.STRING,
-	phoneNumber: Sequelize.BIGINT,
+	phoneNumber: Sequelize.STRING,
 	carDetails: Sequelize.TEXT,
+	license: Sequelize.STRING,
+	videoURL: Sequelize.STRING,
 	verifyStatus: {type: Sequelize.BOOLEAN, defaultValue: false}
 },{
 	timestamps: false, //by default sequelize will add createdAt and updatedAt columns into tables so to remove them use this attribute
