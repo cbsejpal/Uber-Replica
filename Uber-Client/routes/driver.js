@@ -10,20 +10,21 @@ exports.index = function (req,res){
 
 exports.driverDashboard =  function(req,res){
 
-    res.render('driverDashboard');
+    if(req.session.driverId){
+        res.header('Cache-Control','no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+        res.render('driverDashboard');
+    }
 
+    else{
+        res.redirect('/');
+    }
 };
 
 
 exports.login = function(req,res){
 
-    if(req.session.driverId){
-        res.header('Cache-Control','no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
-        res.render('loginDriver');
-    }
-    else{
-        res.redirect('/');
-    }
+    res.render('loginDriver');
+
 };
 
 exports.driverLogin = function(req,res){
@@ -199,7 +200,7 @@ exports.updateDriver = function(req,res){
 
 	var state = req.param('state');
 	var email = req.param('email');
-
+    var zipCode = req.param('zipCode');
 	var city = req.param('city');
 	
 	var phoneNumber = req.param('phoneNumber');
@@ -215,6 +216,7 @@ exports.updateDriver = function(req,res){
     	"state" : state,
         "phoneNumber" : phoneNumber,
         "carDetails" : carDetails,
+        "zipCode" : zipCode,
         "func" : "updateDriver"
     };
 

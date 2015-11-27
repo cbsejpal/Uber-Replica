@@ -86,8 +86,6 @@ exports.searchDriver = function (msg, callback) {
             $or: [{
                 email: {$like: '%' + search + '%'}
             }, {
-                password: {$like: '%' + search + '%'}
-            }, {
                 firstName: {$like: '%' + search + '%'}
             }, {
                 lastName: {$like: '%' + search + '%'}

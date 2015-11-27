@@ -19,9 +19,9 @@ app.controller('navbar', function($scope, $http) {
 app.controller('myrides', function($scope, $http) {
 	
 	$http.get("/driverRideList").success(function(response) {
-		alert(JSON.stringify(response.status));
+		//alert(JSON.stringify(response.status));
 		if (response.status == 200) {
-			alert(JSON.stringify(response));
+			//alert(JSON.stringify(response));
 			$scope.rides = response.data;
 		}
 		else{
@@ -43,7 +43,7 @@ app.controller('profile', function($scope, $http) {
 			$scope.firstName = response.data.firstName;
 			$scope.lastName = response.data.lastName;
 			$scope.state = response.data.state;
-
+			$scope.zipCode = response.data.zipCode;
 			$scope.email = response.data.email;
 			$scope.city = response.data.city;
 			$scope.carDetails = response.data.carDetails;
@@ -66,6 +66,7 @@ app.controller('profile', function($scope, $http) {
 				"lastName" : $scope.lastName,
 				"state" : $scope.state,
 				"city" : $scope.city,
+				"zipCode": $scope.zipCode,
 				"carDetails" : $scope.carDetails,
 				"phoneNumber" : $scope.phoneNumber
 

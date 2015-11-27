@@ -105,6 +105,7 @@ exports.registerCustomer = function(req, res){
 
 
 exports.updateCustomer = function(req,res){
+
     var customerId = req.session.customerId;
 
     //var email = req.param('email');
@@ -116,7 +117,7 @@ exports.updateCustomer = function(req,res){
     var phoneNumber = req.param('phoneNumber');
     console.log(req.param('firstName'));
     var creditCard = req.param('creditCard');
-
+    var zipCode = req.param('zipCode');
 
     var msg_payload = {
         "email" : customerId,
@@ -126,6 +127,7 @@ exports.updateCustomer = function(req,res){
         "state" : state,
         "phoneNumber" : phoneNumber,
         "creditCard" : creditCard,
+        "zipCode" : zipCode,
         "func" : "updateCustomer"
     };
 
@@ -138,6 +140,7 @@ exports.updateCustomer = function(req,res){
         else {
 
             json_responses = {"statusCode" : results.status};
+            req.session.customerId = results.data.email;
             res.send(json_responses);
 
         }

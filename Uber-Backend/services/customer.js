@@ -128,6 +128,7 @@ exports.updateCustomer = function (msg, callback) {
     var state = msg.state;
     var phoneNumber = msg.phoneNumber;
     var creditCard = msg.creditCard;
+    var zipCode = msg.zipCode;
 
     var json_responses;
     console.log(firstName);
@@ -137,6 +138,7 @@ exports.updateCustomer = function (msg, callback) {
         lastName: lastName,
         city: city,
         state : state,
+        zipCode: zipCode,
         phoneNumber: phoneNumber,
         creditCard: creditCard
     }, {where: {email: email}}).then(function (customer) {

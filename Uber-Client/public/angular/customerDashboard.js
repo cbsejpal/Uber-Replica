@@ -30,7 +30,7 @@ app.controller('profile', function($scope, $http) {
 			$scope.firstName = response.data.firstName;
 			$scope.lastName = response.data.lastName;
 			$scope.state = response.data.state;
-
+			$scope.zipCode = response.data.zipCode;
 			$scope.email = response.data.email;
 			$scope.city = response.data.city;
 			$scope.creditCard = response.data.creditCard;
@@ -53,6 +53,7 @@ app.controller('profile', function($scope, $http) {
 				"lastName" : $scope.lastName,
 				"state" : $scope.state,
 				"city" : $scope.city,
+				"zipCode": $scope.zipCode,
 				"creditCard" : $scope.creditCard,
 				"phoneNumber" : $scope.phoneNumber
 
