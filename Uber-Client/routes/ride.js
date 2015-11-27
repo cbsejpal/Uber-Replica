@@ -32,7 +32,7 @@ exports.createRide = function(req, res){
 };
 
 exports.getRideInformation = function(req, res){
-	var customerId = req.param('customerId');
+	var customerId = req.session.customerId;
 	console.log(customerId);
 	//var customerId = req.session.customerId;
 		//req.session.customerId;
@@ -122,7 +122,7 @@ exports.customerRideList = function (req,res) {
 
 exports.driverRideList = function (req,res) {
 	var driverId = req.session.driverId;
-
+	console.log("driverRideList function : "+driverId);
 	var msg_payload = {
 		"driverId" : driverId,
 		"func": "driverRideList"
@@ -131,11 +131,11 @@ exports.driverRideList = function (req,res) {
 	mq_client.make_request('ride_queue', msg_payload, function(err,results) {
 		//console.log(results);
 		if (err) {
-			//console.log(err);
+			
 			res.status(500).send(null);
 		} else {
-			console.log("about results" + results);
-			res.status(results.status).send(results.data);
+			console.log("eni masi ne chodu" + results);
+			res.send(results);
 		}
 	});
 };
