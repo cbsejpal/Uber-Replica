@@ -2,12 +2,15 @@
 var signupDriver = angular.module('signupDriver', []);
 //defining the login controller
 signupDriver.controller('signupDriver', function($scope, $http) {
-	//Initializing the 'invalid_login' and 'unexpected_error'
-	//to be hidden in the UI by setting them true,
-	//Note: They become visible when we set them to false
-
-
-	$scope.submit = function() {
+	$scope.validate = function($event){
+		angular.forEach($scope.registration.$error.required, function(field) {
+		    field.$setDirty();
+		});
+		if($scope.registration.$error.required){
+			$event.preventDefault();
+		}
+		
+		else{
 		$http({
 			method : "POST",
 			url : '/registerDriver',
@@ -40,5 +43,6 @@ signupDriver.controller('signupDriver', function($scope, $http) {
 			$scope.unexpected_error = false;
 			$scope.invalid_login = true;
 		});
+	}
 	};
-})
+});

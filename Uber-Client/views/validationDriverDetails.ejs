@@ -1,0 +1,143 @@
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="angular/driverDetails.js"></script>
+    <!-- Custom CSS -->
+    <link href="stylesheets/modern-business.css" rel="stylesheet">
+
+</head>
+
+<body ng-app="driverDetails" ng-controller="driverDetails">
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <a class="navbar-brand" href="index.html">UBER</a>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+    <!-- /.container -->
+</nav>
+<br><br><br>
+
+<div class="col-md-3 column margintop20">
+    <ul class="nav nav-pills nav-stacked">
+        <li><a href="javascript:void(0)" class="click1"><span class="glyphicon glyphicon-chevron-right"></span> VEHICLE INFORMATION</a></li>
+        <li><a href="javascript:void(0)" class="click2"><span class="glyphicon glyphicon-chevron-right"></span> BACKGROUND CHECK</a></li>
+        <li><a href="javascript:void(0)" class="click3"><span class="glyphicon glyphicon-chevron-right"></span> DOCUMENT UPLOAD</a></li>
+        <li><a href="javascript:void(0)" class="click4"><span class="glyphicon glyphicon-chevron-right"></span> VIDEO</a></li>
+    </ul>
+</div>
+<div class="col-md-9">
+
+    
+
+
+
+            <form id="form" method="post" name="driverDetails" novalidate>
+				
+		<div ng-hide="vehicle">
+				
+        <div class="col-md-5">
+                <h2>VEHICLE INFORMATION</h2><hr>
+                <p style = "font-size:16px;"> Vehicle Name : <input class="form-control" ng-model="carName" maxlength="30" type="text" name="CarName" value="" placeholder="Vehicle Name" required></p><br>
+                <span style="color:red" ng-show="driversDetails.carName.$dirty && driversDetails.carName.$invalid">
+								<span ng-show="driversDetails.carName.$error.required">School name is required</span>
+							</span>
+                <p style = "font-size:16px;"> Number Plate :<input class="form-control" ng-model="NumberPlate" maxlength="20" type="text" name="NumberPlate" value="" placeholder="Number Plate" required></p><br>
+                <span style="color:red" ng-show="driversDetails.NumberPlate.$dirty && driversDetails.NumberPlate.$invalid">
+								<span ng-show="driversDetails.NumberPlate.$error.required">School name is required</span>
+							</span>
+
+				<input class="btn btn-lg btn-default" ng-click="validVehicle($event)" type="button" value="Continue" />
+
+
+        </div>
+
+
+
+</div>
+
+
+<div ng-hide="background">
+
+    <div class="col-md-5">
+      
+            <h2>BACKGROUND</h2><hr>
+            <p style = "font-size:16px;"> License Number : <br><input ng-model="lisNumber" class="form-control" maxlength="20" type="text" name="lisNumber" value="" placeholder="000-00-0000" required></p><br>
+            <span style="color:red" ng-show="driversDetails.lisNumber.$dirty && driversDetails.lisNumber.$invalid">
+								<span ng-show="driversDetails.lisNumber.$error.required">School name is required</span>
+							</span>
+           
+            <input class="btn btn-lg btn-default" ng-click="validBackground($event)" type="button" value="Continue" />
+            
+
+    </div>
+
+</div>
+
+
+
+
+<div ng-hide="profilePhoto">
+    <div class="col-md-8">
+
+        <h2>Please upload a profile photo !</h2>
+
+        Upload : <br><br><input class="btn btn-lg btn-default" type= "file" >
+
+
+        <br>
+        <input class="btn btn-lg btn-default click4" type="button" value="Continue">
+    </div>
+</div>
+
+
+
+<div ng-hide="video">
+
+    <div class="col-md-5">
+       
+            <h2>Video</h2><hr>
+            <p style = "font-size:16px;"> Video URL :<br> <br><input class="form-control" maxlength="50" type="text" name="VideoURL" value="" placeholder="Video URL" required></p><br>
+            <br><input class="btn btn-lg btn-success" type="Submit" ng-click="validate($event)" value="submit" />
+
+        
+        
+        </div>
+
+</div>
+</form>
+
+
+</div>
+
+
+
+</body>
+</html>
