@@ -162,31 +162,49 @@ exports.deleteDriver = function(req, res){
 
 exports.getDriverInformation = function(req, res){
     var email =  req.session.driverId;
-
+    
+    //console.log("get driverinfo session "+ email);
+    
     var msg_payload = {
         "email": email,
         "func" : "getDriverInformation"
     };
 
     mq_client.make_request('driver_queue', msg_payload, function(err,results) {
-        //console.log(results);
+        //console.log("Results from get driver info :"+results);
         if (err) {
             //console.log(err);
+        //	console.log("error");
             res.status(500).send(null);
         } else {
-            ////console.log("about results" + results);
-            res.status(results.status).send(results.data);
+            //console.log("These are the results from driver info :" + results);
+            res.status(200).send(results);
         }
     });
 };
 
 exports.updateDriver = function(req,res){
+	
+	var firstName = req.param('firstName');
 
-   
-    var carDetails = req.param('carDetails');
+	var lastName = req.param('lastName');
+
+	var state = req.param('state');
+	var email = req.param('email');
+
+	var city = req.param('city');
+	
+	var phoneNumber = req.param('phoneNumber');
+
+	var carDetails = req.param('carDetails');
 
     var msg_payload = {
     		
+    	"firstName" : firstName,
+        "lastName" : lastName,
+    	"email" : email,
+    	"city" : city,
+    	"state" : state,
         "phoneNumber" : phoneNumber,
         "carDetails" : carDetails,
         "func" : "updateDriver"
