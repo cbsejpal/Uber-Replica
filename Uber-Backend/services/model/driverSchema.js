@@ -32,7 +32,7 @@ exports.Driver = Driver;
 
 //mongodb
 var mongoose = require('mongoose');
-var connection = mongoose.createConnection("mongodb://localhost:27017/uber");
+var connection = mongoose.createConnection("mongodb://localhost:27017/newuber");
 var Schema = mongoose.Schema;
 var autoIncrement = require('mongoose-auto-increment');
 autoIncrement.initialize(connection);
