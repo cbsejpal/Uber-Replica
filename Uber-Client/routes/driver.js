@@ -17,8 +17,13 @@ exports.driverDashboard =  function(req,res){
 
 exports.login = function(req,res){
 
-    res.render('loginDriver');
-
+    if(req.session.driverId){
+        res.header('Cache-Control','no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+        res.render('loginDriver');
+    }
+    else{
+        res.redirect('/');
+    }
 };
 
 exports.driverLogin = function(req,res){
@@ -27,12 +32,15 @@ exports.driverLogin = function(req,res){
 
 };
 
-exports.firstLogIn = function(){
-    res.render('driverLogin', {title: "Login"});
-};
-
 exports.driverDetails = function(req, res){
-    res.render('driverDetails', {title: "Driver Details"});
+
+    if(req.session.driverId){
+        res.header('Cache-Control','no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+        res.render('driverDetails', {title: "Driver Details"});
+    }
+    else{
+        res.redirect('/');
+    }
 };
 
 
