@@ -197,5 +197,3 @@ exports.verifyCustomers =  function(req, res){
         }
     });
 };
-
-

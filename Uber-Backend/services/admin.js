@@ -3,13 +3,14 @@ var adminSchema = require('./model/adminSchema');
 var customerSchema = require('./model/customerSchema');
 var driverSchema = require('./model/driverSchema');
 var requestGen = require('./commons/responseGenerator');
+var billingsSchema = require('./model/billingSchema');
 
 var Admin = adminSchema.Admin;
 var Customer = customerSchema.Customer; //mysql instance
 var Customers = customerSchema.Customers; //mongoDB instance
 var Driver = driverSchema.Driver; //mysql instance
 var Drivers = driverSchema.Drivers; //mongoDB instance
-
+var Billings = billingsSchema.Billings;
 
 
 exports.registerAdmin = function(msg, callback){

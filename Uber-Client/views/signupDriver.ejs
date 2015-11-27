@@ -30,7 +30,7 @@
 
 
 
-	<form id="form" method="post" ng-controller = "signupDriver" name='registration' novalidate style= "border-style:groove; padding : 50px 40px 10px 40px;">
+	<form id="form" method="post" ng-controller = "signupDriver" name='registration' novalidate style= "border-style:groove; padding : 50px 40px 10px 40px;" novalidate>
 
             
 
@@ -38,14 +38,16 @@
 		
 		<p style="font-size:26px;">ACCOUNT</p>
 		
-		<p style = "font-size:16px;"> * Email : </p><input ng-model="email" class="form-control" maxlength="40" type="email" name="email" value="" placeholder="Email" required>
+		<p style = "font-size:16px;"> * Email : </p>
+		<input ng-model="email" ng-pattern="/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/" class="form-control" maxlength="40" type="email" name="email" value="" placeholder="Email" required>
 		<span style="color:red" ng-show="registration.email.$dirty && registration.email.$invalid">
   					<span ng-show="registration.email.$error.required">Email is required.</span>
+					<span ng-show="registration.email.$error.pattern">Incorrect Email address.</span>
   				</span>	
 	
 
 		<br><p style = "font-size:16px;"> * Password :</p><input ng-model="password" class="form-control" maxlength="30" type="password" name="password" value="" placeholder="Password" required>
-	<span style="color:red" ng-show="registration.password.$dirty && registration.email.$invalid">
+	<span style="color:red" ng-show="registration.password.$dirty && registration.password.$invalid">
   					<span ng-show="registration.password.$error.required">Password is required.</span>
   				</span>	
 		<br>
@@ -55,7 +57,7 @@
 		<input ng-model="firstName" class="form-control" name="firstName" size="20" placeholder="Firstname" required><br>
 		
 		<span style="color:red" ng-show="registration.firstName.$dirty && registration.firstName.$invalid">
-  					<span ng-show="registration.password.$error.required">Firstname is required.</span>
+  					<span ng-show="registration.firstName.$error.required">Firstname is required.</span>
   		</span>	
 
 
@@ -82,22 +84,26 @@
   		</span>	
 
 
-		<br><p style = "font-size:16px;">* Zipcode : </p><input ng-pattern="^(\d{5}(-\d{4})?|[A-Z]\d[A-Z] *\d[A-Z]\d)$" ng-model="zipCode" class="form-control" type="text" name="zipCode" value="" placeholder="zipCode" required>	
+		<br><p style = "font-size:16px;">* Zipcode : </p>
+		<input ng-pattern="/^(\d{5}(-\d{4})?|[A-Z]\d[A-Z] *\d[A-Z]\d)$/" ng-model="zipCode" class="form-control" type="text" name="zipCode" value="" placeholder="zipCode" required>
 
 		<span style="color:red" ng-show="registration.zipCode.$dirty && registration.zipCode.$invalid">
   					<span ng-show="registration.zipCode.$error.required">Zipcode is required.</span>
+					<span ng-show="registration.zipCode.$error.pattern">Zipcode is incorrect.</span>
   		</span>	
 
 		<br><p style = "font-size:16px;">* Address : </p><input ng-model="address" class="form-control" type="text" name="address" value="" placeholder="Address" required>	
 
 		<span style="color:red" ng-show="registration.address.$dirty && registration.address.$invalid">
-  					<span ng-show="registration.zipCode.$error.required">Address is required.</span>
+  					<span ng-show="registration.address.$error.required">Address is required.</span>
   		</span>	
 
-		<br><p style = "font-size:16px;">* Mobile No : </p> <input class="form-control" ng-pattern= "^([0-9]{3})?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$"type="tel" ng-model="phoneNumber" value="" name="phoneNumber" id="mobile" placeholder="+1 (201) 555-5555"><br>
+		<br><p style = "font-size:16px;">* Mobile No : </p>
+		<input class="form-control" ng-pattern= "/^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$/"type="tel" ng-model="phoneNumber" value="" name="phoneNumber"  placeholder="(201) 555-5555" required>
 
 		<span style="color:red" ng-show="registration.phoneNumber.$dirty && registration.phoneNumber.$invalid">
   					<span ng-show="registration.phoneNumber.$error.required">Mobile number is required.</span>
+					<span ng-show="registration.phoneNumber.$error.pattern">Incorrect Mobile number</span>
   		</span>	
 
 		<br><center><input class="btn btn-lg btn-default" type="submit" ng-click="validate($event)" value="Register" /></center>
