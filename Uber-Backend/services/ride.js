@@ -75,7 +75,7 @@ exports.createRide = function (msg, callback) {
                                     });
                                     doc.save();
 
-                                    json_responses = requestGen.responseGenerator(200, {message: "ride created successfully"});
+                                    json_responses = requestGen.responseGenerator(200, {message: "ride created successfully", rideId: rideId });
                                     callback(null, json_responses);
                                 }
                             });
@@ -197,12 +197,51 @@ exports.driverRideList = function(msg, callback){
 
 
 exports.endRide = function(msg, callback){
+
     var dropOffLatLong = msg.dropOffLatLong;
     var dropOffLocation = msg.dropOffLocation;
-
+    var driverId =  msg.driverId;
     var rideId = msg.rideId;
 
     var rideEndDateTime = new Date();
+
+    var json_response;
+
+    Rides.update({rideId: rideId}, {$set: {rideEndDateTime: rideEndDateTime}}, function(err, ride){
+        if(err){
+            json_response = requestGen.responseGenerator(500,{message: 'Error'} );
+            callback(null, json_response);
+        }
+        else{
+            if(ride.length > 0){
+
+                var rideDoc = ride;
+
+                Drivers.update({driId: driverId}, {$set: {isBusy: false, currentLocation: dropOffLocation}}, function(err, driver){
+
+                    if(err){
+                        json_response = requestGen.responseGenerator(500,{message: 'Error'} );
+                        callback(null, json_response);
+                    }
+                    else{
+
+                        if(driver.length > 0){
+                            json_response = requestGen.responseGenerator(200, rideDoc);
+                            callback(null, json_response);
+                        }
+                        else{
+                            json_response = requestGen.responseGenerator(200,{message: 'No Driver Found'} );
+                            callback(null, json_response);
+                        }
+                    }
+                });
+            }
+            else{
+                json_response = requestGen.responseGenerator(500,{message: 'No Ride Found'} );
+                callback(null, json_response);
+            }
+        }
+    });
 
 };
 
@@ -269,4 +308,30 @@ exports.startRide = function(msg, callback){
             }
         }
     });
+};
+
+
+
+
+exports.getRideInfo = function (msg, callback) {
+
+    var json_responses;
+
+    var rideId = msg.rideId;
+
+    //console.log("res "+customerId);
+    Rides.findOne({rideId: rideId}, function(err, doc){
+
+        //console.log(docs+" docs");
+
+        if (doc.length > 0) {
+            //console.log("inside docs");
+            json_responses = requestGen.responseGenerator(200, doc);
+        } else {
+            console.log("error");
+            json_responses = requestGen.responseGenerator(500, {message: 'No Ride Found'});
+        }
+        callback(null, json_responses);
+    });
+
 };
