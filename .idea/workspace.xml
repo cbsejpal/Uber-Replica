@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="079e2be5-4488-4e08-a3ec-090f62bedc8b" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Uber-Client/public/angular/angularMaps.js" afterPath="$PROJECT_DIR$/Uber-Client/public/angular/angularMaps.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <list id="7ab509ef-03f9-413b-b1be-b7acd548d11b" name="New changelist" comment="Another changes that i am not aware of" />
@@ -557,7 +556,13 @@
       <option name="project" value="LOCAL" />
       <updated>1448675460011</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="//Resolved local conflicts with parent branch">
+      <created>1448675799459</created>
+      <option name="number" value="00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1448675799459</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="ToolWindowManager">
