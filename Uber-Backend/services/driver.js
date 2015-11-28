@@ -230,6 +230,8 @@ exports.updateDriverDetails = function(msg, callback){
     var vehicleType = msg.vehicleType;
     var numberPlate = msg.numberPlate;
     var license = msg.license;
+    var currentLocation = msg.currentLocation;
+
     //var profilePhoto = msg.profilePhoto;
     var videoURL = msg.videoURL;
 
@@ -244,10 +246,27 @@ exports.updateDriverDetails = function(msg, callback){
     },{where: {email: email}}).then(function(driver){
         var json_responses;
         if (driver) {
-            json_responses = requestGen.responseGenerator(200, {message: 'Success'});
+
+            Drivers.update({email: email}, {$set: {currentLocation: currentLocation}},  function(err, doc){
+
+                if(err){
+                    json_responses = requestGen.responseGenerator(500, {message: "Error saving driver"});
+                    callback(null, json_responses);
+                }
+
+                else if(doc.length > 0){
+                    json_responses = requestGen.responseGenerator(200, {message: 'Success'});
+                    callback(null, json_responses);
+                }
+                else{
+                    json_responses = requestGen.responseGenerator(500, {message: "No Driver found in MongoDB"});
+                    callback(null, json_responses);
+                }
+            });
         } else {
             json_responses = requestGen.responseGenerator(500, {message: "No Driver found"});
+            callback(null, json_responses);
         }
-        callback(null, json_responses)
+
     });
 };

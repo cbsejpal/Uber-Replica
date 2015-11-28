@@ -342,6 +342,17 @@ cnn.on('ready', function() {
 						});
 					});
 					break;
+				case "revenuePerDayWeekly":
+					admin.revenuePerDayWeekly(message, function (err, res) {
+						util.log("Correlation ID: " + m.correlationId);
+						// return index sent
+						cnn.publish(m.replyTo, res, {
+							contentType: 'application/json',
+							contentEncoding: 'utf-8',
+							correlationId: m.correlationId
+						});
+					});
+					break;
 			}
 		});
 	});
@@ -416,6 +427,30 @@ cnn.on('ready', function() {
 					break;
 				case "driverRideList":
 					ride.customerRideList(message, function (err, res) {
+
+						util.log("Correlation ID: " + m.correlationId);
+						// return index sent
+						cnn.publish(m.replyTo, res, {
+							contentType: 'application/json',
+							contentEncoding: 'utf-8',
+							correlationId: m.correlationId
+						});
+					});
+					break;
+				case "startRide":
+					ride.startRide(message, function (err, res) {
+
+						util.log("Correlation ID: " + m.correlationId);
+						// return index sent
+						cnn.publish(m.replyTo, res, {
+							contentType: 'application/json',
+							contentEncoding: 'utf-8',
+							correlationId: m.correlationId
+						});
+					});
+					break;
+				case "endRide":
+					ride.endRide(message, function (err, res) {
 
 						util.log("Correlation ID: " + m.correlationId);
 						// return index sent

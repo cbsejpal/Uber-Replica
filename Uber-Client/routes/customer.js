@@ -2,6 +2,7 @@
 var mq_client = require('../rpc/client');
 var requestGen = require('./commons/responseGenerator');
 
+var io = require('./socket');
 
 exports.index = function (req,res){
 
@@ -186,6 +187,10 @@ exports.getCustomerInformation = function(req, res){
 
         } else {
             //console.log("about results");
+            setTimeout(function () {
+                io.onInformationretrieved(req.session.customerId);
+                console.log("Emit: ", req.session.customerId);
+            },5000);
             res.send(results);
         }
     });

@@ -54,37 +54,53 @@ app.controller('profile', function($scope, $http) {
 		}
 
 	});
-	$scope.save = function() {
+	$scope.save = function($event) {
 
-		$http({
-			method : "POST",
-			url : '/updateDriver',
-			data : {
 
-				"email" : $scope.email,
-				"firstName" : $scope.firstName,
-				"lastName" : $scope.lastName,
-				"state" : $scope.state,
-				"city" : $scope.city,
-				"zipCode": $scope.zipCode,
-				"carDetails" : $scope.carDetails,
-				"phoneNumber" : $scope.phoneNumber
-
-			}
-		}).success(function(data) {
-			//checking the response data for statusCode
-			if (data.statusCode == 401) {
-				alert("error");
-			}
-			else{
-
-				//Making a get call to the '/redirectToHomepage' API
-				window.location.assign("/driverDashboard");
-			}
-		}).error(function(error) {
-
-			alert("save error !");
+		angular.forEach($scope.profileUpdate.$error.required, function(field) {
+			field.$setDirty();
 		});
+
+		if($scope.profileUpdate.$error.required){
+			$event.preventDefault();
+
+			alert("Please fill all the fields before saving");
+		}
+
+		else{
+
+			$http({
+				method : "POST",
+				url : '/updateDriver',
+				data : {
+
+					"email" : $scope.email,
+					"firstName" : $scope.firstName,
+					"lastName" : $scope.lastName,
+					"state" : $scope.state,
+					"city" : $scope.city,
+					"zipCode": $scope.zipCode,
+					"carDetails" : $scope.carDetails,
+					"phoneNumber" : $scope.phoneNumber
+
+				}
+			}).success(function(data) {
+				//checking the response data for statusCode
+				if (data.statusCode == 401) {
+					alert("error");
+				}
+				else{
+
+					//Making a get call to the '/redirectToHomepage' API
+					window.location.assign("/driverDashboard");
+				}
+			}).error(function(error) {
+
+				alert("save error !");
+			});
+		}
+
+
 	};
 
 

@@ -77,11 +77,16 @@
 
         <div class="background" ng-hide="background">
             <div class="col-md-5">
-                    <h2>Driving License</h2><hr>
+                    <h2>Background Information: </h2><hr>
                     <p style = "font-size:16px;"> License : <br>
                         <input ng-model="lisence" class="form-control" maxlength="20" type="text" name="lisence" value="" placeholder="000-00-0000" required></p><br>
                         <span style="color:red" ng-show="driverDetails.lisence.$dirty && driverDetails.lisence.$invalid">
                             <span ng-show="driverDetails.lisence.$error.required">License No is required</span>
+                        </span>
+                    <p style = "font-size:16px;"> Current Location : <br>
+                    <input ng-model="currentLocation" class="form-control" type="text" name="currentLocation" value="" placeholder="street,city,zipcode" required></p><br>
+                        <span style="color:red" ng-show="driverDetails.currentLocation.$dirty && driverDetails.currentLocation.$invalid">
+                            <span ng-show="driverDetails.currentLocation.$error.required">Your Current Location is required</span>
                         </span>
                         <input class="btn btn-lg btn-default click3" type="submit" ng-click = "validBackground($event)" value="Continue" />
             </div>
