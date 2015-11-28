@@ -23,7 +23,6 @@ app.controller('ngMap1',  function ($rootScope,$scope,NgMap) {
     $http.get("/getDriverInformation").success(function(response) {
 		if (response.status == 200) {
 				$scope.items = response.data.data;
-				
 		}
 		else
 			{
