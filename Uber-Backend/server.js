@@ -18,7 +18,7 @@ var mongoose = require('mongoose');
 //var options = {
 //	server: { poolSize: 5 }
 //};
-var connection = mongoose.connect("mongodb://localhost:27017/uber");
+var connection = mongoose.connect("mongodb://localhost:27017/newuber");
 
 cnn.on('ready', function() {
 	console.log("listening on customer_queue");
@@ -208,6 +208,18 @@ cnn.on('ready', function() {
 					
 				case "getDriverInformation":
 					driver.getDriverInformation(message, function (err, res) {
+
+						util.log("Correlation ID: " + m.correlationId);
+						// return index sent
+						cnn.publish(m.replyTo, res, {
+							contentType: 'application/json',
+							contentEncoding: 'utf-8',
+							correlationId: m.correlationId
+						});
+					});
+					break;
+				case "updateDriverDetails":
+					driver.updateDriverDetails(message, function (err, res) {
 
 						util.log("Correlation ID: " + m.correlationId);
 						// return index sent

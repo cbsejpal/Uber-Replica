@@ -116,16 +116,22 @@
 </div>
 
     <ng-map zoom="12" center="current-position" style="height:500px; width:780px;">
-        <custom-marker position="current-address"
+        <marker position="current-address"
                        on-mouseover="mouseover()" on-mouseout="mouseout()"
                        on-click="currentPositionOnclick()">
-            <div class="custom-marker"><div>Current position</div> </div>
-        </custom-marker>
+            <!--<div class="custom-marker"><div>Current position</div> </div>-->
+        </marker>
 
         <custom-marker ng-repeat="p in vm.positions track by $index"
                        position="{{p.lat}}, {{p.lon}}" ng-show="showDriver">
             <div>
-                position {{p.name}}: {{p.lat}}, {{p.lon}}
+                Hi, How Are You? <br/>
+                My Name is Obama, and people call me as Mr. President.<br/>
+                We live in this house.<br/>
+                <br/>
+                <img width="300" src="http://cdn.cstatic.net/images/gridfs/53b42fd3f92ea17d970280b4/Screen%20Shot%202014-07-02%20at%2012.07.54%20PM.png" />
+                <br/>
+                If you want to visit us, please click <a href="https://www.whitehouse.gov">here</a>
             </div>
         </custom-marker>
         <shape name="circle" no-watcher="true"
@@ -138,6 +144,7 @@
                radius="{{vm.getRadius(10)}}">
         </shape>
         <directions
+                draggable="true"
                 panel="directions-panel"
                 travel-mode="DRIVING"
                 origin="{{origin}}"

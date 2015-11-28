@@ -10,8 +10,14 @@ exports.index = function (req,res){
 
 exports.driverDashboard =  function(req,res){
 
-    res.render('driverDashboard');
+    if(req.session.driverId){
+        res.header('Cache-Control','no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+        res.render('driverDashboard');
+    }
 
+    else{
+        res.redirect('/');
+    }
 };
 
 
@@ -27,12 +33,15 @@ exports.driverLogin = function(req,res){
 
 };
 
-exports.firstLogIn = function(){
-    res.render('driverLogin', {title: "Login"});
-};
-
 exports.driverDetails = function(req, res){
-    res.render('driverDetails', {title: "Driver Details"});
+
+    if(req.session.driverId){
+        res.header('Cache-Control','no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+        res.render('driverDetails', {title: "Driver Details"});
+    }
+    else{
+        res.redirect('/');
+    }
 };
 
 
@@ -191,7 +200,7 @@ exports.updateDriver = function(req,res){
 
 	var state = req.param('state');
 	var email = req.param('email');
-
+    var zipCode = req.param('zipCode');
 	var city = req.param('city');
 	
 	var phoneNumber = req.param('phoneNumber');
@@ -207,6 +216,7 @@ exports.updateDriver = function(req,res){
     	"state" : state,
         "phoneNumber" : phoneNumber,
         "carDetails" : carDetails,
+        "zipCode" : zipCode,
         "func" : "updateDriver"
     };
 
@@ -219,6 +229,38 @@ exports.updateDriver = function(req,res){
         } else {
             ////console.log("about results" + results);
             res.status(results.status).send(results.data);
+        }
+    });
+};
+
+
+exports.updateDriverDetails = function(req, res){
+
+    var email = req.session.driverId;
+    var vehicleType = req.param('vehicleType');
+    var numberPlate = req.param('numberPlate');
+    var license = req.param('license');
+    //var profilePhoto = req.param('profilePhoto');
+    var videoURL = req.param('videoURL');
+
+    var msg_payload = {
+        "email" : email,
+        "vehicleType": vehicleType,
+        "numberPlate": numberPlate,
+        "license": license,
+        "videoURL": videoURL,
+        //profilePhoto: profilePhoto
+        "func": "updateDriverDetails"
+    };
+
+    mq_client.make_request('driver_queue', msg_payload, function(err,results) {
+        //console.log(results);
+        if (err) {
+            //console.log(err);
+            res.status(500).send(null);
+        } else {
+            ////console.log("about results" + results);
+            res.send(results);
         }
     });
 };

@@ -3,10 +3,24 @@ var mq_client = require('../rpc/client');
 var requestGen = require('./commons/responseGenerator');
 
 exports.adminDashboard =  function(req,res){
-	
-	res.render('adminDashboard');
 
+    console.log("dashboard " + req.session.adminId);
+    if(req.session.adminId){
+        res.header('Cache-Control','no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+        res.render('adminDashboard');
+    }
+    else{
+        res.redirect('/');
+    }
 };
+
+exports.login = function(req, res){
+    res.render('loginAdmin');
+};
+
+exports.register = function (req, res) {
+    res.render('registerAdmin');
+}
 
 
 exports.registerAdmin = function(req, res){
@@ -65,8 +79,9 @@ exports.loginAdmin = function(req, res){
             //console.log(err);
             res.status(500).send(null);
         } else {
-            ////console.log("about results" + results);
-            req.session.adminId =  results.user;
+            //console.log("about results" + JSON.stringify(results));
+            req.session.adminId =  results.data.user;
+            //console.log("login " + req.session.adminId);
             res.status(results.status).send(results.data);
         }
     });

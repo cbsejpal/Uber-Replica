@@ -86,8 +86,6 @@ exports.searchDriver = function (msg, callback) {
             $or: [{
                 email: {$like: '%' + search + '%'}
             }, {
-                password: {$like: '%' + search + '%'}
-            }, {
                 firstName: {$like: '%' + search + '%'}
             }, {
                 lastName: {$like: '%' + search + '%'}
@@ -223,5 +221,33 @@ exports.updateDriver = function (msg, callback) {
                 }
             });
         }
+    });
+};
+
+exports.updateDriverDetails = function(msg, callback){
+
+    var email = msg.email;
+    var vehicleType = msg.vehicleType;
+    var numberPlate = msg.numberPlate;
+    var license = msg.license;
+    //var profilePhoto = msg.profilePhoto;
+    var videoURL = msg.videoURL;
+
+    var carDetails =
+        "Car Type: " + vehicleType + "      "
+        "Car Number: " + numberPlate;
+
+    Driver.update({
+        carDetails: carDetails,
+        videoURL: videoURL,
+        license: license
+    },{where: {email: email}}).then(function(driver){
+        var json_responses;
+        if (driver) {
+            json_responses = requestGen.responseGenerator(200, {message: 'Success'});
+        } else {
+            json_responses = requestGen.responseGenerator(500, {message: "No Driver found"});
+        }
+        callback(null, json_responses)
     });
 };

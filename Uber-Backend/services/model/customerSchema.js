@@ -15,7 +15,7 @@ var Customer = sequelize.define('Customer', {
 	city: Sequelize.STRING,
 	state: Sequelize.STRING,
 	zipCode: Sequelize.STRING,
-	phoneNumber: Sequelize.BIGINT,
+	phoneNumber: Sequelize.STRING,
 	creditCard: Sequelize.TEXT,
 	verifyStatus: {type: Sequelize.BOOLEAN, defaultValue: false}
 },{
@@ -30,7 +30,7 @@ exports.Customer = Customer;
 
 //mongodb
 var mongoose = require('mongoose');
-var connection = mongoose.createConnection("mongodb://localhost:27017/uber");
+var connection = mongoose.createConnection("mongodb://localhost:27017/newuber");
 var Schema = mongoose.Schema;
 var autoIncrement = require('mongoose-auto-increment');
 autoIncrement.initialize(connection);

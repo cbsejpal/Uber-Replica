@@ -34,7 +34,7 @@
             });
             
             $(".click2").on("click", function() {
-            	alert("holaveri");
+            	//alert("holaveri");
                 $('.myrides').hide();
                 $('.profile').show();
             
@@ -54,7 +54,7 @@
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
-                <li class="active"><a>Overview <span class="sr-only">(current)</span></a></li>
+                <li class="active"><a>Dashboard <span class="sr-only">(current)</span></a></li>
 
                 <li class=""><a href="javascript:void(0)" class="click1">My Trips</a></li>
            
@@ -107,61 +107,114 @@
 
 
             <div class="profile" ng-controller="profile">
-
+                <form id="form" method="post" name='profileUpdate' style= "border-style:groove; padding : 50px 40px 10px 40px;" novalidate>
                 <center>  <h2 class="sub-header">PROFILE</h2></center>
                 <h4>General Information</h4><hr>
                 <div class="row">
                     <div class="col-md-2">
                         <p>First name : </p>
                     </div>
-                    <div class="col-md-3"><input type="text" ng-model="firstName"></div>
+                    <div class="col-md-3"><input class="form-control" type="text" ng-model="firstName" required></div>
 
                     <div class="col-md-2">
                         <p>Last name : </p>
                     </div>
-                    <div class="col-md-3"><input type="text" ng-model="lastName"></div>
+                    <div class="col-md-3"><input class="form-control" type="text" ng-model="lastName" required></div>
                 </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                        <span style="color:red" ng-show="profileUpdate.firstName.$dirty && profileUpdate.firstName.$invalid">
+  					        <span ng-show="profileUpdate.firstName.$error.required">First Name is required.</span>
+                        </span>
+                        </div>
+                        <div class="col-md-5">
+                        <span style="color:red" ng-show="profileUpdate.lastName.$dirty && profileUpdate.lastName.$invalid">
+  					        <span ng-show="profileUpdate.lastName.$error.required">Last Name is required.</span>
+                        </span>
+                        </div>
+                    </div>
                 <hr>
                 <div class="row">
                     <div class="col-md-2">
                         <p> City : </p>
                     </div>
 
-                    <div class="col-md-3"><input type="text" ng-model="city"></div>
+                    <div class="col-md-3"><input class="form-control" type="text" ng-model="city" required></div>
 
                     <div class="col-md-2">
                         <p> State : </p>
                     </div>
-                    <div class="col-md-3"><input type="text" ng-model="state"></div>
+                    <div class="col-md-3"><input class="form-control" type="text" ng-model="state" required></div>
 
                 </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <span style="color:red" ng-show="profileUpdate.city.$dirty && profileUpdate.city.$invalid">
+  					            <span ng-show="profileUpdate.city.$error.required">City is required.</span>
+  		                    </span>
+                        </div>
+                        <div class="col-md-5">
+                            <span style="color:red" ng-show="profileUpdate.state.$dirty && profileUpdate.state.$invalid">
+  					            <span ng-show="profileUpdate.state.$error.required">State is required.</span>
+  		                    </span>
+                        </div>
+                    </div>
                 <hr>
                 <div class="row">
                     <div class="col-md-2">
                         <p> Email : </p>
                     </div>
-                    <div class="col-md-3"><input type="text" ng-model="email"></div>
+                    <div class="col-md-3"><input class="form-control" type="text" ng-model="email" required></div>
 
                     <div class="col-md-2">
-                        <p> Language : </p>
+                        <p> Zip Code : </p>
                     </div>
-                    <div class="col-md-3">English</div>
-                </div><hr>
+                    <div class="col-md-3"><input class="form-control" type="text" ng-model="zipCode" required></div>
+                </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                        <span style="color:red" ng-show="profileUpdate.email.$dirty && profileUpdate.email.$invalid">
+  					        <span ng-show="profileUpdate.email.$error.required">Email is required.</span>
+					        <span ng-show="profileUpdate.email.$error.pattern">Incorrect Email address.</span>
+  				        </span>
+                        </div>
+                        <div class="col-md-5">
+                        <span style="color:red" ng-show="profileUpdate.zipCode.$dirty && profileUpdate.zipCode.$invalid">
+  					        <span ng-show="profileUpdate.zipCode.$error.required">Zipcode is required.</span>
+					        <span ng-show="profileUpdate.zipCode.$error.pattern">Incorrect Zipcode.</span>
+  		                </span>
+                        </div>
+                    </div>
+                <hr>
 
 
                 <div class="row">
                     <div class="col-md-2">
                         <p> Mobile : </p>
                     </div>
-                    <div class="col-md-3"><input type="text" ng-model="phoneNumber"></div>
+                    <div class="col-md-3"><input class="form-control" type="text" ng-model="phoneNumber" required></div>
 
                     <div class="col-md-2">
                         <p> CarDetails : </p>
                     </div>
-                    <div class="col-md-3"><input type="text" ng-model="carDetails"></div>
+                    <div class="col-md-3"><textarea style="resize: none;" class="form-control" type="text" ng-model="carDetails" required></textarea></div>
                 </div>
-                <button type="submit" class="btn btn-success" ng-click="save()">Save </button>
+                    <div class="row">
+                        <div class="col-md-5">
+                        <span style="color:red" ng-show="profileUpdate.phoneNumber.$dirty && profileUpdate.phoneNumber.$invalid">
+  					        <span ng-show="profileUpdate.phoneNumber.$error.required">Mobile number is required.</span>
+					        <span ng-show="profileUpdate.phoneNumber.$error.pattern">Mobile number is incorrect.</span>
+  		                </span>
+                        </div>
+                        <div class="col-md-5">
+                        <span style="color:red" ng-show="profileUpdate.carDetails.$dirty && profileUpdate.carDetails.$invalid">
+  					        <span ng-show="profileUpdate.carDetails.$error.required">Car Details information is required.</span>
+                        </span>
+                        </div>
+                    </div>
                 <hr>
+                <button type="submit" class="btn btn-success" ng-click="save($event)">Save </button>
+                </form>
             </div>
 
 

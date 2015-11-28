@@ -14,8 +14,8 @@ exports.generateBill = function(msg, callback){
 	var pickUpLocation = msg.pickUpLocation;
 	var dropOffLocation = msg.dropOffLocation;
 	var rideDate = dateFormatter.dateMMDDYYYYformater(new Date());
-	var rideStartTime = dateFormatter.dateMMDDYYYYformater(new Date());;
-	var rideEndTime = dateFormatter.dateMMDDYYYYformater(new Date());;
+	var rideStartTime = dateFormatter.dateMMDDYYYYformater(new Date());
+	var rideEndTime = dateFormatter.dateMMDDYYYYformater(new Date());
 	var rideDistance = msg.rideDistance;
 	var rideAmount = msg.rideAmount;
 

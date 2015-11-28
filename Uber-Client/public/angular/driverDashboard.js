@@ -19,9 +19,9 @@ app.controller('navbar', function($scope, $http) {
 app.controller('myrides', function($scope, $http) {
 	
 	$http.get("/driverRideList").success(function(response) {
-		alert(JSON.stringify(response.status));
+		//alert(JSON.stringify(response.status));
 		if (response.status == 200) {
-			alert(JSON.stringify(response));
+			//alert(JSON.stringify(response));
 			$scope.rides = response.data;
 		}
 		else{
@@ -43,7 +43,7 @@ app.controller('profile', function($scope, $http) {
 			$scope.firstName = response.data.firstName;
 			$scope.lastName = response.data.lastName;
 			$scope.state = response.data.state;
-
+			$scope.zipCode = response.data.zipCode;
 			$scope.email = response.data.email;
 			$scope.city = response.data.city;
 			$scope.carDetails = response.data.carDetails;
@@ -54,36 +54,53 @@ app.controller('profile', function($scope, $http) {
 		}
 
 	});
-	$scope.save = function() {
+	$scope.save = function($event) {
 
-		$http({
-			method : "POST",
-			url : '/updateDriver',
-			data : {
 
-				"email" : $scope.email,
-				"firstName" : $scope.firstName,
-				"lastName" : $scope.lastName,
-				"state" : $scope.state,
-				"city" : $scope.city,
-				"carDetails" : $scope.carDetails,
-				"phoneNumber" : $scope.phoneNumber
-
-			}
-		}).success(function(data) {
-			//checking the response data for statusCode
-			if (data.statusCode == 401) {
-				alert("error");
-			}
-			else{
-
-				//Making a get call to the '/redirectToHomepage' API
-				window.location.assign("/driverDashboard");
-			}
-		}).error(function(error) {
-
-			alert("save error !");
+		angular.forEach($scope.profileUpdate.$error.required, function(field) {
+			field.$setDirty();
 		});
+
+		if($scope.profileUpdate.$error.required){
+			$event.preventDefault();
+
+			alert("Please fill all the fields before saving");
+		}
+
+		else{
+
+			$http({
+				method : "POST",
+				url : '/updateDriver',
+				data : {
+
+					"email" : $scope.email,
+					"firstName" : $scope.firstName,
+					"lastName" : $scope.lastName,
+					"state" : $scope.state,
+					"city" : $scope.city,
+					"zipCode": $scope.zipCode,
+					"carDetails" : $scope.carDetails,
+					"phoneNumber" : $scope.phoneNumber
+
+				}
+			}).success(function(data) {
+				//checking the response data for statusCode
+				if (data.statusCode == 401) {
+					alert("error");
+				}
+				else{
+
+					//Making a get call to the '/redirectToHomepage' API
+					window.location.assign("/driverDashboard");
+				}
+			}).error(function(error) {
+
+				alert("save error !");
+			});
+		}
+
+
 	};
 
 

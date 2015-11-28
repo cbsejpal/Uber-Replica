@@ -7,7 +7,7 @@ app.run(function($rootScope) {
 
 });
 
-app.controller('ngMap1',  function ($rootScope,$scope) {
+app.controller('ngMap1',  function ($rootScope,$scope,$http) {
 
     var vm = this;
 
@@ -134,5 +134,45 @@ app.controller('ngMap1',  function ($rootScope,$scope) {
          vm.placeChanged('origin');*/
     };
 
+
+    $scope.requestRide = function(){
+
+        $http({
+            method : "POST",
+            url : '/requestRide',
+            data : {
+
+                "email" : $scope.email,
+                "firstName" : $scope.firstName,
+                "lastName" : $scope.lastName,
+                "state" : $scope.state,
+                "city" : $scope.city,
+                "zipCode": $scope.zipCode,
+                "creditCard" : $scope.creditCard,
+                "phoneNumber" : $scope.phoneNumber
+
+            }
+        }).success(function(data) {
+            //checking the response data for statusCode
+            if (data.statusCode == 401) {
+                alert("error");
+            }
+            else{
+
+                //Making a get call to the '/redirectToHomepage' API
+                window.location.assign("/customerDashboard");
+            }
+        }).error(function(error) {
+
+            alert("save error !");
+        });
+
+};
+
+
+
+
+}
+    }
 
 });
