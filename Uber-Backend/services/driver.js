@@ -1,6 +1,8 @@
 //driver
 var driverSchema = require('./model/driverSchema');
 var requestGen = require('./commons/responseGenerator');
+var request = require('request');
+var _ = require('underscore');
 
 var Driver = driverSchema.Driver; //mysql instance
 var Drivers = driverSchema.Drivers; //mongoDB instance
@@ -236,8 +238,23 @@ exports.updateDriverDetails = function(msg, callback){
     var videoURL = msg.videoURL;
 
     var carDetails =
-        "Car Type: " + vehicleType + "      "
-        "Car Number: " + numberPlate;
+        "Car Type: " + vehicleType + "  Car Number: " + numberPlate;
+
+    request({
+        url: 'https://maps.googleapis.com/maps/api/geocode/json', //URL to hit
+        qs: {address: "750 Miller st San Jose"},
+        method: 'GET'
+    }, function(error, response, body){
+        if(error) {
+            console.log(error);
+        } else {
+            console.log(response.statusCode, JSON.parse(body));
+            var city = findResult(JSON.parse(body).results[0].address_components, "locality");
+            var location = JSON.parse(body).results[0].geometry.location;
+            console.log("city", city);
+            console.log("location", location);
+        }
+    });
 
     Driver.update({
         carDetails: carDetails,
@@ -269,4 +286,11 @@ exports.updateDriverDetails = function(msg, callback){
         }
 
     });
+};
+
+var findResult = function(results, name){
+    var result =  _.find(results, function(obj){
+        return obj.types[0] == name && obj.types[1] == "political";
+    });
+    return result ? result.short_name : null;
 };
