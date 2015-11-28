@@ -95,14 +95,14 @@ exports.deleteCustomer = function(msg, callback){
 exports.getCustomerInformation = function (msg, callback) {
     var customerId = msg.customerId;
     var json_responses;
-    
-    Customer.findOne({where: {id: customerId}}).then(function (customer) {
-    	console.log("outside if");
+
+    Customer.findOne({where: {email: customerId}}).then(function (customer) {
+        //console.log("outside if");
         if (customer) {
-        	console.log("inside if");
-            Customers.find({custId: customerId}, function(err, customers){
+            //console.log("inside if");
+            Customers.find({email: customerId}, function(err, customers){
                 if(customers){
-                	console.log("inside second if");
+                    console.log("inside second if");
                     json_responses = requestGen.responseGenerator(200, customer, customers);
                 }
                 else{
@@ -119,9 +119,56 @@ exports.getCustomerInformation = function (msg, callback) {
 };
 
 
+exports.updateCustomer = function (msg, callback) {
+
+    var email = msg.email;
+    var firstName = msg.firstName;
+    var lastName = msg.lastName;
+    var city = msg.city;
+    var state = msg.state;
+    var phoneNumber = msg.phoneNumber;
+    var creditCard = msg.creditCard;
+    var zipCode = msg.zipCode;
+
+    var json_responses;
+    console.log(firstName);
+    Customer.update({
+        email: email,
+        firstName: firstName,
+        lastName: lastName,
+        city: city,
+        state : state,
+        zipCode: zipCode,
+        phoneNumber: phoneNumber,
+        creditCard: creditCard
+    }, {where: {email: email}}).then(function (customer) {
+
+        if (customer) {
+            Customers.update({email: email}, {$set: {firstName: firstName, lastName: lastName}}, function (err, customers) {
+                if (customers) {
+                    Customer.findOne({where: {email: email}}).then(function (customer) {
+                        var json_responses;
+                        if (customer) {
+                            json_responses = requestGen.responseGenerator(200, customer);
+                        } else {
+                            json_responses = requestGen.responseGenerator(500, {message: "No Customer found"});
+                        }
+                        callback(null, json_responses)
+                    });
+                }
+                else {
+                    json_responses = requestGen.responseGenerator(500, {message: "Customer Not found"});
+                    callback(null, json_responses);
+                }
+            });
+        }
+    });
+};
+
 exports.listAllCustomers = function(msg, callback){
 
     var json_responses;
+    
 
     Customer.findAll().then(function(customers){
         if(customers.length > 0){
@@ -175,55 +222,4 @@ exports.getImagesOfRide = function(msg, callback){
 
     json_responses = requestGen.responseGenerator(200, null);
     callback(null, json_responses);
-};
-
-
-
-exports.updateCustomer = function (msg, callback) {
-
-    var email = msg.email;
-    var password = msg.password;
-    var firstName = msg.firstName;
-    var lastName = msg.lastName;
-    var address = msg.address;
-    var city = msg.city;
-    var state = msg.state;
-    var zipCode = msg.zipCode;
-    var phoneNumber = msg.phoneNumber;
-    var creditCard = msg.creditCard;
-
-    var json_responses;
-
-    Customer.update({
-        password: password,
-        firstName: firstName,
-        lastName: lastName,
-        address: address,
-        city: city,
-        state: state,
-        zipCode: zipCode,
-        phoneNumber: phoneNumber,
-        creditCard: creditCard
-    }, {where: {email: email}}).then(function (customer) {
-
-        if (customer) {
-            Customers.update({email: email}, {$set: {firstName: firstName, lastName: lastName}}, function (err, customers) {
-                if (drivers) {
-                    Customer.findOne({where: {email: email}}).then(function (customer) {
-                        var json_responses;
-                        if (customer) {
-                            json_responses = requestGen.responseGenerator(200, customer);
-                        } else {
-                            json_responses = requestGen.responseGenerator(500, {message: "No Customer found"});
-                        }
-                        callback(null, json_responses)
-                    });
-                }
-                else {
-                    json_responses = requestGen.responseGenerator(500, {message: "Customer Not found"});
-                    callback(null, json_responses);
-                }
-            });
-        }
-    });
 };

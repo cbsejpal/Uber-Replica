@@ -2,6 +2,7 @@
 
 var billingSchema = require('./model/billingSchema');
 var requestGen = require('./commons/responseGenerator');
+var dateFormatter = require('./commons/dateFormatter');
 
 var Billings = billingSchema.Billings;
 
@@ -12,9 +13,9 @@ exports.generateBill = function(msg, callback){
 	var driverId = msg.driverId;
 	var pickUpLocation = msg.pickUpLocation;
 	var dropOffLocation = msg.dropOffLocation;
-	var rideDate = new Date();
-	var rideStartTime = new Date();
-	var rideEndTime = new Date();
+	var rideDate = dateFormatter.dateMMDDYYYYformater(new Date());
+	var rideStartTime = dateFormatter.dateMMDDYYYYformater(new Date());
+	var rideEndTime = dateFormatter.dateMMDDYYYYformater(new Date());
 	var rideDistance = msg.rideDistance;
 	var rideAmount = msg.rideAmount;
 
@@ -39,7 +40,8 @@ exports.generateBill = function(msg, callback){
 			json_responses = requestGen.responseGenerator(500, {message: " error generating bill" });
 		}
 		else {
-			json_responses = requestGen.responseGenerator(200, {message: " bill generated for this ride" });
+			//console.log('new Bill' + newBill);
+			json_responses = requestGen.responseGenerator(200, newBill);
 		}
 //		billingSchema.closeConnection();
 		callback(null,json_responses);

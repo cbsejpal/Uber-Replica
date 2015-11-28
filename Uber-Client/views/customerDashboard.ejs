@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,187 +11,245 @@
 
     <title>Dashboard Customer</title>
 
-     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
- 
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<script src="angular/customerDashboard.js"></script>
-<script src="angular/profileCustomer.js"></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+     <script src="http://code.angularjs.org/1.3.15/angular.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="angular/customerDashboard.js"></script>
 
+
+    <script src="https://cdn.socket.io/socket.io-1.3.7.js"></script>
+    <script>
+        var socket = io.connect('http://localhost:3000');
+        console.log(socket);
+
+        socket.on('new_msg',function(data){
+            //alert(data.msg);
+        });
+
+        socket.emit('join',{ email: 'cbsejpal@gmail.com' });
+
+    </script>
 
     <link href="stylesheets/dashboard.css" rel="stylesheet">
+    <script>
+
+        $(document).ready( function() {
+
+            $('.myrides').show();
+            $('.profile').hide();
+
+            $("tr").click(function(){
+                $(".img").slideToggle();
+            });
+            $(".click1").on("click", function() {
+                $(".myrides").show();
+                $('.profile').hide();
+            });
+            $(".click2").on("click", function() {
+                $(".myrides").hide();
+                $('.profile').show();
+            });
+        });
 
 
-<script>
+    </script>
 
-$(document).ready( function() {
-    
-	$('.myrides').show();
-	$('.profile').hide();
-	$('.payment').hide();
+</head>
 
-    
-    $(".click1").on("click", function() {
-        $(".myrides").show();
-        $('.profile').hide();
-    	$('.payment').hide();
-    
-    });
-    $(".click2").on("click", function() {
-        $(".myrides").hide();
-        $('.profile').show();
-    	$('.payment').hide();
-
-    });
-    $(".click3").on("click", function() {
-    	$(".myrides").hide();
-        $('.profile').hide();
-    	$('.payment').show();
-    });
-    
-});
-
-
-</script>    
-    
-  </head>
-
-  <body>
-
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">U B E R</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-        <ul class="nav navbar-right">
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user" style="font-size:30px;"></span></a>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="#">SOHAM</a></li>
-            <li class="divider"></li>
-
-            <li><a href="logout">Logout</a></li>
-          </ul>
-
-        </ul>
-
-         
-        </div>
-      </div>
-    </nav>
-
-    <div class="container-fluid">
-      <div class="row">
+<body ng-app="customers">
+<% include navbar.ejs %>
+<div class="container-fluid">
+    <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
-          <ul class="nav nav-sidebar">
-            <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
-  
-            <li class=""><a href="javascript:void(0)" class="click1">My Trips</a></li>
-            <li class=""><a href="javascript:void(0)" class="clickride">Request a ride</a></li>
-            <li><a href="javascript:void(0)" class="click2">Profile</a></li>
-               <li><a href="javascript:void(0)" class="click3">Payment</a></li>
-            <li><a href="javascript:void(0)">Log out</a></li>
-          </ul>
-         
+            <ul class="nav nav-sidebar">
+                <li class="active"><a href="#">Dashboard <span class="sr-only">(current)</span></a></li>
+
+                <li class=""><a href="javascript:void(0)" class="click1">My Trips</a></li>
+                <li class=""><a href="requestRide" class="clickride">Request a ride</a></li>
+                <li><a href="javascript:void(0)" class="click2">Profile</a></li>
+                <li><a href="logout">Log out</a></li>
+            </ul>
+
         </div>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" ng-app="rides">
-        
-       <div class="myrides" ng-controller="rides">
-         <center>  
-         <h2 class="sub-header">MY RIDES</h2></center>
-          <div class="table-responsive">
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th>Ride</th>
-                  <th>Driver</th>
-                  <th>Fare</th>
-                  <th>Car</th>
-                  <th>PickUp</th>
-                  <th>Dropoff</th>
-                  <th>Payment Method</th>
-                </tr>
-              </thead>
-              <tbody ng-repeat="k in rides">
-                <tr>
-                  <td>1</td>
-                  <td>{{k.driverId}}</td>
-                  <td>$30</td>
-                  <td>UberX</td>
-                  <td>{{k.pickUpLocation}}</td>
-                   <td>{{k.dropOffLocation}}</td>
-                  <td>**** credit card</td>
-                </tr>
-                             
-              </tbody>
-            </table>
-          </div>
-          </div>
-          
-          
-			<div class="profile" ng-controller="profile">       
-            
-            
-            <center>  <h2 class="sub-header">PROFILE</h2></center>
-  <h4>General Information</h4><hr>
-  <div class="row">
-  <div class="col-md-2">
-  <p> Name : </p>
-  </div>
-  <div class="col-md-3">{{customer.firstName}}</div>
-  
-  <div class="col-md-2">
-  <p> City : </p>
-  </div>
-  <div class="col-md-3">{{customer.city}}</div>
-  
-  </div>
-  <hr>
-  <div class="row">
-  <div class="col-md-2">
-  <p> Email : </p>
-  </div>
-  <div class="col-md-3">{{customer.email}}</div>
-  
-  <div class="col-md-2">
-  <p> Language : </p>
-  </div>
-  <div class="col-md-3">English</div>
-  </div><hr>
-  
-  
- <div class="row">
-  <div class="col-md-2">
-  <p> Mobile : </p>
-  </div>
-  <div class="col-md-3">{{customer.phoneNumber}}</div>
-  
-  <div class="col-md-2">
-  <p> CreditCard : </p>
-  </div>
-  <div class="col-md-3">{{customer.creditCard}}</div>
-  </div><hr>
-  </div>
-  
-       <div class="payment" ng-controller="payment">
-         <center>  <h2 class="sub-header">PAYMENT</h2></center>
-  <h4>Payment Method</h4><hr>
-  <p>Personal Credit Card : {{customer.creditCard}}</p>
-  </div>
-       
-      </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" ng-app="customers">
+
+            <div class="myrides" ng-controller="rides">
+                <center>
+                    <h2 class="sub-header">MY RIDES</h2></center>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Ride</th>
+                            <th>Driver</th>
+                            <th>Fare</th>
+                            <th>Car</th>
+                            <th>PickUp</th>
+                            <th>Dropoff</th>
+                            <th>Payment Method</th>
+                        </tr>
+                        </thead>
+                        <tbody ng-repeat="k in rides">
+
+                        <tr class="clickme">
+                            <td>1</td>
+                            <td>{{k.driverId}}</td>
+                            <td>$30</td>
+                            <td>UberX</td>
+                            <td>{{k.pickUpLocation}}</td>
+                            <td>{{k.dropOffLocation}}</td>
+                            <td>**** credit card</td>
+                        </tr>
+
+                        <tr>
+                            <td> <h1 class="img">img</h1></td>
+                        </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+
+            </div>
+
+
+
+
+
+
+            <div class="profile" >
+                <form id="form" name='profileUpdate' method="post" ng-controller="profile" novalidate>
+
+                <center>  <h2 class="sub-header">PROFILE</h2></center>
+                <h4>General Information</h4><hr>
+                <div class="row">
+                    <div class="col-md-2">
+                        <p>First name : </p>
+                    </div>
+                    <div class="col-md-3"><input class="form-control" type="text" ng-model="firstName" required>
+
+                    </div>
+
+                    <div class="col-md-2">
+                        <p>Last name : </p>
+                    </div>
+                    <div class="col-md-3"><input class="form-control" type="text" ng-model="lastName" required>
+
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <span style="color:red" ng-show="profileUpdate.firstName.$dirty && profileUpdate.firstName.$invalid">
+  					        <span ng-show="profileUpdate.firstName.$error.required">First Name is required.</span>
+                        </span>
+                    </div>
+                    <div class="col-md-5">
+                        <span style="color:red" ng-show="profileUpdate.lastName.$dirty && profileUpdate.lastName.$invalid">
+  					        <span ng-show="profileUpdate.lastName.$error.required">Last Name is required.</span>
+                        </span>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-2">
+                        <p> City : </p>
+                    </div>
+
+                    <div class="col-md-3"><input class="form-control" type="text" ng-model="city" required></div>
+
+
+                    <div class="col-md-2">
+                        <p> State : </p>
+                    </div>
+                    <div class="col-md-3"><input class="form-control" type="text" ng-model="state" required></div>
+
+
+                </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <span style="color:red" ng-show="profileUpdate.city.$dirty && profileUpdate.city.$invalid">
+  					            <span ng-show="profileUpdate.city.$error.required">City is required.</span>
+  		                    </span>
+                        </div>
+                        <div class="col-md-5">
+                            <span style="color:red" ng-show="profileUpdate.state.$dirty && profileUpdate.state.$invalid">
+  					            <span ng-show="profileUpdate.state.$error.required">State is required.</span>
+  		                    </span>
+                        </div>
+                    </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-2">
+                        <p> Email : </p>
+                    </div>
+                    <div class="col-md-3"><input ng-pattern="/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/" class="form-control" type="text" ng-model="email" required></div>
+
+
+                    <div class="col-md-2">
+                        <p> Zip Code : </p>
+                    </div>
+                    <div class="col-md-3"><input ng-pattern="/^(\d{5}(-\d{4})?|[A-Z]\d[A-Z] *\d[A-Z]\d)$/" class="form-control" type="text" ng-model="zipCode" required></div>
+
+
+
+                </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                        <span style="color:red" ng-show="profileUpdate.email.$dirty && profileUpdate.email.$invalid">
+  					        <span ng-show="profileUpdate.email.$error.required">Email is required.</span>
+					        <span ng-show="profileUpdate.email.$error.pattern">Incorrect Email address.</span>
+  				        </span>
+                        </div>
+                        <div class="col-md-5">
+                        <span style="color:red" ng-show="profileUpdate.zipCode.$dirty && profileUpdate.zipCode.$invalid">
+  					        <span ng-show="profileUpdate.zipCode.$error.required">Zipcode is required.</span>
+					        <span ng-show="profileUpdate.zipCode.$error.pattern">Incorrect Zipcode.</span>
+  		                </span>
+                        </div>
+                    </div>
+                <hr>
+
+
+                <div class="row">
+                    <div class="col-md-2">
+                        <p> Mobile : </p>
+                    </div>
+                    <div class="col-md-3"><input ng-pattern= "/^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$/" class="form-control" type="text" ng-model="phoneNumber" required></div>
+
+
+
+                    <div class="col-md-2">
+                        <p> CreditCard : </p>
+                    </div>
+                    <div class="col-md-3"><input class="form-control" type="text" ng-model="creditCard" required></div>
+
+                </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                        <span style="color:red" ng-show="profileUpdate.phoneNumber.$dirty && profileUpdate.phoneNumber.$invalid">
+  					        <span ng-show="profileUpdate.phoneNumber.$error.required">Mobile number is required.</span>
+					        <span ng-show="profileUpdate.phoneNumber.$error.pattern">Mobile number is incorrect.</span>
+  		                </span>
+                        </div>
+                        <div class="col-md-5">
+                        <span style="color:red" ng-show="profileUpdate.creditCard.$dirty && profileUpdate.creditCard.$invalid">
+  					        <span ng-show="profileUpdate.creditCard.$error.required">Credit card information is required.</span>
+                        </span>
+                        </div>
+                    </div>
+                <hr>
+                    <button type="submit" class="btn btn-success" ng-click="save($event)">Save </button>
+                </form>
+            </div>
+
+
+        </div>
     </div>
 
+</div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
-  </body>
+</body>
 </html>

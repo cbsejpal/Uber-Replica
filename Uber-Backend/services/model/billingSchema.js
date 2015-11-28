@@ -2,7 +2,7 @@
 
 var mongoose = require('mongoose');
 
-var connection = mongoose.createConnection("mongodb://localhost:27017/uber");
+var connection = mongoose.createConnection("mongodb://localhost:27017/newuber");
 var Schema = mongoose.Schema;
 var autoIncrement = require('mongoose-auto-increment');
 autoIncrement.initialize(connection);
@@ -12,11 +12,11 @@ autoIncrement.initialize(connection);
 var billingSchema = new Schema({
 	billingId: {type: String, required: true},
 	rideId: {type: String, required: true},
-	rideDate:{type: Date, required: true}, 
+	rideDate:{type: String, required: true},
 	pickUpLocation: {type: String, required: true},
 	dropOffLocation: {type: String, required: true},
-	rideStartTime: {type: Date, required: true},
-	rideEndTime: {type: Date, required: true},
+	rideStartTime: {type: String, required: true},
+	rideEndTime: {type: String, required: true},
 	rideDistance: {type: String, required: true},
 	customerId: {type: String, required: true},
 	driverId: {type: String, required: true},

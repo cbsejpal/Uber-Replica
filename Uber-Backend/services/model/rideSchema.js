@@ -1,7 +1,7 @@
 //creating ride model
 
 var mongoose = require('mongoose');
-var connection = mongoose.createConnection("mongodb://localhost:27017/uber");
+var connection = mongoose.createConnection("mongodb://localhost:27017/newuber");
 var Schema = mongoose.Schema;
 var autoIncrement = require('mongoose-auto-increment');
 autoIncrement.initialize(connection);
@@ -12,10 +12,14 @@ autoIncrement.initialize(connection);
 var rideSchema = new Schema({
 	rideId: {type: String, required: true},
 	pickUpLocation: {type: String, required: true},
+	pickUpLatLong: {type: String, required: true},
 	dropOffLocation: {type: String, required: true},
-	rideDateTime: {type: Date, required: true},
+	dropOffLatLong: {type: String, required: true},
+	rideStartDateTime: {type: Date},
+	rideEndDateTime: {type: Date},
 	customerId: {type: String, required: true},
-	driverId: {type: String, required: true}
+	driverId: {type: String, required: true},
+	rideStarted: {type: Boolean, default: false}
 }, {
 	versionKey : false
 });

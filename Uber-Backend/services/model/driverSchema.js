@@ -15,8 +15,10 @@ var Driver = sequelize.define('Driver', {
 	city: Sequelize.STRING,
 	state: Sequelize.STRING,
 	zipCode: Sequelize.STRING,
-	phoneNumber: Sequelize.BIGINT,
+	phoneNumber: Sequelize.STRING,
 	carDetails: Sequelize.TEXT,
+	license: Sequelize.STRING,
+	videoURL: Sequelize.STRING,
 	verifyStatus: {type: Sequelize.BOOLEAN, defaultValue: false}
 },{
 	timestamps: false, //by default sequelize will add createdAt and updatedAt columns into tables so to remove them use this attribute
@@ -30,7 +32,7 @@ exports.Driver = Driver;
 
 //mongodb
 var mongoose = require('mongoose');
-var connection = mongoose.createConnection("mongodb://localhost:27017/uber");
+var connection = mongoose.createConnection("mongodb://localhost:27017/newuber");
 var Schema = mongoose.Schema;
 var autoIncrement = require('mongoose-auto-increment');
 autoIncrement.initialize(connection);
@@ -56,8 +58,10 @@ var driverSchema = new Schema({
 	lastName: {type: String, required: true},
 	rides: [ridesList],
 	imagePath: String,
-	videoPath: String,
-	verifyStatus: {type: Boolean, default: false}
+	//videoPath: String,
+	verifyStatus: {type: Boolean, default: false},
+	isBusy : {type: Boolean, default: false},
+	currentLocation: {type: String}
 }, {
 	versionKey : false
 }

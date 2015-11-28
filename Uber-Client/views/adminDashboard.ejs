@@ -1,234 +1,240 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <meta name="description" content="">
+  <meta name="author" content="">
 
-    <title>Dashboard Admin</title>
+  <title>Dashboard Admin</title>
 
 
-     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
- 
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-  
-  
-
-    <link href="stylesheets/dashboard.css" rel="stylesheet">
+   <script src="angular/adminDashboard.js"></script>
 
 
-<script>
 
-$(document).ready( function() {
-	
-    $('.drivers').show();
-    $('.customers').hide();
-    $('.requests').hide();
-    $('.analysis').hide();
+  <link href="stylesheets/dashboard.css" rel="stylesheet">
+  <link href="stylesheets/admin.css" rel="stylesheet">
 
-    $(".click1").on("click", function() {
-    	 $('.drivers').show();
-    	    $('.customers').hide();
-    	    $('.requests').hide();
-    	    $('.analysis').hide();
-    
+  <script>
+
+    $(document).ready( function() {
+
+      $('.drivers').hide();
+      $('.customers').hide();
+      $('.requests').show();
+      $('.analysis').hide();
+
+      $(".click1").on("click", function() {
+        $('.drivers').show();
+        $('.customers').hide();
+        $('.requests').hide();
+        $('.analysis').hide();
+
+      });
+      $(".click2").on("click", function() {
+        $('.drivers').hide();
+        $('.customers').show();
+        $('.requests').hide();
+        $('.analysis').hide();
+      });
+
+
+      $(".click3").on("click", function() {
+        $('.drivers').hide();
+        $('.customers').hide();
+        $('.requests').show();
+        $('.analysis').hide();
+
+      });
+      $(".click4").on("click", function() {
+        $('.drivers').hide();
+        $('.customers').hide();
+        $('.requests').hide();
+        $('.analysis').show();
+
+      });
+
     });
-    $(".click2").on("click", function() {
-    	 $('.drivers').hide();
-    	    $('.customers').show();
-    	    $('.requests').hide();
-    	    $('.analysis').hide();
-    });
-   
-    
-    $(".click3").on("click", function() { 
-	    	$('.drivers').hide();
-		    $('.customers').hide();
-		    $('.requests').show();
-		    $('.analysis').hide();
-
-    });
-    $(".click4").on("click", function() {
-	    	 $('.drivers').hide();
-    	    $('.customers').hide();
-    	    $('.requests').hide();
-    	    $('.analysis').show();
-
-    });
-    
-});
 
 
-</script>    
-    
-  </head>
+  </script>
 
-  <body>
+</head>
 
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">U B E R</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-        <ul class="nav navbar-right">
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">U B E R</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-right">
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user" style="font-size:30px;"></span></a>
           <ul class="dropdown-menu" role="menu">
-            <li><a href="#">SOHAM</a></li>
+            <li><a href="#">Admin</a></li>
             <li class="divider"></li>
 
             <li><a href="logout">Logout</a></li>
           </ul>
 
-        </ul>
+      </ul>
 
-         
+
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-3 col-md-2 sidebar">
+      <ul class="nav nav-sidebar">
+        <li class="active"><a>Admin Dashboard <span class="sr-only">(current)</span></a></li>
+        <li class=""><a href="javascript:void(0)" class="click3">Requests</a></li>
+        <li class=""><a href="javascript:void(0)" class="click1">Drivers</a></li>
+        <li class=""><a href="javascript:void(0)" class="click2">Customers</a></li>
+        <li><a href="javascript:void(0)" class="click4">Analysis</a></li>
+        <li><a href="javascript:void(0)">Log out</a></li>
+      </ul>
+
+    </div>
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" ng-app="admin">
+      <div class="drivers" ng-controller="drivers">
+        <center>  <h2 class="sub-header">Drivers' list</h2></center>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th>#</th>
+              <th>Driver</th>
+              <th>Lastname</th>
+              <th>Email</th>
+              <th>Action</th>
+            </tr>
+            </thead>
+            <tbody ng-repeat = "k in items">
+            <tr>
+              <td>1</td>
+              <td>{{k.firstName}}</td>
+              <td>{{k.lastName}}</td>
+              <td>{{k.email}}</td>
+              <td><button class="btn btn-danger" type="button" ng-click="deleteDriver(k.email)" >Delete</button></td>
+            </tr>
+            </tbody>
+          </table>
         </div>
       </div>
-    </nav>
 
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
-          <ul class="nav nav-sidebar">
-            <li class="active"><a href="#">Admin <span class="sr-only">(current)</span></a></li>
-            <li class=""><a href="javascript:void(0)" class="click1">Drivers</a></li>
-               <li class=""><a href="javascript:void(0)" class="click2">Customers</a></li>
-            <li class=""><a href="javascript:void(0)" class="click3">Requests</a></li>
-            <li><a href="javascript:void(0)" class="click4">Analysis</a></li>
-            <li><a href="javascript:void(0)">Log out</a></li>
-          </ul>
-         
+
+      <!-- customers div -->
+
+      <div class="customers" ng-controller="customers">
+        <center>  <h2 class="sub-header">Customers' list</h2></center>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th>#</th>
+              <th>Firstname</th>
+              <th>Lastname</th>
+              <th>Email</th>
+              <th>Action</th>
+            </tr>
+            </thead>
+            <tbody ng-repeat="k in items">
+            <tr>
+              <td>1</td>
+              <td>{{k.firstName}}</td>
+              <td>{{k.lastName}}</td>
+              <td>{{k.email}}</td>
+              <td><button class="btn btn-danger" type="button" ng-click="deleteCustomer(k.email)">Delete</button></td>
+            </tr>
+            </tbody>
+          </table>
         </div>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-        <div class="drivers">
-          <center>  <h2 class="sub-header">Drivers' list</h2></center>
-          <div class="table-responsive">
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Driver</th>
-                  <th>Car</th>
-                  <th>City</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Johan</td>
-                  <td>UberX</td>
-                  <td>San Jose</td>
-                  <td>x</td>
-                </tr>                
-              </tbody>
-            </table>
-          </div>
-        </div>
+      </div>
+
+
+
+      <div class="requests" ng-controller="requests">
+        <center>  <h2 class="sub-header">Approval needed from admin</h2></center>
+        <p>Customer List :</p> 
+        <table class="table table-striped">
+            <thead>
+            <tr>
+              <th>#</th>
+              <th>Customer</th>
+              <th>Email</th>
+              <th>Action</th>
+            </tr>
+            </thead>
+            <tbody ng-repeat="k in customers">
+            <tr>
+              <td>1</td>
+              <td>{{k.firstName}}</td>
+              
+              <td>{{k.email}}</td>
+              
+              <td><button class="btn btn-success" type="submit" ng-click="approveCustomer(k.email)" >Approve</button><button class="btn btn-danger" type="button" ng-click="ignoreCustomer(k.email)" >Ignore</button></td>
+              <td></td>
+            </tr>
+            </tbody>
+          </table>
         
+        <hr>
+        <p> Driver List : </p>
+         <table class="table table-striped">
+            <thead>
+            <tr>
+              <th>#</th>
+              <th>Driver</th>
+              <th>Email</th>
+              <th>Action</th>
+            </tr>
+            </thead>
+            <tbody ng-repeat="k in drivers">
+            <tr>
+              <td>1</td>
+              <td>{{k.firstName}}</td>
+              
+              <td>{{k.email}}</td>
+              <td><button class="btn btn-success" type="button" ng-click="approveDriver(k.email)">Approve</button></td>
+            </tr>
+            </tbody>
+          </table>
         
-        <!-- customers div -->
-        
-        <div class="customers">
-          <center>  <h2 class="sub-header">Drivers' list</h2></center>
-          <div class="table-responsive">
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Customer</th>
-                  <th>State</th>
-                  <th>City</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Johan</td>
-                  <td>UberX</td>
-                  <td>San Jose</td>
-                  <td>x</td>
-                </tr>                
-              </tbody>
-            </table>
-          </div>
-        </div>
-        
-        
-		   
-		<div class="requests">
-		 <center>  <h2 class="sub-header">Approval needed from admin</h2></center>
-  <p>Customer List :</p> <button class="btn btn-success" type="submit">Approve</button><hr>
-  <p> Driver List : </p><button class="btn btn-success" type="submit" >Approve</button><button type="submit" class="btn btn-danger" >Ignore</button>
-        
-		</div>
-		 
-        <div class="analysis">
-        
-		<script>
-		$(document).ready(function() {
-			  $.getScript('http://www.chartjs.org/assets/Chart.js',function(){
-			    
-			      var data = {
-			          labels : ["January","February","March","April","May","June","July"],
-			          datasets : [
-			              {
-			                  fillColor : "rgba(220,220,220,0.5)",
-			                  strokeColor : "rgba(220,220,220,1)",
-			                  pointColor : "rgba(220,220,220,1)",
-			                  pointStrokeColor : "#fff",
-			                  data : [100,9,0,1,6,5,40]
-			              },
-			              {
-			                  fillColor : "rgba(151,187,205,0.5)",
-			                  strokeColor : "rgba(151,187,205,1)",
-			                  pointColor : "rgba(151,187,205,1)",
-			                  pointStrokeColor : "#fff",
-			                  data : [28,48,40,19,96,27,100]
-			              }
-			          ]
-			      }
-			  
-					      var options = {
-					          animation: true
-					      };
-					  
-					      //Get the context of the canvas element we want to select
-					      var c = $('#myChart');
-					      var ct = c.get(0).getContext('2d');
-					      var ctx = document.getElementById("myChart").getContext("2d");
-					      /*********************/
-					      new Chart(ctx).Bar(data,options);
-					  
-					  })
-					});
-				</script>
-				
-				<div class="container">
-				  <h2>Admin analysis report</h2>
-				  <canvas id="myChart" width="400" height="200" class="well"></canvas>
-				</div>
-				</div>
-		        
-		        
-	</div>
+
+      </div>
+      
+
+      <div class="analysis">
+          <svg class="chart"></svg>
+          <script src="js/d3.min.js"  charset="utf-8"></script>
+          <script src="js/index.js"></script>
+       </div>
+
+      </div>
+
+
     </div>
-
-  
   </div>
-  </body>
+
+
+</div>
+</body>
 </html>

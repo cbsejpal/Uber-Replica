@@ -3,13 +3,14 @@ var adminSchema = require('./model/adminSchema');
 var customerSchema = require('./model/customerSchema');
 var driverSchema = require('./model/driverSchema');
 var requestGen = require('./commons/responseGenerator');
+var billingsSchema = require('./model/billingSchema');
 
 var Admin = adminSchema.Admin;
 var Customer = customerSchema.Customer; //mysql instance
 var Customers = customerSchema.Customers; //mongoDB instance
 var Driver = driverSchema.Driver; //mysql instance
 var Drivers = driverSchema.Drivers; //mongoDB instance
-
+var Billings = billingsSchema.Billings;
 
 
 exports.registerAdmin = function(msg, callback){
@@ -75,6 +76,21 @@ exports.loginAdmin = function(msg, callback){
 exports.showCustomers = function(msg, callback){
 
     var json_responses;
+    Customer.findAll({where: {verifyStatus:1}}).then(function(customers){
+        if(customers.length > 0){
+            json_responses = requestGen.responseGenerator(200, {data: customers});
+        }
+        else{
+            json_responses = requestGen.responseGenerator(404, {data: 'Sorry no customers found'});
+        }
+        callback(null, json_responses);
+    });
+};
+
+
+exports.showCustomersForApproval = function(msg, callback){
+
+    var json_responses;
     Customer.findAll({where: {verifyStatus:0}}).then(function(customers){
         if(customers.length > 0){
             json_responses = requestGen.responseGenerator(200, {data: customers});
@@ -86,7 +102,24 @@ exports.showCustomers = function(msg, callback){
     });
 };
 
+
+
+
+
 exports.showDrivers = function (msg, callback) {
+
+    var json_responses;
+    Driver.findAll({where: {verifyStatus:1}}).then(function(driver) {
+        if (driver.length > 0) {
+            json_responses = requestGen.responseGenerator(200, {data: driver});
+        } else {
+            json_responses = requestGen.responseGenerator(500, {data: "No Driver found"});
+        }
+        callback(null, json_responses);
+    });
+};
+
+exports.showDriversForApproval = function (msg, callback) {
 
     var json_responses;
     Driver.findAll({where: {verifyStatus:0}}).then(function(driver) {
@@ -146,4 +179,29 @@ exports.verifyCustomers = function (msg, callback) {
         }
 
     });
+};
+
+exports.revenuePerDayWeekly = function (msg, callback) {
+//var startdate = msg.toStartDate;
+
+    var json_responses;
+
+    Billings.aggregate([
+            {
+                $group: {
+                    _id: '$rideDate',
+                    sumAmount: {$sum: '$rideAmount'}
+                }
+            }
+        ], function (err, results) {
+            if (err) {
+                console.error(err);
+                json_responses = requestGen.responseGenerator(500, {message: "Error occured in revenue"});
+            } else {
+                console.error(results);
+                json_responses = requestGen.responseGenerator(200, results);
+            }
+            callback(null, json_responses);
+        }
+    );
 };
