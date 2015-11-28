@@ -109,7 +109,6 @@ app.get('/rideInfo', ride.getRideInformation);
 app.post('/deleteRide', ride.deleteRide);
 app.get('/customerRideList', ride.customerRideList);
 app.get('/driverRideList', ride.driverRideList);
-app.get('/getRideInfo', ride.getRideInfo);
 
 app.post('/startRide', ride.startRide);
 app.post('/endRide', ride.endRide);
