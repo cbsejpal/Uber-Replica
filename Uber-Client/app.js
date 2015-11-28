@@ -81,7 +81,7 @@ app.get('/searchDriver', driver.searchDriver);
 app.get('/deleteDriver', driver.deleteDriver);
 app.get('/getDriverInformation', driver.getDriverInformation);
 app.post('/updateDriver', driver.updateDriver);
-
+app.get('/getDriversInRange',driver.getDriversInRange);
 app.get('/driverDetails', driver.driverDetails);
 
 //register
@@ -126,6 +126,8 @@ app.get('/showDriversForApproval',admin.showDriversForApproval);
 app.post('/generateBill', billing.generateBill);
 app.post('/deleteBill', billing.deleteBill);
 app.post('/searchBills', billing.searchBills);
+app.get('/ignoreDrivers',admin.ignoreDrivers);
+app.get('/ignoreCustomers',admin.ignoreCustomers);
 
 app.get('/requestRide',index.maps);
 
