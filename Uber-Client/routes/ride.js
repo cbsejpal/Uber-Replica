@@ -150,10 +150,13 @@ exports.endRide = function(req, res){
 	var dropOffLocation = req.param('dropOffLocation');
 	var rideId = req.param('rideId');
 
+	var driverId = req.session.driverId;
+
 	var msg_payload = {
 		"rideId" : rideId,
 		dropOffLatLong : dropOffLatLong,
 		dropOffLocation : dropOffLocation,
+		"driverId" : driverId,
 		"func": "endRide"
 	};
 
@@ -177,6 +180,27 @@ exports.startRide = function(req, res){
 	var msg_payload = {
 		"rideId" : rideId,
 		"func" : "startRide"
+	};
+
+	mq_client.make_request('ride_queue', msg_payload, function(err,results) {
+		//console.log(results);
+		if (err) {
+			//console.log(err);
+			res.status(500).send(null);
+		} else {
+			////console.log("about results" + results);
+			res.status(results.status).send(results.data);
+		}
+	});
+};
+
+exports.getRideInfo = function (req, res) {
+
+	var rideId = req.param('rideId');
+
+	var msg_payload = {
+		"rideId" : rideId,
+		"func" : "getRideInfo"
 	};
 
 	mq_client.make_request('ride_queue', msg_payload, function(err,results) {
