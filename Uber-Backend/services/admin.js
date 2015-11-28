@@ -181,6 +181,59 @@ exports.verifyCustomers = function (msg, callback) {
     });
 };
 
+
+exports.ignoreDrivers = function (msg, callback) {
+
+    var email = msg.email;
+
+    var json_responses;
+
+    Driver.update({isIgnored: true}, {where: {email: email}}).then(function(driver){
+        if(driver){
+            Drivers.update({email: email}, {$set: {isIgnored: true}}, function (err, drivers) {
+                if (drivers) {
+                    json_responses = requestGen.responseGenerator(200, {data: "Driver Ignored"});
+                } else {
+                    json_responses = requestGen.responseGenerator(500, {data: "Driver Not Ignored"});
+                }
+                callback(null, json_responses)
+            });
+        }
+        else {
+            json_responses = requestGen.responseGenerator(500, {message: "No Driver found"});
+            callback(null, json_responses);
+        }
+    });
+};
+
+
+exports.ignoreCustomers = function (msg, callback) {
+
+    var email = msg.email;
+
+    var json_responses;
+
+    Customer.update({isIgnored: true}, {where: {email: email}}).then(function(customer){
+        if(customer){
+            Customers.update({email: email}, {$set: {isIgnored: true}}, function (err, customers) {
+                if (customers) {
+                    json_responses = requestGen.responseGenerator(200, {data: "Customer Ignored"});
+                } else {
+                    json_responses = requestGen.responseGenerator(500, {data: "Customer Not Ignored"});
+                }
+                callback(null, json_responses)
+            });
+        }
+        else {
+            json_responses = requestGen.responseGenerator(500, {message: "No Customer found"});
+            callback(null, json_responses);
+        }
+
+    });
+};
+
+
+
 exports.revenuePerDayWeekly = function (msg, callback) {
 //var startdate = msg.toStartDate;
 
