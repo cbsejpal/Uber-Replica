@@ -17,7 +17,8 @@ var Customer = sequelize.define('Customer', {
 	zipCode: Sequelize.STRING,
 	phoneNumber: Sequelize.STRING,
 	creditCard: Sequelize.TEXT,
-	verifyStatus: {type: Sequelize.BOOLEAN, defaultValue: false}
+	verifyStatus: {type: Sequelize.BOOLEAN, defaultValue: false},
+	isIgnored: {type: Sequelize.BOOLEAN, defaultValue: false}
 },{
 	timestamps: false, //by default sequelize will add createdAt and updatedAt columns into tables so to remove them use this attribute
 	freezeTableName: true //by default sequelize will create customerS table and not customer so this attribute won't allow it to plural the table name
@@ -62,7 +63,8 @@ var customerSchema = new Schema({
 	firstName: {type: String, required: true},
 	lastName: {type: String, required: true},
 	rides: [ridesList],
-	verifyStatus: {type: Boolean, default: false}
+	verifyStatus: {type: Boolean, default: false},
+	isIgnored: {type: Boolean, default: false}
 }, {
 	versionKey : false
 });
