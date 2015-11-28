@@ -7,7 +7,13 @@ app.run(function($rootScope) {
 
 });
 
-app.controller('ngMap1',  function ($rootScope,$scope) {
+app.controller('ngMap1',  function ($rootScope,$scope,NgMap) {
+
+    NgMap.getMap().then(function(map) {
+        $rootScope.map = map;
+
+        console.log(map.getCenter().lat()+' '+map.getCenter().lng());
+    });
 
     var vm = this;
 
