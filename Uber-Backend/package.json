@@ -14,6 +14,7 @@
     "mongoose-auto-increment": "^5.0.1",
     "mysql": "^2.9.0",
     "sequelize": "^3.13.0",
-    "underscore": "*"
+    "underscore": "*",
+    "request": "*"
   }
 }
