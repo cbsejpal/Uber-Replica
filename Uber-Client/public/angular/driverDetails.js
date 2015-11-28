@@ -39,7 +39,8 @@ app.controller('driverDetails', function($scope, $http) {
 			field.$setDirty();
 		});
 
-		if($scope.driverDetails.lisence.$error.required)
+		if($scope.driverDetails.lisence.$error.required ||
+				$scope.driverDetails.currentLocation.$error.required )
 		{
 			$event.preventDefault();
 		}
@@ -85,6 +86,7 @@ app.controller('driverDetails', function($scope, $http) {
 					"numberPlate" : $scope.NumberPlate,
 					"license" : $scope.lisence,
 					//"profilePhoto" : $scope.profilePhoto,
+					"currentLocation" : $scope.currentLocation,
 					"videoURL" : $scope.VideoURL
 				}
 			}).success(function(data) {

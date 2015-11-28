@@ -6,14 +6,18 @@ exports.createRide = function(req, res){
 
 	var pickUpLocation = req.param('pickUpLocation');
 	var dropOffLocation = req.param('dropOffLocation');
-	var rideDateTime = new Date();
+	var pickUpLatLong = req.param('pickUpLatLong');
+	var dropOffLatLong = req.param('dropOffLatLong');
+	//var rideStartDateTime = new Date();
 	var customerId = req.session.customerId;
 	var driverId = req.param('driverId');
 
 	var msg_payload = {
 		"pickUpLocation" : pickUpLocation,
 		"dropOffLocation" : dropOffLocation,
-		"rideDateTime" : rideDateTime,
+		"pickUpLatLong" : pickUpLatLong,
+		"dropOffLatLong" : dropOffLatLong,
+		//"rideStartDateTime" : rideStartDateTime,
 		"customerId" : customerId,
 		"driverId" : driverId,
 		"func": "createRide"
@@ -136,6 +140,53 @@ exports.driverRideList = function (req,res) {
 		} else {
 			console.log("eni masi ne chodu" + results);
 			res.send(results);
+		}
+	});
+};
+
+exports.endRide = function(req, res){
+
+	var dropOffLatLong = req.param('dropOffLatLong');
+	var dropOffLocation = req.param('dropOffLocation');
+	var rideId = req.param('rideId');
+
+	var msg_payload = {
+		"rideId" : rideId,
+		dropOffLatLong : dropOffLatLong,
+		dropOffLocation : dropOffLocation,
+		"func": "endRide"
+	};
+
+	mq_client.make_request('ride_queue', msg_payload, function(err,results) {
+		//console.log(results);
+		if (err) {
+			//console.log(err);
+			res.status(500).send(null);
+		} else {
+			////console.log("about results" + results);
+			res.send(results);
+		}
+	});
+};
+
+exports.startRide = function(req, res){
+
+	var rideId = req.param('rideId');
+	var driverId = req.session.driverId;
+
+	var msg_payload = {
+		"rideId" : rideId,
+		"func" : "startRide"
+	};
+
+	mq_client.make_request('ride_queue', msg_payload, function(err,results) {
+		//console.log(results);
+		if (err) {
+			//console.log(err);
+			res.status(500).send(null);
+		} else {
+			////console.log("about results" + results);
+			res.status(results.status).send(results.data);
 		}
 	});
 };

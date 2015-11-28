@@ -109,6 +109,9 @@ app.post('/deleteRide', ride.deleteRide);
 app.get('/customerRideList', ride.customerRideList);
 app.get('/driverRideList', ride.driverRideList);
 
+app.post('/startRide', ride.startRide);
+app.post('/endRide', ride.endRide);
+
 //admin
 app.get('/verifyDrivers',admin.verifyDrivers);
 app.get('/verifyCustomers',admin.verifyCustomers);

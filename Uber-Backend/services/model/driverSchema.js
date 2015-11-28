@@ -58,8 +58,10 @@ var driverSchema = new Schema({
 	lastName: {type: String, required: true},
 	rides: [ridesList],
 	imagePath: String,
-	videoPath: String,
-	verifyStatus: {type: Boolean, default: false}
+	//videoPath: String,
+	verifyStatus: {type: Boolean, default: false},
+	isBusy : {type: Boolean, default: false},
+	currentLocation: {type: String}
 }, {
 	versionKey : false
 }

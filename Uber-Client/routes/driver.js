@@ -242,6 +242,7 @@ exports.updateDriverDetails = function(req, res){
     var license = req.param('license');
     //var profilePhoto = req.param('profilePhoto');
     var videoURL = req.param('videoURL');
+    var currentLocation = req.param('currentLocation');
 
     var msg_payload = {
         "email" : email,
@@ -250,6 +251,7 @@ exports.updateDriverDetails = function(req, res){
         "license": license,
         "videoURL": videoURL,
         //profilePhoto: profilePhoto
+        "currentLocation" : currentLocation,
         "func": "updateDriverDetails"
     };
 
