@@ -168,7 +168,7 @@ exports.updateCustomer = function (msg, callback) {
 exports.listAllCustomers = function(msg, callback){
 
     var json_responses;
-    
+
 
     Customer.findAll().then(function(customers){
         if(customers.length > 0){
