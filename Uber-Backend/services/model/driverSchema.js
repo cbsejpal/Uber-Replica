@@ -19,7 +19,8 @@ var Driver = sequelize.define('Driver', {
 	carDetails: Sequelize.TEXT,
 	license: Sequelize.STRING,
 	videoURL: Sequelize.STRING,
-	verifyStatus: {type: Sequelize.BOOLEAN, defaultValue: false}
+	verifyStatus: {type: Sequelize.BOOLEAN, defaultValue: false},
+	isIgnored: {type: Sequelize.BOOLEAN, defaultValue: false}
 },{
 	timestamps: false, //by default sequelize will add createdAt and updatedAt columns into tables so to remove them use this attribute
 	freezeTableName: true //by default sequelize will create customerS table and not customer so this attribute won't allow it to plural the table name
@@ -60,6 +61,7 @@ var driverSchema = new Schema({
 	imagePath: String,
 	//videoPath: String,
 	verifyStatus: {type: Boolean, default: false},
+	isIgnored: {type: Boolean, default: false},
 	isBusy : {type: Boolean, default: false},
 	currentLocation: {type: String}
 }, {

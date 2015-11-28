@@ -213,6 +213,47 @@ exports.verifyCustomers =  function(req, res){
     });
 };
 
+
+exports.ignoreDrivers =  function(req, res){
+
+    var email = req.param('email');
+    console.log(email);
+    var msg_payload = {
+        "email": email,
+        "func" : "ignoreDrivers"
+    };
+
+    mq_client.make_request('admin_queue', msg_payload, function(err,results) {
+        console.log(JSON.stringify(results)+" drivers data");
+        if (err) {
+            res.status(500).send(null);
+        } else {
+            res.status(200).send(results);
+        }
+    });
+};
+
+exports.ignoreCustomers =  function(req, res){
+
+    var email = req.param('email');
+    var msg_payload = {
+        "email": email,
+        "func" : "ignoreCustomers"
+    };
+
+    console.log(email);
+    mq_client.make_request('admin_queue', msg_payload, function(err,results) {
+        console.log(results+" customers data");
+        if (err) {
+            res.status(500).send(null);
+        } else {
+            console.log("about results" + results);
+            res.status(200).send(results);
+        }
+    });
+};
+
+
 exports.revenuePerDayWeekly = function(req,res){
     var msg_payload = {
         "func" : "revenuePerDayWeekly"
