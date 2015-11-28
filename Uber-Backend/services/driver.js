@@ -79,6 +79,10 @@ exports.loginDriver = function (msg, callback) {
 
 };
 
+
+
+
+
 exports.searchDriver = function (msg, callback) {
 
     var search = msg.search;
@@ -118,6 +122,7 @@ exports.searchDriver = function (msg, callback) {
     });
 };
 
+
 exports.deleteDriver = function (msg, callback) {
     var email = msg.email;
     var json_responses;
@@ -147,6 +152,23 @@ exports.deleteDriver = function (msg, callback) {
                 }
             });
 };
+
+
+exports.getDriversInRange = function (msg, callback) {
+
+    var json_responses;
+    Driver.findAll({where: {verifyStatus:true}}).then(function(driver) {
+        if (driver.length > 0) {
+            json_responses = requestGen.responseGenerator(200, {data: driver});
+        } else {
+            json_responses = requestGen.responseGenerator(500, {data: "No Driver found"});
+        }
+        callback(null, json_responses);
+    });
+};
+
+
+
 
 exports.getDriverInformation = function (msg, callback) {
     var email = msg.email;

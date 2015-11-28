@@ -17,6 +17,20 @@ app.controller('ngMap1',  function ($rootScope,$scope,NgMap) {
 
     var vm = this;
 
+    $http.get("/getDriverInformation").success(function(response) {
+		if (response.status == 200) {
+				$scope.items = response.data.data;
+				
+		}
+		else
+			{
+				$scope.items = "";
+			}
+	});
+    
+    
+    
+    
     vm.positions = [];
     //pre selected positions of drivers
     vm.permenant_positions =[
@@ -139,6 +153,6 @@ app.controller('ngMap1',  function ($rootScope,$scope,NgMap) {
          vm.place = 'current-location';
          vm.placeChanged('origin');*/
     };
-
-
+    
+ 
 });
