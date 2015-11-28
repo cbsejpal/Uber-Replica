@@ -4,8 +4,11 @@
  */
 
 var express = require('express')
-    , routes = require('./routes')
     , http = require('http')
+    , app = express()
+    , server = http.Server(app)
+    , routes = require('./routes')
+    , io = require('./routes/socket').listen(server)
     , path = require('path')
     , index = require('./routes/index')
     , customer = require('./routes/customer')
@@ -21,8 +24,6 @@ var express = require('express')
 
 //mongoDB session URL
 var mongoSessionConnectURL = "mongodb://localhost:27017/sessions";
-
-var app = express();
 
 app.configure(function(){
     app.set('port', process.env.PORT || 3000);
@@ -115,6 +116,7 @@ app.post('/endRide', ride.endRide);
 //admin
 app.get('/verifyDrivers',admin.verifyDrivers);
 app.get('/verifyCustomers',admin.verifyCustomers);
+app.get('/dailyRevenue', admin.revenuePerDayWeekly);
 
 app.get('/showCustomersForApproval',admin.showCustomersForApproval);
 
@@ -132,6 +134,8 @@ app.post('/updateDriverDetails', driver.updateDriverDetails);
 mongo.connect(mongoSessionConnectURL, function() {
     console.log('Connected to mongo at: ' + mongoSessionConnectURL);
     http.createServer(app).listen(app.get('port'), function() {
-        console.log('Express server listening on port ' + app.get('port'));
+        server.listen(app.get('port'), function () {
+            console.log('Express server listening on port ' + app.get('port'));
+        });
     });
 });

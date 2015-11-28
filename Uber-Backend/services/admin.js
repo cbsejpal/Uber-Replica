@@ -180,3 +180,28 @@ exports.verifyCustomers = function (msg, callback) {
 
     });
 };
+
+exports.revenuePerDayWeekly = function (msg, callback) {
+//var startdate = msg.toStartDate;
+
+    var json_responses;
+
+    Billings.aggregate([
+            {
+                $group: {
+                    _id: '$rideDate',
+                    sumAmount: {$sum: '$rideAmount'}
+                }
+            }
+        ], function (err, results) {
+            if (err) {
+                console.error(err);
+                json_responses = requestGen.responseGenerator(500, {message: "Error occured in revenue"});
+            } else {
+                console.error(results);
+                json_responses = requestGen.responseGenerator(200, results);
+            }
+            callback(null, json_responses);
+        }
+    );
+};
