@@ -63,7 +63,9 @@ var driverSchema = new Schema({
 	verifyStatus: {type: Boolean, default: false},
 	isIgnored: {type: Boolean, default: false},
 	isBusy : {type: Boolean, default: false},
-	currentLocation: {type: String}
+	currentLocation: {type: String},
+	latitude: {type: String},
+	longitude: {type: String}
 }, {
 	versionKey : false
 }

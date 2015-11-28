@@ -310,9 +310,6 @@ exports.startRide = function(msg, callback){
     });
 };
 
-
-
-
 exports.getRideInfo = function (msg, callback) {
 
     var json_responses;

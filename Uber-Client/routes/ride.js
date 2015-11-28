@@ -30,7 +30,6 @@ exports.createRide = function(req, res){
 			res.status(500).send(null);
 		} else {
 			////console.log("about results" + results);
-			//req.session.rideId = results.data.rideId;
 			res.status(results.status).send(results.data);
 		}
 	});
@@ -155,8 +154,8 @@ exports.endRide = function(req, res){
 
 	var msg_payload = {
 		"rideId" : rideId,
-		"dropOffLatLong" : dropOffLatLong,
-		"dropOffLocation" : dropOffLocation,
+		dropOffLatLong : dropOffLatLong,
+		dropOffLocation : dropOffLocation,
 		"driverId" : driverId,
 		"func": "endRide"
 	};
