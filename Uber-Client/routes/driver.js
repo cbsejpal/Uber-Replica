@@ -170,10 +170,15 @@ exports.deleteDriver = function(req, res){
 };
 
 exports.getDriversInRange = function(req, res){
-  
+
+    var currentLat = req.param('currentLat');
+    var currentLng = req.param('currentLng');
+
+
     var msg_payload = {
-      
-        "func" : "getDriversInRange"
+      "func" : "getDriversInRange",
+        "currentLat" : currentLat,
+        "currentLng" : currentLng
     };
 
     mq_client.make_request('driver_queue', msg_payload, function(err,results) {
@@ -182,26 +187,6 @@ exports.getDriversInRange = function(req, res){
          
             res.status(500).send(null);
         } else {
-        	
-            vm.filerPlace = function(){
-                var dist = {}, point = {};
-                for (var intPoint = 0; intPoint < intPoints; intPoint = intPoint + 1) {
-                    point = vm.permenant_positions[intPoint];
-                    dist = distance({
-                        lat1: location.lat,
-                        lon1: location.lon,
-                        lat2: point.lat,
-                        lon2: point.lon
-                    });
-                    if (dist.m < 10) {
-                        point.distance = dist.m;
-                        vm.positions.push(point);
-                    }
-                    console.log('Positions:',JSON.stringify(dist))
-                }
-
-                console.log('Filtered Positions:',JSON.stringify(vm.positions))
-            };
             //console.log("These are the results from driver info :" + results);
             res.status(200).send(results);
         }
