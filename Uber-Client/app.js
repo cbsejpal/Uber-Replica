@@ -133,9 +133,7 @@ app.post('/updateDriverDetails', driver.updateDriverDetails);
 //connect to the mongo collection session and then createServer
 mongo.connect(mongoSessionConnectURL, function() {
     console.log('Connected to mongo at: ' + mongoSessionConnectURL);
-    http.createServer(app).listen(app.get('port'), function() {
         server.listen(app.get('port'), function () {
             console.log('Express server listening on port ' + app.get('port'));
         });
-    });
 });
