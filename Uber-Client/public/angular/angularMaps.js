@@ -13,6 +13,9 @@ app.controller('ngMap1',  function ($rootScope,$scope,NgMap) {
         $rootScope.map = map;
 
         console.log(map.getCenter().lat()+' '+map.getCenter().lng());
+
+        //Call get driver information here with map.getCenter.lat() with key currentLat
+        // & map.getCenter().lng() with key currentLng
     });
 
     var vm = this;
