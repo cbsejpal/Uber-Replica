@@ -19,6 +19,20 @@ exports.generateBill = function(msg, callback){
 	var rideDistance = msg.rideDistance;
 	var rideAmount = msg.rideAmount;
 
+	request({
+		url: 'https://maps.googleapis.com/maps/api/distancematrix/json', //URL to hit
+		qs: {origins: pickUpLocation ,destinations:dropOffLocation ,mode:"driving",language:"us-EN"},
+		method: 'GET'
+	}, function(error, response, body) {
+		if (error) {
+			console.log(error);
+		} else {
+			rideDistance = JSON.parse(body).rows[0].elements[0].distance.value * 0.000621371;
+
+			//Call dynamic pricing algorithm here
+		}
+	});
+
 	var json_responses;
 
 	var newBill = new Billings({
