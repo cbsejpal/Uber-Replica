@@ -13,48 +13,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <script>
-
-        $(document).ready(function load()
-        {
-            $('.vehicle').show();
-            $('.background').hide();
-            $('.video').hide();
-            $('.upload').hide();
-
-            $('.click1').on("click",function(){
-                $('.vehicle').show();
-                $('.background').hide();
-                $('.video').hide();
-                $('.upload').hide();
-            });
-
-            $('.click2').on("click",function(){
-                $('.vehicle').hide();
-                $('.background').show();
-                $('.upload').hide();
-                $('.video').hide();
-
-            });
-
-            $('.click3').on("click",function(){
-                $('.vehicle').hide();
-                $('.background').hide();
-                $('.video').hide();
-                $('.upload').show();
-            });
-
-            $('.click4').on("click",function(){
-                $('.vehicle').hide();
-                $('.background').hide();
-                $('.video').show();
-                $('.upload').hide();
-            });
-
-
-        });
-    </script>
-
+    <script src="angular/driverDetails.js"></script>
     <!-- Custom CSS -->
     <link href="stylesheets/modern-business.css" rel="stylesheet">
 
@@ -94,73 +53,66 @@
         <li><a href="javascript:void(0)" class="click4"><span class="glyphicon glyphicon-chevron-right"></span> VIDEO</a></li>
     </ul>
 </div>
-<div class="col-md-9">
+<div class="col-md-9" ng-app="driverDetails" ng-controller="driverDetails">
 
-    <div class="vehicle">
+    <form id="form" method="post" name="driverDetails" novalidate>
 
-
-
-        <div class="col-md-5">
-            <form id="form" action="#" method="post">
-
+        <div class="vehicle" ng-hide="vehicle">
+            <div class="col-md-5">
                 <h2>VEHICLE INFORMATION</h2><hr>
-                <p style = "font-size:16px;"> Vehicle Name : <input class="form-control" maxlength="30" type="text" name="CarName" value="" placeholder="Vehicle Name" required></p><br>
-                <p style = "font-size:16px;"> Number Plate :<input class="form-control" maxlength="20" type="text" name="NumberPlate" value="" placeholder="Number Plate" required></p><br>
-                <input class="btn btn-lg btn-default click2" type="button" value="Continue" />
-
-
+                <p style = "font-size:16px;"> Type of Vehicle :
+                    <input class="form-control" ng-model="carName" type="text" name="carName" value="" placeholder="Vehicle Type" required></p>
+                   <span style="color:red" ng-show="driverDetails.carName.$dirty && driverDetails.carName.$invalid">
+                        <span ng-show="driverDetails.carName.$error.required">Vehicle type is required</span><br/>
+                    </span>
+                <p style = "font-size:16px;"> Number Plate :
+                    <input class="form-control" ng-model="NumberPlate" maxlength="20" type="text" name="NumberPlate" value="" placeholder="Number Plate" required></p>
+                    <span style="color:red" ng-show="driverDetails.NumberPlate.$dirty && driverDetails.NumberPlate.$invalid">
+                        <span ng-show="driverDetails.NumberPlate.$error.required">Number Plate is required</span><br/>
+                    </span>
+                    <input class="btn btn-lg btn-default click2" type="submit" ng-click = "validVehicle($event)" value="Continue" />
+            </div>
         </div>
 
 
-    </div>
-</div>
+        <div class="background" ng-hide="background">
+            <div class="col-md-5">
+                    <h2>Driving License</h2><hr>
+                    <p style = "font-size:16px;"> License : <br>
+                        <input ng-model="lisence" class="form-control" maxlength="20" type="text" name="lisence" value="" placeholder="000-00-0000" required></p><br>
+                        <span style="color:red" ng-show="driverDetails.lisence.$dirty && driverDetails.lisence.$invalid">
+                            <span ng-show="driverDetails.lisence.$error.required">License No is required</span>
+                        </span>
+                        <input class="btn btn-lg btn-default click3" type="submit" ng-click = "validBackground($event)" value="Continue" />
+            </div>
+        </div>
 
 
-
-<div class="background">
-
-    <div class="col-md-5">
-        <form id="form" action="#" method="post">
-            <h2>BACKGROUND</h2><hr>
-            <p style = "font-size:16px;"> SSN : <br><input class="form-control" maxlength="11" type="text" name="ssn" value="" placeholder="000-00-0000" required></p><br>
-            <input class="btn btn-lg btn-default click3" type=button"" value="Continue" />
-
-    </div>
-
-</div>
+        <div class="profilePhoto" ng-hide="profilePhoto">
+            <div class="col-md-8">
+                <h2>Please upload a photo of yours !</h2>
+                Upload : <br><br><input ng-model="profilePhoto" class="btn btn-lg btn-default" type= "file" required>
+                <br>
+                <input class="btn btn-lg btn-default click4" type="submit" ng-click="showVideo()" value="Continue">
+            </div>
+        </div>
 
 
+        <div class="video" ng-hide="video">
+            <div class="col-md-5">
+                    <h2>VIDEO</h2><hr>
+                    <p style = "font-size:16px;"> Video URL :<br> <br>
+                        <input ng-model="VideoURL" class="form-control" type="text" name="VideoURL" value="" placeholder="VideoURL" required></p><br>
+                        <span style="color:red" ng-show="driverDetails.VideoURL.$dirty && driverDetails.VideoURL.$invalid">
+                            <span ng-show="driverDetails.VideoURL.$error.required">Video URL is required</span>
+                        </span>
+                    <br><input class="btn btn-lg btn-success" ng-click="submit($event)" type="Submit" value="Submit" />
+            </div>
+        </div>
 
 
-<div class="upload">
-    <div class="col-md-8">
+    </form>
 
-        <h2>Please upload a photo of your driving license !</h2>
-
-        Upload : <br><br><input class="btn btn-lg btn-default" type= "file" >
-
-
-        <br>
-        <input class="btn btn-lg btn-default click4" type="button" value="Continue">
-    </div>
-</div>
-
-
-
-<div class="video">
-
-    <div class="col-md-5">
-        <form id="form" action="#" method="post">
-            <h2>BACKGROUND</h2><hr>
-            <p style = "font-size:16px;"> Video URL :<br> <br><input class="form-control" maxlength="50" type="text" name="VideoURL" value="" placeholder="Video URL" required></p><br>
-            <br><input class="btn btn-lg btn-success" type="Submit" value="Continue" />
-
-        </form></div>
-
-</div>
-
-</form>
-</div>
 </div>
 
 

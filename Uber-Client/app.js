@@ -69,16 +69,17 @@ app.get('/logout', logout.logout);
 
 //customer
 
-
 app.get('/deleteCustomer', customer.deleteCustomer);
 app.get('/getCustomerInformation', customer.getCustomerInformation);
 app.post('/updateCustomer', customer.updateCustomer);
 
+
 //driver
 app.get('/searchDriver', driver.searchDriver);
-app.post('/deleteDriver', driver.deleteDriver);
+app.get('/deleteDriver', driver.deleteDriver);
 app.get('/getDriverInformation', driver.getDriverInformation);
 app.post('/updateDriver', driver.updateDriver);
+
 app.get('/driverDetails', driver.driverDetails);
 
 //register
@@ -103,15 +104,16 @@ app.get('/adminDashboard', admin.adminDashboard);
 //rides
 app.post('/createRide', ride.createRide);
 app.get('/rideInfo', ride.getRideInformation);
-app.post('/updateRide', ride.updateRide);
 app.post('/deleteRide', ride.deleteRide);
 app.get('/customerRideList', ride.customerRideList);
 app.get('/driverRideList', ride.driverRideList);
 
-//admin
 app.post('/verifyDrivers', admin.verifyDrivers);
 app.post('/verifyCustomers', admin.verifyCustomers);
 app.get('/dailyRevenue', admin.revenuePerDayWeekly);
+app.get('/showCustomersForApproval',admin.showCustomersForApproval);
+
+app.get('/showDriversForApproval',admin.showDriversForApproval);
 //billing
 app.post('/generateBill', billing.generateBill);
 app.post('/deleteBill', billing.deleteBill);

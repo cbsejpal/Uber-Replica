@@ -127,13 +127,13 @@
               <th>Action</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody ng-repeat = "k in items">
             <tr>
               <td>1</td>
-              <td>{{firstName}}</td>
-              <td>{{lastName}}</td>
-              <td>{{email}}</td>
-              <td><button class="btn btn-danger" type="button" ng-click="deleteDriver()" >Delete</button></td>
+              <td>{{k.firstName}}</td>
+              <td>{{k.lastName}}</td>
+              <td>{{k.email}}</td>
+              <td><button class="btn btn-danger" type="button" ng-click="deleteDriver(k.email)" >Delete</button></td>
             </tr>
             </tbody>
           </table>
@@ -156,13 +156,13 @@
               <th>Action</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody ng-repeat="k in items">
             <tr>
               <td>1</td>
-              <td>{{firstName}}</td>
-              <td>{{lastName}}</td>
-              <td>{{email}}</td>
-              <td><button class="btn btn-danger" type="submit" >Delete</button></td>
+              <td>{{k.firstName}}</td>
+              <td>{{k.lastName}}</td>
+              <td>{{k.email}}</td>
+              <td><button class="btn btn-danger" type="button" ng-click="deleteCustomer(k.email)">Delete</button></td>
             </tr>
             </tbody>
           </table>
@@ -179,14 +179,18 @@
             <tr>
               <th>#</th>
               <th>Customer</th>
+              <th>Email</th>
               <th>Action</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody ng-repeat="k in customers">
             <tr>
               <td>1</td>
-              <td>{{firstNameCustomer}}</td>
-              <td><button class="btn btn-success" type="submit" >Approve</button><button class="btn btn-danger" type="submit" >Ignore</button></td>
+              <td>{{k.firstName}}</td>
+              
+              <td>{{k.email}}</td>
+              
+              <td><button class="btn btn-success" type="submit" ng-click="approveCustomer(k.email)" >Approve</button><button class="btn btn-danger" type="button" ng-click="ignoreCustomer(k.email)" >Ignore</button></td>
               <td></td>
             </tr>
             </tbody>
@@ -199,14 +203,17 @@
             <tr>
               <th>#</th>
               <th>Driver</th>
+              <th>Email</th>
               <th>Action</th>
             </tr>
             </thead>
-            <tbody ng-controller="requests">
+            <tbody ng-repeat="k in drivers">
             <tr>
               <td>1</td>
-              <td>{{firstNameDriver}}</td>
-              <td><button class="btn btn-success" type="submit" >Approve</button></td>
+              <td>{{k.firstName}}</td>
+              
+              <td>{{k.email}}</td>
+              <td><button class="btn btn-success" type="button" ng-click="approveDriver(k.email)">Approve</button></td>
             </tr>
             </tbody>
           </table>

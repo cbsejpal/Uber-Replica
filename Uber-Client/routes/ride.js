@@ -1,14 +1,13 @@
 //rides
 var mq_client = require('../rpc/client');
 var requestGen = require('./commons/responseGenerator');
-var dateFormatter = require('./commons/dateFormatter');
 
 exports.createRide = function(req, res){
 
 	var pickUpLocation = req.param('pickUpLocation');
 	var dropOffLocation = req.param('dropOffLocation');
-	var rideDateTime = dateFormatter.dateMMDDYYYYformater(new Date().getDate());
-	var customerId = req.param('customerId');
+	var rideDateTime = new Date();
+	var customerId = req.session.customerId;
 	var driverId = req.param('driverId');
 
 	var msg_payload = {
@@ -33,7 +32,9 @@ exports.createRide = function(req, res){
 };
 
 exports.getRideInformation = function(req, res){
-	var customerId = 4;
+	var customerId = req.session.customerId;
+	console.log(customerId);
+	//var customerId = req.session.customerId;
 		//req.session.customerId;
 	//console.log("Rides info :"+customerId);
 
@@ -120,8 +121,8 @@ exports.customerRideList = function (req,res) {
 };
 
 exports.driverRideList = function (req,res) {
-	var driverId = req.param('driverId');
-
+	var driverId = req.session.driverId;
+	console.log("driverRideList function : "+driverId);
 	var msg_payload = {
 		"driverId" : driverId,
 		"func": "driverRideList"
@@ -130,12 +131,11 @@ exports.driverRideList = function (req,res) {
 	mq_client.make_request('ride_queue', msg_payload, function(err,results) {
 		//console.log(results);
 		if (err) {
-			//console.log(err);
+			
 			res.status(500).send(null);
 		} else {
-			////console.log("about results" + results);
-			res.status(results.status).send(results.data);
+			console.log("eni masi ne chodu" + results);
+			res.send(results);
 		}
 	});
 };
-

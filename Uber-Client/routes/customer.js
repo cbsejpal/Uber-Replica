@@ -1,3 +1,4 @@
+
 var mq_client = require('../rpc/client');
 var requestGen = require('./commons/responseGenerator');
 var io = require('./socket');
@@ -152,8 +153,8 @@ exports.deleteCustomer = function (req, res) {
             //console.log(err);
             res.status(500).send(null);
         } else {
-            ////console.log("about results" + results);
-            res.status(results.status).send(results.data);
+        	
+            res.send(results);
         }
     });
 };
@@ -182,14 +183,14 @@ exports.getCustomerInformation = function (req, res) {
             },5000);
 
             res.send(results);
-
         }
     });
 };
 exports.listAllCustomers = function (req, res) {
 
-    var msg_payload = {
-        "func": "listAllCustomers"
+    
+	var msg_payload = {
+        "func" : "listAllCustomers"
     };
 
     mq_client.make_request('customer_queue', msg_payload, function (err, results) {

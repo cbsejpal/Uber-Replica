@@ -91,11 +91,16 @@ exports.getRideInformation = function (msg, callback) {
 	
 	var customerId = msg.customerId;
 
+	console.log("res "+customerId);
     Rides.find({customerId: customerId}, function(err, docs){
+    	
+    	console.log(docs+" docs");
     
-    	if (docs) {
+    	if (docs.length > 0) {
+    		console.log("inside docs");
             json_responses = requestGen.responseGenerator(200, docs);
         } else {
+        	console.log("error");
             json_responses = requestGen.responseGenerator(500, {message: 'No Ride Found'});
         }
         callback(null, json_responses);
