@@ -52,12 +52,14 @@ app.configure('development', function () {
 
 
 app.get('/', routes.index);
-app.get('/login', routes.login);
-app.get('/loginCustomer', customer.login);
-app.get('/signupCustomer', customer.index);
-app.get('/loginDriver', driver.login);
-app.get('/signupDriver', driver.index);
-
+app.get('/login',routes.login);
+app.get('/loginCustomer',customer.login);
+app.get('/signupCustomer',customer.index);
+app.get('/loginDriver',driver.login);
+app.get('/driverLogin', driver.driverLogin);
+app.get('/signupDriver',driver.index);
+app.get('/loginAdmin', admin.login);
+app.get('/registerAdmin', admin.register);
 
 app.get('/listAllCustomers', customer.listAllCustomers);
 
@@ -120,6 +122,8 @@ app.post('/deleteBill', billing.deleteBill);
 app.post('/searchBills', billing.searchBills);
 
 app.get('/requestRide',index.maps);
+
+app.post('/updateDriverDetails', driver.updateDriverDetails);
 
 //connect to the mongo collection session and then createServer
 mongo.connect(mongoSessionConnectURL, function () {
