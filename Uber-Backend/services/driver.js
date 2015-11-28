@@ -242,50 +242,58 @@ exports.updateDriverDetails = function(msg, callback){
 
     request({
         url: 'https://maps.googleapis.com/maps/api/geocode/json', //URL to hit
-        qs: {address: "750 Miller st San Jose"},
+        qs: {address: currentLocation},
         method: 'GET'
     }, function(error, response, body){
         if(error) {
             console.log(error);
         } else {
-            console.log(response.statusCode, JSON.parse(body));
+            //console.log(response.statusCode, JSON.parse(body));
             var city = findResult(JSON.parse(body).results[0].address_components, "locality");
             var location = JSON.parse(body).results[0].geometry.location;
-            console.log("city", city);
-            console.log("location", location);
-        }
-    });
+            //console.log("city " + city);
+            //console.log("location " + JSON.stringify(location));
 
-    Driver.update({
-        carDetails: carDetails,
-        videoURL: videoURL,
-        license: license
-    },{where: {email: email}}).then(function(driver){
-        var json_responses;
-        if (driver) {
+            var latitude = location.lat;
+            var longitude = location.lng;
 
-            Drivers.update({email: email}, {$set: {currentLocation: currentLocation}},  function(err, doc){
+            Driver.update({
+                carDetails: carDetails,
+                videoURL: videoURL,
+                license: license
+            },{where: {email: email}}).then(function(driver){
+                var json_responses;
+                if (driver) {
 
-                if(err){
-                    json_responses = requestGen.responseGenerator(500, {message: "Error saving driver"});
+                    Drivers.update({email: email}, {$set: {
+                        currentLocation: currentLocation,
+                        latitude: latitude,
+                        longitude: longitude}},  function(err, doc){
+
+                        if(err){
+                            json_responses = requestGen.responseGenerator(500, {message: "Error saving driver"});
+                            callback(null, json_responses);
+                        }
+
+                        else if(doc.length > 0){
+                            json_responses = requestGen.responseGenerator(200, {message: 'Success'});
+                            callback(null, json_responses);
+                        }
+                        else{
+                            json_responses = requestGen.responseGenerator(500, {message: "No Driver found in MongoDB"});
+                            callback(null, json_responses);
+                        }
+                    });
+                } else {
+                    json_responses = requestGen.responseGenerator(500, {message: "No Driver found"});
                     callback(null, json_responses);
                 }
 
-                else if(doc.length > 0){
-                    json_responses = requestGen.responseGenerator(200, {message: 'Success'});
-                    callback(null, json_responses);
-                }
-                else{
-                    json_responses = requestGen.responseGenerator(500, {message: "No Driver found in MongoDB"});
-                    callback(null, json_responses);
-                }
             });
-        } else {
-            json_responses = requestGen.responseGenerator(500, {message: "No Driver found"});
-            callback(null, json_responses);
-        }
 
+        }
     });
+
 };
 
 var findResult = function(results, name){

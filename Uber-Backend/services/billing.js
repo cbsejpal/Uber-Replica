@@ -40,7 +40,6 @@ exports.generateBill = function(msg, callback){
 			json_responses = requestGen.responseGenerator(500, {message: " error generating bill" });
 		}
 		else {
-			//console.log('new Bill' + newBill);
 			json_responses = requestGen.responseGenerator(200, newBill);
 		}
 //		billingSchema.closeConnection();

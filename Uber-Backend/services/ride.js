@@ -5,6 +5,9 @@ var customerSchema = require('./model/customerSchema');
 var driverSchema = require('./model/driverSchema');
 var requestGen = require('./commons/responseGenerator');
 
+var request = require('request');
+var _ = require('underscore');
+
 var Customers = customerSchema.Customers; //mongoDB instance
 var Drivers = driverSchema.Drivers; //mongoDB instance
 
@@ -207,41 +210,66 @@ exports.endRide = function(msg, callback){
 
     var json_response;
 
-    Rides.update({rideId: rideId}, {$set: {rideEndDateTime: rideEndDateTime}}, function(err, ride){
-        if(err){
-            json_response = requestGen.responseGenerator(500,{message: 'Error'} );
-            callback(null, json_response);
-        }
-        else{
-            if(ride.length > 0){
 
-                var rideDoc = ride;
+    request({
+        url: 'https://maps.googleapis.com/maps/api/geocode/json', //URL to hit
+        qs: {address: dropOffLocation},
+        method: 'GET'
+    }, function(error, response, body){
+        if(error) {
+            console.log(error);
+        } else {
 
-                Drivers.update({driId: driverId}, {$set: {isBusy: false, currentLocation: dropOffLocation}}, function(err, driver){
+            var city = findResult(JSON.parse(body).results[0].address_components, "locality");
+            var location = JSON.parse(body).results[0].geometry.location;
 
-                    if(err){
-                        json_response = requestGen.responseGenerator(500,{message: 'Error'} );
-                        callback(null, json_response);
+            var latitude = location.lat;
+            var longitude = location.lng;
+
+
+            Rides.update({rideId: rideId}, {$set: {rideEndDateTime: rideEndDateTime}}, function(err, ride){
+                if(err){
+                    json_response = requestGen.responseGenerator(500,{message: 'Error'} );
+                    callback(null, json_response);
+                }
+                else{
+                    if(ride.length > 0){
+
+                        var rideDoc = ride;
+
+                        Drivers.update({driId: driverId}, {$set: {
+                            isBusy: false,
+                            currentLocation: dropOffLocation,
+                            latitude : latitude,
+                            longitude: longitude
+                        }}, function(err, driver){
+
+                            if(err){
+                                json_response = requestGen.responseGenerator(500,{message: 'Error'} );
+                                callback(null, json_response);
+                            }
+                            else{
+
+                                if(driver.length > 0){
+                                    json_response = requestGen.responseGenerator(200, rideDoc);
+                                    callback(null, json_response);
+                                }
+                                else{
+                                    json_response = requestGen.responseGenerator(200,{message: 'No Driver Found'} );
+                                    callback(null, json_response);
+                                }
+                            }
+                        });
                     }
                     else{
-
-                        if(driver.length > 0){
-                            json_response = requestGen.responseGenerator(200, rideDoc);
-                            callback(null, json_response);
-                        }
-                        else{
-                            json_response = requestGen.responseGenerator(200,{message: 'No Driver Found'} );
-                            callback(null, json_response);
-                        }
+                        json_response = requestGen.responseGenerator(500,{message: 'No Ride Found'} );
+                        callback(null, json_response);
                     }
-                });
-            }
-            else{
-                json_response = requestGen.responseGenerator(500,{message: 'No Ride Found'} );
-                callback(null, json_response);
-            }
+                }
+            });
         }
     });
+
 
 };
 
@@ -310,9 +338,6 @@ exports.startRide = function(msg, callback){
     });
 };
 
-
-
-
 exports.getRideInfo = function (msg, callback) {
 
     var json_responses;
@@ -334,4 +359,12 @@ exports.getRideInfo = function (msg, callback) {
         callback(null, json_responses);
     });
 
+};
+
+
+var findResult = function(results, name){
+    var result =  _.find(results, function(obj){
+        return obj.types[0] == name && obj.types[1] == "political";
+    });
+    return result ? result.short_name : null;
 };
