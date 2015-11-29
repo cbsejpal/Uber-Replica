@@ -13,11 +13,11 @@ exports.generateBill = function(msg, callback){
 	var driverId = msg.driverId;
 	var pickUpLocation = msg.pickUpLocation;
 	var dropOffLocation = msg.dropOffLocation;
-	var rideDate = dateFormatter.dateMMDDYYYYformater(new Date());
-	var rideStartTime = dateFormatter.dateMMDDYYYYformater(new Date());
-	var rideEndTime = dateFormatter.dateMMDDYYYYformater(new Date());
-	var rideDistance = msg.rideDistance;
-	var rideAmount = msg.rideAmount;
+	var rideDate = dateFormatter.dateMMDDYYYYformater(new Date()); //msg.rideDate
+	var rideStartTime = dateFormatter.dateMMDDYYYYformater(new Date()); //msg.rideStartDateTime
+	var rideEndTime = dateFormatter.dateMMDDYYYYformater(new Date()); //msg.rideEndDateTime
+	var rideDistance ; //= msg.rideDistance;
+	//var rideAmount = msg.rideAmount;
 
 	request({
 		url: 'https://maps.googleapis.com/maps/api/distancematrix/json', //URL to hit
@@ -41,7 +41,7 @@ exports.generateBill = function(msg, callback){
 		rideStartTime: rideStartTime,
 		rideEndTime: rideEndTime,
 		rideDistance: rideDistance,
-		rideAmount: rideAmount,
+		rideAmount: rideDistance,
 		pickUpLocation: pickUpLocation,
 		dropOffLocation: dropOffLocation,
 		customerId: customerId,

@@ -10,10 +10,10 @@ exports.generateBill = function(req, res){
 	var pickUpLocation = req.param('pickUpLocation');
 	var dropOffLocation = req.param('dropOffLocation');
 	var rideDate = new Date();
-	var rideStartTime = new Date();
-	var rideEndTime = new Date();
-	var rideDistance = req.param('rideDistance');
-	var rideAmount = req.param('rideAmount');
+	var rideStartTime = req.param('rideStartDateTime');
+	var rideEndTime = req.param('rideEndDateTime');
+	//var rideDistance = req.param('rideDistance');
+	//var rideAmount = req.param('rideAmount');
 
 	var msg_payload = {
 		"rideId" : rideId,
@@ -24,8 +24,8 @@ exports.generateBill = function(req, res){
 		"rideDate" : rideDate,
 		"rideStartTime" : rideStartTime,
 		"rideEndTime" : rideEndTime,
-		"rideDistance" : rideDistance,
-		"rideAmount" : rideAmount,
+		//"rideDistance" : rideDistance,
+		//"rideAmount" : rideAmount,
 		"func" : "generateBill"
 	};
 

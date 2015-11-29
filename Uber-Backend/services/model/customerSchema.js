@@ -28,7 +28,6 @@ Customer.sync();
 
 exports.Customer = Customer;
 
-
 //mongodb
 var mongoose = require('mongoose');
 var connection = mongoose.createConnection("mongodb://localhost:27017/newuber");
