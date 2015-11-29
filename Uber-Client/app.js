@@ -142,7 +142,9 @@ app.post('/updateDriverDetails', driver.updateDriverDetails);
 //error handling files
 
 app.get('/errorCustomer', customer.errorCustomer);
+app.get('/customerRegistertationFailed', customer.customerRegistertationFailed);
 app.get('/errorDriver', driver.errorDriver);
+app.get('/driverRegistertationFailed', driver.driverRegistertationFailed);
 
 //connect to the mongo collection session and then createServer
 mongo.connect(mongoSessionConnectURL, function() {

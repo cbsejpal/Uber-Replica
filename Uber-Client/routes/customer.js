@@ -35,6 +35,12 @@ exports.errorCustomer = function(req,res){
 
 };
 
+exports.customerRegistertationFailed = function(req,res){
+
+    res.render('failedCustomer');
+
+};
+
 exports.loginCustomer = function(req, res){
 
     var json_responses;

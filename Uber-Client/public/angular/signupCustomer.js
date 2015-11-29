@@ -33,6 +33,9 @@ signupCustomer.controller('signupCustomer', function($scope, $http) {
 				if (data.statusCode == 401) {
 					$scope.error = "something is wrong";
 				}
+				else if(data.statusCode == 500){
+					window.location.assign('/customerRegistertationFailed');
+				}
 				else{
 					//Making a get call to the '/redirectToHomepage' API
 					window.location.assign("/loginCustomer");

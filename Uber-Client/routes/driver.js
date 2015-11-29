@@ -34,6 +34,12 @@ exports.errorDriver = function(req,res){
 
 };
 
+exports.driverRegistertationFailed = function(req,res){
+
+    res.render('failedDriver');
+
+};
+
 exports.driverLogin = function(req,res){
 
     res.render('driverLogin');
