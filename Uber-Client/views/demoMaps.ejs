@@ -71,7 +71,8 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user" style="font-size:30px;"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">SOHAM</a></li>
+                        <li><a href="#">{{customerName}}</a></li>
+                        
                         <li class="divider"></li>
 
                         <li><a href="logout">Logout</a></li>
@@ -79,6 +80,7 @@
             </ul>
         </div>
     </div>
+   
 </nav>
 
 <div class="container-fluid">
@@ -97,6 +99,7 @@
         </div>
         <br>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
+         <p ng-hide="true" ng-model="customerId">{{customerId}}</p>
             <div class="row">
                 <div class="col-md-1">
                     <p style="font-size:18px">Origin : </p>
@@ -125,13 +128,14 @@
                 <custom-marker ng-repeat="p in vm.drivers track by $index"
                                position="{{p.latitude}}, {{p.longitude}}" ng-show="showDriver">
                     <div>
-                        {{p.firstName}} {{p.lastName}} <br/>
+                        <a data-toggle="modal" ng-click="show(p)" data-target="#myModal" href="javascript:void(0);"> {{p.firstName}} {{p.lastName}} </a><br/>
+                   
                         <br/>
                     </div>
                 </custom-marker>
     
     
-				    <div class="modal fade" id="myModal" role="dialog">
+				    <div class="modal fade" id="myModal" role="dialog" >
 				    <div class="modal-dialog">
 				    
 				      <!-- Modal content-->
@@ -141,14 +145,15 @@
 				          <h4 class="modal-title">DRIVER YOU REQUESTED : </h4>
 				        </div>
 				        <div class="modal-body">
-				          <p ng-model = "driverName">Driver name: {{driverName}}</p><br>
-				          <p ng-model = "driverVideo">Driver video : {{driverVideo}}</p>
+				          <p ng-model="driverName">Driver name : {{driverName}}</p><br>
+				          <p ng-model="driverEmail">Driver email : {{driverEmail}}</p><br>
+				          <p ng-model="driverVideo">Driver video : {{driverVideo}}</p>
 				          <br>
 				          <p ng-model = "driverCity">Driver city : {{driverCity}}</p>
 				          <br>
 				        </div>
 				        <div class="modal-footer">
-				          <button type="button" class="btn btn-success" ng-click="bookRide()" data-dismiss="modal">Book the driver</button>
+				          <button type="button" class="btn btn-success" ng-click="bookRide(driverEmail)" data-dismiss="modal">Book the driver</button>
 				        </div>
 				      </div>
 				      

@@ -112,6 +112,47 @@ app.controller('ngMap1', function ($rootScope, $scope,$http,NgMap) {
          vm.place = 'current-location';
          vm.placeChanged('origin');*/
     };
+    
+    $rootScope.show = function(p){
+    	
+    	
+    	$scope.driverName = p.firstName;
+    	$scope.driverEmail = p.email;
+    	$scope.driverVideo = p.videoURL;
+    	$scope.driverCity = p.city;
+    	
+    };
+    
+    
+  
+    $http.get("/getCustomerInformation").success(function(response) {
+		if (response.status == 200) {
+			$scope.customerName = response.data.firstName;
+			$scope.customerId = response.data.email;
+		}
+		});
+    
+    $rootScope.bookRide = function(driverEmail){
+		$http({
+			method : "POST",
+			url : '/createRide',
+			data : {
 
+				"pickUpLocation" : $scope.origin,
+				"dropOffLocation" : $scope.destination,
+				"pickUpLatLong" : $scope.origin_pos,
+				"dropOffLatLong" : $scope.destination_pos,
+				"driverId": $scope.driverEmail
+			}
+		}).success(function(data) {
+    	
+    	//alert("Ride started ! Redirecting to your dashboard...");
+			alert(data.message+"Your ride is created successfully, Redirecting you to the dashboard !");
+			window.location.assign('/customerDashboard');
+    	
+    	
+    });
 
+};
 });
+

@@ -56,13 +56,13 @@ exports.createRide = function (msg, callback) {
                 else {
                     rideId = ride.rideId;
 
-                    Customers.findOne({custId: customerId, verifyStatus: true}, function (err, customer) {
+                    Customers.findOne({email: customerId, verifyStatus: true}, function (err, customer) {
                         if (err) {
                             json_responses = requestGen.responseGenerator(500, {message: "Customer not found or customer isn't approved"});
                             callback(null, json_responses);
                         }
                         else {
-                            Drivers.findOne({driId: driverId, isBusy: false}, function (err, driver) {
+                            Drivers.findOne({email: driverId, isBusy: false}, function (err, driver) {
                                 if (err) {
                                     json_responses = requestGen.responseGenerator(500, {message: "Sorry Driver Not found or busy right now."});
                                     callback(null, json_responses);
