@@ -14,6 +14,16 @@ exports.createRide = function (req, res) {
     var customerId = req.session.customerId;
     var driverId = req.param('driverId');
 
+    //Valdidations
+    if( ! ( pickUpLocation.length > 0 && dropOffLocation.length > 0 && pickUpLatLong.length > 0
+        && dropOffLatLong.length > 0 && customerId.length > 0 && driverId.length>0 ) ){
+
+
+        console.log("createRide validation entry error" );
+        json_responses = {"statusCode":500};
+        res.send(json_responses);
+    }
+
     var msg_payload = {
         "pickUpLocation": pickUpLocation,
         "dropOffLocation": dropOffLocation,
@@ -46,6 +56,15 @@ exports.getRideInformation = function (req, res) {
     //req.session.customerId;
     //console.log("Rides info :"+customerId);
 
+    //Valdidations
+    if( ! (customerId) ){
+
+
+        console.log("getRideInformation validation entry error" );
+        json_responses = {"statusCode":500};
+        res.send(json_responses);
+    }
+
     var msg_payload = {
         "customerId": customerId,
         "func": "RideInfo"
@@ -70,6 +89,15 @@ exports.updateRide = function (req, res) {
     var dropOffLocation = req.param('dropOffLocation');
     var rideId = req.param('rideId');
 
+    //Validations
+    if( ! ( pickUpLocation.length > 0 && dropOffLocation.length > 0 && rideId.length > 0) ){
+
+
+        console.log("updateRide validation entry error" );
+        json_responses = {"statusCode":500};
+        res.send(json_responses);
+    }
+
     var msg_payload = {
         "pickUpLocation": pickUpLocation,
         "dropOffLocation": dropOffLocation,
@@ -92,6 +120,15 @@ exports.updateRide = function (req, res) {
 exports.deleteRide = function (req, res) {
     var rideId = req.param('rideId');
 
+    //Validations
+    if( ! ( rideId.length > 0) ){
+
+
+        console.log("deleteRide validation entry error" );
+        json_responses = {"statusCode":500};
+        res.send(json_responses);
+    }
+
     var msg_payload = {
         "rideId": rideId,
         "func": "deleteRide"
@@ -110,6 +147,15 @@ exports.deleteRide = function (req, res) {
 
 exports.customerRideList = function (req, res) {
     var customerId = req.param('customerId');
+
+    //Validations
+    if( ! (customerId.length > 0) ){
+
+
+        console.log("customerRideList validation entry error" );
+        json_responses = {"statusCode":500};
+        res.send(json_responses);
+    }
 
     var msg_payload = {
         "customerId": customerId,
@@ -130,7 +176,18 @@ exports.customerRideList = function (req, res) {
 
 exports.driverRideList = function (req, res) {
     var driverId = req.session.driverId;
-    console.log("driverRideList function : " + driverId);
+    //console.log("driverRideList function : " + driverId);
+
+    //Validations
+    if( ! (driverId.length > 0) ){
+
+
+        console.log("driverRideList validation entry error" );
+        json_responses = {"statusCode":500};
+        res.send(json_responses);
+    }
+
+
     var msg_payload = {
         "driverId": driverId,
         "func": "driverRideList"
@@ -155,6 +212,15 @@ exports.endRide = function (req, res) {
     var rideId = req.param('rideId');
 
     var driverId = req.session.driverId;
+
+    //Validations
+    if( ! (dropOffLatLong.length>0 && dropOffLocation.length>0 && driverId.length > 0 && rideId.length>0) ){
+
+
+        console.log("endRide validation entry error" );
+        json_responses = {"statusCode":500};
+        res.send(json_responses);
+    }
 
     var msg_payload = {
         "rideId": rideId,
@@ -181,6 +247,15 @@ exports.startRide = function (req, res) {
     var rideId = req.param('rideId');
     var driverId = req.session.driverId;
 
+    //Validations
+    if( !  (driverId.length > 0 && rideId.length>0) ){
+
+
+        console.log("startRide validation entry error" );
+        json_responses = {"statusCode":500};
+        res.send(json_responses);
+    }
+
     var msg_payload = {
         "rideId": rideId,
         "func": "startRide"
@@ -201,6 +276,16 @@ exports.startRide = function (req, res) {
 exports.getRideInfo = function (req, res) {
 
     var rideId = req.param('rideId');
+
+    //Validations
+    if( ! (rideId.length > 0) ){
+
+
+        console.log("getRideInfo validation entry error" );
+        json_responses = {"statusCode":500};
+        res.send(json_responses);
+    }
+
 
     var msg_payload = {
         "rideId": rideId,
