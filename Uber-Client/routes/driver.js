@@ -27,6 +27,13 @@ exports.login = function(req,res){
 
 };
 
+
+exports.errorDriver = function(req,res){
+
+    res.render('errorDriver');
+
+};
+
 exports.driverLogin = function(req,res){
 
     res.render('driverLogin');

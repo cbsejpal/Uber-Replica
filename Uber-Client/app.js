@@ -138,6 +138,12 @@ app.get('/requestRide',index.maps);
 
 app.post('/updateDriverDetails', driver.updateDriverDetails);
 
+
+//error handling files
+
+app.get('/errorCustomer', customer.errorCustomer);
+app.get('/errorDriver', driver.errorDriver);
+
 //connect to the mongo collection session and then createServer
 mongo.connect(mongoSessionConnectURL, function() {
     console.log('Connected to mongo at: ' + mongoSessionConnectURL);

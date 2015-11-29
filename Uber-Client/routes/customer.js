@@ -28,6 +28,13 @@ exports.login = function(req,res){
     res.render('loginCustomer');
 
 };
+
+exports.errorCustomer = function(req,res){
+
+    res.render('errorCustomer');
+
+};
+
 exports.loginCustomer = function(req, res){
 
     var json_responses;

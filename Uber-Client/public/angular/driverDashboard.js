@@ -19,11 +19,12 @@ app.controller('navbar',[ '$scope','$http','socket',function($scope, $http,socke
 					$scope.email = response.data.email;
 					socket.emit('join',{ email: $scope.email });
 				}
-				else
-					{
+				else{
+					window.location.assign('/logout');
+				}
 
-					}
-
+			}).error(function(error){
+				window.location.assign('/errorDriver');
 			});
 }]);
 
@@ -38,12 +39,10 @@ app.controller('myrides', function($scope, $http) {
 		else{
 			$scope.rides = "";
 		}
+	}).error(function(error){
+		window.location.assign('/errorDriver');
 	});
 });
-
-
-
-
 
 app.controller('profile', function($scope, $http) {
 
@@ -59,12 +58,15 @@ app.controller('profile', function($scope, $http) {
 			$scope.city = response.data.city;
 			$scope.carDetails = response.data.carDetails;
 			$scope.phoneNumber = response.data.phoneNumber;
-
-
-			//console.log(JSON.stringify($scope.customer));
+		}
+		else{
+			window.location.assign('/logout');
 		}
 
+	}).error(function(error){
+		window.location.assign('/errorDriver');
 	});
+
 	$scope.save = function($event) {
 
 
@@ -73,7 +75,7 @@ app.controller('profile', function($scope, $http) {
 		});
 
 		if($scope.profileUpdate.$error.required){
-			//$event.preventDefault();
+			$event.preventDefault();
 
 			alert("Please fill all the fields before saving");
 		}
@@ -93,34 +95,18 @@ app.controller('profile', function($scope, $http) {
 					"zipCode": $scope.zipCode,
 					"carDetails" : $scope.carDetails,
 					"phoneNumber" : $scope.phoneNumber
-
 				}
 			}).success(function(data) {
 				//checking the response data for statusCode
 				if (data.statusCode == 401) {
-					alert("error");
+					window.location.assign('/errorCustomer');
 				}
 				else{
-
-					//Making a get call to the '/redirectToHomepage' API
 					window.location.assign("/driverDashboard");
 				}
-			}).error(function(error) {
-
-				alert("save error !");
+			}).error(function(error){
+				window.location.assign('/errorDriver');
 			});
 		}
-
-
 	};
-
-
-
 });
-
-
-
-
-
-	
-
