@@ -77,13 +77,12 @@ exports.registerDriver = function(req, res){
     mq_client.make_request('driver_queue', msg_payload, function(err,results) {
         //console.log(results);
         if (err) {
-            json_responses = {"statusCode" : 401};
-            res.send("json_responses");
+            res.send(500);
 
         } else {
             ////console.log("about results" + results);
             json_responses = {"statusCode" : results.status};
-            res.send("json_responses");
+            res.send(json_responses);
         }
     });
 

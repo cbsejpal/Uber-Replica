@@ -24,7 +24,7 @@ var Customer = sequelize.define('Customer', {
 	freezeTableName: true //by default sequelize will create customerS table and not customer so this attribute won't allow it to plural the table name
 });
 
-Customer.sync();
+Customer.sync({force:true});
 
 exports.Customer = Customer;
 
