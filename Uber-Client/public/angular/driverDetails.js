@@ -1,4 +1,4 @@
-var app = angular.module('driverDetails', []);
+var app = angular.module('driverDetails', ['ngMap']);
 
 app.controller('driverDetails', function($scope, $http) {
 	

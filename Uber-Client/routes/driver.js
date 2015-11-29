@@ -141,7 +141,7 @@ exports.searchDriver = function(req, res){
             res.status(500).send(null);
         } else {
             ////console.log("about results" + results);
-            res.status(results.status).send(results.data);
+            res.status(results.status).send(results);
         }
     });
 };

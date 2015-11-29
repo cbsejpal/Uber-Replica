@@ -92,7 +92,7 @@ exports.searchDriver = function (msg, callback) {
 
     var search = msg.search;
 
-    Driver.find({
+    Driver.findAll({
         where: {
             $or: [{
                 email: {$like: '%' + search + '%'}
