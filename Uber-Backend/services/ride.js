@@ -48,37 +48,42 @@ exports.createRide = function (msg, callback) {
 
             Rides.findOne({
                 $and: [{customerId: customerId}, {driverId: driverId}]
-            }, function (err, doc) {
+            }, function (err, ride) {
                 if (err) {
                     json_responses = requestGen.responseGenerator(500, {message: " error finding rideId"});
                     callback(null, json_responses);
                 }
                 else {
-                    rideId = doc.rideId;
+                    rideId = ride.rideId;
 
-                    Customers.findOne({custId: customerId}, function (err, doc) {
+                    Customers.findOne({custId: customerId, verifyStatus: true}, function (err, customer) {
                         if (err) {
-                            json_responses = requestGen.responseGenerator(500, {message: " error adding ride to customer"});
+                            json_responses = requestGen.responseGenerator(500, {message: "Customer not found or customer isn't approved"});
                             callback(null, json_responses);
                         }
                         else {
-                            doc.rides.push({
-                                rideId: rideId
-                            });
-                            doc.save();
-
-                            Drivers.findOne({driId: driverId}, function (err, doc) {
+                            Drivers.findOne({driId: driverId, isBusy: false}, function (err, driver) {
                                 if (err) {
-                                    json_responses = requestGen.responseGenerator(500, {message: " error adding ride to driver"});
+                                    json_responses = requestGen.responseGenerator(500, {message: "Sorry Driver Not found or busy right now."});
                                     callback(null, json_responses);
                                 }
                                 else {
-                                    doc.rides.push({
+
+                                    customer.rides.push({
                                         rideId: rideId
                                     });
-                                    doc.save();
+                                    customer.save();
 
-                                    json_responses = requestGen.responseGenerator(200, {message: "ride created successfully", rideId: rideId });
+
+                                    driver.rides.push({
+                                        rideId: rideId
+                                    });
+                                    driver.save();
+
+                                    json_responses = requestGen.responseGenerator(200, {
+                                        message: "Ride created successfully",
+                                        rideId: rideId
+                                    });
                                     callback(null, json_responses);
                                 }
                             });
@@ -92,25 +97,25 @@ exports.createRide = function (msg, callback) {
 
 exports.getRideInformation = function (msg, callback) {
 
-	var json_responses;
-	
-	var customerId = msg.customerId;
+    var json_responses;
 
-	console.log("res "+customerId);
-    Rides.find({customerId: customerId}, function(err, docs){
-    	
-    	console.log(docs+" docs");
-    
-    	if (docs.length > 0) {
-    		console.log("inside docs");
+    var customerId = msg.customerId;
+
+    console.log("res " + customerId);
+    Rides.find({customerId: customerId}, function (err, docs) {
+
+        console.log(docs + " docs");
+
+        if (docs.length > 0) {
+            console.log("inside docs");
             json_responses = requestGen.responseGenerator(200, docs);
         } else {
-        	console.log("error");
+            console.log("error");
             json_responses = requestGen.responseGenerator(500, {message: 'No Ride Found'});
         }
         callback(null, json_responses);
     });
-    
+
 };
 
 
@@ -144,14 +149,14 @@ exports.deleteRide = function (msg, callback) {
 
     var json_responses;
 
-    Rides.remove({rideId: rideId}, function (err,removed) {
+    Rides.remove({rideId: rideId}, function (err, removed) {
         console.log(removed);
         if (err) {
             json_responses = requestGen.responseGenerator(500, {message: 'No Ride Found'});
         } else {
-            if(removed.result.n > 0 ) {
+            if (removed.result.n > 0) {
                 json_responses = requestGen.responseGenerator(200, {message: 'Ride Deleted.'});
-            }else{
+            } else {
                 json_responses = requestGen.responseGenerator(500, {message: 'No Ride Found'});
             }
         }
@@ -159,51 +164,50 @@ exports.deleteRide = function (msg, callback) {
     });
 };
 
-exports.customerRideList = function(msg, callback){
+exports.customerRideList = function (msg, callback) {
 
     var customerId = msg.customerId;
 
-    Rides.find({customerId : customerId},function(err,rides){
+    Rides.find({customerId: customerId}, function (err, rides) {
         var json_responses;
-        if(err){
+        if (err) {
             json_responses = requestGen.responseGenerator(500, {message: 'No Ride Found'});
-        }else{
-            if(rides.length > 0){
+        } else {
+            if (rides.length > 0) {
                 json_responses = requestGen.responseGenerator(200, rides);
-            }else{
+            } else {
                 json_responses = requestGen.responseGenerator(500, {message: 'No Ride Found'});
             }
         }
-        callback(null,json_responses);
+        callback(null, json_responses);
     });
 };
 
-exports.driverRideList = function(msg, callback){
+exports.driverRideList = function (msg, callback) {
 
     var driverId = msg.driverId;
 
-    Rides.find({driverId : driverId},function(err,rides){
+    Rides.find({driverId: driverId}, function (err, rides) {
         var json_responses;
-        if(err){
+        if (err) {
             json_responses = requestGen.responseGenerator(500, {message: 'No Ride Found'});
-        }else{
-            if(rides.length > 0){
+        } else {
+            if (rides.length > 0) {
                 json_responses = requestGen.responseGenerator(200, rides);
-            }else{
+            } else {
                 json_responses = requestGen.responseGenerator(500, {message: 'No Ride Found'});
             }
         }
-        callback(null,json_responses);
+        callback(null, json_responses);
     });
 };
 
 
-
-exports.endRide = function(msg, callback){
+exports.endRide = function (msg, callback) {
 
     var dropOffLatLong = msg.dropOffLatLong;
     var dropOffLocation = msg.dropOffLocation;
-    var driverId =  msg.driverId;
+    var driverId = msg.driverId;
     var rideId = msg.rideId;
 
     var rideEndDateTime = new Date();
@@ -215,8 +219,8 @@ exports.endRide = function(msg, callback){
         url: 'https://maps.googleapis.com/maps/api/geocode/json', //URL to hit
         qs: {address: dropOffLocation},
         method: 'GET'
-    }, function(error, response, body){
-        if(error) {
+    }, function (error, response, body) {
+        if (error) {
             console.log(error);
         } else {
 
@@ -227,42 +231,44 @@ exports.endRide = function(msg, callback){
             var longitude = location.lng;
 
 
-            Rides.update({rideId: rideId}, {$set: {rideEndDateTime: rideEndDateTime}}, function(err, ride){
-                if(err){
-                    json_response = requestGen.responseGenerator(500,{message: 'Error'} );
+            Rides.update({rideId: rideId}, {$set: {rideEndDateTime: rideEndDateTime}}, function (err, ride) {
+                if (err) {
+                    json_response = requestGen.responseGenerator(500, {message: 'Error'});
                     callback(null, json_response);
                 }
-                else{
-                    if(ride.length > 0){
+                else {
+                    if (ride.length > 0) {
 
                         var rideDoc = ride;
 
-                        Drivers.update({driId: driverId}, {$set: {
-                            isBusy: false,
-                            currentLocation: dropOffLocation,
-                            latitude : latitude,
-                            longitude: longitude
-                        }}, function(err, driver){
+                        Drivers.update({driId: driverId}, {
+                            $set: {
+                                isBusy: false,
+                                currentLocation: dropOffLocation,
+                                latitude: latitude,
+                                longitude: longitude
+                            }
+                        }, function (err, driver) {
 
-                            if(err){
-                                json_response = requestGen.responseGenerator(500,{message: 'Error'} );
+                            if (err) {
+                                json_response = requestGen.responseGenerator(500, {message: 'Error'});
                                 callback(null, json_response);
                             }
-                            else{
+                            else {
 
-                                if(driver.length > 0){
+                                if (driver.length > 0) {
                                     json_response = requestGen.responseGenerator(200, rideDoc);
                                     callback(null, json_response);
                                 }
-                                else{
-                                    json_response = requestGen.responseGenerator(200,{message: 'No Driver Found'} );
+                                else {
+                                    json_response = requestGen.responseGenerator(200, {message: 'No Driver Found'});
                                     callback(null, json_response);
                                 }
                             }
                         });
                     }
-                    else{
-                        json_response = requestGen.responseGenerator(500,{message: 'No Ride Found'} );
+                    else {
+                        json_response = requestGen.responseGenerator(500, {message: 'No Ride Found'});
                         callback(null, json_response);
                     }
                 }
@@ -273,54 +279,54 @@ exports.endRide = function(msg, callback){
 
 };
 
-exports.startRide = function(msg, callback){
+exports.startRide = function (msg, callback) {
 
     var rideId = msg.rideId;
     var driverId = msg.driverId;
 
     var json_response;
 
-    Rides.findOne({rideId: rideId}, function(err, ride){
-        if(err){
-            json_response = requestGen.responseGenerator(500,{message: 'Error'} );
+    Rides.findOne({rideId: rideId}, function (err, ride) {
+        if (err) {
+            json_response = requestGen.responseGenerator(500, {message: 'Error'});
             callback(null, json_response);
         }
-        else{
-            if(ride.length > 0){
+        else {
+            if (ride.length > 0) {
                 ride.rideStarted = true;
                 ride.rideStartDateTime = new Date();
 
-                ride.save(function(err){
+                ride.save(function (err) {
 
-                    if(err){
+                    if (err) {
                         json_response = requestGen.responseGenerator(500, {message: 'Error in Ride Saving'});
                         callback(null, json_response);
                     }
-                    else{
+                    else {
 
-                        Drivers.find({email: driverId}, function(err, driver){
+                        Drivers.find({email: driverId}, function (err, driver) {
 
-                            if(err){
+                            if (err) {
                                 json_response = requestGen.responseGenerator(500, {message: 'Error in finding driver'});
                                 callback(null, json_response);
                             }
-                            else{
-                                if(driver.length > 0){
+                            else {
+                                if (driver.length > 0) {
 
                                     driver.isBusy = true;
 
                                     driver.save(function (err) {
-                                        if(err){
+                                        if (err) {
                                             json_response = requestGen.responseGenerator(500, {message: 'Error in Driver Saving'});
                                             callback(null, json_response);
                                         }
-                                        else{
+                                        else {
                                             json_response = requestGen.responseGenerator(200, {message: 'Driver save success'});
                                             callback(null, json_response);
                                         }
                                     });
                                 }
-                                else{
+                                else {
                                     json_response = requestGen.responseGenerator(500, {message: 'No driver found'});
                                     callback(null, json_response);
                                 }
@@ -330,7 +336,7 @@ exports.startRide = function(msg, callback){
                     }
                 });
             }
-            else{
+            else {
                 json_response = requestGen.responseGenerator(500, {message: 'No Ride Found'});
                 callback(null, json_response);
             }
@@ -345,7 +351,7 @@ exports.getRideInfo = function (msg, callback) {
     var rideId = msg.rideId;
 
     //console.log("res "+customerId);
-    Rides.findOne({rideId: rideId}, function(err, doc){
+    Rides.findOne({rideId: rideId}, function (err, doc) {
 
         //console.log(docs+" docs");
 
@@ -362,8 +368,8 @@ exports.getRideInfo = function (msg, callback) {
 };
 
 
-var findResult = function(results, name){
-    var result =  _.find(results, function(obj){
+var findResult = function (results, name) {
+    var result = _.find(results, function (obj) {
         return obj.types[0] == name && obj.types[1] == "political";
     });
     return result ? result.short_name : null;
