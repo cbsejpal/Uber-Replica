@@ -41,6 +41,31 @@ exports.customerRegistertationFailed = function(req,res){
 
 };
 
+exports.checkCustomerEmail = function(req, res){
+
+    var email = req.param('email');
+
+    var msg_payload = {
+        email: email,
+        "func" : "checkCustomerEmail"
+    }
+
+    var json_responses;
+
+    mq_client.make_request('customer_queue', msg_payload, function(err,results) {
+        //console.log(results);
+        if (err) {
+            res.send(500);
+
+        } else {
+            ////console.log("about results" + results);
+            json_responses = {"status" : results.status};
+            res.send(json_responses);
+        }
+    });
+};
+
+
 exports.loginCustomer = function(req, res){
 
     var json_responses;

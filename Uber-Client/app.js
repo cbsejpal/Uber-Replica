@@ -79,6 +79,7 @@ app.get('/logout', logout.logout);
 app.get('/deleteCustomer', customer.deleteCustomer);
 app.get('/getCustomerInformation', customer.getCustomerInformation);
 app.post('/updateCustomer',customer.updateCustomer);
+app.get('/checkCustomerEmail', customer.checkCustomerEmail);
 
 
 //driver
@@ -88,6 +89,7 @@ app.get('/getDriverInformation', driver.getDriverInformation);
 app.post('/updateDriver', driver.updateDriver);
 app.get('/getDriversInRange',driver.getDriversInRange);
 app.get('/driverDetails', driver.driverDetails);
+app.get('/checkDriverEmail', driver.checkDriverEmail);
 
 //register
 app.post('/registerCustomer', customer.registerCustomer);
