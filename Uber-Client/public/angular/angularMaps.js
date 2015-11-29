@@ -33,10 +33,10 @@ app.controller('ngMap1', function ($rootScope, $scope,$http,NgMap) {
             }
         }).success(function (data) {
             //checking the response data for statusCode
-            if (data.statusCode == 401) {
+            if (data.status == 401) {
                 window.location.assign("/loginCustomer");
-            }else if(data.statusCode == 500){
-                alert('Internal server error');
+            }else if(data.status == 500){
+                alert('No driver found in your area');
             }
             else {
                 $scope.drivers = data.data;
