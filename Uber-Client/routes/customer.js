@@ -72,6 +72,22 @@ exports.loginCustomer = function(req, res){
     var email = req.param('email');
     var password = req.param('password');
 
+    //Valdidations
+    if( ! (email.length > 0 && password.length > 0 ) ){
+
+        if( !( (new RegExp("/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/")).test(email) ) ){
+
+            console.log("loginCustomer email validation entry error");
+            json_responses = {"statusCode":500};
+            res.send(json_responses);
+        }
+
+
+        console.log("loginCustomer validation entry error" );
+        json_responses = {"statusCode":500};
+        res.send(json_responses);
+    }
+
     var msg_payload = {
         "email" : email,
         "password" : password,
@@ -111,6 +127,36 @@ exports.registerCustomer = function(req, res){
     var zipCode = req.param('zipCode');
     var phoneNumber = req.param('phoneNumber');
     var creditCard = req.param('creditCard');
+
+    //Valdidations
+    if( ! (email.length > 0 && password.length > 0 && firstName.length > 0
+        && lastName.length > 0 && zipCode.length > 0 && phoneNumber.length > 0) ){
+
+        if( !( (new RegExp("/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/")).test(email) ) ){
+
+            console.log("registerCustomer email validation entry error" );
+            json_responses = {"statusCode":500};
+            res.send(json_responses);
+        }
+
+        if( !( (new RegExp("/^(\d{5}(-\d{4})?|[A-Z]\d[A-Z] *\d[A-Z]\d)$/")).test(zipCode) ) ){
+
+            console.log("registerCustomer zipcode validation entry error" );
+            json_responses = {"statusCode":500};
+            res.send(json_responses);
+        }
+
+        if( !( (new RegExp("/^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$/")).test(phoneNumber) ) ){
+
+            console.log("registerCustomer phoneNumber validation entry error" );
+            json_responses = {"statusCode":500};
+            res.send(json_responses);
+        }
+
+        console.log("registerCustomer validation entry error" );
+        json_responses = {"statusCode":500};
+        res.send(json_responses);
+    }
 
     var msg_payload = {
         "email" : email,
@@ -157,6 +203,36 @@ exports.updateCustomer = function(req,res){
     var creditCard = req.param('creditCard');
     var zipCode = req.param('zipCode');
 
+    //Valdidations
+    if( ! (email.length > 0 && password.length > 0 && firstName.length > 0
+        && lastName.length > 0 && zipCode.length > 0 && phoneNumber.length > 0) ){
+
+        if( !( (new RegExp("/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/")).test(email) ) ){
+
+            console.log("updateCustomer email validation entry error" );
+            json_responses = {"statusCode":500};
+            res.send(json_responses);
+        }
+
+        if( !( (new RegExp("/^(\d{5}(-\d{4})?|[A-Z]\d[A-Z] *\d[A-Z]\d)$/")).test(zipCode) ) ){
+
+            console.log("updateCustomer zipcode validation entry error" );
+            json_responses = {"statusCode":500};
+            res.send(json_responses);
+        }
+
+        if( !( (new RegExp("/^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$/")).test(phoneNumber) ) ){
+
+            console.log("updateCustomer phoneNumber validation entry error" );
+            json_responses = {"statusCode":500};
+            res.send(json_responses);
+        }
+
+        console.log("updateCustomer validation entry error" );
+        json_responses = {"statusCode":500};
+        res.send(json_responses);
+    }
+
     var msg_payload = {
         "email" : customerId,
         "firstName" : firstName,
@@ -190,6 +266,21 @@ exports.deleteCustomer = function(req, res){
 
 	var email = req.param('email');
 
+    //Valdidations
+    if( ! (email.length > 0 ) ){
+
+        if( !( (new RegExp("/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/")).test(email) ) ){
+
+            console.log("deleteCustomer email validation entry error" );
+            json_responses = {"statusCode":500};
+            res.send(json_responses);
+        }
+
+        console.log("deleteCustomer validation entry error" );
+        json_responses = {"statusCode":500};
+        res.send(json_responses);
+    }
+
     var msg_payload = {
         "email": email,
         "func" : "deleteCustomer"
@@ -210,6 +301,14 @@ exports.deleteCustomer = function(req, res){
 exports.getCustomerInformation = function(req, res){
     var customerId = req.session.customerId;
     console.log("get customer info " + customerId);
+
+    //Valdidations
+    if( ! (customerId.length > 0) ){
+
+        console.log("getCustomerInfo validation entry error" );
+        json_responses = {"statusCode":500};
+        res.send(json_responses);
+    }
 
     var msg_payload = {
         "customerId": customerId,
@@ -300,6 +399,14 @@ exports.addImagesToRide = function(req, res){
 exports.getImagesOfRide = function (req, res) {
 
     var image = req.param('image');
+
+    //Valdidations
+    if( ! (image) ){
+
+        console.log("getImagesOfRide validation entry error" );
+        json_responses = {"statusCode":500};
+        res.send(json_responses);
+    }
 
     var msg_payload = {
         "func" : "getImagesOfRide"

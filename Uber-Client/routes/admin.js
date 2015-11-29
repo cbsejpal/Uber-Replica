@@ -36,6 +36,37 @@ exports.registerAdmin = function(req, res){
     var phoneNumber = req.param('phoneNumber');
     var securityCode = req.param('securityCode');
 
+    //Validations
+    if( ! (email.length > 0 && password.length > 0 && firstName.length > 0
+        && lastName.length > 0 && zipCode.length > 0 && phoneNumber.length > 0 && securityCode.length>0) ){
+
+        if( !( (new RegExp("/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/")).test(email) ) ){
+
+            console.log("registerAdmin email validation entry error" );
+            json_responses = {"statusCode":500};
+            res.send(json_responses);
+        }
+
+        if( !( (new RegExp("/^(\d{5}(-\d{4})?|[A-Z]\d[A-Z] *\d[A-Z]\d)$/")).test(zipCode) ) ){
+
+            console.log("registerAdmin zipcode validation entry error" );
+            json_responses = {"statusCode":500};
+            res.send(json_responses);
+        }
+
+        if( !( (new RegExp("/^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$/")).test(phoneNumber) ) ){
+
+            console.log("registerAdmin phoneNumber validation entry error" );
+            json_responses = {"statusCode":500};
+            res.send(json_responses);
+        }
+
+        console.log("registerAdmin validation entry error" );
+        json_responses = {"statusCode":500};
+        res.send(json_responses);
+    }
+
+
     var msg_payload = {
         "email" : email,
         "password" : password,
@@ -67,6 +98,22 @@ exports.loginAdmin = function(req, res){
     var email = req.param('email');
     var password = req.param('password');
 
+    //Validations
+    if( ! (email.length > 0 && password.length > 0 ) ){
+
+        if( !( (new RegExp("/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/")).test(email) ) ){
+
+            console.log("loginAdmin email validation entry error");
+            json_responses = {"statusCode":500};
+            res.send(json_responses);
+        }
+
+
+        console.log("loginAdmin validation entry error" );
+        json_responses = {"statusCode":500};
+        res.send(json_responses);
+    }
+
     var msg_payload = {
         "email" : email,
         "password" : password,
@@ -90,6 +137,23 @@ exports.loginAdmin = function(req, res){
 exports.showDrivers = function(req, res){
 	
 	email = req.param('email');
+
+    //Validations
+    if( ! (email.length > 0) ){
+
+        if( !( (new RegExp("/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/")).test(email) ) ){
+
+            console.log("showDrivers email validation entry error");
+            json_responses = {"statusCode":500};
+            res.send(json_responses);
+        }
+
+
+        console.log("showDrivers validation entry error" );
+        json_responses = {"statusCode":500};
+        res.send(json_responses);
+    }
+
     var msg_payload = {
     	"email" : email,
         "func" : "showDrivers"
@@ -111,6 +175,23 @@ exports.showDrivers = function(req, res){
 exports.showDriversForApproval =  function(req, res){
 
 	var email = req.param('email');
+
+    //Validations
+    if( ! (email.length > 0) ){
+
+        if( !( (new RegExp("/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/")).test(email) ) ){
+
+            console.log("showDriversForApproval email validation entry error");
+            json_responses = {"statusCode":500};
+            res.send(json_responses);
+        }
+
+
+        console.log("showDriversForApproval validation entry error" );
+        json_responses = {"statusCode":500};
+        res.send(json_responses);
+    }
+
     var msg_payload = {
     		"email" : email,
         "func" : "showDriversForApproval"
@@ -133,6 +214,23 @@ exports.showDriversForApproval =  function(req, res){
 exports.showCustomers =  function(req, res){
 
 	var email = req.param('email');
+
+    //Validations
+    if( ! (email.length > 0) ){
+
+        if( !( (new RegExp("/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/")).test(email) ) ){
+
+            console.log("showCustomers email validation entry error");
+            json_responses = {"statusCode":500};
+            res.send(json_responses);
+        }
+
+
+        console.log("showCustomers validation entry error" );
+        json_responses = {"statusCode":500};
+        res.send(json_responses);
+    }
+
     var msg_payload = {
     		"email" : email,
         "func" : "showCustomers"
@@ -153,6 +251,23 @@ exports.showCustomers =  function(req, res){
 exports.showCustomersForApproval =  function(req, res){
 
 	var email = req.param('email');
+    //Validations
+    if( ! (email.length > 0) ){
+
+        if( !( (new RegExp("/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/")).test(email) ) ){
+
+            console.log("showCustomersForApproval email validation entry error");
+            json_responses = {"statusCode":500};
+            res.send(json_responses);
+        }
+
+
+        console.log("showCustomersForApproval validation entry error" );
+        json_responses = {"statusCode":500};
+        res.send(json_responses);
+    }
+
+
     var msg_payload = {
     		"email" : email,
         "func" : "showCustomersForApproval"
@@ -175,6 +290,23 @@ exports.verifyDrivers =  function(req, res){
 
     var email = req.param('email');
     console.log(email);
+
+    //Validations
+    if( ! (email.length > 0) ){
+
+        if( !( (new RegExp("/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/")).test(email) ) ){
+
+            console.log("verifyDrivers email validation entry error");
+            json_responses = {"statusCode":500};
+            res.send(json_responses);
+        }
+
+
+        console.log("verifyDrivers validation entry error" );
+        json_responses = {"statusCode":500};
+        res.send(json_responses);
+    }
+
     var msg_payload = {
         "email": email,
         "func" : "verifyDrivers"
@@ -195,6 +327,23 @@ exports.verifyDrivers =  function(req, res){
 exports.verifyCustomers =  function(req, res){
 
     var email = req.param('email');
+
+    //Validations
+    if( ! (email.length > 0) ){
+
+        if( !( (new RegExp("/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/")).test(email) ) ){
+
+            console.log("verifyCustomers email validation entry error");
+            json_responses = {"statusCode":500};
+            res.send(json_responses);
+        }
+
+
+        console.log("verifyCustomers validation entry error" );
+        json_responses = {"statusCode":500};
+        res.send(json_responses);
+    }
+
     var msg_payload = {
         "email": email,
         "func" : "verifyCustomers"
@@ -218,6 +367,25 @@ exports.ignoreDrivers =  function(req, res){
 
     var email = req.param('email');
     console.log(email);
+
+
+    //Validations
+    if( ! (email.length > 0) ){
+
+        if( !( (new RegExp("/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/")).test(email) ) ){
+
+            console.log("ignoreDrivers email validation entry error");
+            json_responses = {"statusCode":500};
+            res.send(json_responses);
+        }
+
+
+        console.log("ignoreDrivers validation entry error" );
+        json_responses = {"statusCode":500};
+        res.send(json_responses);
+    }
+
+
     var msg_payload = {
         "email": email,
         "func" : "ignoreDrivers"
@@ -236,6 +404,23 @@ exports.ignoreDrivers =  function(req, res){
 exports.ignoreCustomers =  function(req, res){
 
     var email = req.param('email');
+
+    //Validations
+    if( ! (email.length > 0) ){
+
+        if( !( (new RegExp("/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/")).test(email) ) ){
+
+            console.log("ignoreCustomers email validation entry error");
+            json_responses = {"statusCode":500};
+            res.send(json_responses);
+        }
+
+
+        console.log("ignoreCustomers validation entry error" );
+        json_responses = {"statusCode":500};
+        res.send(json_responses);
+    }
+
     var msg_payload = {
         "email": email,
         "func" : "ignoreCustomers"
