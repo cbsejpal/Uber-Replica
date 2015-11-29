@@ -40,13 +40,17 @@
 		<p style="font-size:26px;">ACCOUNT</p>
 		
 		<p style = "font-size:16px;"> * Email : </p>
-		<input ng-model="email" ng-pattern="/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/" class="form-control" maxlength="40" type="email" name="email" value="" placeholder="Email" required>
+		<input ng-model="email" ng-pattern="/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/" ng-change="checkEmail()" ng-model-onblur class="form-control" maxlength="40" type="email" name="email" value="" placeholder="Email" required>
 		<span style="color:red" ng-show="registration.email.$dirty && registration.email.$invalid">
   					<span ng-show="registration.email.$error.required">Email is required.</span>
 					<span ng-show="registration.email.$error.pattern">Incorrect Email address.</span>
   				</span>	
-	
-
+		<div ng-hide="emailError">
+			<p style="color:red">"This Email is already registered. Please use another email"</p>
+		</div>
+		<div ng-hide="emailSuccess">
+			<p style="color:green">"Email is available!"</p>
+		</div>
 		<br><p style = "font-size:16px;"> * Password :</p>
 		<input ng-model="password" class="form-control" maxlength="30" type="password" name="password" value="" placeholder="Password" required>
 			<span style="color:red" ng-show="registration.password.$dirty && registration.password.$invalid">

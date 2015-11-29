@@ -130,6 +130,18 @@ cnn.on('ready', function() {
 						});
 					});
 					break;
+				case "checkCustomerEmail":
+					customer.checkCustomerEmail(message, function (err, res) {
+
+						util.log("Correlation ID: " + m.correlationId);
+						// return index sent
+						cnn.publish(m.replyTo, res, {
+							contentType: 'application/json',
+							contentEncoding: 'utf-8',
+							correlationId: m.correlationId
+						});
+					});
+					break;
 			}
 		});
 	});
@@ -233,6 +245,18 @@ cnn.on('ready', function() {
 					
 				case "getDriversInRange":
 					driver.getDriversInRange(message, function (err, res) {
+
+						util.log("Correlation ID: " + m.correlationId);
+						// return index sent
+						cnn.publish(m.replyTo, res, {
+							contentType: 'application/json',
+							contentEncoding: 'utf-8',
+							correlationId: m.correlationId
+						});
+					});
+					break;
+				case "checkDriverEmail":
+					driver.checkDriverEmail(message, function (err, res) {
 
 						util.log("Correlation ID: " + m.correlationId);
 						// return index sent

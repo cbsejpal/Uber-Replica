@@ -15,6 +15,17 @@ exports.generateBill = function(req, res){
 	//var rideDistance = req.param('rideDistance');
 	//var rideAmount = req.param('rideAmount');
 
+	//Valdidations
+	if( ! (rideId.length > 0 && customerId.length > 0 && driverId.length > 0
+			&& pickUpLocation.length > 0 && dropOffLocation.length > 0 && rideDate.length > 0
+			&& rideStartTime.length > 0 && rideEndTime.length > 0) ){
+
+
+		console.log("generateBill validation entry error" );
+		json_responses = {"statusCode":500};
+		res.send(json_responses);
+	}
+
 	var msg_payload = {
 		"rideId" : rideId,
 		"customerId" : customerId,
@@ -46,6 +57,15 @@ exports.deleteBill = function(req, res){
 
 	var billId =  req.param('billId');
 
+	//Valdidations
+	if( ! (billId) ){
+
+
+		console.log("deleteBill validation entry error" );
+		json_responses = {"statusCode":500};
+		res.send(json_responses);
+	}
+
 	var msg_payload = {
 		"billId": billId,
 		"func" : "deleteBill"
@@ -66,6 +86,15 @@ exports.deleteBill = function(req, res){
 
 exports.searchBills = function(req, res){
 	var searchText =  req.param('searchText');
+
+	//Validations
+	if( ! (searchText) ){
+
+
+		console.log("searchBill validation entry error" );
+		json_responses = {"statusCode":500};
+		res.send(json_responses);
+	}
 
 	var msg_payload = {
 		"searchText": searchText,

@@ -391,3 +391,23 @@ var findResult = function (results, name) {
     });
     return result ? result.short_name : null;
 };
+
+
+exports.checkDriverEmail = function(msg, callback){
+
+    var email = msg.email;
+
+    var json_response;
+
+    Driver.findAll({where: {email: email}}).then(function(drivers){
+
+        if(drivers.length > 0){
+            json_response = requestGen.responseGenerator(500, null);
+        }
+        else{
+            json_response = requestGen.responseGenerator(200, null);
+        }
+
+        callback(null, json_response);
+    });
+};
