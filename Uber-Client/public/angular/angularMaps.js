@@ -7,14 +7,22 @@ app.run(function($rootScope) {
 
 });
 
-app.controller('ngMap1',  function ($rootScope,$scope) {
+app.controller('ngMap1',  function ($rootScope,$scope,NgMap) {
+
+    NgMap.getMap().then(function(map) {
+        $rootScope.map = map;
+
+        console.log(map.getCenter().lat()+' '+map.getCenter().lng());
+
+        //Call get driver information here with map.getCenter.lat() with key currentLat
+        // & map.getCenter().lng() with key currentLng
+    });
 
     var vm = this;
 
     $http.get("/getDriverInformation").success(function(response) {
 		if (response.status == 200) {
 				$scope.items = response.data.data;
-				
 		}
 		else
 			{

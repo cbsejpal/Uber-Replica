@@ -34,7 +34,7 @@ exports.registerDriver = function (msg, callback) {
         state: state,
         zipCode: zipCode,
         phoneNumber: phoneNumber
- //       carDetails: carDetails
+        //       carDetails: carDetails
     }).then(function () {
         //add data in mongodb
         var newDriver = new Drivers({
@@ -78,9 +78,6 @@ exports.loginDriver = function (msg, callback) {
     });
 
 };
-
-
-
 
 
 exports.searchDriver = function (msg, callback) {
@@ -128,46 +125,106 @@ exports.deleteDriver = function (msg, callback) {
     var json_responses;
     console.log(email + " email");
     Driver.destroy({where: {email: email}}).then(function (affectedRows) {
-                if (affectedRows > 0) {
-                	console.log("first if");
-                    Drivers.remove({email: email}, function (err, removed) {
-                        if (err) {
-                            json_responses = requestGen.responseGenerator(500, {message: 'driver delete failed'});
-                        }
-                        else {
-                            if (removed.result.n > 0) {
-                            	console.log("last if");
-                            	json_responses = requestGen.responseGenerator(200, {message: 'Driver Deleted.'});
-                            } else {
-                            	console.log("first else");
-                                json_responses = requestGen.responseGenerator(500, {message: 'No Driver Found'});
-                            }
-                        }
-                        callback(null, json_responses);
-                    });
-                } else {
-                	console.log("last else");
-                    json_responses = requestGen.responseGenerator(500, {message: 'No Driver Found'});
-                    callback(null, json_responses);
+        if (affectedRows > 0) {
+            console.log("first if");
+            Drivers.remove({email: email}, function (err, removed) {
+                if (err) {
+                    json_responses = requestGen.responseGenerator(500, {message: 'driver delete failed'});
                 }
+                else {
+                    if (removed.result.n > 0) {
+                        console.log("last if");
+                        json_responses = requestGen.responseGenerator(200, {message: 'Driver Deleted.'});
+                    } else {
+                        console.log("first else");
+                        json_responses = requestGen.responseGenerator(500, {message: 'No Driver Found'});
+                    }
+                }
+                callback(null, json_responses);
             });
+        } else {
+            console.log("last else");
+            json_responses = requestGen.responseGenerator(500, {message: 'No Driver Found'});
+            callback(null, json_responses);
+        }
+    });
 };
 
 
 exports.getDriversInRange = function (msg, callback) {
 
     var json_responses;
-    Driver.findAll({where: {verifyStatus:true}}).then(function(driver) {
-        if (driver.length > 0) {
-            json_responses = requestGen.responseGenerator(200, {data: driver});
-        } else {
-            json_responses = requestGen.responseGenerator(500, {data: "No Driver found"});
+
+    Driver.findAll({verifyStatus: true, isBusy: false}).then(function (drivers) {
+
+        if(drivers.length > 0){
+
+            Drivers.find({verifyStatus: true, isBusy: false}).lean().then(function (driver) {
+
+                var filterDriver = [];
+
+                if (driver.length > 0) {
+
+                    var mergedDriverList = _.map(drivers, function(item){
+                        var order = _.find(driver, function (driver) {
+                            return item.dataValues.email == driver.email;
+                        });
+                        return _.extend(item.dataValues,order);
+                    });
+
+                    var dist = {}, point = {};
+                    for (var intPoint = 0; intPoint < mergedDriverList.length; intPoint = intPoint + 1) {
+                        point = mergedDriverList[intPoint];
+                        console.log(point);
+                        dist = distance({
+                            lat1: msg.currentLat,
+                            lon1: msg.currentLng,
+                            lat2: point.latitude,
+                            lon2: point.longitude
+                        });
+                        if (dist.m < 10) {
+                            point.distance = dist.m;
+                            filterDriver.push(point);
+                        }
+                        console.log('Positions:',JSON.stringify(dist))
+                    }
+
+
+                    json_responses = requestGen.responseGenerator(200, filterDriver);
+                    callback(null, json_responses);
+                } else {
+                    json_responses = requestGen.responseGenerator(500,  "No Driver found");
+                    callback(null, json_responses);
+                }
+            });
         }
-        callback(null, json_responses);
+        else{
+            json_responses = requestGen.responseGenerator(500, {data: "No Driver found"});
+            callback(null, json_responses);
+        }
+
     });
+
+
 };
 
+function distance(obj) {
+    var R = 6371; // km
+    var dLat = (obj.lat2 - obj.lat1) * Math.PI / 180;
+    var dLon = (obj.lon2 - obj.lon1) * Math.PI / 180;
+    var lat1 = obj.lat1 * Math.PI / 180;
+    var lat2 = obj.lat2 * Math.PI / 180;
 
+    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var d = R * c;
+    var m = d * 0.621371;
+    return {
+        km: d,
+        m: m
+    }
+}
 
 
 exports.getDriverInformation = function (msg, callback) {
@@ -175,17 +232,17 @@ exports.getDriverInformation = function (msg, callback) {
     var json_responses;
     console.log(email);
     Driver.findOne({where: {email: email}}).then(function (driver) {
-    console.log(email);
+        console.log(email);
         if (driver) {
-        	console.log("driver from sql " + driver);
-        	
-            Drivers.find({email: email}, function(err, drivers){
-                if(drivers){
-                	console.log("driver from mongodb " + drivers);
-                	
+            console.log("driver from sql " + driver);
+
+            Drivers.find({email: email}, function (err, drivers) {
+                if (drivers) {
+                    console.log("driver from mongodb " + drivers);
+
                     json_responses = requestGen.responseGenerator(200, driver, drivers);
                 }
-                else{
+                else {
                     json_responses = requestGen.responseGenerator(500, driver, {message: "No rides found!"});
                 }
                 callback(null, json_responses);
@@ -196,7 +253,6 @@ exports.getDriverInformation = function (msg, callback) {
         //callback(null, json_responses);
     });
 };
-
 
 
 exports.updateDriver = function (msg, callback) {
@@ -248,7 +304,7 @@ exports.updateDriver = function (msg, callback) {
     });
 };
 
-exports.updateDriverDetails = function(msg, callback){
+exports.updateDriverDetails = function (msg, callback) {
 
     var email = msg.email;
     var vehicleType = msg.vehicleType;
@@ -266,8 +322,8 @@ exports.updateDriverDetails = function(msg, callback){
         url: 'https://maps.googleapis.com/maps/api/geocode/json', //URL to hit
         qs: {address: currentLocation},
         method: 'GET'
-    }, function(error, response, body){
-        if(error) {
+    }, function (error, response, body) {
+        if (error) {
             console.log(error);
         } else {
             //console.log(response.statusCode, JSON.parse(body));
@@ -283,25 +339,28 @@ exports.updateDriverDetails = function(msg, callback){
                 carDetails: carDetails,
                 videoURL: videoURL,
                 license: license
-            },{where: {email: email}}).then(function(driver){
+            }, {where: {email: email}}).then(function (driver) {
                 var json_responses;
                 if (driver) {
 
-                    Drivers.update({email: email}, {$set: {
-                        currentLocation: currentLocation,
-                        latitude: latitude,
-                        longitude: longitude}},  function(err, doc){
+                    Drivers.update({email: email}, {
+                        $set: {
+                            currentLocation: currentLocation,
+                            latitude: latitude,
+                            longitude: longitude
+                        }
+                    }, function (err, doc) {
 
-                        if(err){
+                        if (err) {
                             json_responses = requestGen.responseGenerator(500, {message: "Error saving driver"});
                             callback(null, json_responses);
                         }
 
-                        else if(doc.length > 0){
+                        else if (doc.length > 0) {
                             json_responses = requestGen.responseGenerator(200, {message: 'Success'});
                             callback(null, json_responses);
                         }
-                        else{
+                        else {
                             json_responses = requestGen.responseGenerator(500, {message: "No Driver found in MongoDB"});
                             callback(null, json_responses);
                         }
@@ -318,8 +377,8 @@ exports.updateDriverDetails = function(msg, callback){
 
 };
 
-var findResult = function(results, name){
-    var result =  _.find(results, function(obj){
+var findResult = function (results, name) {
+    var result = _.find(results, function (obj) {
         return obj.types[0] == name && obj.types[1] == "political";
     });
     return result ? result.short_name : null;

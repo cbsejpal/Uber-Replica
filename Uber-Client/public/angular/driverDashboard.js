@@ -62,7 +62,7 @@ app.controller('profile', function($scope, $http) {
 		});
 
 		if($scope.profileUpdate.$error.required){
-			$event.preventDefault();
+			//$event.preventDefault();
 
 			alert("Please fill all the fields before saving");
 		}
