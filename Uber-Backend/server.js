@@ -18,7 +18,7 @@ var mongoose = require('mongoose');
 //var options = {
 //	server: { poolSize: 5 }
 //};
-var connection = mongoose.connect("mongodb://localhost:27017/newuber");
+var connection = mongoose.connect("mongodb://localhost:27017/neuber");
 
 cnn.on('ready', function() {
 	console.log("listening on customer_queue");
