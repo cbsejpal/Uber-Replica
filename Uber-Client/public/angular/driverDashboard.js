@@ -1,20 +1,31 @@
 var app = angular.module('drivers', []);
 
+app.controller('socket',['$scope','socket',function($scope,socket){
 
-app.controller('navbar', function($scope, $http) {
-	$http.get("/getDriverInformation").success(function(response) {
-		//alert(JSON.stringify(response));
-		if (response.status == 200) {
-			//alert(JSON.stringify(response.data.firstName));
-			$scope.firstName = response.data.firstName;
-			}
-		else
-			{
-			
-			}
-
+	socket.on('request_ride', function (data) {
+		alert(data);
 	});
-});
+
+}]);
+
+app.controller('navbar',[ '$scope','$http','socket',function($scope, $http,socket) {
+
+	$http.get("/getDriverInformation")
+			.success(function(response) {
+				//alert(JSON.stringify(response));
+				if (response.status == 200) {
+					//alert(JSON.stringify(response.data.firstName));
+					$scope.firstName = response.data.firstName;
+					$scope.email = response.data.email;
+					socket.emit('join',{ email: $scope.email });
+				}
+				else
+					{
+
+					}
+
+			});
+}]);
 
 app.controller('myrides', function($scope, $http) {
 	

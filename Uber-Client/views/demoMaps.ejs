@@ -85,7 +85,7 @@
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
-                <li class="active"><a>Create a ride<span class="sr-only">(current)</a></span></li>
+                <li class="active"><a>Create a ride<span class="sr-only">(current)</span></a></li>
                 <br>
                 <li><button style="margin-left:10px;" class="btn btn-success" onclick="location.href ='customerDashboard';"> < Back to Dashboard</button></li>
 
@@ -122,16 +122,11 @@
                     <!--<div class="custom-marker"><div>Current position</div> </div>-->
                 </marker>
 
-                <custom-marker ng-repeat="p in vm.positions track by $index"
-                               position="{{p.lat}}, {{p.lon}}" ng-show="showDriver">
+                <custom-marker ng-repeat="p in vm.drivers track by $index"
+                               position="{{p.latitude}}, {{p.longitude}}" ng-show="showDriver">
                     <div>
-                        Hi, How Are You? <br/>
-                        My Name is Obama, and people call me as Mr. President.<br/>
-                        We live in this house.<br/>
+                        {{p.firstName}} {{p.lastName}} <br/>
                         <br/>
-                        <img width="300" src="http://cdn.cstatic.net/images/gridfs/53b42fd3f92ea17d970280b4/Screen%20Shot%202014-07-02%20at%2012.07.54%20PM.png" />
-                        <br/>
-                        If you want to visit us, please click <a href="https://www.whitehouse.gov" data-toggle="modal" data-target="#myModal">here</a>
                     </div>
                 </custom-marker>
     

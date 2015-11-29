@@ -8,7 +8,7 @@ var sequelize = mysql.sequelize;
 var Customer = sequelize.define('Customer', {
 	customer_id: {type: Sequelize.INTEGER(9).ZEROFILL, autoIncrement: true, primaryKey: true},
 	email: {type: Sequelize.STRING, unique: true},
-	password: Sequelize.STRING,
+	password: Sequelize.TEXT,
 	firstName: Sequelize.STRING,
 	lastName: Sequelize.STRING,
 	address: Sequelize.STRING,
@@ -30,10 +30,10 @@ exports.Customer = Customer;
 
 //mongodb
 var mongoose = require('mongoose');
-var connection = mongoose.createConnection("mongodb://localhost:27017/newuber");
+var connection = mongoose.createConnection("mongodb://localhost:27017/neuber");
 var Schema = mongoose.Schema;
-var autoIncrement = require('mongoose-auto-increment');
-autoIncrement.initialize(connection);
+//var autoIncrement = require('mongoose-auto-increment');
+//autoIncrement.initialize(connection);
 
 //create customer and related schema using mongoose
 
@@ -71,11 +71,12 @@ var customerSchema = new Schema({
 //create Customers model from schema
 var Customers = mongoose.model('Customers', customerSchema);
 
-customerSchema.plugin(autoIncrement.plugin, {
+/*customerSchema.plugin(autoIncrement.plugin, {
 	model: 'Customers',
 	field: 'custId',
 	startAt: 1,
 	incrementBy: 1
 });
+*/
 
 exports.Customers = Customers;

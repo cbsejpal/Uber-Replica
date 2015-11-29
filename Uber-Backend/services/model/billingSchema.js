@@ -2,7 +2,7 @@
 
 var mongoose = require('mongoose');
 
-var connection = mongoose.createConnection("mongodb://localhost:27017/newuber");
+var connection = mongoose.createConnection("mongodb://localhost:27017/neuber");
 var Schema = mongoose.Schema;
 var autoIncrement = require('mongoose-auto-increment');
 autoIncrement.initialize(connection);

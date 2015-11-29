@@ -4,6 +4,7 @@ var requestGen = require('./commons/responseGenerator');
 
 var Customer = customerSchema.Customer; //mysql instance
 var Customers = customerSchema.Customers; //mongoDB instance
+var crypto = require('crypto');
 
 exports.registerCustomer = function(msg, callback){
 
@@ -18,13 +19,16 @@ exports.registerCustomer = function(msg, callback){
     var phoneNumber = msg.phoneNumber;
     var creditCard = msg.creditCard;
 
+    var salt = "!@12MySeCrEtSALTsTrInG!@12";
+    var newPassword = crypto.createHash('sha512').update(salt + password + salt).digest("hex");
+
     var json_responses;
 
     //add data in mysql
     Customer.create({
         //id - autoIncrement by default by sequelize
         email: email,
-        password: password,
+        password: newPassword,
         firstName: firstName,
         lastName: lastName,
         address: address,
@@ -33,13 +37,16 @@ exports.registerCustomer = function(msg, callback){
         zipCode: zipCode,
         phoneNumber: phoneNumber,
         creditCard: creditCard
-    }).then(function(){
+    }).then(function(customer){
         //add data in mongodb
         var newCustomer = new Customers({
+            custId: customer.customer_id,
             firstName: firstName,
             lastName: lastName,
             email: email
         });
+
+        //console.log("customer id: " +customer.customer_id);
 
         newCustomer.save(function(err) {
 
@@ -61,9 +68,13 @@ exports.loginCustomer = function(msg, callback){
     var email = msg.email;
     var password = msg.password;
 
+
+    var salt = "!@12MySeCrEtSALTsTrInG!@12";
+    var newPassword = crypto.createHash('sha512').update(salt + password + salt).digest("hex");
+
     var json_responses;
 
-    Customer.findOne({where: {email: email, password: password}}).then(function (user) {
+    Customer.findOne({where: {email: email, password: newPassword}}).then(function (user) {
         if(user){
             json_responses = requestGen.responseGenerator(200, {message: 'customer login successful', user: user.email});
         }
@@ -100,13 +111,13 @@ exports.getCustomerInformation = function (msg, callback) {
         //console.log("outside if");
         if (customer) {
             //console.log("inside if");
-            Customers.find({email: customerId}).lean().then(function(err, customers){
+            Customers.find({email: customerId}).then(function(err, customers){
                 if(customers){
                     console.log("inside second if");
                     json_responses = requestGen.responseGenerator(200, customer, customers);
                 }
                 else{
-                    json_responses = requestGen.responseGenerator(500, customer, {message: "No rides found!"});
+                    json_responses = requestGen.responseGenerator(200, customer, {message: "No rides found!"});
                 }
                 callback(null, json_responses);
             }) ;
