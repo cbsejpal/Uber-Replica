@@ -100,7 +100,7 @@ exports.getCustomerInformation = function (msg, callback) {
         //console.log("outside if");
         if (customer) {
             //console.log("inside if");
-            Customers.find({email: customerId}, function(err, customers){
+            Customers.find({email: customerId}).lean().then(function(err, customers){
                 if(customers){
                     console.log("inside second if");
                     json_responses = requestGen.responseGenerator(200, customer, customers);
@@ -109,7 +109,7 @@ exports.getCustomerInformation = function (msg, callback) {
                     json_responses = requestGen.responseGenerator(500, customer, {message: "No rides found!"});
                 }
                 callback(null, json_responses);
-            });
+            }) ;
         } else {
             json_responses = requestGen.responseGenerator(500, {message: "No Customers found"});
             callback(null, json_responses);
