@@ -89,8 +89,8 @@ exports.createRide = function (msg, callback) {
                                                     rideId: rideId
                                                 });
                                                 callback(null, json_responses);
-
                                             }
+                                            });
                                     }
                                     else{
                                         json_responses = requestGen.responseGenerator(500, {message: "Driver Not found or busy right now."});
@@ -98,7 +98,6 @@ exports.createRide = function (msg, callback) {
                                     }
 
                                 }
-                            });
                         }
                         else{
                             json_responses = requestGen.responseGenerator(500, {message: "Customer not verified or not found."});
