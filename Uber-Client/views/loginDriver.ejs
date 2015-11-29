@@ -27,20 +27,26 @@
 
 
 
-			<form id="form" method="post" name='registration'>
+			<form id="form" method="post" name='registration' novalidate>
 
 
 
 				<h1 style="color:#fff; text-align:center; font-size:40px;">U B E R </h1><hr>
 
-				<p style = "font-size:16px; color:#fff;">Email</p><input ng-model="email" class="form-control" maxlength="40" type="email" name="email" value="" placeholder="Email" required>
-
-				<br><p style = "font-size:16px; color:#fff">Password</p><input ng-model="password" class="form-control" maxlength="30" type="password" name="password" value="" placeholder="Password" required>
-
+				<p style = "font-size:16px; color:#fff;">Email</p>
+				<input ng-model="email" class="form-control" ng-pattern="/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/" maxlength="40" type="email" name="email" value="" placeholder="Email" required>
+				<span style="color:red" ng-show="registration.email.$dirty && registration.email.$invalid">
+  					<span ng-show="registration.email.$error.required">Email is required.</span>
+					<span ng-show="registration.email.$error.pattern">Incorrect Email address.</span>
+  				</span>
+				<br><p style = "font-size:16px; color:#fff">Password</p>
+				<input ng-model="password" class="form-control" maxlength="30" type="password" name="password" value="" placeholder="password" required>
+				<span style="color:red" ng-show="registration.password.$dirty && registration.password.$invalid">
+					<span ng-show="registration.password.$error.required">Password is required.</span>
+				</span>
 				<br>
 
-				<input type="hidden" name="firstLogIn" value="yes">
-				<button type="submit" ng-click="submit();" class="btn btn-info" style = "padding : 16px 154px; font-size:14px;">LOG IN</button>
+				<button type="submit" ng-click="submit($event);" class="btn btn-info" style = "padding : 16px 154px; font-size:14px;">LOG IN</button>
 				<br><br>
 				<div class="alert alert-danger" ng-hide="invalid_login">
 
@@ -57,8 +63,9 @@
 
 			</form>
 
-
-
+			<div class="row" style="margin-left: 192px;">
+				Not Registered?<a href="/signupDriver"> Click here</a>
+			</div>
 		</div>
 
 		<div class="col-md-3"></div>

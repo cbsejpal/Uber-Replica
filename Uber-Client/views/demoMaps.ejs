@@ -71,7 +71,8 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user" style="font-size:30px;"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">SOHAM</a></li>
+                        <li><a href="#">{{customerName}}</a></li>
+                        
                         <li class="divider"></li>
 
                         <li><a href="logout">Logout</a></li>
@@ -79,13 +80,14 @@
             </ul>
         </div>
     </div>
+   
 </nav>
 
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
-                <li class="active"><a>Create a ride<span class="sr-only">(current)</a></span></li>
+                <li class="active"><a>Create a ride<span class="sr-only">(current)</span></a></li>
                 <br>
                 <li><button style="margin-left:10px;" class="btn btn-success" onclick="location.href ='customerDashboard';"> < Back to Dashboard</button></li>
 
@@ -97,6 +99,7 @@
         </div>
         <br>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
+         <p ng-hide="true" ng-model="customerId">{{customerId}}</p>
             <div class="row">
                 <div class="col-md-1">
                     <p style="font-size:18px">Origin : </p>
@@ -122,21 +125,17 @@
                     <!--<div class="custom-marker"><div>Current position</div> </div>-->
                 </marker>
 
-                <custom-marker ng-repeat="p in vm.positions track by $index"
-                               position="{{p.lat}}, {{p.lon}}" ng-show="showDriver">
+                <custom-marker ng-repeat="p in vm.drivers track by $index"
+                               position="{{p.latitude}}, {{p.longitude}}" ng-show="showDriver">
                     <div>
-                        Hi, How Are You? <br/>
-                        My Name is Obama, and people call me as Mr. President.<br/>
-                        We live in this house.<br/>
+                        <a data-toggle="modal" ng-click="show(p)" data-target="#myModal" href="javascript:void(0);"> {{p.firstName}} {{p.lastName}} </a><br/>
+                   
                         <br/>
-                        <img width="300" src="http://cdn.cstatic.net/images/gridfs/53b42fd3f92ea17d970280b4/Screen%20Shot%202014-07-02%20at%2012.07.54%20PM.png" />
-                        <br/>
-                        If you want to visit us, please click <a href="https://www.whitehouse.gov" data-toggle="modal" data-target="#myModal">here</a>
                     </div>
                 </custom-marker>
     
     
-				    <div class="modal fade" id="myModal" role="dialog">
+				    <div class="modal fade" id="myModal" role="dialog" >
 				    <div class="modal-dialog">
 				    
 				      <!-- Modal content-->
@@ -146,14 +145,15 @@
 				          <h4 class="modal-title">DRIVER YOU REQUESTED : </h4>
 				        </div>
 				        <div class="modal-body">
-				          <p ng-model = "driverName">Driver name: {{driverName}}</p><br>
-				          <p ng-model = "driverVideo">Driver video : {{driverVideo}}</p>
+				          <p ng-model="driverName">Driver name : {{driverName}}</p><br>
+				          <p ng-model="driverEmail">Driver email : {{driverEmail}}</p><br>
+				          <p ng-model="driverVideo">Driver video : {{driverVideo}}</p>
 				          <br>
 				          <p ng-model = "driverCity">Driver city : {{driverCity}}</p>
 				          <br>
 				        </div>
 				        <div class="modal-footer">
-				          <button type="button" class="btn btn-success" ng-click="bookRide()" data-dismiss="modal">Book the driver</button>
+				          <button type="button" class="btn btn-success" ng-click="bookRide(driverEmail)" data-dismiss="modal">Book the driver</button>
 				        </div>
 				      </div>
 				      

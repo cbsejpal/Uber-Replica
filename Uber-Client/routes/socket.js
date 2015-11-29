@@ -28,5 +28,5 @@ module.exports.listen = function(app){
 };
 
 exports.onInformationretrieved = function(userID){
-    io.sockets.in(userID).emit('new_msg', {msg: 'hello'});
+    io.sockets.in(userID).emit('request_ride', {msg: 'You got a ride request.'});
 };

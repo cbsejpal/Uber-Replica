@@ -3,6 +3,7 @@ var driverSchema = require('./model/driverSchema');
 var requestGen = require('./commons/responseGenerator');
 var request = require('request');
 var _ = require('underscore');
+var crypto = require('crypto');
 
 var Driver = driverSchema.Driver; //mysql instance
 var Drivers = driverSchema.Drivers; //mongoDB instance
@@ -20,13 +21,16 @@ exports.registerDriver = function (msg, callback) {
     var phoneNumber = msg.phoneNumber;
 //    var carDetails = msg.carDetails;
 
+    var salt = "!@12MySeCrEtSALTsTrInG!@12";
+    var newPassword = crypto.createHash('sha512').update(salt + password + salt).digest("hex");
+
     var json_responses;
 
     //add data in mysql
     Driver.create({
         //id - autoIncrement by default by sequelize
         email: email,
-        password: password,
+        password: newPassword,
         firstName: firstName,
         lastName: lastName,
         address: address,
@@ -35,9 +39,10 @@ exports.registerDriver = function (msg, callback) {
         zipCode: zipCode,
         phoneNumber: phoneNumber
         //       carDetails: carDetails
-    }).then(function () {
+    }).then(function (driver) {
         //add data in mongodb
         var newDriver = new Drivers({
+            driId: driver.driver_id,
             firstName: firstName,
             lastName: lastName,
             email: email
@@ -66,7 +71,10 @@ exports.loginDriver = function (msg, callback) {
 
     var json_responses;
 
-    Driver.findOne({where: {email: email, password: password}}).then(function (user) {
+    var salt = "!@12MySeCrEtSALTsTrInG!@12";
+    var newPassword = crypto.createHash('sha512').update(salt + password + salt).digest("hex");
+
+    Driver.findOne({where: {email: email, password: newPassword}}).then(function (user) {
 
         if (user) {
             json_responses = requestGen.responseGenerator(200, {message: 'driver login successful', user: user.email});
@@ -84,7 +92,7 @@ exports.searchDriver = function (msg, callback) {
 
     var search = msg.search;
 
-    Driver.find({
+    Driver.findAll({
         where: {
             $or: [{
                 email: {$like: '%' + search + '%'}
@@ -243,7 +251,7 @@ exports.getDriverInformation = function (msg, callback) {
                     json_responses = requestGen.responseGenerator(200, driver, drivers);
                 }
                 else {
-                    json_responses = requestGen.responseGenerator(500, driver, {message: "No rides found!"});
+                    json_responses = requestGen.responseGenerator(200, driver, {message: "No rides found!"});
                 }
                 callback(null, json_responses);
             });
@@ -382,4 +390,24 @@ var findResult = function (results, name) {
         return obj.types[0] == name && obj.types[1] == "political";
     });
     return result ? result.short_name : null;
+};
+
+
+exports.checkDriverEmail = function(msg, callback){
+
+    var email = msg.email;
+
+    var json_response;
+
+    Driver.findAll({where: {email: email}}).then(function(drivers){
+
+        if(drivers.length > 0){
+            json_response = requestGen.responseGenerator(500, null);
+        }
+        else{
+            json_response = requestGen.responseGenerator(200, null);
+        }
+
+        callback(null, json_response);
+    });
 };
