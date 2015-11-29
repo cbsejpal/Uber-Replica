@@ -6,6 +6,7 @@
 var express = require('express')
     , http = require('http')
     , app = express()
+    //, passport = require('passport')
     , server = http.Server(app)
     , routes = require('./routes')
     , io = require('./routes/socket').listen(server)
@@ -43,6 +44,10 @@ app.configure(function(){
             url : mongoSessionConnectURL
         })
     }));
+
+    //app.use(passport.initialize());
+    //app.use(passport.expressSession());
+
     app.use(app.router);
     app.use(express.static(path.join(__dirname, 'public')));
 });
