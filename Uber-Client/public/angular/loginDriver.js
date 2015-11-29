@@ -18,12 +18,10 @@ loginDriver.controller('loginDriver', function($scope, $http) {
 		}).success(function(data) {
 			//checking the response data for statusCode
 			if (data.statusCode == 401) {
-
 				$scope.invalid_login = false;
 				$scope.unexpected_error = true;
 			}
 			else{
-
 				//Making a get call to the '/redirectToHomepage' API
 				window.location.assign("/driverDashboard");
 			}
@@ -32,4 +30,4 @@ loginDriver.controller('loginDriver', function($scope, $http) {
 			$scope.invalid_login = true;
 		});
 	};
-})
+});

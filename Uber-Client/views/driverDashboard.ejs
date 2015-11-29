@@ -15,8 +15,20 @@
      <script src="http://code.angularjs.org/1.3.15/angular.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="https://cdn.socket.io/socket.io-1.3.7.js"></script>
     <script src="angular/driverDashboard.js"></script>
-    
+    <script src="angular/socket-service.js"></script>
+    <!--<script>
+        var socket = io.connect('http://localhost:3000');
+        console.log(socket);
+
+        socket.on('new_msg',function(data){
+            //alert(data.msg);
+        });
+
+        socket.emit('join',{ email: 'cbsejpal@gmail.com' });
+
+    </script>-->
 
     <link href="stylesheets/dashboard.css" rel="stylesheet">
     <script>
@@ -46,11 +58,14 @@
 
 </head>
 
-<body ng-app="drivers">
+<body ng-app="drivers" ng-controller="socket">
 <% include navbar.ejs %>
 
 
 <div class="container-fluid">
+    <div class="row" style="margin-left: 1000px; margin-top: 10px;">
+        Haven't filled the details yet?<a href="/driverDetails"> Click here</a>
+    </div>
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">

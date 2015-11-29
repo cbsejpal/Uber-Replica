@@ -18,7 +18,7 @@ var mongoose = require('mongoose');
 //var options = {
 //	server: { poolSize: 5 }
 //};
-var connection = mongoose.connect("mongodb://localhost:27017/newuber");
+var connection = mongoose.connect("mongodb://localhost:27017/neuber");
 
 cnn.on('ready', function() {
 	console.log("listening on customer_queue");
@@ -120,6 +120,18 @@ cnn.on('ready', function() {
 					break;
 				case "updateCustomer":
 					customer.updateCustomer(message, function (err, res) {
+
+						util.log("Correlation ID: " + m.correlationId);
+						// return index sent
+						cnn.publish(m.replyTo, res, {
+							contentType: 'application/json',
+							contentEncoding: 'utf-8',
+							correlationId: m.correlationId
+						});
+					});
+					break;
+				case "checkCustomerEmail":
+					customer.checkCustomerEmail(message, function (err, res) {
 
 						util.log("Correlation ID: " + m.correlationId);
 						// return index sent
@@ -233,6 +245,18 @@ cnn.on('ready', function() {
 					
 				case "getDriversInRange":
 					driver.getDriversInRange(message, function (err, res) {
+
+						util.log("Correlation ID: " + m.correlationId);
+						// return index sent
+						cnn.publish(m.replyTo, res, {
+							contentType: 'application/json',
+							contentEncoding: 'utf-8',
+							correlationId: m.correlationId
+						});
+					});
+					break;
+				case "checkDriverEmail":
+					driver.checkDriverEmail(message, function (err, res) {
 
 						util.log("Correlation ID: " + m.correlationId);
 						// return index sent

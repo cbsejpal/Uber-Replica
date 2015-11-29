@@ -1,4 +1,4 @@
-var app = angular.module('driverDetails', []);
+var app = angular.module('driverDetails', ['ngMap']);
 
 app.controller('driverDetails', function($scope, $http) {
 	
@@ -92,15 +92,14 @@ app.controller('driverDetails', function($scope, $http) {
 			}).success(function(data) {
 				//checking the response data for statusCode
 				if (data.statusCode == 500) {
-
+					window.location.assign('/errorDriver');
 				}
 				else{
 					window.location.assign("/driverDashboard");
 				}
-			}).error(function(error) {
-
+			}).error(function(error){
+				window.location.assign('/errorDriver');
 			});
-
 		}
 	};
 });

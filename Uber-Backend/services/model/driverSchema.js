@@ -8,7 +8,7 @@ var sequelize = mysql.sequelize;
 var Driver = sequelize.define('Driver', {
 	driver_id: {type: Sequelize.INTEGER(9).ZEROFILL, autoIncrement: true, primaryKey: true},
 	email: {type: Sequelize.STRING, unique: true},
-	password: Sequelize.STRING,
+	password: Sequelize.TEXT,
 	firstName: Sequelize.STRING,
 	lastName: Sequelize.STRING,
 	address: Sequelize.STRING,
@@ -33,10 +33,10 @@ exports.Driver = Driver;
 
 //mongodb
 var mongoose = require('mongoose');
-var connection = mongoose.createConnection("mongodb://localhost:27017/newuber");
+var connection = mongoose.createConnection("mongodb://localhost:27017/neuber");
 var Schema = mongoose.Schema;
-var autoIncrement = require('mongoose-auto-increment');
-autoIncrement.initialize(connection);
+//var autoIncrement = require('mongoose-auto-increment');
+//autoIncrement.initialize(connection);
 
 //create driver and related schema using mongoose
 
@@ -74,11 +74,11 @@ var driverSchema = new Schema({
 //create Drivers model from schema
 var Drivers = mongoose.model('Drivers', driverSchema);
 
-driverSchema.plugin(autoIncrement.plugin, {
+/*driverSchema.plugin(autoIncrement.plugin, {
 	model: 'Drivers',
 	field: 'driId',
 	startAt: 1,
 	incrementBy: 1
-});
+});*/
 
 exports.Drivers = Drivers;

@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "amqp": "*",
+    "crypto": "0.0.3",
     "fs": "0.0.2",
     "gridfs-stream": "^1.1.1",
     "mongodb": "*",
