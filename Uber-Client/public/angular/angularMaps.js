@@ -147,7 +147,8 @@ app.controller('ngMap1', function ($rootScope, $scope,$http,NgMap) {
 		}).success(function(data) {
     	
     	//alert("Ride started ! Redirecting to your dashboard...");
-			alert(data.status);
+			alert(data.message+"Your ride is created successfully, Redirecting you to the dashboard !");
+			window.location.assign('/customerDashboard');
     	
     	
     });
