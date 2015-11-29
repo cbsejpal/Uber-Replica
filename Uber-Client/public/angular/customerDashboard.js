@@ -3,9 +3,11 @@ var app = angular.module('customers', []);
 app.controller('rides', function($scope, $http) {
 	$http.get("/rideInfo").success(function(response) {
 		if (response.status == 200) {
-
 			$scope.rides = response.data;
 		}
+
+	}).error(function(error){
+		window.location.assign('/errorCustomer');
 	});
 });
 
@@ -16,7 +18,12 @@ app.controller('navbar', function($scope, $http) {
 		if (response.status == 200) {
 			$scope.firstName = response.data.firstName;
 		}
+		else{
+			window.location.assign('/logout');
+		}
 
+	}).error(function(error){
+		window.location.assign('/errorCustomer');
 	});
 });
 
@@ -39,7 +46,12 @@ app.controller('profile', function($scope, $http) {
 
 			//console.log(JSON.stringify($scope.customer));
 		}
+		else{
+			window.location.assign('/logout');
+		}
 
+	}).error(function(error){
+		window.location.assign('/errorCustomer');
 	});
 
 	$scope.save = function($event) {
@@ -49,7 +61,7 @@ app.controller('profile', function($scope, $http) {
 		});
 
 		if($scope.profileUpdate.$error.required){
-			//$event.preventDefault();
+			$event.preventDefault();
 
 			alert("Please fill all the fields before saving");
 		}
@@ -74,28 +86,23 @@ app.controller('profile', function($scope, $http) {
 			}).success(function(data) {
 				//checking the response data for statusCode
 				if (data.statusCode == 401) {
-					alert("error");
+					//alert("error");
+					window.location.assign('/errorCustomer');
 				}
 				else{
 
 					//Making a get call to the '/redirectToHomepage' API
 					window.location.assign("/customerDashboard");
 				}
-			}).error(function(error) {
-
-				alert("save error !");
+			}).error(function(error){
+				window.location.assign('/errorCustomer');
 			});
 		}
-
 	};
-
-
-
-
 });
 
 
-app.controller('payment', function($scope, $http) {
+/*app.controller('payment', function($scope, $http) {
 
 
 	$http.get("/getCustomerInformation").success(function(response) {
@@ -105,8 +112,7 @@ app.controller('payment', function($scope, $http) {
 			//console.log(JSON.stringify($scope.customer));
 		}
 
+	}).error(function(error){
+		window.location.assign('/errorCustomer');
 	});
-});
-
-	
-
+});*/

@@ -234,3 +234,26 @@ exports.getImagesOfRide = function(msg, callback){
     json_responses = requestGen.responseGenerator(200, null);
     callback(null, json_responses);
 };
+
+
+
+exports.checkCustomerEmail = function(msg, callback){
+
+    var email = msg.email;
+
+    var json_response;
+
+    Customer.findAll({where: {email: email}}).then(function(customers){
+
+        //console.log("email customers " + customers);
+
+        if(customers.length > 0){
+            json_response = requestGen.responseGenerator(500, null);
+        }
+        else{
+            json_response = requestGen.responseGenerator(200, null);
+        }
+
+        callback(null, json_response);
+    });
+};

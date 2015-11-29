@@ -79,6 +79,7 @@ app.get('/logout', logout.logout);
 app.get('/deleteCustomer', customer.deleteCustomer);
 app.get('/getCustomerInformation', customer.getCustomerInformation);
 app.post('/updateCustomer',customer.updateCustomer);
+app.get('/checkCustomerEmail', customer.checkCustomerEmail);
 
 
 //driver
@@ -88,6 +89,7 @@ app.get('/getDriverInformation', driver.getDriverInformation);
 app.post('/updateDriver', driver.updateDriver);
 app.get('/getDriversInRange',driver.getDriversInRange);
 app.get('/driverDetails', driver.driverDetails);
+app.get('/checkDriverEmail', driver.checkDriverEmail);
 
 //register
 app.post('/registerCustomer', customer.registerCustomer);
@@ -137,6 +139,14 @@ app.get('/ignoreCustomers',admin.ignoreCustomers);
 app.get('/requestRide',index.maps);
 
 app.post('/updateDriverDetails', driver.updateDriverDetails);
+
+
+//error handling files
+
+app.get('/errorCustomer', customer.errorCustomer);
+app.get('/customerRegistertationFailed', customer.customerRegistertationFailed);
+app.get('/errorDriver', driver.errorDriver);
+app.get('/driverRegistertationFailed', driver.driverRegistertationFailed);
 
 //connect to the mongo collection session and then createServer
 mongo.connect(mongoSessionConnectURL, function() {
