@@ -78,10 +78,12 @@
   		</span>	
 	
 
-		<br><p style = "font-size:16px;">* State : </p><input ng-model="state" class="form-control" type="text" name="state" value="" placeholder="State" required>	
+		<br><p style = "font-size:16px;">* State : </p><input ng-model="state" class="form-control" ng-pattern="/^(?:A[KLRZ]|C[AOT]|D[CE]|FL|GA|HI|I[ADLN]|K[SY]|LA|M[ADEINOST]|N[CDEHJMVY]|O[HKR]|PA|RI|S[CD]|T[NX]|UT|V[AT]|W[AIVY])*$/"type="text" name="state" value="" placeholder="State Code (CA, TX)" required>
 		
 		<span style="color:red" ng-show="registration.state.$dirty && registration.state.$invalid">
   					<span ng-show="registration.state.$error.required">State is required.</span>
+					<span ng-show="registration.state.$error.pattern">Enter a Valid US State Code</span>
+
   		</span>	
 
 
@@ -126,6 +128,6 @@
 </div>
 
 </div>
-
+</body>
 </html>
 
