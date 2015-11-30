@@ -135,7 +135,7 @@ exports.loginAdmin = function(req, res){
 };
 
 exports.showDrivers = function(req, res){
-	
+
 	email = req.param('email');
 
     //Validations
@@ -166,7 +166,7 @@ exports.showDrivers = function(req, res){
             res.status(500).send(null);
         } else {
             ////console.log("about results" + results);
-        	
+
             res.status(200).send(results);
         }
     });
@@ -348,8 +348,8 @@ exports.verifyCustomers =  function(req, res){
         "email": email,
         "func" : "verifyCustomers"
     };
-    
-    console.log(email);	
+
+    console.log(email);
     mq_client.make_request('admin_queue', msg_payload, function(err,results) {
         console.log(results+" customers data");
         if (err) {

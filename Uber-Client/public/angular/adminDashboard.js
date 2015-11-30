@@ -1,4 +1,4 @@
-var app = angular.module('admin', []);
+var app = angular.module('admin', ['infinite-scroll']);
 
 app.controller('drivers', function ($scope, $http) {
     $http.get("/showDrivers").success(function (response) {
@@ -62,11 +62,22 @@ app.controller('drivers', function ($scope, $http) {
 
 
 app.controller('customers', function ($scope, $http) {
-    $http.get("/showCustomers").success(function (response) {
-        if (response.status == 200) {
-            $scope.items = response.data.data;
-        }
-    });
+
+    var customerSize=0;
+    $scope.getCustomerList = function ($http) {
+        $http({
+            method: "GET",
+            url: '/showCustomers',
+            params: {
+                "startPosition": customerSize
+            }
+        }).success(function (response) {
+            if (response.status == 200) {
+                $scope.items = response.data.data;
+                customerSize = $scope.item.length;
+            }
+        });
+    };
 
     $scope.deleteCustomer = function (email) {
 
