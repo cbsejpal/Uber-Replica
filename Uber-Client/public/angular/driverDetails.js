@@ -12,9 +12,13 @@ app.controller('driverDetails', function($scope, $http) {
 		angular.forEach($scope.driverDetails.$error.required, function(field) {
 		    field.$setDirty();
 		});
-		
+
+		angular.forEach($scope.driverDetails.$error.pattern, function(field) {
+			field.$setDirty();
+		});
+
 		if($scope.driverDetails.carName.$error.required ||
-				$scope.driverDetails.NumberPlate.$error.required)
+				$scope.driverDetails.NumberPlate.$error.required || $scope.driverDetails.NumberPlate.$error.pattern)
 		{
 			$event.preventDefault();
 		}
@@ -22,7 +26,12 @@ app.controller('driverDetails', function($scope, $http) {
 			angular.forEach($scope.driverDetails.$error.required, function(field) {
 			    field.$setPristine();
 			});
-			
+
+			angular.forEach($scope.driverDetails.$error.pattern, function(field) {
+				field.$setPristine();
+			});
+
+
 			$scope.showbackground();
 		}
 	};
@@ -39,13 +48,22 @@ app.controller('driverDetails', function($scope, $http) {
 			field.$setDirty();
 		});
 
+		angular.forEach($scope.driverDetails.$error.pattern, function(field) {
+			field.$setDirty();
+		});
+
+
 		if($scope.driverDetails.lisence.$error.required ||
-				$scope.driverDetails.currentLocation.$error.required )
+				$scope.driverDetails.currentLocation.$error.required || $scope.driverDetails.lisence.$error.pattern)
 		{
 			$event.preventDefault();
 		}
 		else{
 			angular.forEach($scope.driverDetails.$error.required, function(field) {
+				field.$setPristine();
+			});
+
+			angular.forEach($scope.driverDetails.$error.pattern, function(field) {
 				field.$setPristine();
 			});
 
@@ -69,6 +87,11 @@ app.controller('driverDetails', function($scope, $http) {
 			field.$setDirty();
 		});
 
+		angular.forEach($scope.driverDetails.$error.pattern, function(field) {
+			field.$setDirty();
+		});
+
+
 		if($scope.driverDetails.VideoURL.$error.required)
 		{
 			$event.preventDefault();
@@ -77,6 +100,11 @@ app.controller('driverDetails', function($scope, $http) {
 			angular.forEach($scope.driverDetails.$error.required, function(field) {
 				field.$setPristine();
 			});
+
+			angular.forEach($scope.driverDetails.$error.pattern, function(field) {
+				field.$setPristine();
+			});
+
 
 			$http({
 				method : "POST",
