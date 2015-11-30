@@ -53,6 +53,7 @@ exports.registerAdmin = function(req, res){
             if( !( (new RegExp("/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/")).test(email) ) ){
 
                 console.log("registerAdmin email validation entry error" );
+                res.status(500);
                 json_responses = {"statusCode":500};
                 res.send(json_responses);
             }
@@ -60,6 +61,7 @@ exports.registerAdmin = function(req, res){
             if( !( (new RegExp("/^(\d{5}(-\d{4})?|[A-Z]\d[A-Z] *\d[A-Z]\d)$/")).test(zipCode) ) ){
 
                 console.log("registerAdmin zipcode validation entry error" );
+                res.status(500);
                 json_responses = {"statusCode":500};
                 res.send(json_responses);
             }
@@ -67,11 +69,13 @@ exports.registerAdmin = function(req, res){
             if( !( (new RegExp("/^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$/")).test(phoneNumber) ) ){
 
                 console.log("registerAdmin phoneNumber validation entry error" );
+                res.status(500);
                 json_responses = {"statusCode":500};
                 res.send(json_responses);
             }
 
             console.log("registerAdmin validation entry error" );
+            res.status(500);
             json_responses = {"statusCode":500};
             res.send(json_responses);
         }
@@ -132,12 +136,14 @@ exports.loginAdmin = function(req, res){
             if( !( (new RegExp("/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/")).test(email) ) ){
 
                 console.log("loginAdmin email validation entry error");
+                res.status(500);
                 json_responses = {"statusCode":500};
                 res.send(json_responses);
             }
 
 
             console.log("loginAdmin validation entry error" );
+            res.status(500);
             json_responses = {"statusCode":500};
             res.send(json_responses);
         }
@@ -236,12 +242,14 @@ exports.showCustomers =  function(req, res){
             if( !( (new RegExp("/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/")).test(email) ) ){
 
                 console.log("showCustomers email validation entry error");
+                res.status(500);
                 json_responses = {"statusCode":500};
                 res.send(json_responses);
             }
 
 
             console.log("showCustomers validation entry error" );
+            res.status(500);
             json_responses = {"statusCode":500};
             res.send(json_responses);
         }
@@ -311,12 +319,14 @@ exports.verifyDrivers =  function(req, res){
             if( !( (new RegExp("/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/")).test(email) ) ){
 
                 console.log("verifyDrivers email validation entry error");
+                res.status(500);
                 json_responses = {"statusCode":500};
                 res.send(json_responses);
             }
 
 
             console.log("verifyDrivers validation entry error" );
+            res.status(500);
             json_responses = {"statusCode":500};
             res.send(json_responses);
         }
@@ -361,12 +371,14 @@ exports.verifyCustomers =  function(req, res){
             if( !( (new RegExp("/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/")).test(email) ) ){
 
                 console.log("verifyCustomers email validation entry error");
+                res.status(500);
                 json_responses = {"statusCode":500};
                 res.send(json_responses);
             }
 
 
             console.log("verifyCustomers validation entry error" );
+            res.status(500);
             json_responses = {"statusCode":500};
             res.send(json_responses);
         }
@@ -414,12 +426,14 @@ exports.ignoreDrivers =  function(req, res){
             if( !( (new RegExp("/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/")).test(email) ) ){
 
                 console.log("ignoreDrivers email validation entry error");
+                res.status(500);
                 json_responses = {"statusCode":500};
                 res.send(json_responses);
             }
 
 
             console.log("ignoreDrivers validation entry error" );
+            res.status(500);
             json_responses = {"statusCode":500};
             res.send(json_responses);
         }
@@ -461,12 +475,14 @@ exports.ignoreCustomers =  function(req, res){
             if( !( (new RegExp("/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/")).test(email) ) ){
 
                 console.log("ignoreCustomers email validation entry error");
+                res.status(500);
                 json_responses = {"statusCode":500};
                 res.send(json_responses);
             }
 
 
             console.log("ignoreCustomers validation entry error" );
+            res.status(500);
             json_responses = {"statusCode":500};
             res.send(json_responses);
         }
