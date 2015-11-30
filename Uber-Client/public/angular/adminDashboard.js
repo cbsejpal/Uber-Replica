@@ -63,41 +63,48 @@ app.controller('drivers', function ($scope, $http) {
 
 app.controller('customers', function ($scope, $http) {
 
-    var startPosition=0;
-    $scope.getinitialCustomerList = function(){
+    var startPosition = 0;
+    $scope.search = " ";
+    $scope.getSearchCustomerListInitial = function () {
         $http({
             method: "GET",
-            url: '/showCustomers',
+            url: '/searchCustomers',
             params: {
-                "startPosition":0
+                "search": $scope.search,
+                "startPosition": startPosition
             }
         }).success(function (response) {
-            if (response.status == 200) {
-                $scope.items = response.data.data;
-                startPosition = $scope.items.length;
-            }
+
+            $scope.items = response;
+            startPosition = $scope.items.length;
+
+        }).error(function (err) {
+            $scope.items = [];
         });
     };
 
-    $scope.getLazyLoadingCustomerList = function(){
+    $scope.getSearchCustomerList = function () {
         $http({
             method: "GET",
-            url: '/showCustomers',
+            url: '/searchCustomers',
             params: {
-                "startPosition":0
+                "search": $scope.search,
+                "startPosition": startPosition
             }
         }).success(function (response) {
-            if (response.status == 200) {
-                var items = response.data.data;
-                for (var i = 0, len = items.length; i < len; ++i) {
-                    $scope.items.push(items[i]);
-                }
-                startPosition = $scope.items.length;
+
+            var items = response;
+            for (var i = 0, len = items.length; i < len; ++i) {
+                $scope.items.push(items[i]);
             }
+            startPosition = $scope.items.length;
+
+        }).error(function (err) {
+            $scope.items = [];
         });
     };
 
-    $scope.getinitialCustomerList();
+    $scope.getSearchCustomerListInitial();
 
 
     $scope.deleteCustomer = function (email) {
@@ -114,14 +121,69 @@ app.controller('customers', function ($scope, $http) {
 
             if (response.status == 200) {
 
-                $http.get("/showCustomers").success(function (response) {
-                    if (response.status == 200) {
-                        $scope.items = response.data.data;
-                    }
-                    else {
-                        $scope.items = "";
-                    }
-                });
+                $scope.getSearchCustomerListInitial();
+            }
+
+        });
+    }
+
+
+});
+
+app.controller('billing', function ($scope, $http) {
+
+    var startPosition = 0;
+    $scope.search = " ";
+    $scope.getBillList = function () {
+        $http({
+            method: "GET",
+            url: '/searchBills',
+            params: {
+                "search": $scope.search
+            }
+        }).success(function (response) {
+            if (response.status == 200) {
+                $scope.items = response.data.data;
+                //startPosition = $scope.items.length;
+            }
+        });
+    };
+
+    /*$scope.getLazyLoadingCustomerList = function(){
+     $http({
+     method: "GET",
+     url: '/showCustomers',
+     params: {
+     "startPosition":0
+     }
+     }).success(function (response) {
+     if (response.status == 200) {
+     var items = response.data.data;
+     for (var i = 0, len = items.length; i < len; ++i) {
+     $scope.items.push(items[i]);
+     }
+     startPosition = $scope.items.length;
+     }
+     });
+     };*/
+
+    $scope.getBillList();
+
+
+    $scope.deleteBill = function (billID) {
+
+        $http({
+            method: "GET",
+            url: '/deleteBill',
+            params: {
+                "billId": billID
+            }
+        }).success(function (response) {
+
+            if (response.status == 200) {
+                $scope.getBillList();
+            } else {
+                $scope.items = "";
             }
 
         });
