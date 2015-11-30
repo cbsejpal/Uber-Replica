@@ -1,24 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="99aa9866-e688-4b56-b0f2-c29af8e36d30" name="Default" comment="//All integration with billing and ride request with bill generation completed.">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Uber-Client/public/angular/requestedRide.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Uber-Client/public/angular/angularMaps.js" afterPath="$PROJECT_DIR$/Uber-Client/public/angular/angularMaps.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Uber-Client/app.js" afterPath="$PROJECT_DIR$/Uber-Client/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Uber-Backend/services/billing.js" afterPath="$PROJECT_DIR$/Uber-Backend/services/billing.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Uber-Client/routes/billing.js" afterPath="$PROJECT_DIR$/Uber-Client/routes/billing.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Uber-Client/public/angular/billingCustomer.js" afterPath="$PROJECT_DIR$/Uber-Client/public/angular/billingCustomer.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Uber-Client/public/angular/billingDriver.js" afterPath="$PROJECT_DIR$/Uber-Client/public/angular/billingDriver.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Uber-Client/views/customerDashboard.ejs" afterPath="$PROJECT_DIR$/Uber-Client/views/customerDashboard.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Uber-Client/public/angular/customerDashboard.js" afterPath="$PROJECT_DIR$/Uber-Client/public/angular/customerDashboard.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Uber-Client/views/demoMaps.ejs" afterPath="$PROJECT_DIR$/Uber-Client/views/demoMaps.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Uber-Backend/services/driver.js" afterPath="$PROJECT_DIR$/Uber-Backend/services/driver.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Uber-Client/public/angular/driverDashboard.js" afterPath="$PROJECT_DIR$/Uber-Client/public/angular/driverDashboard.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Uber-Backend/services/model/driverSchema.js" afterPath="$PROJECT_DIR$/Uber-Backend/services/model/driverSchema.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Uber-Client/views/requestedRide.ejs" afterPath="$PROJECT_DIR$/Uber-Client/views/requestedRide.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Uber-Backend/services/ride.js" afterPath="$PROJECT_DIR$/Uber-Backend/services/ride.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Uber-Client/routes/ride.js" afterPath="$PROJECT_DIR$/Uber-Client/routes/ride.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Uber-Client/routes/socket.js" afterPath="$PROJECT_DIR$/Uber-Client/routes/socket.js" />
+    <list default="true" id="99aa9866-e688-4b56-b0f2-c29af8e36d30" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="uber.iws" />
@@ -40,11 +23,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="requestedRide.ejs" pinned="false" current-in-tab="true">
+      <file leaf-file-name="requestedRide.ejs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Uber-Client/views/requestedRide.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="14" column="2" selection-start-line="14" selection-start-column="2" selection-end-line="14" selection-end-column="2" />
+            <state vertical-scroll-proportion="-0.0">
+              <caret line="16" column="24" selection-start-line="16" selection-start-column="24" selection-end-line="16" selection-end-column="24" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ride.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Uber-Backend/services/ride.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.75513697">
+              <caret line="272" column="49" selection-start-line="272" selection-start-column="49" selection-end-line="272" selection-end-column="49" />
               <folding />
             </state>
           </provider>
@@ -94,7 +87,6 @@
         <option value="$PROJECT_DIR$/Uber-Backend/services/model/driverSchema.js" />
         <option value="$PROJECT_DIR$/Uber-Backend/services/driver.js" />
         <option value="$PROJECT_DIR$/Uber-Client/routes/ride.js" />
-        <option value="$PROJECT_DIR$/Uber-Backend/services/ride.js" />
         <option value="$PROJECT_DIR$/Uber-Client/views/driverRideBill.ejs" />
         <option value="$PROJECT_DIR$/Uber-Client/public/angular/billingDriver.js" />
         <option value="$PROJECT_DIR$/Uber-Client/routes/socket.js" />
@@ -108,6 +100,7 @@
         <option value="$PROJECT_DIR$/Uber-Client/public/angular/customerDashboard.js" />
         <option value="$PROJECT_DIR$/Uber-Client/public/angular/angularMaps.js" />
         <option value="$PROJECT_DIR$/Uber-Client/public/angular/billingCustomer.js" />
+        <option value="$PROJECT_DIR$/Uber-Backend/services/ride.js" />
       </list>
     </option>
   </component>
@@ -119,10 +112,10 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1358" />
+    <option name="x" value="-8" />
     <option name="y" value="-8" />
-    <option name="width" value="1296" />
-    <option name="height" value="1000" />
+    <option name="width" value="1382" />
+    <option name="height" value="744" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -150,6 +143,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -171,7 +165,6 @@
         </subPane>
       </pane>
       <pane id="Scratches" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -203,7 +196,7 @@
       <recent name="E:\Projects Workspace\uber\Uber-Client\public\angular" />
     </key>
   </component>
-  <component name="RunManager" selected="Node.js.app.js">
+  <component name="RunManager" selected="Node.js.server.js">
     <configuration default="false" name="app.js" type="NodeJSConfigurationType" factoryName="Node.js" temporary="true" path-to-node="C:/Program Files/nodejs/node" path-to-js-file="app.js" working-dir="$PROJECT_DIR$/Uber-Client">
       <method />
     </configuration>
@@ -372,7 +365,19 @@
       <option name="project" value="LOCAL" />
       <updated>1448878462259</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="//All integration with billing and ride request with bill generation completed.">
+      <created>1448899638164</created>
+      <option name="number" value="00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1448899638164</updated>
+    </task>
+    <task id="LOCAL-00019" summary="//All integration with billing and ride request with bill generation completed.">
+      <created>1448927500477</created>
+      <option name="number" value="00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1448927500477</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TodoView">
@@ -385,27 +390,27 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1358" y="-8" width="1296" height="1000" extended-state="6" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="false" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24960254" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24925596" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.328341" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32949308" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32603687" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4738562" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32949308" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32949308" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4735023" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32949308" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -477,6 +482,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="297" column="0" selection-start-line="297" selection-start-column="0" selection-end-line="297" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -680,6 +686,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="10.120938">
           <caret line="267" column="11" selection-start-line="267" selection-start-column="8" selection-end-line="267" selection-end-column="11" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -729,13 +736,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="138" column="23" selection-start-line="138" selection-start-column="11" selection-end-line="138" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Uber-Backend/services/ride.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="33" />
         </state>
       </provider>
     </entry>
@@ -806,7 +806,15 @@
     <entry file="file://$PROJECT_DIR$/Uber-Client/views/requestedRide.ejs">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="14" column="2" selection-start-line="14" selection-start-column="2" selection-end-line="14" selection-end-column="2" />
+          <caret line="16" column="24" selection-start-line="16" selection-start-column="24" selection-end-line="16" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Uber-Backend/services/ride.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.75513697">
+          <caret line="272" column="49" selection-start-line="272" selection-start-column="49" selection-end-line="272" selection-end-column="49" />
           <folding />
         </state>
       </provider>
