@@ -17,7 +17,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="angular/adminDashboard.js"></script>
-
+    <script src="angular/ng-infinite-scroll.min.js"></script>
 
     <link href="stylesheets/dashboard.css" rel="stylesheet">
     <link href="stylesheets/admin.css" rel="stylesheet">
@@ -159,7 +159,7 @@
 
             <!-- customers div -->
 
-            <div class="customers" ng-controller="customers">
+            <div infinite-scroll="getLazyLoadingCustomerList()" infinite-scroll-distance="3" class="customers" ng-controller="customers">
                 <center><h2 class="sub-header">Customers' list</h2></center>
                 <div class="table-responsive">
                     <table class="table table-striped">

@@ -213,7 +213,7 @@ exports.showDriversForApproval =  function(req, res){
 
 exports.showCustomers =  function(req, res){
 
-	var email = req.param('email');
+	var startPosition = req.param('startPosition');
 
   /*  //Validations
     if( ! (email.length > 0) ){
@@ -232,7 +232,7 @@ exports.showCustomers =  function(req, res){
     }
 */
     var msg_payload = {
-    		"email" : email,
+    		"startPosition" : startPosition,
         "func" : "showCustomers"
     };
 
