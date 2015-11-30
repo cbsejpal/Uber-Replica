@@ -92,7 +92,7 @@ cnn.on('ready', function() {
 						});
 					});
 					break;
-					
+
 				case "getCustomerInformation":
 					customer.getCustomerInformation(message, function (err, res) {
 
@@ -105,7 +105,7 @@ cnn.on('ready', function() {
 						});
 					});
 					break;
-					
+
 				case "getImagesOfRide":
 					customer.getImagesOfRide(message, function (err, res) {
 
@@ -142,6 +142,22 @@ cnn.on('ready', function() {
 						});
 					});
 					break;
+
+
+				case "searchCustomer":
+					customer.searchCustomer(message, function (err, res) {
+
+						util.log("Correlation ID: " + m.correlationId);
+						// return index sent
+						cnn.publish(m.replyTo, res, {
+							contentType: 'application/json',
+							contentEncoding: 'utf-8',
+							correlationId: m.correlationId
+						});
+					});
+					break;
+
+
 				case "getCustomerRating":
 					customer.getCustomerRating(message, function (err, res) {
 
@@ -154,7 +170,6 @@ cnn.on('ready', function() {
 						});
 					});
 					break;
-
 			}
 		});
 	});
@@ -217,7 +232,7 @@ cnn.on('ready', function() {
 						});
 					});
 					break;
-				
+
 				case "updateDriver":
 					driver.updateDriver(message, function (err, res) {
 
@@ -230,7 +245,7 @@ cnn.on('ready', function() {
 						});
 					});
 					break;
-					
+
 				case "getDriverInformation":
 					driver.getDriverInformation(message, function (err, res) {
 
@@ -255,7 +270,7 @@ cnn.on('ready', function() {
 						});
 					});
 					break;
-					
+
 				case "getDriversInRange":
 					driver.getDriversInRange(message, function (err, res) {
 
@@ -513,7 +528,7 @@ cnn.on('ready', function() {
 					});
 					break;
 				case "driverRideList":
-					ride.customerRideList(message, function (err, res) {
+					ride.driverRideList(message, function (err, res) {
 
 						util.log("Correlation ID: " + m.correlationId);
 						// return index sent
