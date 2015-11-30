@@ -142,8 +142,13 @@ cnn.on('ready', function() {
 						});
 					});
 					break;
+<<<<<<< HEAD
 				case "searchCustomer":
 					customer.searchCustomer(message, function (err, res) {
+=======
+				case "getCustomerRating":
+					customer.getCustomerRating(message, function (err, res) {
+>>>>>>> origin/master
 
 						util.log("Correlation ID: " + m.correlationId);
 						// return index sent
@@ -154,6 +159,10 @@ cnn.on('ready', function() {
 						});
 					});
 					break;
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
 			}
 		});
 	});
@@ -279,6 +288,19 @@ cnn.on('ready', function() {
 						});
 					});
 					break;
+				case "getDriverRating":
+					driver.getDriverRating(message, function (err, res) {
+
+						util.log("Correlation ID: " + m.correlationId);
+						// return index sent
+						cnn.publish(m.replyTo, res, {
+							contentType: 'application/json',
+							contentEncoding: 'utf-8',
+							correlationId: m.correlationId
+						});
+					});
+					break;
+
 			}
 		});
 	});
@@ -546,6 +568,34 @@ cnn.on('ready', function() {
 						});
 					});
 					break;
+
+				case "rateDriver":
+					ride.rateDriver(message, function (err, res) {
+
+						util.log("Correlation ID: " + m.correlationId);
+						// return index sent
+						cnn.publish(m.replyTo, res, {
+							contentType: 'application/json',
+							contentEncoding: 'utf-8',
+							correlationId: m.correlationId
+						});
+					});
+					break;
+
+				case "rateCustomer":
+					ride.rateCustomer(message, function (err, res) {
+
+						util.log("Correlation ID: " + m.correlationId);
+						// return index sent
+						cnn.publish(m.replyTo, res, {
+							contentType: 'application/json',
+							contentEncoding: 'utf-8',
+							correlationId: m.correlationId
+						});
+					});
+					break;
+
+
 			}
 		});
 	});
