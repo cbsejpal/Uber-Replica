@@ -114,14 +114,14 @@
                     <div class="col-md-2">
                         <p>First name : </p>
                     </div>
-                    <div class="col-md-3"><input class="form-control" type="text" ng-model="firstName" name="firstName" required>
+                    <div class="col-md-3"><input class="form-control" type="text" ng-model="firstName" ng-pattern="/^([a-zA-Z]{1,20})$/" name="firstName" required>
 
                     </div>
 
                     <div class="col-md-2">
                         <p>Last name : </p>
                     </div>
-                    <div class="col-md-3"><input class="form-control" type="text" ng-model="lastName" name="lastName" required>
+                    <div class="col-md-3"><input class="form-control" type="text" ng-model="lastName" ng-pattern="/^([a-zA-Z]{1,20})$/" name="lastName" required>
 
                     </div>
 
@@ -130,11 +130,14 @@
                     <div class="col-md-5">
                         <span style="color:red" ng-show="profileUpdate.firstName.$dirty && profileUpdate.firstName.$invalid">
   					        <span ng-show="profileUpdate.firstName.$error.required">First Name is required.</span>
+                            <span ng-show="profileUpdate.firstName.$error.pattern">Please enter alphabets only</span>
+
                         </span>
                     </div>
                     <div class="col-md-5">
                         <span style="color:red" ng-show="profileUpdate.lastName.$dirty && profileUpdate.lastName.$invalid">
   					        <span ng-show="profileUpdate.lastName.$error.required">Last Name is required.</span>
+                            <span ng-show="profileUpdate.lastName.$error.pattern">Please enter alphabets only</span>
                         </span>
                     </div>
                 </div>
@@ -144,7 +147,7 @@
                         <p> City : </p>
                     </div>
 
-                    <div class="col-md-3"><input class="form-control" type="text" ng-model="city" name="city" required></div>
+                    <div class="col-md-3"><input class="form-control" type="text" ng-model="city" ng-pattern="/^[a-zA-Z ]*$/" name="city" required></div>
 
 
                     <div class="col-md-2">
@@ -158,6 +161,8 @@
                         <div class="col-md-5">
                             <span style="color:red" ng-show="profileUpdate.city.$dirty && profileUpdate.city.$invalid">
   					            <span ng-show="profileUpdate.city.$error.required">City is required.</span>
+                                <span ng-show="profileUpdate.city.$error.pattern">Enter a Valid City Name</span>
+
   		                    </span>
                         </div>
                         <div class="col-md-5">

@@ -65,14 +65,16 @@
             <div class="col-md-5">
                 <h2>VEHICLE INFORMATION</h2><hr>
                 <p style = "font-size:16px;"> Type of Vehicle :
-                    <input class="form-control" ng-model="carName" type="text" name="carName" value="" placeholder="Vehicle Type" required></p>
+                    <input class="form-control" ng-model="carName" type="text" ng-pattern="/^([a-zA-Z0-9 ]{1,30})$/" name="carName" value="" placeholder="Vehicle Type" required></p>
                    <span style="color:red" ng-show="driverDetails.carName.$dirty && driverDetails.carName.$invalid">
                         <span ng-show="driverDetails.carName.$error.required">Vehicle type is required</span><br/>
+                        <span ng-show="driverDetails.carName.$error.pattern">Please enter a Vehicle Type</span><br/>
                     </span>
                 <p style = "font-size:16px;"> Number Plate :
-                    <input class="form-control" ng-model="NumberPlate" maxlength="20" type="text" name="NumberPlate" value="" placeholder="Number Plate" required></p>
+                    <input class="form-control" ng-model="NumberPlate" ng-pattern="/^([a-zA-Z0-9 ]{1,8})$/" type="text" name="NumberPlate" value="" placeholder="Number Plate" required></p>
                     <span style="color:red" ng-show="driverDetails.NumberPlate.$dirty && driverDetails.NumberPlate.$invalid">
-                        <span ng-show="driverDetails.NumberPlate.$error.required">Number Plate is required</span><br/>
+                        <span ng-show="driverDetails.NumberPlate.$error.required">Number Plate is required</span>
+                        <span ng-show="driverDetails.NumberPlate.$error.pattern">Please enter a valid Number Plate</span><br/>
                     </span>
                     <input class="btn btn-lg btn-default click2" type="submit" ng-click = "validVehicle($event)" value="Continue" />
             </div>
@@ -83,9 +85,11 @@
             <div class="col-md-5">
                     <h2>Background Information: </h2><hr>
                     <p style = "font-size:16px;"> License : <br>
-                        <input ng-model="lisence" class="form-control" maxlength="20" type="text" name="lisence" value="" placeholder="000-00-0000" required></p><br>
+                        <input ng-model="lisence" class="form-control" ng-pattern="/^([0-9]{1,20})$/" type="text" name="lisence" value="" placeholder="000-00-0000" required></p><br>
                         <span style="color:red" ng-show="driverDetails.lisence.$dirty && driverDetails.lisence.$invalid">
                             <span ng-show="driverDetails.lisence.$error.required">License No is required</span>
+                            <span ng-show="driverDetails.lisence.$error.pattern">Please enter a valid Number Plate</span><br/>
+
                         </span>
                     <p style = "font-size:16px;"> Current Location : <br>
                     <input ng-model="currentLocation" class="form-control" places-auto-complete name="currentLocation" value="" placeholder="street,city,zipcode" required></p><br>

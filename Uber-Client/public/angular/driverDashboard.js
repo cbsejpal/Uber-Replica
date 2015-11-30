@@ -3,7 +3,7 @@ var app = angular.module('drivers', []);
 app.controller('socket',['$scope','socket',function($scope,socket){
 
 	socket.on('request_ride', function (data) {
-		alert(data);
+		alert(data.rideID);
 		window.location.assign('/requestedRide');
 	});
 
