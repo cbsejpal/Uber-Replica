@@ -71,7 +71,7 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user" style="font-size:30px;"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">{{customerName}}</a></li>
+                        <li><a href="#">{{driverName}}</a></li>
                         
                         <li class="divider"></li>
 
@@ -89,17 +89,17 @@
             <ul class="nav nav-sidebar">
                 <li class="active"><a>Create a ride<span class="sr-only">(current)</span></a></li>
                 <br>
-                <li><button style="margin-left:10px;" class="btn btn-success" onclick="location.href ='customerDashboard';"> < Back to Dashboard</button></li>
+                <li><button style="margin-left:10px;" class="btn btn-success" onclick="location.href ='driverDashboard';"> < Back to Dashboard</button></li>
 
-                <li><a href="javascript:void(0)" ng-click="vm.filerPlace()">Show Drivers</a></li>
-                <li><a href="javascript:void(0)" ng-click="vm.removePositions()">Hide Drivers</a></li>
+                <li><a href="javascript:void(0)" ng-click="vm.filerPlace()">Start Ride</a></li>
+                <li><a href="javascript:void(0)" ng-click="vm.removePositions()">End Ride</a></li>
                 <li><a href="logout">Log out</a></li>
             </ul>
 
         </div>
         <br>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
-         <p ng-hide="true" ng-model="customerId">{{customerId}}</p>
+         <p ng-hide="true" ng-model="driverName">{{driverName}}</p>
             <div class="row">
                 <div class="col-md-1">
                     <p style="font-size:18px">Origin : </p>
@@ -125,52 +125,9 @@
                     <!--<div class="custom-marker"><div>Current position</div> </div>-->
                 </marker>
 
-                <custom-marker ng-repeat="p in vm.drivers track by $index"
-                               position="{{p.latitude}}, {{p.longitude}}" ng-show="showDriver">
-                    <div>
-                        <a data-toggle="modal" ng-click="show(p)" data-target="#myModal" href="javascript:void(0);"> {{p.firstName}} {{p.lastName}} </a><br/>
-                   
-                        <br/>
-                    </div>
-                </custom-marker>
+                
     
-    
-				    <div class="modal fade" id="myModal" role="dialog" >
-				    <div class="modal-dialog">
-				    
-				      <!-- Modal content-->
-				      <div class="modal-content">
-				        <div class="modal-header">
-				          <button type="button" class="close" data-dismiss="modal">&times;</button>
-				          <h4 class="modal-title">DRIVER YOU REQUESTED : </h4>
-				        </div>
-				        <div class="modal-body">
-				          <p ng-model="driverName">Driver name : {{driverName}}</p><br>
-				          <p ng-model="driverEmail">Driver email : {{driverEmail}}</p><br>
-				          <p ng-model="driverVideo">Driver video : {{driverVideo}}</p>
-				          <br>
-				          <p ng-model = "driverCity">Driver city : {{driverCity}}</p>
-				          <br>
-				        </div>
-				        <div class="modal-footer">
-				          <button type="button" class="btn btn-success" ng-click="bookRide(driverEmail)" data-dismiss="modal">Book the driver</button>
-				        </div>
-				      </div>
-				      
-				    </div>
-				  </div>
-  
-  
-                <shape name="circle" no-watcher="true"
-                       stroke-color="#FF0000"
-                       stroke-opacity="0.8"
-                       stroke-weight="2"
-                       fill-color="#FF0000"
-                       fill-opacity="0.35"
-                       center="current-position"
-                       radius="{{vm.getRadius(10)}}">
-                </shape>
-                <directions
+	              <directions
                         draggable="true"
                         panel="directions-panel"
                         travel-mode="DRIVING"

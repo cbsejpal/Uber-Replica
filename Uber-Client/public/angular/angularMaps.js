@@ -115,7 +115,6 @@ app.controller('ngMap1', function ($rootScope, $scope,$http,NgMap) {
     
     $rootScope.show = function(p){
     	
-    	
     	$scope.driverName = p.firstName;
     	$scope.driverEmail = p.email;
     	$scope.driverVideo = p.videoURL;
@@ -132,27 +131,51 @@ app.controller('ngMap1', function ($rootScope, $scope,$http,NgMap) {
 		}
 		});
     
-    $rootScope.bookRide = function(driverEmail){
-		$http({
-			method : "POST",
-			url : '/createRide',
-			data : {
+    $rootScope.bookRide = function(driverEmail) {
+        $http({
+            method: "POST",
+            url: '/createRide',
+            data: {
 
-				"pickUpLocation" : $scope.origin,
-				"dropOffLocation" : $scope.destination,
-				"pickUpLatLong" : $scope.origin_pos,
-				"dropOffLatLong" : $scope.destination_pos,
-				"driverId": $scope.driverEmail
-			}
-		}).success(function(data) {
-    	
-    	//alert("Ride started ! Redirecting to your dashboard...");
-			alert(data.message+"Your ride is created successfully, Redirecting you to the dashboard !");
-			window.location.assign('/customerDashboard');
-    	
-    	
-    });
+                "pickUpLocation": $scope.origin,
+                "dropOffLocation": $scope.destination,
+                "pickUpLatLong": $scope.origin_pos,
+                "dropOffLatLong": $scope.destination_pos,
+                "driverId": $scope.driverEmail
+            }
+        }).success(function (data) {
 
-};
+            //alert("Ride started ! Redirecting to your dashboard...");
+            alert(data.message + "Your ride is created successfully, Redirecting you to the dashboard !");
+            window.location.assign('/customerDashboard');
+
+
+        });
+    };
+
+    $rootScope.bookRide = function (driverEmail) {
+        $http({
+            method: "POST",
+            url: '/createRide',
+            data: {
+
+                "pickUpLocation": $scope.origin,
+                "dropOffLocation": $scope.destination,
+                "pickUpLatLong": $scope.origin_pos,
+                "dropOffLatLong": $scope.destination_pos,
+                "driverId": $scope.driverEmail
+            }
+        }).success(function (data) {
+            //alert("Ride started ! Redirecting to your dashboard...");
+            alert(data.message + "Your ride is created successfully, Redirecting you to the dashboard !");
+            window.location.assign('/customerDashboard');
+
+
+        }).error(function (data) {
+            alert(data.message);
+        });
+
+    };
+
 });
 

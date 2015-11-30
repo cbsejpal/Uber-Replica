@@ -46,47 +46,63 @@
 					<span ng-show="registration.email.$error.pattern">Incorrect Email address.</span>
   				</span>
 		<div ng-hide="emailError">
-			<p style="color:red">"This Email is already registered. Please use another email"</p>
+			<p style="color:red">This Email is already registered. Please use another email</p>
 		</div>
 		<div ng-hide="emailSuccess">
-			<p style="color:green">"Email is available!"</p>
+			<p style="color:green">Email is available!</p>
 		</div>
 
-		<br><p style = "font-size:16px;"> * Password :</p><input ng-model="password" class="form-control" maxlength="30" type="password" name="password" value="" placeholder="Password" required>
+		<br><p style = "font-size:16px;"> * Password :</p><input ng-model="password" ng-pattern="/^([a-zA-Z0-9$@#_]{6,30})$/" class="form-control" type="password" name="password" value="" placeholder="Password" required>
 	<span style="color:red" ng-show="registration.password.$dirty && registration.password.$invalid">
   					<span ng-show="registration.password.$error.required">Password is required.</span>
+					<span ng-show="registration.password.$error.pattern">Allowed: 6-30 Characters containing A-Z,a-z,0-9, $@#_</span>
+
   				</span>	
 		<br>
 		<br>
 		<p style="font-size:26px;">PROFILE</p>
 		<p style = "font-size:16px;">* Firstname : </p>
-		<input ng-model="firstName" class="form-control" name="firstName" size="20" placeholder="Firstname" required><br>
+		<input ng-model="firstName" class="form-control" name="firstName" ng-pattern="/^([a-zA-Z]{1,20})$/" placeholder="Firstname" required><br>
 		
 		<span style="color:red" ng-show="registration.firstName.$dirty && registration.firstName.$invalid">
   					<span ng-show="registration.firstName.$error.required">Firstname is required.</span>
+					<span ng-show="registration.firstName.$error.pattern">Please enter alphabets only</span>
   		</span>	
 
 
 		<p style = "font-size:16px;">* Lastname :</p>
-		<input class="form-control" ng-model="lastName" type="text" name="lastName" value="" placeholder="Lastname" required><br>
+		<input class="form-control" ng-model="lastName" ng-pattern="/^([a-zA-Z]{1,30})$/" type="text" name="lastName" value="" placeholder="Lastname" required><br>
 			
 		<span style="color:red" ng-show="registration.lastName.$dirty && registration.lastName.$invalid">
   					<span ng-show="registration.lastName.$error.required">Lastname is required.</span>
-  		</span>		
+					<span ng-show="registration.lastName.$error.pattern">Please enter alphabets only</span>
+
+  		</span>
+
+		<p style = "font-size:16px;">* SSN ID : </p>
+		<input ng-model="ssn" class="form-control" ng-pattern="/^([0-9]{3}[-]*[0-9]{2}[-]*[0-9]{4})*$/" type="text" name="ssn" value="" placeholder="SSN (123-45-6789)" required>
+
+		<span style="color:red" ng-show="registration.ssn.$dirty && registration.ssn.$invalid">
+  					<span ng-show="registration.ssn.$error.required">SSN ID is required.</span>
+					<span ng-show="registration.ssn.$error.pattern">Enter a Valid SSN ID</span>
+  		</span>
 
 
-
-		<p style = "font-size:16px;">* City : </p><input ng-model="city" class="form-control" type="text" name="city" value="" placeholder="City" required>	
+		<br><p style = "font-size:16px;">* City : </p><input ng-model="city" ng-pattern="/^[a-zA-Z]*$/" class="form-control" type="text" name="city" value="" placeholder="City" required>
 		
 		<span style="color:red" ng-show="registration.city.$dirty && registration.city.$invalid">
   					<span ng-show="registration.city.$error.required">City is required.</span>
+					<span ng-show="registration.city.$error.pattern">Enter a Valid City Name</span>
+
   		</span>	
 	
 
-		<br><p style = "font-size:16px;">* State : </p><input ng-model="state" class="form-control" type="text" name="state" value="" placeholder="State" required>	
+		<br><p style = "font-size:16px;">* State : </p><input ng-model="state" class="form-control" ng-pattern="/^(?:A[KLRZ]|C[AOT]|D[CE]|FL|GA|HI|I[ADLN]|K[SY]|LA|M[ADEINOST]|N[CDEHJMVY]|O[HKR]|PA|RI|S[CD]|T[NX]|UT|V[AT]|W[AIVY])*$/" type="text" name="state" value="" placeholder="State Code (CA, TX)" required>
 		
 		<span style="color:red" ng-show="registration.state.$dirty && registration.state.$invalid">
   					<span ng-show="registration.state.$error.required">State is required.</span>
+					<span ng-show="registration.state.$error.pattern">Enter a Valid US State Code</span>
+
   		</span>	
 
 
@@ -98,18 +114,20 @@
 					<span ng-show="registration.zipCode.$error.pattern">Zipcode is incorrect.</span>
   		</span>	
 
-		<br><p style = "font-size:16px;">* Address : </p><input ng-model="address" class="form-control" type="text" name="address" value="" placeholder="Address" required>	
+		<br><p style = "font-size:16px;">* Address : </p><input ng-model="address" ng-pattern="^([a-zA-Z0-9,# ]{1,40})$" class="form-control" type="text" name="address" value="" placeholder="Address" required>
 
 		<span style="color:red" ng-show="registration.address.$dirty && registration.address.$invalid">
   					<span ng-show="registration.address.$error.required">Address is required.</span>
+					<span ng-show="registration.address.$error.pattern">Incorrect Address.</span>
+
   		</span>	
 
 		<br><p style = "font-size:16px;">* Mobile No : </p>
-		<input class="form-control" ng-pattern= "/^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$/"type="tel" ng-model="phoneNumber" value="" name="phoneNumber"  placeholder="(201) 555-5555" required>
+		<input class="form-control" ng-pattern= "/^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$/" type="tel" ng-model="phoneNumber" value="" name="phoneNumber"  placeholder="(201) 555-5555" required>
 
 		<span style="color:red" ng-show="registration.phoneNumber.$dirty && registration.phoneNumber.$invalid">
   					<span ng-show="registration.phoneNumber.$error.required">Mobile number is required.</span>
-					<span ng-show="registration.phoneNumber.$error.pattern">Incorrect Mobile number</span>
+					<span ng-show="registration.phoneNumber.$error.pattern">Enter Mobile number in this format (201) 555-5555</span>
   		</span>	
 
 		<br><center><input class="btn btn-lg btn-default" type="submit" ng-click="validate($event)" value="Register" /></center>
@@ -131,6 +149,6 @@
 </div>
 
 </div>
-
+</body>
 </html>
 

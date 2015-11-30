@@ -3,7 +3,8 @@ var app = angular.module('drivers', []);
 app.controller('socket',['$scope','socket',function($scope,socket){
 
 	socket.on('request_ride', function (data) {
-		alert(data);
+		alert(data.rideID);
+		window.location.assign('/requestedRide');
 	});
 
 }]);
@@ -52,6 +53,7 @@ app.controller('profile', function($scope, $http) {
 		if (response.status == 200) {
 			$scope.firstName = response.data.firstName;
 			$scope.lastName = response.data.lastName;
+			$scope.ssn = response.data.ssn;
 			$scope.state = response.data.state;
 			$scope.zipCode = response.data.zipCode;
 			$scope.email = response.data.email;

@@ -121,6 +121,7 @@ exports.registerCustomer = function(req, res){
     var password = req.param('password');
     var firstName = req.param('firstName');
     var lastName = req.param('lastName');
+    var ssn = req.param('ssn');
     var address = req.param('address');
     var city = req.param('city');
     var state = req.param('state');
@@ -163,6 +164,7 @@ exports.registerCustomer = function(req, res){
         "password" : password,
         "firstName" : firstName,
         "lastName" : lastName,
+        "ssn" : ssn,
         "address" : address,
         "city" : city,
         "state" : state,
@@ -347,6 +349,27 @@ exports.listAllCustomers =  function(req, res){
     });
 };
 
+exports.searchCustomer =  function(req, res){
+
+    var search = req.params('search');
+
+    var msg_payload = {
+        "search":search,
+        "func" : "searchCustomer"
+    };
+
+    mq_client.make_request('customer_queue', msg_payload, function(err,results) {
+        //console.log(results);
+        if (err) {
+            //console.log(err);
+            res.status(500).send(null);
+        } else {
+            ////console.log("about results" + results);
+            res.status(results.status).send(results.data);
+        }
+    });
+};
+
 exports.addImagesToRide = function(req, res){
 
     var image = req.param('image');
@@ -444,4 +467,32 @@ exports.getImagesOfRide = function (req, res) {
         }
     });
 
+};
+
+exports.getCustomerRating = function(req, res){
+    var emailId = req.param('emailId');
+
+    var msg_payload = {
+        "emailId": emailId,
+        "func" : "getCustomerRating"
+    };
+
+    mq_client.make_request('customer_queue', msg_payload, function(err,results) {
+        //console.log(results);
+        if (err) {
+            //console.log(err);
+            res.status(500).send(null);
+        } else {
+            ////console.log("about results" + results);
+            res.status(results.status).send(results.data);
+        }
+    });
+
+};
+
+exports.customerRideBill = function(req, res){
+
+    var bill = req.param('bill');
+
+    res.render('customerRideBill', {bill: bill});
 };

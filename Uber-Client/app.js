@@ -80,7 +80,7 @@ app.get('/deleteCustomer', customer.deleteCustomer);
 app.get('/getCustomerInformation', customer.getCustomerInformation);
 app.post('/updateCustomer',customer.updateCustomer);
 app.get('/checkCustomerEmail', customer.checkCustomerEmail);
-
+app.get('/searchDriver', customer.searchCustomer);
 
 //driver
 app.get('/searchDriver', driver.searchDriver);
@@ -121,6 +121,12 @@ app.get('/getRideInfo', ride.getRideInfo);
 app.post('/startRide', ride.startRide);
 app.post('/endRide', ride.endRide);
 
+app.post('/rateDriver', ride.rateDriver);
+app.post('/rateCustomer', ride.rateCustomer);
+app.post('/getCustomerRating', customer.getCustomerRating);
+app.post('/getDriverRating', driver.getDriverRating);
+
+
 //admin
 app.get('/verifyDrivers',admin.verifyDrivers);
 app.get('/verifyCustomers',admin.verifyCustomers);
@@ -135,8 +141,11 @@ app.post('/deleteBill', billing.deleteBill);
 app.post('/searchBills', billing.searchBills);
 app.get('/ignoreDrivers',admin.ignoreDrivers);
 app.get('/ignoreCustomers',admin.ignoreCustomers);
+app.get('/customerRideBill', customer.customerRideBill);
+app.get('/driverRideBill', driver.driverRideBill);
 
 app.get('/requestRide',index.maps);
+app.get('/requestedRide',driver.requestedRide);
 
 app.post('/updateDriverDetails', driver.updateDriverDetails);
 

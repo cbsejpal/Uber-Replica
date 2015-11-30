@@ -17,7 +17,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="angular/adminDashboard.js"></script>
-
+    <script src="angular/ng-infinite-scroll.min.js"></script>
 
     <link href="stylesheets/dashboard.css" rel="stylesheet">
     <link href="stylesheets/admin.css" rel="stylesheet">
@@ -117,12 +117,18 @@
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" ng-app="admin">
             <div class="drivers" ng-controller="drivers">
                 <center><h2 class="sub-header">Drivers' list</h2></center>
-                <div class="col-md-3" style="float:right;" >
-                    <form >
-                        <input type="text" ng-model="search" class="form-control">
-                        <input type="submit" value="Search" ng-click="searchDriver()">
-                    </form>
-                </div>
+            <div class="col-md-9"></div>
+            <div class="col-md-3" style="margin-top:-55px;">
+                <form>
+                 <div class="input-group">
+				      <input type="text" ng-model="search" style="float:right;" class="form-control" placeholder="Search for...">
+				      <span class="input-group-btn">
+				        <button class="btn btn-default" ng-click="searchDriver()" type="button">Go!</button>
+				      </span>
+				    </div>
+				    </form>
+				    </div>
+				    <div class="col-md-12">
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <thead>
@@ -149,11 +155,11 @@
                     </table>
                 </div>
             </div>
-
+</div>
 
             <!-- customers div -->
 
-            <div class="customers" ng-controller="customers">
+            <div infinite-scroll="getLazyLoadingCustomerList()" infinite-scroll-distance="3" class="customers" ng-controller="customers">
                 <center><h2 class="sub-header">Customers' list</h2></center>
                 <div class="table-responsive">
                     <table class="table table-striped">
