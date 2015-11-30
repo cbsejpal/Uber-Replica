@@ -14,14 +14,14 @@ exports.createRide = function (req, res) {
     var customerId = req.session.customerId;
     var driverId = req.param('driverId');
 
-    //Valdidations
+/*    //Valdidations
     if( ! ( pickUpLocation.length > 0 && dropOffLocation.length > 0 && pickUpLatLong.length > 0
         && dropOffLatLong.length > 0 && customerId.length > 0 && driverId.length>0 ) ){
         console.log("createRide validation entry error" );
         json_responses = {"statusCode":500};
         res.send(json_responses);
     }
-
+*/
     var msg_payload = {
         "pickUpLocation": pickUpLocation,
         "dropOffLocation": dropOffLocation,

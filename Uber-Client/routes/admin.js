@@ -36,7 +36,7 @@ exports.registerAdmin = function(req, res){
     var phoneNumber = req.param('phoneNumber');
     var securityCode = req.param('securityCode');
 
-    //Validations
+/*    //Validations
     if( ! (email.length > 0 && password.length > 0 && firstName.length > 0
         && lastName.length > 0 && zipCode.length > 0 && phoneNumber.length > 0 && securityCode.length>0) ){
 
@@ -66,7 +66,7 @@ exports.registerAdmin = function(req, res){
         res.send(json_responses);
     }
 
-
+*/
     var msg_payload = {
         "email" : email,
         "password" : password,
@@ -98,7 +98,7 @@ exports.loginAdmin = function(req, res){
     var email = req.param('email');
     var password = req.param('password');
 
-    //Validations
+/*    //Validations
     if( ! (email.length > 0 && password.length > 0 ) ){
 
         if( !( (new RegExp("/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/")).test(email) ) ){
@@ -113,7 +113,7 @@ exports.loginAdmin = function(req, res){
         json_responses = {"statusCode":500};
         res.send(json_responses);
     }
-
+*/
     var msg_payload = {
         "email" : email,
         "password" : password,
@@ -135,11 +135,11 @@ exports.loginAdmin = function(req, res){
 };
 
 exports.showDrivers = function(req, res){
-
-	email = req.param('email');
+	
+	var email = req.param('email');
 
     //Validations
-    if( ! (email.length > 0) ){
+  /*  if( ! (email.length > 0) ){
 
         if( !( (new RegExp("/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/")).test(email) ) ){
 
@@ -153,7 +153,7 @@ exports.showDrivers = function(req, res){
         json_responses = {"statusCode":500};
         res.send(json_responses);
     }
-
+*/
     var msg_payload = {
     	"email" : email,
         "func" : "showDrivers"
@@ -166,7 +166,7 @@ exports.showDrivers = function(req, res){
             res.status(500).send(null);
         } else {
             ////console.log("about results" + results);
-
+        	
             res.status(200).send(results);
         }
     });
@@ -176,7 +176,7 @@ exports.showDriversForApproval =  function(req, res){
 
 	var email = req.param('email');
 
-    //Validations
+  /*  //Validations
     if( ! (email.length > 0) ){
 
         if( !( (new RegExp("/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/")).test(email) ) ){
@@ -191,7 +191,7 @@ exports.showDriversForApproval =  function(req, res){
         json_responses = {"statusCode":500};
         res.send(json_responses);
     }
-
+*/
     var msg_payload = {
     		"email" : email,
         "func" : "showDriversForApproval"
@@ -215,7 +215,7 @@ exports.showCustomers =  function(req, res){
 
 	var email = req.param('email');
 
-    //Validations
+  /*  //Validations
     if( ! (email.length > 0) ){
 
         if( !( (new RegExp("/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/")).test(email) ) ){
@@ -230,7 +230,7 @@ exports.showCustomers =  function(req, res){
         json_responses = {"statusCode":500};
         res.send(json_responses);
     }
-
+*/
     var msg_payload = {
     		"email" : email,
         "func" : "showCustomers"
@@ -251,7 +251,7 @@ exports.showCustomers =  function(req, res){
 exports.showCustomersForApproval =  function(req, res){
 
 	var email = req.param('email');
-    //Validations
+  /*  //Validations
     if( ! (email.length > 0) ){
 
         if( !( (new RegExp("/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/")).test(email) ) ){
@@ -267,7 +267,7 @@ exports.showCustomersForApproval =  function(req, res){
         res.send(json_responses);
     }
 
-
+*/
     var msg_payload = {
     		"email" : email,
         "func" : "showCustomersForApproval"
@@ -291,7 +291,7 @@ exports.verifyDrivers =  function(req, res){
     var email = req.param('email');
     console.log(email);
 
-    //Validations
+  /*  //Validations
     if( ! (email.length > 0) ){
 
         if( !( (new RegExp("/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/")).test(email) ) ){
@@ -306,7 +306,7 @@ exports.verifyDrivers =  function(req, res){
         json_responses = {"statusCode":500};
         res.send(json_responses);
     }
-
+*/
     var msg_payload = {
         "email": email,
         "func" : "verifyDrivers"
@@ -327,7 +327,7 @@ exports.verifyDrivers =  function(req, res){
 exports.verifyCustomers =  function(req, res){
 
     var email = req.param('email');
-
+/*
     //Validations
     if( ! (email.length > 0) ){
 
@@ -343,13 +343,13 @@ exports.verifyCustomers =  function(req, res){
         json_responses = {"statusCode":500};
         res.send(json_responses);
     }
-
+*/
     var msg_payload = {
         "email": email,
         "func" : "verifyCustomers"
     };
-
-    console.log(email);
+    
+    console.log(email);	
     mq_client.make_request('admin_queue', msg_payload, function(err,results) {
         console.log(results+" customers data");
         if (err) {
@@ -368,7 +368,7 @@ exports.ignoreDrivers =  function(req, res){
     var email = req.param('email');
     console.log(email);
 
-
+/*
     //Validations
     if( ! (email.length > 0) ){
 
@@ -384,7 +384,7 @@ exports.ignoreDrivers =  function(req, res){
         json_responses = {"statusCode":500};
         res.send(json_responses);
     }
-
+*/
 
     var msg_payload = {
         "email": email,
@@ -405,7 +405,7 @@ exports.ignoreCustomers =  function(req, res){
 
     var email = req.param('email');
 
-    //Validations
+/*    //Validations
     if( ! (email.length > 0) ){
 
         if( !( (new RegExp("/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/")).test(email) ) ){
@@ -420,7 +420,7 @@ exports.ignoreCustomers =  function(req, res){
         json_responses = {"statusCode":500};
         res.send(json_responses);
     }
-
+*/
     var msg_payload = {
         "email": email,
         "func" : "ignoreCustomers"
