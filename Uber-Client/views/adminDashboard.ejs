@@ -30,19 +30,21 @@
             $('.customers').hide();
             $('.requests').show();
             $('.analysis').hide();
+            $('.billing').hide();
 
             $(".click1").on("click", function () {
                 $('.drivers').show();
                 $('.customers').hide();
                 $('.requests').hide();
                 $('.analysis').hide();
-
+                $('.billing').hide();
             });
             $(".click2").on("click", function () {
                 $('.drivers').hide();
                 $('.customers').show();
                 $('.requests').hide();
                 $('.analysis').hide();
+                $('.billing').hide();
             });
 
 
@@ -51,14 +53,21 @@
                 $('.customers').hide();
                 $('.requests').show();
                 $('.analysis').hide();
-
+                $('.billing').hide();
             });
             $(".click4").on("click", function () {
                 $('.drivers').hide();
                 $('.customers').hide();
                 $('.requests').hide();
                 $('.analysis').show();
-
+                $('.billing').hide();
+            });
+            $(".click5").on("click", function () {
+                $('.drivers').hide();
+                $('.customers').hide();
+                $('.requests').hide();
+                $('.analysis').hide();
+                $('.billing').show();
             });
 
         });
@@ -109,6 +118,7 @@
                 <li class=""><a href="javascript:void(0)" class="click3">Requests</a></li>
                 <li class=""><a href="javascript:void(0)" class="click1">Drivers</a></li>
                 <li class=""><a href="javascript:void(0)" class="click2">Customers</a></li>
+                <li class=""><a href="javascript:void(0)" class="click5">Billing</a></li>
                 <li><a href="javascript:void(0)" class="click4">Analysis</a></li>
                 <li><a href="/logout">Log out</a></li>
             </ul>
@@ -188,6 +198,43 @@
                 </div>
             </div>
 
+            <!-- Billing div -->
+
+            <div class="billing" ng-controller="billing">
+                <center><h2 class="sub-header">Bills list</h2></center>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>CustomerID</th>
+                            <th>DriverID</th>
+                            <th>Pickup Location</th>
+                            <th>Drop Location</th>
+                            <th>Distance</th>
+                            <th>Amount</th>
+                        </tr>
+                        </thead>
+                        <tbody ng-repeat="k in items">
+                        <tr>
+                            <td>1</td>
+                            <td>{{k.customerId}}</td>
+                            <td>{{k.driverId}}</td>
+                            <td>{{k.pickUpLocation}}</td>
+                            <td>{{k.dropOffLocation}}</td>
+                            <td>{{k.rideDistance}}</td>
+                            <td>{{k.rideAmount}}</td>
+                            <td>
+                                <button class="btn btn-danger" type="button" ng-click="deleteBill(k.email)">Delete
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- request -->
 
             <div class="requests" ng-controller="requests">
                 <center><h2 class="sub-header">Approval needed from admin</h2></center>
