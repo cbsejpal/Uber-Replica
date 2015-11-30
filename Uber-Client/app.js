@@ -139,6 +139,7 @@ app.get('/customerRideBill', customer.customerRideBill);
 app.get('/driverRideBill', driver.driverRideBill);
 
 app.get('/requestRide',index.maps);
+app.get('/requestedRide',driver.requestedRide);
 
 app.post('/updateDriverDetails', driver.updateDriverDetails);
 
