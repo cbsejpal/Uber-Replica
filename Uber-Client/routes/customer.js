@@ -73,46 +73,58 @@ exports.loginCustomer = function(req, res){
     var password = req.param('password');
 
     //Valdidations
-    if( ! (email.length > 0 && password.length > 0 ) ){
+    if(email==undefined || password==undefined){
+        console.log("loginCustomer Parameters are not valid!" );
+        res.status(500);
+        json_responses = {"statusCode":500,"Request":"Invalid"};
+        res.send(json_responses);
+    }
+    else{
 
-        if( !( (new RegExp("/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/")).test(email) ) ){
+        if( ! (email.length > 0 && password.length > 0 ) ){
 
-            console.log("loginCustomer email validation entry error");
+            if( !( (new RegExp("/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/")).test(email) ) ){
+
+                console.log("loginCustomer email validation entry error");
+                res.status(500);
+                json_responses = {"statusCode":500};
+                res.send(json_responses);
+            }
+
+
+            console.log("loginCustomer validation entry error" );
+            res.status(500);
             json_responses = {"statusCode":500};
             res.send(json_responses);
         }
+        else{
+            var msg_payload = {
+                "email" : email,
+                "password" : password,
+                "func" : "loginCustomer"
+            };
 
+            mq_client.make_request('customer_queue', msg_payload, function(err,results) {
+                console.log(results);
+                if (err) {
+                    console.log(err);
+                    json_responses = {"statusCode" : 401};
+                    res.send(json_responses);
 
-        console.log("loginCustomer validation entry error" );
-        json_responses = {"statusCode":500};
-        res.send(json_responses);
-    }
+                } else {
 
-    var msg_payload = {
-        "email" : email,
-        "password" : password,
-        "func" : "loginCustomer"
-    };
+                    //console.log("results user " + JSON.stringify(results) );
+                    //console.log("about results" + results["user"]);
+                    req.session.customerId =  results.data.user;
+                    //console.log("session " + req.session.customerId);
+                    //res.status(results.status).send(results.data);
+                    json_responses = {"statusCode" : results.status};
+                    res.send(json_responses);
 
-    mq_client.make_request('customer_queue', msg_payload, function(err,results) {
-        console.log(results);
-        if (err) {
-            console.log(err);
-            json_responses = {"statusCode" : 401};
-            res.send(json_responses);
-
-        } else {
-
-            //console.log("results user " + JSON.stringify(results) );
-            //console.log("about results" + results["user"]);
-            req.session.customerId =  results.data.user;
-            //console.log("session " + req.session.customerId);
-            //res.status(results.status).send(results.data);
-            json_responses = {"statusCode" : results.status};
-            res.send(json_responses);
-
+                }
+            });
         }
-    });
+    }
 };
 
 exports.registerCustomer = function(req, res){
@@ -130,63 +142,77 @@ exports.registerCustomer = function(req, res){
     var creditCard = req.param('creditCard');
 
     //Valdidations
-    if( ! (email.length > 0 && password.length > 0 && firstName.length > 0
-        && lastName.length > 0 && zipCode.length > 0 && phoneNumber.length > 0) ){
-
-        if( !( (new RegExp("/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/")).test(email) ) ){
-
-            console.log("registerCustomer email validation entry error" );
-            json_responses = {"statusCode":500};
-            res.send(json_responses);
-        }
-
-        if( !( (new RegExp("/^(\d{5}(-\d{4})?|[A-Z]\d[A-Z] *\d[A-Z]\d)$/")).test(zipCode) ) ){
-
-            console.log("registerCustomer zipcode validation entry error" );
-            json_responses = {"statusCode":500};
-            res.send(json_responses);
-        }
-
-        if( !( (new RegExp("/^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$/")).test(phoneNumber) ) ){
-
-            console.log("registerCustomer phoneNumber validation entry error" );
-            json_responses = {"statusCode":500};
-            res.send(json_responses);
-        }
-
-        console.log("registerCustomer validation entry error" );
-        json_responses = {"statusCode":500};
+    if(email==undefined || password==undefined || firstName==undefined
+        || lastName==undefined || zipCode==undefined || phoneNumber==undefined){
+        console.log("registerCustomer Parameters are not valid!" );
+        res.status(500);
+        json_responses = {"statusCode":500,"Request":"Invalid"};
         res.send(json_responses);
     }
+    else{
+        if( ! (email.length > 0 && password.length > 0 && firstName.length > 0
+            && lastName.length > 0 && zipCode.length > 0 && phoneNumber.length > 0) ){
 
-    var msg_payload = {
-        "email" : email,
-        "password" : password,
-        "firstName" : firstName,
-        "lastName" : lastName,
-        "ssn" : ssn,
-        "address" : address,
-        "city" : city,
-        "state" : state,
-        "zipCode" : zipCode,
-        "phoneNumber" : phoneNumber,
-        "creditCard" : creditCard,
-        "func" : "registerCustomer"
-    };
+            if( !( (new RegExp("/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/")).test(email) ) ){
 
+                console.log("registerCustomer email validation entry error" );
+                res.status(500);
+                json_responses = {"statusCode":500};
+                res.send(json_responses);
+            }
 
-    mq_client.make_request('customer_queue', msg_payload, function(err,results) {
-        //console.log(results);
-        if (err) {
-            //console.log(err);
-            res.status(500).send(null);
-        } else {
+            if( !( (new RegExp("/^(\d{5}(-\d{4})?|[A-Z]\d[A-Z] *\d[A-Z]\d)$/")).test(zipCode) ) ){
 
-            json_responses = {"statusCode" : results.status};
+                console.log("registerCustomer zipcode validation entry error" );
+                json_responses = {"statusCode":500};
+                res.send(json_responses);
+            }
+
+            if( !( (new RegExp("/^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$/")).test(phoneNumber) ) ){
+
+                console.log("registerCustomer phoneNumber validation entry error" );
+                res.status(500);
+                json_responses = {"statusCode":500};
+                res.send(json_responses);
+            }
+
+            console.log("registerCustomer validation entry error" );
+            res.status(500);
+            json_responses = {"statusCode":500};
             res.send(json_responses);
-
         }
-    });
+        else{
+            var msg_payload = {
+                "email" : email,
+                "password" : password,
+                "firstName" : firstName,
+                "lastName" : lastName,
+                "ssn" : ssn,
+                "address" : address,
+                "city" : city,
+                "state" : state,
+                "zipCode" : zipCode,
+                "phoneNumber" : phoneNumber,
+                "creditCard" : creditCard,
+                "func" : "registerCustomer"
+            };
+
+
+            mq_client.make_request('customer_queue', msg_payload, function(err,results) {
+                //console.log(results);
+                if (err) {
+                    //console.log(err);
+                    res.status(500).send(null);
+                } else {
+
+                    json_responses = {"statusCode" : results.status};
+                    res.send(json_responses);
+
+                }
+            });
+        }
+    }
+
 };
 
 
@@ -206,61 +232,71 @@ exports.updateCustomer = function(req,res){
     var zipCode = req.param('zipCode');
 
     //Valdidations
-    if( ! (email.length > 0 && password.length > 0 && firstName.length > 0
-        && lastName.length > 0 && zipCode.length > 0 && phoneNumber.length > 0) ){
-
-        if( !( (new RegExp("/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/")).test(email) ) ){
-
-            console.log("updateCustomer email validation entry error" );
-            json_responses = {"statusCode":500};
-            res.send(json_responses);
-        }
-
-        if( !( (new RegExp("/^(\d{5}(-\d{4})?|[A-Z]\d[A-Z] *\d[A-Z]\d)$/")).test(zipCode) ) ){
-
-            console.log("updateCustomer zipcode validation entry error" );
-            json_responses = {"statusCode":500};
-            res.send(json_responses);
-        }
-
-        if( !( (new RegExp("/^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$/")).test(phoneNumber) ) ){
-
-            console.log("updateCustomer phoneNumber validation entry error" );
-            json_responses = {"statusCode":500};
-            res.send(json_responses);
-        }
-
-        console.log("updateCustomer validation entry error" );
-        json_responses = {"statusCode":500};
+    if(firstName==undefined || lastName==undefined || zipCode==undefined || phoneNumber==undefined
+            || state==undefined || city==undefined || creditCard==undefined){
+        console.log("updateCustomer Parameters are not valid!" );
+        res.status(500);
+        json_responses = {"statusCode":500,"Request":"Invalid"};
         res.send(json_responses);
     }
+    else{
 
-    var msg_payload = {
-        "email" : customerId,
-        "firstName" : firstName,
-        "lastName" : lastName,
-        "city" : city,
-        "state" : state,
-        "phoneNumber" : phoneNumber,
-        "creditCard" : creditCard,
-        "zipCode" : zipCode,
-        "func" : "updateCustomer"
-    };
+        if( ! (firstName.length > 0 && lastName.length > 0 && zipCode.length > 0 && phoneNumber.length > 0
+                    && state.length>0 && city.length>0 && creditCard>0) ){
 
-    //add data in mysql
-    mq_client.make_request('customer_queue', msg_payload, function(err,results) {
-        if (err) {
-            //console.log(err);
-            res.status(500).send(null);
-        }
-        else {
+            if( !( (new RegExp("/^(\d{5}(-\d{4})?|[A-Z]\d[A-Z] *\d[A-Z]\d)$/")).test(zipCode) ) ){
 
-            json_responses = {"statusCode" : results.status};
-            req.session.customerId = results.data.email;
+                console.log("updateCustomer zipcode validation entry error" );
+                res.status(500);
+                json_responses = {"statusCode":500};
+                res.send(json_responses);
+            }
+
+            if( !( (new RegExp("/^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$/")).test(phoneNumber) ) ){
+
+                console.log("updateCustomer phoneNumber validation entry error" );
+                res.status(500);
+                json_responses = {"statusCode":500};
+                res.send(json_responses);
+            }
+
+            console.log("updateCustomer validation entry error" );
+            res.status(500);
+            json_responses = {"statusCode":500};
             res.send(json_responses);
-
         }
-    });
+        else{
+
+            var msg_payload = {
+                "email" : customerId,
+                "firstName" : firstName,
+                "lastName" : lastName,
+                "city" : city,
+                "state" : state,
+                "phoneNumber" : phoneNumber,
+                "creditCard" : creditCard,
+                "zipCode" : zipCode,
+                "func" : "updateCustomer"
+            };
+
+            //add data in mysql
+            mq_client.make_request('customer_queue', msg_payload, function(err,results) {
+                if (err) {
+                    //console.log(err);
+                    res.status(500).send(null);
+                }
+                else {
+
+                    json_responses = {"statusCode" : results.status};
+                    req.session.customerId = results.data.email;
+                    res.send(json_responses);
+
+                }
+            });
+        }
+    }
+
+
 };
 
 
@@ -269,35 +305,49 @@ exports.deleteCustomer = function(req, res){
 	var email = req.param('email');
 
     //Valdidations
-    if( ! (email.length > 0 ) ){
+    if(email==undefined){
+        console.log("deleteCustomer Parameters are not valid!" );
+        res.status(500);
+        json_responses = {"statusCode":500,"Request":"Invalid"};
+        res.send(json_responses);
+    }
+    else{
 
-        if( !( (new RegExp("/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/")).test(email) ) ){
+        if( ! (email.length > 0 ) ){
 
-            console.log("deleteCustomer email validation entry error" );
+            if( !( (new RegExp("/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/")).test(email) ) ){
+
+                console.log("deleteCustomer email validation entry error" );
+                res.status(500);
+                json_responses = {"statusCode":500};
+                res.send(json_responses);
+            }
+
+            console.log("deleteCustomer validation entry error" );
+            res.status(500);
             json_responses = {"statusCode":500};
             res.send(json_responses);
         }
+        else{
 
-        console.log("deleteCustomer validation entry error" );
-        json_responses = {"statusCode":500};
-        res.send(json_responses);
+            var msg_payload = {
+                "email": email,
+                "func" : "deleteCustomer"
+            };
+
+            mq_client.make_request('customer_queue', msg_payload, function(err,results) {
+                //console.log(results);
+                if (err) {
+                    //console.log(err);
+                    res.status(500).send(null);
+                } else {
+
+                    res.send(results);
+                }
+            });
+        }
     }
 
-    var msg_payload = {
-        "email": email,
-        "func" : "deleteCustomer"
-    };
-
-    mq_client.make_request('customer_queue', msg_payload, function(err,results) {
-        //console.log(results);
-        if (err) {
-            //console.log(err);
-            res.status(500).send(null);
-        } else {
-        	
-            res.send(results);
-        }
-    });
 };
 
 exports.getCustomerInformation = function(req, res){
@@ -305,30 +355,43 @@ exports.getCustomerInformation = function(req, res){
     console.log("get customer info " + customerId);
 
     //Valdidations
-    if( ! (customerId.length > 0) ){
-
-        console.log("getCustomerInfo validation entry error" );
-        json_responses = {"statusCode":500};
+    if(customerId==undefined){
+        console.log("getCustomerInfo Parameters are not valid!" );
+        res.status(500);
+        json_responses = {"statusCode":500,"Request":"Invalid"};
         res.send(json_responses);
     }
+    else{
 
-    var msg_payload = {
-        "customerId": customerId,
-        "func" : "getCustomerInformation"
-    };
+        if( ! (customerId.length > 0) ){
 
-    mq_client.make_request('customer_queue', msg_payload, function(err,results) {
-        console.log(results.data);
-        if (err) {
-            console.log(err);
-            res.status(500).send(null);
-
-        } else {
-            //console.log("about results");
-
-            res.send(results);
+            console.log("getCustomerInfo validation entry error" );
+            res.status(500);
+            json_responses = {"statusCode":500};
+            res.send(json_responses);
         }
-    });
+        else{
+
+            var msg_payload = {
+                "customerId": customerId,
+                "func" : "getCustomerInformation"
+            };
+
+            mq_client.make_request('customer_queue', msg_payload, function(err,results) {
+                console.log(results.data);
+                if (err) {
+                    console.log(err);
+                    res.status(500).send(null);
+
+                } else {
+                    //console.log("about results");
+
+                    res.send(results);
+                }
+            });
+        }
+    }
+
 };
 exports.listAllCustomers =  function(req, res){
 
@@ -351,9 +414,11 @@ exports.listAllCustomers =  function(req, res){
 
 exports.searchCustomer =  function(req, res){
 
-    var search = req.params('search');
+    var search = req.param('search');
+    var startPosition = req.param('startPosition');
 
     var msg_payload = {
+        "startPosition" : startPosition,
         "search":search,
         "func" : "searchCustomer"
     };
@@ -424,69 +489,110 @@ exports.getImagesOfRide = function (req, res) {
     var image = req.param('image');
 
     //Valdidations
-    if( ! (image) ){
+    if(image==undefined){
 
-        console.log("getImagesOfRide validation entry error" );
+        console.log("getImagesOfRide parameters error" );
+        res.status(500);
         json_responses = {"statusCode":500};
         res.send(json_responses);
     }
+    else{
 
-    var msg_payload = {
-        "func" : "getImagesOfRide"
-    };
+        if( ! (image) ){
 
-    mq_client.make_request('customer_queue', msg_payload, function(err,results) {
-        //console.log(results);
-        if (err) {
-            //console.log(err);
-            res.status(500).send(null);
-        } else {
-            //console.log("about results" + results);
-
-            var mongoose = require('mongoose');
-            var Schema = mongoose.Schema;
-
-            var conn = mongoose.createConnection('mongodb://localhost:27017/uber');
-            var fs = require('fs');
-
-            var Grid = require('gridfs-stream');
-            Grid.mongo = mongoose.mongo;
-
-            conn.once('open', function () {
-                console.log('open');
-                console.log('image name' + image);
-                var gfs = Grid(conn.db);
-
-                gfs.createReadStream({
-                    //"filename": image
-                    _id: '5649b270c73c2e4c1746f9ca'
-                }).pipe(res);
-            });
-
-            //res.status(results.status).send(results.data);
+            console.log("getImagesOfRide validation entry error" );
+            res.status(500);
+            json_responses = {"statusCode":500};
+            res.send(json_responses);
         }
-    });
+        else{
+            var msg_payload = {
+                "func" : "getImagesOfRide"
+            };
+
+            mq_client.make_request('customer_queue', msg_payload, function(err,results) {
+                //console.log(results);
+                if (err) {
+                    //console.log(err);
+                    res.status(500).send(null);
+                } else {
+                    //console.log("about results" + results);
+
+                    var mongoose = require('mongoose');
+                    var Schema = mongoose.Schema;
+
+                    var conn = mongoose.createConnection('mongodb://localhost:27017/uber');
+                    var fs = require('fs');
+
+                    var Grid = require('gridfs-stream');
+                    Grid.mongo = mongoose.mongo;
+
+                    conn.once('open', function () {
+                        console.log('open');
+                        console.log('image name' + image);
+                        var gfs = Grid(conn.db);
+
+                        gfs.createReadStream({
+                            //"filename": image
+                            _id: '5649b270c73c2e4c1746f9ca'
+                        }).pipe(res);
+                    });
+
+                    //res.status(results.status).send(results.data);
+                }
+            });
+        }
+    }
 
 };
 
 exports.getCustomerRating = function(req, res){
     var emailId = req.param('emailId');
 
-    var msg_payload = {
-        "emailId": emailId,
-        "func" : "getCustomerRating"
-    };
+    //Validations
+    if(emailId==undefined){
+        console.log("getCustomerRating Parameters are not valid!" );
+        res.status(500);
+        json_responses = {"statusCode":500,"Request":"Invalid"};
+        res.send(json_responses);
+    }
+    else{
 
-    mq_client.make_request('customer_queue', msg_payload, function(err,results) {
-        //console.log(results);
-        if (err) {
-            //console.log(err);
-            res.status(500).send(null);
-        } else {
-            ////console.log("about results" + results);
-            res.status(results.status).send(results.data);
+        if( ! (emailId.length > 0 ) ){
+
+            if( !( (new RegExp("/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/")).test(emailId) ) ){
+
+                console.log("getCustomerRating email validation entry error" );
+                res.status(500);
+                json_responses = {"statusCode":500};
+                res.send(json_responses);
+            }
+
+            console.log("getCustomerRating validation entry error" );
+            res.status(500);
+            json_responses = {"statusCode":500};
+            res.send(json_responses);
         }
-    });
+        else{
+            var msg_payload = {
+                "emailId": emailId,
+                "func" : "getCustomerRating"
+            };
+
+            mq_client.make_request('customer_queue', msg_payload, function(err,results) {
+                //console.log(results);
+                if (err) {
+                    //console.log(err);
+                    res.status(500).send(null);
+                } else {
+                    ////console.log("about results" + results);
+                    res.status(results.status).send(results.data);
+                }
+            });
+
+        }
+
+    }
 
 };
 
