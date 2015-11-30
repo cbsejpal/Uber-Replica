@@ -4,6 +4,7 @@ app.controller('socket',['$scope','socket',function($scope,socket){
 
 	socket.on('request_ride', function (data) {
 		alert(data);
+		window.location.assign('/requestedRide');
 	});
 
 }]);
