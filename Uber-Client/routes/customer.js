@@ -445,3 +445,10 @@ exports.getImagesOfRide = function (req, res) {
     });
 
 };
+
+exports.customerRideBill = function(req, res){
+
+    var bill = req.param('bill');
+
+    res.render('customerRideBill', {bill: bill});
+};
