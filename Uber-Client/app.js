@@ -121,6 +121,12 @@ app.get('/getRideInfo', ride.getRideInfo);
 app.post('/startRide', ride.startRide);
 app.post('/endRide', ride.endRide);
 
+app.post('/rateDriver', ride.rateDriver);
+app.post('/rateCustomer', ride.rateCustomer);
+app.post('/getCustomerRating', customer.getCustomerRating);
+app.post('/getDriverRating', driver.getDriverRating);
+
+
 //admin
 app.get('/verifyDrivers',admin.verifyDrivers);
 app.get('/verifyCustomers',admin.verifyCustomers);

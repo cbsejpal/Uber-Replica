@@ -470,3 +470,25 @@ exports.requestedRide = function(req,res){
     res.render('requestedRide');
 
 };
+
+
+exports.getDriverRating = function(req, res){
+    var emailId = req.param('emailId');
+
+    var msg_payload = {
+        "emailId": emailId,
+        "func" : "getDriverRating"
+    };
+
+    mq_client.make_request('driver_queue', msg_payload, function(err,results) {
+        //console.log(results);
+        if (err) {
+            //console.log(err);
+            res.status(500).send(null);
+        } else {
+            ////console.log("about results" + results);
+            res.status(results.status).send(results.data);
+        }
+    });
+
+};
