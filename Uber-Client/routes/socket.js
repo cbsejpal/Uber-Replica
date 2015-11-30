@@ -27,6 +27,6 @@ module.exports.listen = function(app){
     return io;
 };
 
-exports.onInformationretrieved = function(userID){
-    io.sockets.in(userID).emit('request_ride', {msg: 'You got a ride request.'});
+exports.onInformationretrieved = function(userID,rideID){
+    io.sockets.in(userID).emit('request_ride', {msg: 'You got a ride request.',rideID: rideID});
 };

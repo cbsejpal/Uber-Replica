@@ -40,7 +40,7 @@ exports.createRide = function (req, res) {
             res.status(500).send(null);
         } else {
             ////console.log("about results" + results);
-            io.onInformationretrieved(driverId);
+            io.onInformationretrieved(driverId,result.data.rideId);
             console.log("Emit: ", driverId);
             res.status(results.status).send(results.data);
         }
