@@ -38,76 +38,80 @@ exports.createRide = function (msg, callback) {
 
     var rideId;
 
-        Rides.findOne({
-            $and: [{customerId: customerId}, {driverId: driverId}]
-        }, function (err, ride) {
-            if (err) {
-                json_responses = requestGen.responseGenerator(500, {message: " error finding rideId"});
-                callback(null, json_responses);
-            }
-            else {
-                rideId = ride.rideId;
 
-                Customers.findOne({email: customerId, verifyStatus: true}, function (err, customer) {
+    //console.log("customer email" + customerId);
+    //console.log("driver email " + driverId);
+
+    Customers.findOne({email: customerId, verifyStatus: true}, function (err, customer) {
+        if (err) {
+            json_responses = requestGen.responseGenerator(500, {message: "Customer not found or customer isn't approved"});
+            callback(null, json_responses);
+        }
+        else {
+
+            console.log("customer " + JSON.stringify(customer));
+            console.log("length " + customer.length);
+
+            if(customer) {
+
+                Drivers.findOne({email: driverId, isBusy: false}, function (err, driver) {
+
                     if (err) {
-                        json_responses = requestGen.responseGenerator(500, {message: "Customer not found or customer isn't approved"});
+                        json_responses = requestGen.responseGenerator(500, {message: "Sorry Driver Not found or busy right now."});
                         callback(null, json_responses);
                     }
-                    else {
+                    else{
 
-                        if(customer.length > 0){
+                        if(driver) {
 
-                            Drivers.findOne({email: driverId, isBusy: false}, function (err, driver) {
-                                if (err) {
-                                    json_responses = requestGen.responseGenerator(500, {message: "Sorry Driver Not found or busy right now."});
-                                    callback(null, json_responses);
-                                }
-                                else {
-                                    if(driver.length > 0){
-
-                                        newRide.save(function (err) {
-
-                                            if (err) {
-                                                json_responses = requestGen.responseGenerator(500, {message: " error creating Ride"});
-                                                callback(null, json_responses);
-                                            }
-                                            else {
-
-                                                customer.rides.push({
-                                                    rideId: rideId
-                                                });
-                                                customer.save();
+                            newRide.save(function (err) {
 
 
-                                                driver.rides.push({
-                                                    rideId: rideId
-                                                });
-                                                driver.save();
-
-                                                json_responses = requestGen.responseGenerator(200, {
-                                                    message: "Ride created successfully",
-                                                    rideId: rideId
-                                                });
-                                                callback(null, json_responses);
-                                            }
-                                            });
-                                    }
-                                    else{
-                                        json_responses = requestGen.responseGenerator(500, {message: "Driver Not found or busy right now."});
+                                Rides.findOne({
+                                    $and: [{customerId: customerId}, {driverId: driverId}]
+                                }, function (err, ride) {
+                                    if (err) {
+                                        json_responses = requestGen.responseGenerator(500, {message: " error finding rideId"});
                                         callback(null, json_responses);
                                     }
+                                    else {
+                                        rideId = ride.rideId;
 
-                                }
+                                        customer.rides.push({
+                                            rideId: rideId
+                                        });
+                                        customer.save();
+
+
+                                        driver.rides.push({
+                                            rideId: rideId
+                                        });
+                                        driver.save();
+
+                                        json_responses = requestGen.responseGenerator(200, {
+                                            message: "Ride created successfully",
+                                            rideId: rideId
+                                        });
+
+                                        callback(null, json_responses);
+                                    }
+                                });
+
+                            });
                         }
                         else{
-                            json_responses = requestGen.responseGenerator(500, {message: "Customer not verified or not found."});
+                            json_responses = requestGen.responseGenerator(500, {message: "Driver Not found or busy right now."});
                             callback(null, json_responses);
                         }
                     }
+
                 });
             }
-        });
-
+            else{
+                json_responses = requestGen.responseGenerator(500, {message: "Customer not verified or not found."});
+                callback(null, json_responses);
+            }
+        }
     });
 };
 
