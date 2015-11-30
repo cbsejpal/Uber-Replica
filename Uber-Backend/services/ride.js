@@ -391,15 +391,60 @@ exports.rateDriver = function(msg, callback){
 
     var json_responses;
 
+    var emailId = msg.emailId;
     var rideId = msg.rideId;
     var rating = msg.rating;
     var reviews = msg.reviews;
 
+    Drivers.findOne({email : emailId }, function(err, doc) {
+        console.log("Doc " + doc);
 
+        doc.rides.push({
+            rideId : rideId,
+            rating : rating,
+            reviews : reviews
+        });
 
-
-
+//        console.log("Doc " + doc);
+        doc.save(function(err) {
+            var json_response;
+            if (err) {
+                json_response = requestGen.responseGenerator(401, null);
+            } else {
+                json_response = requestGen.responseGenerator(200, null);
+            }
+            callback(null, json_response);
+        });
+    });
 };
+
+exports.rateCustomer = function(msg, callback){
+
+    var emailId = msg.emailId;
+    var rideId = msg.rideId;
+    var rating = msg.rating;
+    var reviews = msg.reviews;
+
+    Customers.findOne({email : emailId }, function(doc, err) {
+
+        doc.rides.push({
+            rideId : rideId,
+            rating : rating,
+            reviews : reviews
+        });
+
+        doc.save(function(err) {
+            var json_response;
+            if (err) {
+                json_response = requestGen.responseGenerator(401, null);
+            } else {
+                json_response = requestGen.responseGenerator(200, null);
+            }
+            callback(null, json_response);
+        });
+    });
+};
+
 
 
 var findResult = function (results, name) {
