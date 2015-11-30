@@ -212,14 +212,14 @@ exports.endRide = function (req, res) {
     var driverId = req.session.driverId;
 
     //Validations
-    if( ! (dropOffLatLong.length>0 && dropOffLocation.length>0 && driverId.length > 0 && rideId.length>0) ){
+    /*if( ! (dropOffLatLong.length>0 && dropOffLocation.length>0 && driverId.length > 0 && rideId.length>0) ){
 
 
         console.log("endRide validation entry error" );
         json_responses = {"statusCode":500};
         res.send(json_responses);
     }
-
+*/
     var msg_payload = {
         "rideId": rideId,
         dropOffLatLong: dropOffLatLong,
@@ -235,7 +235,7 @@ exports.endRide = function (req, res) {
             res.status(500).send(null);
         } else {
             ////console.log("about results" + results);
-            res.send(results);
+            res.status(results.status).send(results.data);
         }
     });
 };
@@ -256,6 +256,7 @@ exports.startRide = function (req, res) {
 
     var msg_payload = {
         "rideId": rideId,
+        "driverId":driverId,
         "func": "startRide"
     };
 
@@ -275,14 +276,14 @@ exports.getRideInfo = function (req, res) {
 
     var rideId = req.param('rideId');
 
-    //Validations
+   /* //Validations
     if( ! (rideId.length > 0) ){
 
 
         console.log("getRideInfo validation entry error" );
         json_responses = {"statusCode":500};
         res.send(json_responses);
-    }
+    }*/
 
 
     var msg_payload = {
