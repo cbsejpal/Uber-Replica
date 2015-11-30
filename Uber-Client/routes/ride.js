@@ -39,8 +39,8 @@ exports.createRide = function (req, res) {
             //console.log(err);
             res.status(500).send(null);
         } else {
-            ////console.log("about results" + results);
-            io.onInformationretrieved(driverId,result.data.rideId);
+            //console.log("about results" + results);
+            io.onInformationretrieved(driverId,results.data.rideId);
             console.log("Emit: ", driverId);
             res.status(results.status).send(results.data);
         }
