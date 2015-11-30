@@ -489,49 +489,60 @@ exports.getImagesOfRide = function (req, res) {
     var image = req.param('image');
 
     //Valdidations
-    if( ! (image) ){
+    if(image==undefined){
 
-        console.log("getImagesOfRide validation entry error" );
+        console.log("getImagesOfRide parameters error" );
         res.status(500);
         json_responses = {"statusCode":500};
         res.send(json_responses);
     }
+    else{
 
-    var msg_payload = {
-        "func" : "getImagesOfRide"
-    };
+        if( ! (image) ){
 
-    mq_client.make_request('customer_queue', msg_payload, function(err,results) {
-        //console.log(results);
-        if (err) {
-            //console.log(err);
-            res.status(500).send(null);
-        } else {
-            //console.log("about results" + results);
-
-            var mongoose = require('mongoose');
-            var Schema = mongoose.Schema;
-
-            var conn = mongoose.createConnection('mongodb://localhost:27017/uber');
-            var fs = require('fs');
-
-            var Grid = require('gridfs-stream');
-            Grid.mongo = mongoose.mongo;
-
-            conn.once('open', function () {
-                console.log('open');
-                console.log('image name' + image);
-                var gfs = Grid(conn.db);
-
-                gfs.createReadStream({
-                    //"filename": image
-                    _id: '5649b270c73c2e4c1746f9ca'
-                }).pipe(res);
-            });
-
-            //res.status(results.status).send(results.data);
+            console.log("getImagesOfRide validation entry error" );
+            res.status(500);
+            json_responses = {"statusCode":500};
+            res.send(json_responses);
         }
-    });
+        else{
+            var msg_payload = {
+                "func" : "getImagesOfRide"
+            };
+
+            mq_client.make_request('customer_queue', msg_payload, function(err,results) {
+                //console.log(results);
+                if (err) {
+                    //console.log(err);
+                    res.status(500).send(null);
+                } else {
+                    //console.log("about results" + results);
+
+                    var mongoose = require('mongoose');
+                    var Schema = mongoose.Schema;
+
+                    var conn = mongoose.createConnection('mongodb://localhost:27017/uber');
+                    var fs = require('fs');
+
+                    var Grid = require('gridfs-stream');
+                    Grid.mongo = mongoose.mongo;
+
+                    conn.once('open', function () {
+                        console.log('open');
+                        console.log('image name' + image);
+                        var gfs = Grid(conn.db);
+
+                        gfs.createReadStream({
+                            //"filename": image
+                            _id: '5649b270c73c2e4c1746f9ca'
+                        }).pipe(res);
+                    });
+
+                    //res.status(results.status).send(results.data);
+                }
+            });
+        }
+    }
 
 };
 
