@@ -93,6 +93,7 @@ exports.loginCustomer = function (msg, callback) {
 exports.searchCustomer = function (msg, callback) {
 
     var search = msg.search;
+    var offset = msg.startPosition;
 
     Customer.findAll({
         where: {
@@ -117,9 +118,9 @@ exports.searchCustomer = function (msg, callback) {
             }
             ]
         }
-    }).then(function (customers) {
+    ,order:[['customer_id', 'ASC']], offset: offset,limit: 50}).then(function (customers) {
         var json_responses;
-        if (drivers) {
+        if (customers) {
             json_responses = requestGen.responseGenerator(200, customers);
         }
         else {

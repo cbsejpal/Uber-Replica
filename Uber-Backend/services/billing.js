@@ -78,7 +78,6 @@ exports.billingSearch = function(msg, callback){
 		} else {
 			console.log("docs" + docs);
 
-			if (docs.length > 0) {
 
 				docs.forEach(function(doc) {
 					data.push({
@@ -95,12 +94,9 @@ exports.billingSearch = function(msg, callback){
 						driverId: doc.driverId
 					});
 				});
-
+				console.log("Billing",data);
 				json_response = requestGen.responseGenerator(200, data);
 
-			} else {
-				json_response = requestGen.responseGenerator(200, null);
-			}
 		}
 		callback(null, json_response);
 	});

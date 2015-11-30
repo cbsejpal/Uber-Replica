@@ -351,9 +351,11 @@ exports.listAllCustomers =  function(req, res){
 
 exports.searchCustomer =  function(req, res){
 
-    var search = req.params('search');
+    var search = req.param('search');
+    var startPosition = req.param('startPosition');
 
     var msg_payload = {
+        "startPosition" : startPosition,
         "search":search,
         "func" : "searchCustomer"
     };
