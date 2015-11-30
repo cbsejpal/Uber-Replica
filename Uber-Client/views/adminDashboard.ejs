@@ -153,7 +153,7 @@
 
             <!-- customers div -->
 
-            <div class="customers" ng-controller="customers">
+            <div infinite-scroll="getLazyLoadingCustomerList()" infinite-scroll-distance="3" class="customers" ng-controller="customers">
                 <center><h2 class="sub-header">Customers' list</h2></center>
                 <div class="table-responsive">
                     <table class="table table-striped">
