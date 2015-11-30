@@ -458,6 +458,13 @@ exports.updateDriverDetails = function(req, res){
     });
 };
 
+exports.driverRideBill = function(req, res){
+
+    var bill = req.param('bill');
+
+    res.render('driverRideBill', {bill: bill});
+};
+
 exports.requestedRide = function(req,res){
 
     res.render('requestedRide');
