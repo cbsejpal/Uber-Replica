@@ -270,7 +270,7 @@ exports.endRide = function (msg, callback) {
                         ride.save(function (err) {
                             var rideDoc = ride;
 
-                            Drivers.update({driId: driverId}, {
+                            Drivers.update({email: driverId}, {
                                 $set: {
                                     isBusy: false,
                                     currentLocation: dropOffLocation,
