@@ -19,7 +19,7 @@ app.controller('navbar', function($scope, $http) {
 			$scope.firstName = response.data.firstName;
 		}
 		else{
-			window.location.assign('/logout');
+			//window.location.assign('/logout');
 		}
 
 	}).error(function(error){
@@ -48,7 +48,7 @@ app.controller('profile', function($scope, $http) {
 			//console.log(JSON.stringify($scope.customer));
 		}
 		else{
-			window.location.assign('/logout');
+			//window.location.assign('/logout');
 		}
 
 	}).error(function(error){
