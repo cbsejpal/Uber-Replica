@@ -37,20 +37,30 @@
 
             $('.myrides').show();
             $('.profile').hide();
+            $('.requestedRide').hide();
       
         
             $(".click1").on("click", function() {
                 $('.myrides').show();
                 $('.profile').hide();
+                $('.requestedRide').hide();
                 
             });
             
             $(".click2").on("click", function() {
-            	//alert("holaveri");
+            	
+
+                $('.requestedRide').show();
+                $('.myrides').hide();
+                $('.profile').hide();
+            
+            });
+            $(".click3").on("click", function(){
+            	$('.requestedRide').hide();
                 $('.myrides').hide();
                 $('.profile').show();
             
-            });
+            })
             });
             
      
@@ -73,7 +83,9 @@
 
                 <li class=""><a href="javascript:void(0)" class="click1">My Trips</a></li>
            
-                <li><a href="javascript:void(0)" class="click2">Profile</a></li>
+                <li><a href="requestedRide" class="click2">Requested Ride</a></li>
+                
+                <li><a href="javascript:void(0)" class="click3">Profile</a></li>
              
                 <li><a href="/logout">Log out</a></li>
             </ul>
