@@ -11,6 +11,7 @@ var Customer = sequelize.define('Customer', {
 	password: Sequelize.TEXT,
 	firstName: Sequelize.STRING,
 	lastName: Sequelize.STRING,
+	ssn: Sequelize.STRING,
 	address: Sequelize.STRING,
 	city: Sequelize.STRING,
 	state: Sequelize.STRING,

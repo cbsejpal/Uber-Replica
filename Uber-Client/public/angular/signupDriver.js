@@ -68,6 +68,7 @@ signupDriver.controller('signupDriver', function($scope, $http) {
 				"password" : $scope.password,
 				"firstName" : $scope.firstName,
 				"lastName" : $scope.lastName,
+				"ssn":$scope.ssn,
 				"address" : $scope.address,
 				"city" : $scope.city,
 				"state" : $scope.state,
