@@ -72,7 +72,7 @@
 
 
 		<p style = "font-size:16px;">* Lastname :</p>
-		<input class="form-control" ng-model="lastName" ng-pattern="/^([a-zA-Z]{1,20})$/" type="text" name="lastName" value="" placeholder="Lastname" required><br>
+		<input class="form-control" ng-model="lastName" ng-pattern="/^([a-zA-Z]{1,30})$/" type="text" name="lastName" value="" placeholder="Lastname" required><br>
 			
 		<span style="color:red" ng-show="registration.lastName.$dirty && registration.lastName.$invalid">
   					<span ng-show="registration.lastName.$error.required">Lastname is required.</span>
