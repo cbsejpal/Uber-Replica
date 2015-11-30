@@ -24,11 +24,15 @@ exports.createRide = function (msg, callback) {
     var customerId = msg.customerId;
     var driverId = msg.driverId;
 
+    var rideDateTime = new Date();
+    
+    
     var newRide = new Rides({
         pickUpLocation: pickUpLocation,
         dropOffLocation: dropOffLocation,
         pickUpLatLong: pickUpLatLong,
         dropOffLatLong: dropOffLatLong,
+        rideDateTime: rideDateTime,
         //rideStartDateTime: rideStartDateTime,
         customerId: customerId,
         driverId: driverId
@@ -68,7 +72,7 @@ exports.createRide = function (msg, callback) {
 
 
                                 Rides.findOne({
-                                    $and: [{customerId: customerId}, {driverId: driverId}]
+                                    $and: [{customerId: customerId}, {driverId: driverId}, {rideDateTime: rideDateTime}]
                                 }, function (err, ride) {
                                     if (err) {
                                         json_responses = requestGen.responseGenerator(500, {message: " error finding rideId"});
