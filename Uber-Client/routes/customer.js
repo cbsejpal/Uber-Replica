@@ -121,6 +121,7 @@ exports.registerCustomer = function(req, res){
     var password = req.param('password');
     var firstName = req.param('firstName');
     var lastName = req.param('lastName');
+    var ssn = req.param('ssn');
     var address = req.param('address');
     var city = req.param('city');
     var state = req.param('state');
@@ -163,6 +164,7 @@ exports.registerCustomer = function(req, res){
         "password" : password,
         "firstName" : firstName,
         "lastName" : lastName,
+        "ssn" : ssn,
         "address" : address,
         "city" : city,
         "state" : state,
