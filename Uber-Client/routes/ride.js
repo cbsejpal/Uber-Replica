@@ -303,3 +303,60 @@ exports.getRideInfo = function (req, res) {
         }
     });
 };
+
+exports.rateDriver = function (req, res) {
+
+    var emailId = req.param('emailId');
+    var rideId = req.param('rideId');
+    var rating = req.param('rating');
+    var reviews = req.param('reviews');
+
+    var msg_payload = {
+        "rideId": rideId,
+        "emailId": emailId,
+        "rating": rating,
+        "reviews": reviews,
+        "func": "rateDriver"
+    };
+
+    mq_client.make_request('ride_queue', msg_payload, function (err, results) {
+        //console.log(results);
+        if (err) {
+            //console.log(err);
+            res.status(500).send(null);
+        } else {
+            ////console.log("about results" + results);
+            res.status(results.status).send(results.data);
+        }
+    });
+
+};
+
+
+exports.rateCustomer = function (req, res) {
+
+    var emailId = req.param('emailId');
+    var rideId = req.param('rideId');
+    var rating = req.param('rating');
+    var reviews = req.param('reviews');
+
+    var msg_payload = {
+        "rideId": rideId,
+        "emailId": emailId,
+        "rating": rating,
+        "reviews": reviews,
+        "func": "rateCustomer"
+    };
+
+    mq_client.make_request('ride_queue', msg_payload, function (err, results) {
+        //console.log(results);
+        if (err) {
+            //console.log(err);
+            res.status(500).send(null);
+        } else {
+            ////console.log("about results" + results);
+            res.status(results.status).send(results.data);
+        }
+    });
+
+};

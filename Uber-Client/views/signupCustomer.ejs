@@ -90,7 +90,7 @@
 
 
 		<br><p style = "font-size:16px;">* City : </p>
-		<input ng-model="city" class="form-control" type="text" ng-pattern="/^[a-zA-Z]*$/" name="city" value="" placeholder="City" required>
+		<input ng-model="city" class="form-control" type="text" ng-pattern="/^[a-zA-Z ]*$/" name="city" value="" placeholder="City" required>
 		
 		<span style="color:red" ng-show="registration.city.$dirty && registration.city.$invalid">
   					<span ng-show="registration.city.$error.required">City is required.</span>

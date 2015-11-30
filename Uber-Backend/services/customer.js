@@ -259,3 +259,36 @@ exports.checkCustomerEmail = function(msg, callback){
         callback(null, json_response);
     });
 };
+
+
+exports.getCustomerRating = function(msg, callback){
+    var emailId = msg.emailId;
+    var json_response;
+
+    console.log(emailId);
+    Customers.findOne( { email : emailId }, function(err, doc) {
+
+        console.log(doc);
+        if (err) {
+            console.log("error getting ratings");
+            json_response = requestGen.responseGenerator(401, null);
+            callback(null, json_response);
+        }
+
+        else {
+            if (doc) {
+                var custRating = [];
+                var total = 0;
+                var count = doc.rides.length;
+                var Avg = 0;
+                for (var i = 0; i < count; i++) {
+                    custRating.push(doc.rides[i].rating);
+                    total += custRating[i];
+                }
+                Avg = total/count;
+                json_response = requestGen.responseGenerator(200,{data: Number(Avg).toFixed(1)});
+                callback(null, json_response);
+            }
+        }
+    });
+};
