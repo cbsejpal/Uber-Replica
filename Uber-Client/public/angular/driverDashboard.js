@@ -52,6 +52,7 @@ app.controller('profile', function($scope, $http) {
 		if (response.status == 200) {
 			$scope.firstName = response.data.firstName;
 			$scope.lastName = response.data.lastName;
+			$scope.ssn = response.data.ssn;
 			$scope.state = response.data.state;
 			$scope.zipCode = response.data.zipCode;
 			$scope.email = response.data.email;
