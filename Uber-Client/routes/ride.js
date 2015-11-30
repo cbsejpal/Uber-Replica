@@ -17,8 +17,6 @@ exports.createRide = function (req, res) {
 /*    //Valdidations
     if( ! ( pickUpLocation.length > 0 && dropOffLocation.length > 0 && pickUpLatLong.length > 0
         && dropOffLatLong.length > 0 && customerId.length > 0 && driverId.length>0 ) ){
-
-
         console.log("createRide validation entry error" );
         json_responses = {"statusCode":500};
         res.send(json_responses);
@@ -199,7 +197,7 @@ exports.driverRideList = function (req, res) {
 
             res.status(500).send(null);
         } else {
-            console.log("eni masi ne chodu" + results);
+            console.log(results);
             res.send(results);
         }
     });

@@ -75,8 +75,10 @@ exports.loginAdmin = function(msg, callback){
 
 exports.showCustomers = function(msg, callback){
 
+    var offset = msg.startPosition;
+
     var json_responses;
-    Customer.findAll({where: {verifyStatus:1}}).then(function(customers){
+    Customer.findAll({where: {verifyStatus:1},order:[['customer_id', 'ASC']], offset: offset,limit: 50}).then(function(customers){
         if(customers.length > 0){
             json_responses = requestGen.responseGenerator(200, {data: customers});
         }
