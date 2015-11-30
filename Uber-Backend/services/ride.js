@@ -387,6 +387,20 @@ exports.getRideInfo = function (msg, callback) {
 
 };
 
+exports.rateDriver = function(msg, callback){
+
+    var json_responses;
+
+    var rideId = msg.rideId;
+    var rating = msg.rating;
+    var reviews = msg.reviews;
+
+
+
+
+
+};
+
 
 var findResult = function (results, name) {
     var result = _.find(results, function (obj) {
@@ -394,3 +408,4 @@ var findResult = function (results, name) {
     });
     return result ? result.short_name : null;
 };
+
