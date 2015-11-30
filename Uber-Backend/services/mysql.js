@@ -2,10 +2,10 @@
 
 var Sequelize = require('sequelize');
 
-var sequelize = new Sequelize('test', 'root', 'Chirag123!@', {
+var sequelize = new Sequelize('test', 'root', '', {
 	host: 'localhost',
 	dialect: 'mysql', 
-	port: '3308'
+	port: '3333'
 });
 
 exports.sequelize = sequelize;

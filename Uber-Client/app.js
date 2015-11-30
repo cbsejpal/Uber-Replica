@@ -80,7 +80,7 @@ app.get('/deleteCustomer', customer.deleteCustomer);
 app.get('/getCustomerInformation', customer.getCustomerInformation);
 app.post('/updateCustomer',customer.updateCustomer);
 app.get('/checkCustomerEmail', customer.checkCustomerEmail);
-
+app.get('/searchDriver', customer.searchCustomer);
 
 //driver
 app.get('/searchDriver', driver.searchDriver);

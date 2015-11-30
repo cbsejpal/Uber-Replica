@@ -142,6 +142,18 @@ cnn.on('ready', function() {
 						});
 					});
 					break;
+				case "searchCustomer":
+					customer.searchCustomer(message, function (err, res) {
+
+						util.log("Correlation ID: " + m.correlationId);
+						// return index sent
+						cnn.publish(m.replyTo, res, {
+							contentType: 'application/json',
+							contentEncoding: 'utf-8',
+							correlationId: m.correlationId
+						});
+					});
+					break;
 			}
 		});
 	});
@@ -487,7 +499,7 @@ cnn.on('ready', function() {
 					});
 					break;
 				case "driverRideList":
-					ride.customerRideList(message, function (err, res) {
+					ride.driverRideList(message, function (err, res) {
 
 						util.log("Correlation ID: " + m.correlationId);
 						// return index sent
