@@ -8,7 +8,6 @@ app.run(function ($rootScope) {
 });
 
 app.controller('ngMap1', function ($rootScope, $scope,$http,NgMap) {
-	
 
     NgMap.getMap().then(function (map) {
         $rootScope.map = map;
@@ -65,8 +64,6 @@ app.controller('ngMap1', function ($rootScope, $scope,$http,NgMap) {
 
     //When the origin changed this method got called to set the longitude and latitude of origin
     $scope.placeChanged = function () {
-
-    	
         $scope.place = this.getPlace();
         console.log(
             $scope.place.geometry.location.lat(),
@@ -134,34 +131,51 @@ app.controller('ngMap1', function ($rootScope, $scope,$http,NgMap) {
 		}
 		});
     
-    $rootScope.bookRide = function(driverEmail){
-    	if($scope.origin.length > 1 && $scope.destination.length >1)
-    	{
-			$http({
-				method : "POST",
-				url : '/createRide',
-				data : {
-	
-					"pickUpLocation" : $scope.origin,
-					"dropOffLocation" : $scope.destination,
-					"pickUpLatLong" : $scope.origin_pos,
-					"dropOffLatLong" : $scope.destination_pos,
-					"driverId": $scope.driverEmail
-				}
-			}).success(function(data) {
-	    	
-	    	//alert("Ride started ! Redirecting to your dashboard...");
-				alert(data.message+"Your ride is created successfully, Redirecting you to the dashboard !");
-				window.location.assign('/customerDashboard');
-			});
-    	}
-			else
-				{
-				alert("Please add proper origin and destination");
-				}
-    	
+    $rootScope.bookRide = function(driverEmail) {
+        $http({
+            method: "POST",
+            url: '/createRide',
+            data: {
+
+                "pickUpLocation": $scope.origin,
+                "dropOffLocation": $scope.destination,
+                "pickUpLatLong": $scope.origin_pos,
+                "dropOffLatLong": $scope.destination_pos,
+                "driverId": $scope.driverEmail
+            }
+        }).success(function (data) {
+
+            //alert("Ride started ! Redirecting to your dashboard...");
+            alert(data.message + "Your ride is created successfully, Redirecting you to the dashboard !");
+            window.location.assign('/customerDashboard');
+
+
+        });
     };
 
+    $rootScope.bookRide = function (driverEmail) {
+        $http({
+            method: "POST",
+            url: '/createRide',
+            data: {
+
+                "pickUpLocation": $scope.origin,
+                "dropOffLocation": $scope.destination,
+                "pickUpLatLong": $scope.origin_pos,
+                "dropOffLatLong": $scope.destination_pos,
+                "driverId": $scope.driverEmail
+            }
+        }).success(function (data) {
+            //alert("Ride started ! Redirecting to your dashboard...");
+            alert(data.message + "Your ride is created successfully, Redirecting you to the dashboard !");
+            window.location.assign('/customerDashboard');
+
+
+        }).error(function (data) {
+            alert(data.message);
+        });
+
+    };
 
 });
 

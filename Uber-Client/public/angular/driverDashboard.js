@@ -3,7 +3,7 @@ var app = angular.module('drivers', []);
 app.controller('socket',['$scope','socket',function($scope,socket){
 
 	socket.on('request_ride', function (data) {
-		alert(data);
+		alert(data.rideID);
 		window.location.assign('/requestedRide');
 	});
 
@@ -21,7 +21,7 @@ app.controller('navbar',[ '$scope','$http','socket',function($scope, $http,socke
 					socket.emit('join',{ email: $scope.email });
 				}
 				else{
-					window.location.assign('/logout');
+					//window.location.assign('/logout');
 				}
 
 			}).error(function(error){
@@ -62,7 +62,7 @@ app.controller('profile', function($scope, $http) {
 			$scope.phoneNumber = response.data.phoneNumber;
 		}
 		else{
-			window.location.assign('/logout');
+			//window.location.assign('/logout');
 		}
 
 	}).error(function(error){

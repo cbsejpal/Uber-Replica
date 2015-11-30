@@ -349,6 +349,29 @@ exports.listAllCustomers =  function(req, res){
     });
 };
 
+exports.searchCustomer =  function(req, res){
+
+    var search = req.param('search');
+    var startPosition = req.param('startPosition');
+
+    var msg_payload = {
+        "startPosition" : startPosition,
+        "search":search,
+        "func" : "searchCustomer"
+    };
+
+    mq_client.make_request('customer_queue', msg_payload, function(err,results) {
+        //console.log(results);
+        if (err) {
+            //console.log(err);
+            res.status(500).send(null);
+        } else {
+            ////console.log("about results" + results);
+            res.status(results.status).send(results.data);
+        }
+    });
+};
+
 exports.addImagesToRide = function(req, res){
 
     var image = req.param('image');

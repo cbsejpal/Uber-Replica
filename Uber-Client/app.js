@@ -80,7 +80,7 @@ app.get('/deleteCustomer', customer.deleteCustomer);
 app.get('/getCustomerInformation', customer.getCustomerInformation);
 app.post('/updateCustomer',customer.updateCustomer);
 app.get('/checkCustomerEmail', customer.checkCustomerEmail);
-
+app.get('/searchCustomers', customer.searchCustomer);
 
 //driver
 app.get('/searchDriver', driver.searchDriver);
@@ -138,13 +138,14 @@ app.get('/showDriversForApproval',admin.showDriversForApproval);
 //billing
 app.post('/generateBill', billing.generateBill);
 app.post('/deleteBill', billing.deleteBill);
-app.post('/searchBills', billing.searchBills);
+app.get('/searchBills', billing.searchBills);
 app.get('/ignoreDrivers',admin.ignoreDrivers);
 app.get('/ignoreCustomers',admin.ignoreCustomers);
 app.get('/customerRideBill', customer.customerRideBill);
 app.get('/driverRideBill', driver.driverRideBill);
 
 app.get('/requestRide',index.maps);
+app.get('/requestedRide',driver.requestedRide);
 
 app.post('/updateDriverDetails', driver.updateDriverDetails);
 

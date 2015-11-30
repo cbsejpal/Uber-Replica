@@ -17,7 +17,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="angular/adminDashboard.js"></script>
-
+    <script src="angular/ng-infinite-scroll.min.js"></script>
 
     <link href="stylesheets/dashboard.css" rel="stylesheet">
     <link href="stylesheets/admin.css" rel="stylesheet">
@@ -30,19 +30,21 @@
             $('.customers').hide();
             $('.requests').show();
             $('.analysis').hide();
+            $('.billing').hide();
 
             $(".click1").on("click", function () {
                 $('.drivers').show();
                 $('.customers').hide();
                 $('.requests').hide();
                 $('.analysis').hide();
-
+                $('.billing').hide();
             });
             $(".click2").on("click", function () {
                 $('.drivers').hide();
                 $('.customers').show();
                 $('.requests').hide();
                 $('.analysis').hide();
+                $('.billing').hide();
             });
 
 
@@ -51,14 +53,21 @@
                 $('.customers').hide();
                 $('.requests').show();
                 $('.analysis').hide();
-
+                $('.billing').hide();
             });
             $(".click4").on("click", function () {
                 $('.drivers').hide();
                 $('.customers').hide();
                 $('.requests').hide();
                 $('.analysis').show();
-
+                $('.billing').hide();
+            });
+            $(".click5").on("click", function () {
+                $('.drivers').hide();
+                $('.customers').hide();
+                $('.requests').hide();
+                $('.analysis').hide();
+                $('.billing').show();
             });
 
         });
@@ -109,6 +118,7 @@
                 <li class=""><a href="javascript:void(0)" class="click3">Requests</a></li>
                 <li class=""><a href="javascript:void(0)" class="click1">Drivers</a></li>
                 <li class=""><a href="javascript:void(0)" class="click2">Customers</a></li>
+                <li class=""><a href="javascript:void(0)" class="click5">Billing</a></li>
                 <li><a href="javascript:void(0)" class="click4">Analysis</a></li>
                 <li><a href="/logout">Log out</a></li>
             </ul>
@@ -117,77 +127,147 @@
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" ng-app="admin">
             <div class="drivers" ng-controller="drivers">
                 <center><h2 class="sub-header">Drivers' list</h2></center>
-            <div class="col-md-9"></div>
-            <div class="col-md-3" style="margin-top:-55px;">
-                <form>
-                 <div class="input-group">
-				      <input type="text" ng-model="search" style="float:right;" class="form-control" placeholder="Search for...">
+                <div class="col-md-9"></div>
+                <div class="col-md-3" style="margin-top:-55px;">
+                    <form>
+                        <div class="input-group">
+                            <input type="text" ng-model="search" style="float:right;" class="form-control"
+                                   placeholder="Search for...">
 				      <span class="input-group-btn">
 				        <button class="btn btn-default" ng-click="searchDriver()" type="button">Go!</button>
 				      </span>
-				    </div>
-				    </form>
-				    </div>
-				    <div class="col-md-12">
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Driver</th>
-                            <th>Lastname</th>
-                            <th>Email</th>
-                            <th>Action</th>
-                        </tr>
-                        </thead>
-                        <tbody ng-repeat="k in items">
-                        <tr>
-                            <td>1</td>
-                            <td>{{k.firstName}}</td>
-                            <td>{{k.lastName}}</td>
-                            <td>{{k.email}}</td>
-                            <td>
-                                <button class="btn btn-danger" type="button" ng-click="deleteDriver(k.email)">Delete
-                                </button>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Driver</th>
+                                <th>Lastname</th>
+                                <th>Email</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody ng-repeat="k in items">
+                            <tr>
+                                <td>1</td>
+                                <td>{{k.firstName}}</td>
+                                <td>{{k.lastName}}</td>
+                                <td>{{k.email}}</td>
+                                <td>
+                                    <button class="btn btn-danger" type="button" ng-click="deleteDriver(k.email)">Delete
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-</div>
 
             <!-- customers div -->
 
-            <div class="customers" ng-controller="customers">
+            <div infinite-scroll="getSearchCustomerList()" infinite-scroll-distance="3" class="customers"
+                 ng-controller="customers">
                 <center><h2 class="sub-header">Customers' list</h2></center>
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Firstname</th>
-                            <th>Lastname</th>
-                            <th>Email</th>
-                            <th>Action</th>
-                        </tr>
-                        </thead>
-                        <tbody ng-repeat="k in items">
-                        <tr>
-                            <td>1</td>
-                            <td>{{k.firstName}}</td>
-                            <td>{{k.lastName}}</td>
-                            <td>{{k.email}}</td>
-                            <td>
-                                <button class="btn btn-danger" type="button" ng-click="deleteCustomer(k.email)">Delete
-                                </button>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+                <div class="col-md-9"></div>
+                <div class="col-md-3" style="margin-top:-55px;">
+                    <form>
+                        <div class="input-group">
+                            <input type="text" ng-model="search" style="float:right;" class="form-control"
+                                   placeholder="Search for...">
+				      <span class="input-group-btn">
+				        <button class="btn btn-default" ng-click="getSearchCustomerListInitial()" type="button">Go!
+                        </button>
+				      </span>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Firstname</th>
+                                <th>Lastname</th>
+                                <th>Email</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody ng-repeat="k in items">
+                            <tr>
+                                <td>1</td>
+                                <td>{{k.firstName}}</td>
+                                <td>{{k.lastName}}</td>
+                                <td>{{k.email}}</td>
+                                <td>
+                                    <button class="btn btn-danger" type="button" ng-click="deleteCustomer(k.email)">
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
+            <!-- Billing div -->
+
+            <div class="billing" ng-controller="billing">
+                <center><h2 class="sub-header">Bills list</h2></center>
+                <div class="col-md-9"></div>
+                <div class="col-md-3" style="margin-top:-55px;">
+                    <form>
+                        <div class="input-group">
+                            <input type="text" ng-model="search" style="float:right;" class="form-control"
+                                   placeholder="Search for...">
+				      <span class="input-group-btn">
+				        <button class="btn btn-default" ng-click="getBillList()" type="button">Go!
+                        </button>
+				      </span>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>CustomerID</th>
+                                <th>DriverID</th>
+                                <th>Pickup Location</th>
+                                <th>Drop Location</th>
+                                <th>Distance</th>
+                                <th>Amount</th>
+                            </tr>
+                            </thead>
+                            <tbody ng-repeat="k in items">
+                            <tr>
+                                <td>1</td>
+                                <td>{{k.customerId}}</td>
+                                <td>{{k.driverId}}</td>
+                                <td>{{k.pickUpLocation}}</td>
+                                <td>{{k.dropOffLocation}}</td>
+                                <td>{{k.rideDistance}}</td>
+                                <td>{{k.rideAmount}}</td>
+                                <td>
+                                    <button class="btn btn-danger" type="button" ng-click="deleteBill(k.email)">Delete
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- request -->
 
             <div class="requests" ng-controller="requests">
                 <center><h2 class="sub-header">Approval needed from admin</h2></center>
