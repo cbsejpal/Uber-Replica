@@ -38,59 +38,79 @@ exports.createRide = function (msg, callback) {
 
     var rideId;
 
-    newRide.save(function (err) {
 
+    //console.log("customer email" + customerId);
+    //console.log("driver email " + driverId);
+
+    Customers.findOne({email: customerId, verifyStatus: true}, function (err, customer) {
         if (err) {
-            json_responses = requestGen.responseGenerator(500, {message: " error creating Ride"});
+            json_responses = requestGen.responseGenerator(500, {message: "Customer not found or customer isn't approved"});
             callback(null, json_responses);
         }
         else {
 
-            Rides.findOne({
-                $and: [{customerId: customerId}, {driverId: driverId}]
-            }, function (err, ride) {
-                if (err) {
-                    json_responses = requestGen.responseGenerator(500, {message: " error finding rideId"});
-                    callback(null, json_responses);
-                }
-                else {
-                    rideId = ride.rideId;
+            console.log("customer " + JSON.stringify(customer));
+            console.log("length " + customer.length);
 
-                    Customers.findOne({email: customerId, verifyStatus: true}, function (err, customer) {
-                        if (err) {
-                            json_responses = requestGen.responseGenerator(500, {message: "Customer not found or customer isn't approved"});
-                            callback(null, json_responses);
-                        }
-                        else {
-                            Drivers.findOne({email: driverId, isBusy: false}, function (err, driver) {
-                                if (err) {
-                                    json_responses = requestGen.responseGenerator(500, {message: "Sorry Driver Not found or busy right now."});
-                                    callback(null, json_responses);
-                                }
-                                else {
+            if(customer) {
 
-                                    customer.rides.push({
-                                        rideId: rideId
-                                    });
-                                    customer.save();
+                Drivers.findOne({email: driverId, isBusy: false}, function (err, driver) {
+
+                    if (err) {
+                        json_responses = requestGen.responseGenerator(500, {message: "Sorry Driver Not found or busy right now."});
+                        callback(null, json_responses);
+                    }
+                    else{
+
+                        if(driver) {
+
+                            newRide.save(function (err) {
 
 
-                                    driver.rides.push({
-                                        rideId: rideId
-                                    });
-                                    driver.save();
+                                Rides.findOne({
+                                    $and: [{customerId: customerId}, {driverId: driverId}]
+                                }, function (err, ride) {
+                                    if (err) {
+                                        json_responses = requestGen.responseGenerator(500, {message: " error finding rideId"});
+                                        callback(null, json_responses);
+                                    }
+                                    else {
+                                        rideId = ride.rideId;
 
-                                    json_responses = requestGen.responseGenerator(200, {
-                                        message: "Ride created successfully",
-                                        rideId: rideId
-                                    });
-                                    callback(null, json_responses);
-                                }
+                                        customer.rides.push({
+                                            rideId: rideId
+                                        });
+                                        customer.save();
+
+
+                                        driver.rides.push({
+                                            rideId: rideId
+                                        });
+                                        driver.save();
+
+                                        json_responses = requestGen.responseGenerator(200, {
+                                            message: "Ride created successfully",
+                                            rideId: rideId
+                                        });
+
+                                        callback(null, json_responses);
+                                    }
+                                });
+
                             });
                         }
-                    });
-                }
-            });
+                        else{
+                            json_responses = requestGen.responseGenerator(500, {message: "Driver Not found or busy right now."});
+                            callback(null, json_responses);
+                        }
+                    }
+
+                });
+            }
+            else{
+                json_responses = requestGen.responseGenerator(500, {message: "Customer not verified or not found."});
+                callback(null, json_responses);
+            }
         }
     });
 };
@@ -367,6 +387,20 @@ exports.getRideInfo = function (msg, callback) {
 
 };
 
+exports.rateDriver = function(msg, callback){
+
+    var json_responses;
+
+    var rideId = msg.rideId;
+    var rating = msg.rating;
+    var reviews = msg.reviews;
+
+
+
+
+
+};
+
 
 var findResult = function (results, name) {
     var result = _.find(results, function (obj) {
@@ -374,3 +408,4 @@ var findResult = function (results, name) {
     });
     return result ? result.short_name : null;
 };
+

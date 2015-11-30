@@ -12,6 +12,7 @@ exports.registerCustomer = function(msg, callback){
     var password = msg.password;
     var firstName = msg.firstName;
     var lastName = msg.lastName;
+    var ssn = msg.ssn;
     var address = msg.address;
     var city = msg.city;
     var state = msg.state;
@@ -31,6 +32,7 @@ exports.registerCustomer = function(msg, callback){
         password: newPassword,
         firstName: firstName,
         lastName: lastName,
+        ssn: ssn,
         address: address,
         city: city,
         state: state,
