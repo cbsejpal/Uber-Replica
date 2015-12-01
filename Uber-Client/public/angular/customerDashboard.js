@@ -3,8 +3,8 @@ var app = angular.module('customers', []);
 app.controller('socket',['$scope','socket',function($scope,socket){
 
 	socket.on('bill_generated', function (data) {
-		alert(JSON.stringify(data));
-		window.location.assign('/customerRideBill?bill='+JSON.stringify(data.bill));
+		alert(JSON.stringify(data.bill.billingId));
+		window.location.assign('/customerRideBill?bill='+data.bill.billingId);
 	});
 
 }]);

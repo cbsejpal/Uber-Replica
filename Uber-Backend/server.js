@@ -654,6 +654,19 @@ cnn.on('ready', function() {
 					});
 					break;
 
+				case "getBill":
+					billing.getBill(message, function (err, res) {
+
+						util.log("Correlation ID: " + m.correlationId);
+						// return index sent
+						cnn.publish(m.replyTo, res, {
+							contentType: 'application/json',
+							contentEncoding: 'utf-8',
+							correlationId: m.correlationId
+						});
+					});
+					break;
+
 			}
 		});
 	});

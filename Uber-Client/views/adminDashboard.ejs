@@ -278,6 +278,9 @@
                         <th>#</th>
                         <th>Customer</th>
                         <th>Email</th>
+                        <th>City</th>
+                        <th>SSN</th>
+                        <th>Card</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -285,8 +288,10 @@
                     <tr>
                         <td>1</td>
                         <td>{{k.firstName}}</td>
-
                         <td>{{k.email}}</td>
+                        <td>{{k.city}}</td>
+                        <td>{{k.ssn}}</td>
+                        <td>{{k.creditCard}}</td>
 
                         <td>
                             <button class="btn btn-success" type="submit" ng-click="approveCustomer(k.email)">Approve
@@ -307,6 +312,10 @@
                         <th>#</th>
                         <th>Driver</th>
                         <th>Email</th>
+                        <th>City</th>
+                        <th>SSN</th>
+                        <th>Car</th>
+                        <th>License</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -316,6 +325,13 @@
                         <td>{{k.firstName}}</td>
 
                         <td>{{k.email}}</td>
+                        <td>{{k.city}}</td>
+                        <td>{{k.ssn}}</td>
+                        <td>{{k.carDetails}}</td>
+                        <td>{{k.license}}</td>
+
+
+
                         <td>
                             <button class="btn btn-success" type="button" ng-click="approveDriver(k.email)">Approve
                             </button>
