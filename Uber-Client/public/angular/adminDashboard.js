@@ -26,7 +26,7 @@ app.controller('analysis', function($scope, $http) {
         var yAxis = d3.svg.axis()
             .scale(y)
             .orient("left")
-            .ticks(5, "%");
+            .ticks(10, "%");
 
         var svg = d3.select(".analysis").append("svg")
             .attr("width", width + margin.left + margin.right)
@@ -50,7 +50,7 @@ app.controller('analysis', function($scope, $http) {
             .attr("y", 6)
             .attr("dy", ".71em")
             .style("text-anchor", "end")
-            .text("Sum Amount");
+            .text("Revenue in %");
 
         svg.selectAll(".bar")
             .data(data)
@@ -154,6 +154,19 @@ app.controller('customers', ['$scope', '$http',function ($scope, $http) {
             $scope.items = [];
         });
     };
+    $scope.mapAnalysisCustomer = function(email){
+
+        $http({
+            method: "GET",
+            url: '/customerAnalysis',
+            params: {
+
+                "customerId": email
+            }
+        });
+
+    }
+
 
     $scope.getSearchCustomerList = function () {
         $http({
@@ -281,7 +294,7 @@ app.controller('requests', function ($scope, $http) {
         if (response.status == 200) {
 
             $scope.drivers = response.data.data;
-            alert(JSON.stringify($scope.drivers));
+   //         alert(JSON.stringify($scope.drivers));
 
         }
     });

@@ -332,3 +332,24 @@ exports.searchCustomer = function (msg, callback) {
         callback(null, json_responses);
     });
 };
+
+exports.checkCustomerSSN = function(msg, callback){
+
+    var ssn = msg.ssn;
+
+    var json_response;
+
+    Customer.findAll({where: {ssn: ssn}}).then(function(customers){
+
+        //console.log("email customers " + customers);
+
+        if(customers.length > 0){
+            json_response = requestGen.responseGenerator(500, null);
+        }
+        else{
+            json_response = requestGen.responseGenerator(200, null);
+        }
+
+        callback(null, json_response);
+    });
+};

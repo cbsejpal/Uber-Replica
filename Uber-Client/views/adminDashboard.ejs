@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -129,12 +129,12 @@
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
                 <li class="active"><a>Admin Dashboard <span class="sr-only">(current)</span></a></li>
-                <li class=""><a href="javascript:void(0)" class="click3">Requests</a></li>
-                <li class=""><a href="javascript:void(0)" class="click1">Drivers</a></li>
-                <li class=""><a href="javascript:void(0)" class="click2">Customers</a></li>
-                <li class=""><a href="javascript:void(0)" class="click5">Billing</a></li>
-                <li><a href="javascript:void(0)" class="click4">Analysis</a></li>
-                <li><a href="mapAnalysis" class="click6">Map Analysis</a></li>
+                <li class=""><a href="javascript:void(0)" class="click3">Pending Requests </a></li>
+                <li class=""><a href="javascript:void(0)" class="click1">Drivers List</a></li>
+                <li class=""><a href="javascript:void(0)" class="click2">Customers List</a></li>
+                <li class=""><a href="javascript:void(0)" class="click5">Billing Info</a></li>
+                <li><a href="javascript:void(0)" class="click4">Revenue per Day</a></li>
+                <li><a href="mapAnalysis" class="click6">Analysis -  Area Wise</a></li>
                 <li><a href="/logout">Log out</a></li>
             </ul>
 
@@ -177,6 +177,11 @@
                                     <button class="btn btn-danger" type="button" ng-click="deleteDriver(k.email)">Delete
                                     </button>
                                 </td>
+                                <td>
+                                    <a class="btn btn-primary" type="button" href="driverAnalysis?driverId={{k.email}}">
+                                        RidesInformation
+                                    </a>
+                                </td>
                             </tr>
                             </tbody>
                         </table>
@@ -212,6 +217,7 @@
                                 <th>Lastname</th>
                                 <th>Email</th>
                                 <th>Action</th>
+                                <th>Rides</th>
                             </tr>
                             </thead>
                             <tbody ng-repeat="k in items">
@@ -220,10 +226,16 @@
                                 <td>{{k.firstName}}</td>
                                 <td>{{k.lastName}}</td>
                                 <td>{{k.email}}</td>
+
                                 <td>
                                     <button class="btn btn-danger" type="button" ng-click="deleteCustomer(k.email)">
                                         Delete
                                     </button>
+                                </td>
+                                <td>
+                                    <a class="btn btn-primary" type="button" href="customerAnalysis?customerId={{k.email}}">
+                                        RidesInformation
+                                    </a>
                                 </td>
                             </tr>
                             </tbody>
@@ -271,7 +283,7 @@
                                 <td>{{k.pickUpLocation}}</td>
                                 <td>{{k.dropOffLocation}}</td>
                                 <td>{{k.rideDistance}}</td>
-                                <td>{{k.rideAmount}}</td>
+                                <td>${{k.rideAmount}}</td>
                                 <td>
                                     <button class="btn btn-danger" type="button" ng-click="deleteBill(k.billingId)">
                                         Delete
@@ -361,19 +373,13 @@
             </div>
 
 
-            <div class="analysis" ng-controller="analysis" ng-init="NgMap.initMap('foo')">
+            <div class="analysis" ng-controller="analysis">
                 <svg class="chart"></svg>
                 <script src="js/d3.min.js" charset="utf-8"></script>
                 <!--<script src="js/index.js"></script>-->
             </div>
 
-            <div class="map-analysis" ng-controller="ngMapAnalysis">
-                <!--<map zoom="12" center="[37.5634, -121.2343423]" zoom-control="true"  style="display:block; width:auto; height:auto;">
 
-                    <directions draggable="true" panel="directions-panel" travel-mode="DRIVING" origin="Santa Clara, CA, USA" destination="1 Washington Sq, San Jose, CA 95192, United States">
-                    </directions>
-                </map>-->
-            </div>
 
         </div>
 

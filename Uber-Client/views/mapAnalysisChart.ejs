@@ -95,8 +95,21 @@
                     <button style="margin-left:10px;" class="btn btn-success"
                             onclick="location.href ='adminDashboard';"> < Back to Dashboard
                     </button>
-                </li>
-                <li><a href="logout">Log out</a></li>
+                </li><br>
+                <li>
+
+                    <!--<div class="col-md-1"></div> -->
+                    <div class="col-md-10">
+                        <select class="form-control" ng-model="selected"
+                                ng-options="k as k for k in cities"
+                                ng-change="getRidesFromCity(selected)">
+
+
+                    </select>
+                        </div>
+                    <div class="col-md-2"></div>
+                </li><br>
+
             </ul>
 
         </div>
@@ -104,7 +117,7 @@
 
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
 
-            <ng-map zoom="12" center="current-position" style="height:500px; width:780px;">
+            <ng-map zoom="12" center="current-position" style="height:500px; width:950px;">
                 <shape name="polyline" ng-repeat="ride in rides"
                        path="[
         [{{ride.pickUpLatLong}}],

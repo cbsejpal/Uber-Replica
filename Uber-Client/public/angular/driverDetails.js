@@ -68,18 +68,14 @@ app.controller('driverDetails', function($scope, $http) {
 				field.$setPristine();
 			});
 
-			$scope.showProfilePhoto();
+			$scope.showVideo();
 		}
-	};
-
-	$scope.showProfilePhoto = function(){
-		$scope.background = true;
-		$scope.profilePhoto = false;
 	};
 
 	$scope.showVideo = function(){
 		$scope.background = true;
 		$scope.video = false;
+		$scope.profilePhoto = true
 	};
 
 	$scope.submit = function($event){

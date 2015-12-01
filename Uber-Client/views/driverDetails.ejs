@@ -114,17 +114,17 @@
 
 
     </form>
-    <form id="form" method="post" name="uploadImage" action="/addDriverImage" enctype="multipart/form-data">
-        <div class="profilePhoto" ng-hide="profilePhoto">
-            <input type="hidden" ng-bind="email" name="email">
-            <div class="col-md-8">
-                <h2>Please upload a photo of yours !</h2>
-                Upload : <br><br><input name="file" id="file" class="btn btn-lg btn-default" type= "file" required>
-                <br>
-                <input class="btn btn-lg btn-default click4" type="submit" value="Submit">
-            </div>
-        </div>
-    </form>
+    <div class="profilePhoto" ng-hide="profilePhoto">
+        <form id="form" method="post" name="uploadImage" action="/addDriverImage" enctype="multipart/form-data">
+                <div class="col-md-8">
+                    <h2>Please upload a photo of yours !</h2>
+                    Upload : <br><br><input name="file" id="file" class="btn btn-lg btn-default" type= "file" required>
+                    <br>
+                    <input class="btn btn-lg btn-default click4" type="submit" value="Submit">
+                </div>
+
+        </form>
+    </div>
 </div>
 
 
