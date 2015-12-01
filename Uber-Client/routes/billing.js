@@ -35,7 +35,7 @@ exports.generateBill = function(req, res){
 		"pickUpLocation" : pickUpLocation,
 		"dropOffLocation" : dropOffLocation,
 		"rideDate" : rideDate,
-		"rideStartTime" : rideStartDateTime,
+		"rideStartTime" : rideStartTime,
 		"rideEndTime" : rideEndTime,
 		"func" : "generateBill"
 	};
@@ -105,6 +105,28 @@ exports.searchBills = function(req, res){
 			res.status(500).send(null);
 		} else {
 			////console.log("about results" + results);
+			res.status(results.status).send(results.data);
+		}
+	});
+};
+
+
+exports.getBill = function(req, res){
+
+	var billId = req.param('billId');
+
+	var msg_payload = {
+		"billId": billId,
+		"func" : "getBill"
+	};
+
+	mq_client.make_request('bill_queue', msg_payload, function(err,results) {
+		//console.log(results);
+		if (err) {
+			//console.log(err);
+			res.status(500).send(null);
+		} else {
+			console.log("bill results " + results);
 			res.status(results.status).send(results.data);
 		}
 	});

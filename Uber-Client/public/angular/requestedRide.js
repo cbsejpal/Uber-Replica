@@ -175,7 +175,7 @@ app.controller('ngMap1', function ($rootScope, $scope, $http, NgMap) {
             }).success(function (data) {
                 //alert("Ride started ! Redirecting to your dashboard...");
                 alert("Ride Completed");
-                window.location.assign('/driverRideBill?bill='+JSON.stringify(data));
+                window.location.assign('/driverRideBill?bill='+data.billingId);
 
             }).error(function (data) {
                 alert(data.message);

@@ -20,7 +20,8 @@ var rideSchema = new Schema({
 	customerId: {type: String, required: true},
 	driverId: {type: String, required: true},
 	rideStarted: {type: Boolean, default: false},
-	rideDateTime: {type: Date}
+	rideDateTime: {type: Date},
+	rideCity: {type: String}
 }, {
 	versionKey : false
 });

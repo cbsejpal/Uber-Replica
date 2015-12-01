@@ -125,3 +125,28 @@ exports.deleteBill = function (msg, callback) {
 		callback(null, json_responses);
 	});
 };
+
+exports.getBill = function(msg, callback){
+
+	var billId = msg.billId;
+
+	var json_responses;
+
+	Billings.findOne({billingId: billId}, function(err, bill){
+		if (err) {
+			json_responses = requestGen.responseGenerator(500, {message: 'Error in Bill Finding'});
+			callback(null, json_responses);
+		}
+		else{
+			if(bill){
+				json_responses = requestGen.responseGenerator(200, bill);
+				callback(null, json_responses);
+			}
+			else{
+				json_responses = requestGen.responseGenerator(500, {message: 'No Bill Found'});
+				callback(null, json_responses);
+			}
+		}
+	});
+
+};
