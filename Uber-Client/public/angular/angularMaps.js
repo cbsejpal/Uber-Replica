@@ -9,8 +9,8 @@ app.run(function ($rootScope) {
 
 app.controller('navbar', ['socket', function (socket) {
     socket.on('bill_generated', function (data) {
-        alert(JSON.stringify(data));
-        window.location.assign('/customerRideBill?bill='+data.billingId);
+        alert(JSON.stringify(data.bill.billingId));
+        window.location.assign('/customerRideBill?bill='+data.bill.billingId);
     });
 }]);
 
