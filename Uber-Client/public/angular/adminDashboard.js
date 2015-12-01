@@ -1,4 +1,4 @@
-var app = angular.module('admin', []);
+var app = angular.module('admin', ['infinite-scroll']);
 
 app.controller('drivers', function ($scope, $http) {
     $http.get("/showDrivers").success(function (response) {
@@ -61,10 +61,12 @@ app.controller('drivers', function ($scope, $http) {
 });
 
 
-app.controller('customers', function ($scope, $http) {
+app.controller('customers', ['$scope', '$http',function ($scope, $http) {
 
     var startPosition = 0;
     $scope.search = " ";
+    $scope.items = [];
+    $scope.loadMore = false;
     $scope.getSearchCustomerListInitial = function () {
         $http({
             method: "GET",
@@ -94,6 +96,9 @@ app.controller('customers', function ($scope, $http) {
         }).success(function (response) {
 
             var items = response;
+            if(items.length == 0){
+                $scope.loadMore = true;
+            }
             for (var i = 0, len = items.length; i < len; ++i) {
                 $scope.items.push(items[i]);
             }
@@ -104,7 +109,7 @@ app.controller('customers', function ($scope, $http) {
         });
     };
 
-    $scope.getSearchCustomerListInitial();
+    //$scope.getSearchCustomerList();
 
 
     $scope.deleteCustomer = function (email) {
@@ -128,7 +133,7 @@ app.controller('customers', function ($scope, $http) {
     }
 
 
-});
+}]);
 
 app.controller('billing', function ($scope, $http) {
 
