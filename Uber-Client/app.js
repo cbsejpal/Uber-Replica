@@ -165,6 +165,11 @@ app.get('/mapAnalysis',index.chartRender);
 app.get('/customerAnalysis',index.customerAnalysisChart);
 app.get('/driverAnalysis',index.driverAnalysisChart);
 
+app.get('/cityList', ride.cityList);
+app.get('/cityRides', ride.cityRides);
+app.get('/driverRides', ride.driverRides);
+app.get('/customerRides', ride.customerRides);
+
 //error handling files
 
 app.get('/errorCustomer', customer.errorCustomer);
