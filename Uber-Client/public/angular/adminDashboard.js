@@ -372,11 +372,3 @@ app.controller('requests', function ($scope, $http) {
 
 
 });
-
-app.controller('ngMapAnalysis',function ($scope, $http,NgMap) {
-    NgMap.getMap().then(function (map) {
-        $rootScope.map = map;
-
-
-    });
-});
