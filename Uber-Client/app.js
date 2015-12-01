@@ -5,6 +5,7 @@
 
 var express = require('express')
     , http = require('http')
+    , multer = require('multer')
     , app = express()
     //, passport = require('passport')
     , server = http.Server(app)
@@ -30,6 +31,9 @@ app.configure(function(){
     app.set('port', process.env.PORT || 3000);
     app.set('views', __dirname + '/views');
     app.set('view engine', 'ejs');
+    app.use(express.static(path.join(__dirname, 'public')));
+    app.use('/uploads', express.static(__dirname + "/uploads"));
+    app.use(multer({dest: './uploads/'}));
     app.use(express.favicon());
     app.use(express.logger('dev'));
     app.use(express.bodyParser());
@@ -49,7 +53,6 @@ app.configure(function(){
     //app.use(passport.expressSession());
 
     app.use(app.router);
-    app.use(express.static(path.join(__dirname, 'public')));
 });
 
 app.configure('development', function(){
@@ -68,8 +71,10 @@ app.get('/registerAdmin', admin.register);
 
 app.get('/listAllCustomers', customer.listAllCustomers);
 
+app.get('/addImagesToRide',customer.renderAddImagesToRide);
 app.post('/addImagesToRide',customer.addImagesToRide);
-app.get('/getImagesOfRide:image', customer.getImagesOfRide);
+app.get('/getImagesOfRide', customer.getImagesOfRide);
+app.get('/getImage', customer.getImage);
 app.get('/showCustomers', admin.showCustomers);
 app.get('/showDrivers', admin.showDrivers);
 app.get('/logout', logout.logout);

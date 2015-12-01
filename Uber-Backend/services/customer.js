@@ -251,7 +251,7 @@ exports.addImagesToRide = function (msg, callback) {
     var mongoose = require('mongoose');
     var Schema = mongoose.Schema;
 
-    var conn = mongoose.createConnection('mongodb://localhost:27017/uber');
+    var conn = mongoose.createConnection('mongodb://localhost:27017/neuber');
     var fs = require('fs');
 
     var Grid = require('gridfs-stream');
