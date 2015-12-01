@@ -249,7 +249,7 @@ exports.endRide = function (msg, callback) {
             console.log(error);
         } else {
 
-            //var city = findResult(JSON.parse(body).results[0].address_components, "locality");
+            var city = findResult(JSON.parse(body).results[0].address_components, "locality");
             var location = JSON.parse(body).results[0].geometry.location;
 
             var latitude = location.lat;
@@ -266,7 +266,7 @@ exports.endRide = function (msg, callback) {
                     if (ride) {
 
                         ride.rideEndDateTime = rideEndDateTime;
-
+                        ride.rideCity = city;
                         ride.save(function (err) {
                             var rideDoc = ride;
 
