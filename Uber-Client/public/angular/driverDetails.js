@@ -1,7 +1,9 @@
 var app = angular.module('driverDetails', ['ngMap']);
 
 app.controller('driverDetails', function($scope, $http) {
-	
+
+	//alert('Finally ' + $scope.email);
+
 	$scope.vehicle = false;
 	$scope.background = true;
 	$scope.profilePhoto = true;
@@ -49,17 +51,12 @@ app.controller('driverDetails', function($scope, $http) {
 				field.$setPristine();
 			});
 
-			$scope.showProfilePhoto();
+			$scope.showVideo();
 		}
 	};
 
-	$scope.showProfilePhoto = function(){
-		$scope.background = true;
-		$scope.profilePhoto = false;
-	};
-
 	$scope.showVideo = function(){
-		$scope.profilePhoto = true;
+		$scope.background = true;
 		$scope.video = false;
 	};
 
@@ -95,7 +92,12 @@ app.controller('driverDetails', function($scope, $http) {
 					window.location.assign('/errorDriver');
 				}
 				else{
-					window.location.assign("/driverDashboard");
+					//window.location.assign("/driverDashboard");
+					$scope.video = true;
+					$scope.vehicle = true;
+					$scope.background = true;
+					//alert($scope.email);
+					$scope.profilePhoto = false;
 				}
 			}).error(function(error){
 				window.location.assign('/errorDriver');

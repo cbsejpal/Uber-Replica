@@ -114,12 +114,34 @@ app.controller('ngMap1', function ($rootScope, $scope,$http,NgMap) {
     };
     
     $rootScope.show = function(p){
-    	
+
+        var frameSrc  = p.videoURL;
+
+        $(function(){
+            $('iframe').attr("src",frameSrc.replace("watch?v=", "v/"));
+        });
+
     	$scope.driverName = p.firstName;
     	$scope.driverEmail = p.email;
-    	$scope.driverVideo = p.videoURL;
+    	//$scope.driverVideo = p.videoURL;
     	$scope.driverCity = p.city;
-    	
+
+        $http({
+            method: "GET",
+            url: '/getImagesOfRide',
+            params: {
+                image: p.email+".jpg"
+            }
+        }).success(function (response) {
+            //alert('./uploads');
+            //alert(response);
+            $scope.image = './uploads/'+ p.email+".jpg"
+
+        });
+
+
+        $scope.driverVideo = p.videoURL;
+
     };
     
     
@@ -176,6 +198,14 @@ app.controller('ngMap1', function ($rootScope, $scope,$http,NgMap) {
         });
 
     };
+
+
+
+
+
+
+
+
 
 });
 
