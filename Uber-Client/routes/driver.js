@@ -232,10 +232,7 @@ exports.loginDriver = function(req, res){
                 } else {
                     ////console.log("about results" + results);
 
-                    if(req.param("firstLogIn") == "yes"){
-                        res.render("driverDetails", { title: 'Uber - Add Driver Information' });
-                    }
-                    else{
+
                         req.session.driverId =  results.data.user;
 
                         console.log(req.session.driverId);
@@ -244,7 +241,7 @@ exports.loginDriver = function(req, res){
                     }
 
 
-                }
+
             });
         }
     }

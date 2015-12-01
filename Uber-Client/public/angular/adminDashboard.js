@@ -281,6 +281,7 @@ app.controller('requests', function ($scope, $http) {
         if (response.status == 200) {
 
             $scope.drivers = response.data.data;
+            alert(JSON.stringify($scope.drivers));
 
         }
     });

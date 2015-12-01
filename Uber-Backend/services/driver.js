@@ -76,8 +76,8 @@ exports.loginDriver = function (msg, callback) {
     var salt = "!@12MySeCrEtSALTsTrInG!@12";
     var newPassword = crypto.createHash('sha512').update(salt + password + salt).digest("hex");
 
-    Driver.findOne({attributes: ['email', 'password']},{where: {email: email, password: newPassword}}).then(function (user) {
-
+    Driver.findOne({where: {email: email, password: newPassword}}).then(function (user) {
+console.log(JSON.stringify(user));
         if (user) {
             json_responses = requestGen.responseGenerator(200, {message: 'driver login successful', user: user.email});
         }
@@ -401,7 +401,7 @@ exports.checkDriverEmail = function(msg, callback){
 
     var json_response;
 
-    Driver.findAll({attributes: ['email']},{where: {email: email}}).then(function(drivers){
+    Driver.findAll({where: {email: email}}).then(function(drivers){
 
         if(drivers.length > 0){
             json_response = requestGen.responseGenerator(500, null);
