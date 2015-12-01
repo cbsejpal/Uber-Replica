@@ -18,3 +18,15 @@ exports.maps = function (req,res) {
 exports.chartRender = function(req,res){
   res.render('mapAnalysisChart');
 };
+
+exports.customerAnalysisChart = function(req,res){
+
+  var customerId = req.param('customerId');
+  res.render('mapAnalysisChart', {customerId: customerId});
+};
+
+exports.driverAnalysisChart = function(req,res){
+
+  var driverId = req.param('driverId');
+  res.render('mapAnalysisChart', {driverId: driverId});
+};

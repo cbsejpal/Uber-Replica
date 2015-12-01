@@ -162,6 +162,8 @@ app.get('/getDriverImage', driver.getDriverImage);
 app.get('/getBill', billing.getBill);
 
 app.get('/mapAnalysis',index.chartRender);
+app.get('/customerAnalysis',index.customerAnalysisChart);
+app.get('/driverAnalysis',index.driverAnalysisChart);
 
 //error handling files
 
