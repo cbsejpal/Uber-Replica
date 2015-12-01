@@ -12,7 +12,7 @@
     <script src="http://maps.google.com/maps/api/js?libraries=placeses,visualization,drawing,geometry,places"></script>
     <script src="http://code.angularjs.org/1.3.15/angular.js"></script>
     <script src="http://rawgit.com/allenhwkim/angularjs-google-maps/master/build/scripts/ng-map.js"></script>
-    <script src="angular/angularMaps.js"></script>
+    <script src="angular/requestedRide.js"></script>
     <style>
         .custom-marker {
             font-size: 1.5em;
@@ -53,9 +53,9 @@
         }
     </style>
 </head>
-<body ng-app="ngMap" ng-controller="ngMap1 as vm">
+<body ng-app="ngMap">
 
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<nav class="navbar navbar-inverse navbar-fixed-top" ng-controller="navbar">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -71,7 +71,7 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user" style="font-size:30px;"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">{{driverName}}</a></li>
+                        <li><a href="#">{{firstName}}</a></li>
                         
                         <li class="divider"></li>
 
@@ -83,7 +83,7 @@
    
 </nav>
 
-<div class="container-fluid">
+<div class="container-fluid"  ng-controller="ngMap1 as vm">
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
@@ -91,21 +91,21 @@
                 <br>
                 <li><button style="margin-left:10px;" class="btn btn-success" onclick="location.href ='driverDashboard';"> < Back to Dashboard</button></li>
 
-                <li><a href="javascript:void(0)" ng-click="vm.filerPlace()">Start Ride</a></li>
-                <li><a href="javascript:void(0)" ng-click="vm.removePositions()">End Ride</a></li>
+                <li><a href="javascript:void(0)" ng-click="startRide()">Start Ride</a></li>
+                <li><a href="javascript:void(0)" ng-click="endRide()">End Ride</a></li>
                 <li><a href="logout">Log out</a></li>
             </ul>
 
         </div>
         <br>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
-         <p ng-hide="true" ng-model="driverName">{{driverName}}</p>
+
             <div class="row">
                 <div class="col-md-1">
                     <p style="font-size:18px">Origin : </p>
                 </div>
                 <div class="col-md-3">
-                    <input id="origin" class="form-control" places-auto-complete ng-model="origin" value="current-location" on-place-changed="placeChanged()"/ reqiured>
+                    <input id="origin" class="form-control" disabled="disabled" places-auto-complete ng-model="pickUpLocation" value="current-location" />
                 </div>
                 <div class="col-md-2">
 
@@ -113,7 +113,7 @@
                 </div>
                 <div class="col-md-3">
 
-                    <input id="destination" class="form-control" places-auto-complete ng-model="destination" on-place-changed="dplaceChanged()"/ required>
+                    <input id="destination" class="form-control" places-auto-complete ng-model="dropOffLocation" on-place-changed="dplaceChanged()" required />
                 </div>
                 <br><br>
             </div>
@@ -124,15 +124,13 @@
                         on-click="currentPositionOnclick()">
                     <!--<div class="custom-marker"><div>Current position</div> </div>-->
                 </marker>
-
-                
     
 	              <directions
                         draggable="true"
                         panel="directions-panel"
                         travel-mode="DRIVING"
-                        origin="{{origin}}"
-                        destination="{{destination}}">
+                        origin="{{pickUpLocation}}"
+                        destination="{{dropOffLocation}}">
                 </directions>
             </ng-map>
             Directions path length:

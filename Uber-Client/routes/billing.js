@@ -2,6 +2,8 @@
 var mq_client = require('../rpc/client');
 var requestGen = require('./commons/responseGenerator');
 
+var io = require('./socket');
+
 exports.generateBill = function(req, res){
 	
 	var rideId = req.param('rideId');
@@ -16,7 +18,7 @@ exports.generateBill = function(req, res){
 	//var rideAmount = req.param('rideAmount');
 
 	//Valdidations
-	if( ! (rideId.length > 0 && customerId.length > 0 && driverId.length > 0
+	/*if( ! (rideId.length > 0 && customerId.length > 0 && driverId.length > 0
 			&& pickUpLocation.length > 0 && dropOffLocation.length > 0 && rideDate.length > 0
 			&& rideStartTime.length > 0 && rideEndTime.length > 0) ){
 
@@ -24,7 +26,7 @@ exports.generateBill = function(req, res){
 		console.log("generateBill validation entry error" );
 		json_responses = {"statusCode":500};
 		res.send(json_responses);
-	}
+	}*/
 
 	var msg_payload = {
 		"rideId" : rideId,
@@ -35,8 +37,6 @@ exports.generateBill = function(req, res){
 		"rideDate" : rideDate,
 		"rideStartTime" : rideStartTime,
 		"rideEndTime" : rideEndTime,
-		//"rideDistance" : rideDistance,
-		//"rideAmount" : rideAmount,
 		"func" : "generateBill"
 	};
 
@@ -47,6 +47,10 @@ exports.generateBill = function(req, res){
 			res.status(500).send(null);
 		} else {
 			////console.log("about results" + results);
+			if(results.status == 200){
+				io.onBillGenerated(customerId,results.data);
+				console.log("Emit: ", customerId);
+			}
 			res.status(results.status).send(results.data);
 		}
 	});
