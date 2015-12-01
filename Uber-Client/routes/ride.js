@@ -95,7 +95,7 @@ exports.getRideInformation = function (req, res) {
                 } else {
 
                     ////console.log("about results" + results);
-                    res..send(results);
+                    res.send(results);
                 }
             });
         }
