@@ -92,13 +92,6 @@ exports.searchBills = function(req, res){
 	var searchText =  req.param('searchText');
 
 	//Validations
-	if( ! (searchText) ){
-
-
-		console.log("searchBill validation entry error" );
-		json_responses = {"statusCode":500};
-		res.send(json_responses);
-	}
 
 	var msg_payload = {
 		"searchText": searchText,

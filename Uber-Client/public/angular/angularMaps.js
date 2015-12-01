@@ -143,7 +143,7 @@ app.controller('ngMap1', function ($rootScope, $scope, $http, NgMap) {
     });
 
     $rootScope.bookRide = function () {
-        if (typeof ($scope.origin) == 'undefined' || typeof ($scope.destination) == "undefined") {
+        if (typeof ($scope.origin) != 'undefined' || typeof ($scope.destination) != "undefined") {
             $http({
                 method: "POST",
                 url: '/createRide',

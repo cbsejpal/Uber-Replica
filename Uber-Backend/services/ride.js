@@ -54,7 +54,6 @@ exports.createRide = function (msg, callback) {
         else {
 
             console.log("customer " + JSON.stringify(customer));
-            console.log("length " + customer.length);
 
             if (customer) {
 

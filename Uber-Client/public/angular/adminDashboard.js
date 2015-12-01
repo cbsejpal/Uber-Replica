@@ -1,4 +1,8 @@
-var app = angular.module('admin', []);
+var app = angular.module('ngMap');
+
+app.run(function ($rootScope) {
+
+});
 
 app.controller('drivers', function ($scope, $http) {
     $http.get("/showDrivers").success(function (response) {
@@ -142,10 +146,10 @@ app.controller('billing', function ($scope, $http) {
                 "search": $scope.search
             }
         }).success(function (response) {
-            if (response.status == 200) {
-                $scope.items = response.data.data;
+                $scope.items = response;
                 //startPosition = $scope.items.length;
-            }
+        }).error(function(err){
+            $scope.items = [];
         });
     };
 
@@ -173,18 +177,14 @@ app.controller('billing', function ($scope, $http) {
     $scope.deleteBill = function (billID) {
 
         $http({
-            method: "GET",
+            method: "POST",
             url: '/deleteBill',
-            params: {
+            data: {
                 "billId": billID
             }
         }).success(function (response) {
 
-            if (response.status == 200) {
                 $scope.getBillList();
-            } else {
-                $scope.items = "";
-            }
 
         });
     }
@@ -265,7 +265,7 @@ app.controller('requests', function ($scope, $http) {
             }
 
         });
-    }
+    };
 
 
     $scope.approveDriver = function (email) {
@@ -300,4 +300,12 @@ app.controller('requests', function ($scope, $http) {
     }
 
 
+});
+
+app.controller('ngMapAnalysis',function ($scope, $http,NgMap) {
+    NgMap.getMap().then(function (map) {
+        $rootScope.map = map;
+
+
+    });
 });
