@@ -349,6 +349,59 @@ exports.deleteCustomer = function(req, res){
 
 };
 
+exports.deleteSelfCustomer = function(req, res){
+
+    var email = req.session.customerId;
+
+    //Valdidations
+    if(email==undefined){
+        console.log("deleteCustomer Parameters are not valid!" );
+        res.status(500);
+        json_responses = {"statusCode":500,"Request":"Invalid"};
+        res.send(json_responses);
+    }
+    else{
+
+        if( ! (email.length > 0 ) ){
+
+            if( !( (new RegExp("/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/")).test(email) ) ){
+
+                console.log("deleteCustomer email validation entry error" );
+                res.status(500);
+                json_responses = {"statusCode":500};
+                res.send(json_responses);
+            }
+
+            console.log("deleteCustomer validation entry error" );
+            res.status(500);
+            json_responses = {"statusCode":500};
+            res.send(json_responses);
+        }
+        else{
+
+            var msg_payload = {
+                "email": email,
+                "func" : "deleteCustomer"
+            };
+
+            mq_client.make_request('customer_queue', msg_payload, function(err,results) {
+                //console.log(results);
+                if (err) {
+                    //console.log(err);
+                    res.status(500).send(null);
+                } else {
+
+                    res.send(results);
+                }
+            });
+        }
+    }
+    req.session.destroy();
+    res.redirect('/');
+
+};
+
+
 exports.getCustomerInformation = function(req, res){
     var customerId = req.session.customerId;
     console.log("get customer info " + customerId);

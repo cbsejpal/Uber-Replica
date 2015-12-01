@@ -9,6 +9,8 @@ app.controller('billings', function($scope, $http){
 
     $scope.init = function(bill){
 
+        var bill = JSON.parse(bill);
+
         $scope.billingId = 1;
             //bill.billingId;
         $scope.rideId = 2;

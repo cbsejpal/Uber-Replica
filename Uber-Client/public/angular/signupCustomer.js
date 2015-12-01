@@ -58,7 +58,10 @@ signupCustomer.controller('signupCustomer', function($scope, $http) {
 		angular.forEach($scope.registration.$error.required, function(field) {
 		    field.$setDirty();
 		});
-		if($scope.registration.$error.required || !$scope.emailError){
+		angular.forEach($scope.registration.$error.pattern, function(field) {
+			field.$setDirty();
+		});
+		if($scope.registration.$error.required || !$scope.emailError|| $scope.registration.$error.pattern){
 			$event.preventDefault();
 			alert('Error! Please check all fields');
 		}

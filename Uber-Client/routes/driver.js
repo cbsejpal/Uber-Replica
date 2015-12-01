@@ -321,6 +321,58 @@ exports.deleteDriver = function(req, res){
 
 };
 
+exports.deleteSelfDriver = function(req, res){
+
+    var email = req.session.driverId;
+    console.log("email"+email);
+
+    //Valdidations
+    if(email==undefined){
+        console.log("deleteDriver Parameters are not valid!" );
+        res.status(500);
+        json_responses = {"statusCode":500,"Request":"Invalid"};
+        res.send(json_responses);
+    }
+    else{
+        if( ! (email.length > 0 ) ){
+
+            if( !( (new RegExp("/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/")).test(email) ) ){
+
+                console.log("deleteDriver email validation entry error" );
+                res.status(500);
+                json_responses = {"statusCode":500};
+                res.send(json_responses);
+            }
+
+            console.log("deleteDriver validation entry error" );
+            res.status(500);
+            json_responses = {"statusCode":500};
+            res.send(json_responses);
+        }
+        else{
+            var msg_payload = {
+                "email": email,
+                "func" : "deleteDriver"
+            };
+
+
+            mq_client.make_request('driver_queue', msg_payload, function(err,results) {
+                //console.log(results);
+                if (err) {
+                    //console.log(err);
+                    res.status(500).send(null);
+                } else {
+                    res.send(results);
+                }
+            });
+        }
+    }
+    req.session.destroy();
+    res.redirect('/');
+
+};
+
+
 exports.getDriversInRange = function(req, res){
 
     var currentLat = req.param('currentLat');

@@ -300,7 +300,7 @@ exports.endRide = function (req, res) {
                     res.status(500).send(null);
                 } else {
                     ////console.log("about results" + results);
-                    res.send(results);
+                    res.status(results.status).send(results.data);
                 }
             });
         }
@@ -331,6 +331,7 @@ exports.startRide = function (req, res) {
         else{
             var msg_payload = {
                 "rideId": rideId,
+                "driverId":driverId,
                 "func": "startRide"
             };
 
