@@ -173,7 +173,7 @@ exports.deleteBill = function (msg, callback) {
 	var billId = msg.billId;
 	var json_responses;
 
-	Billings.remove({billId: billId}, function (err, removed) {
+	Billings.remove({billingId: billId}, function (err, removed) {
 		if (err) {
 			json_responses = requestGen.responseGenerator(500, {message: 'Bill delete failed'});
 		}

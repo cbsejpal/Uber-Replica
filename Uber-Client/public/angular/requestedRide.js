@@ -13,9 +13,9 @@ app.controller('navbar', ['$rootScope', '$scope', '$http', function ($scope, $ro
             //alert(JSON.stringify(response));
             if (response.status == 200) {
                 //alert(JSON.stringify(response.data.firstName));
-                $scope.firstName = response.data[0].firstName;
-                $scope.email = response.data[0].email;
-                $rootScope.getCurrentRideInfo(response.data[0].currentRideId);
+                $scope.firstName = response.data.firstName;
+                $scope.email = response.data.email;
+                $rootScope.getCurrentRideInfo(response.data.currentRideId);
                 // socket.emit('join',{ email: $scope.email });
             }
             else {

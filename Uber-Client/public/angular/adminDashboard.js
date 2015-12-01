@@ -1,13 +1,13 @@
-var app = angular.module('admin', ['infinite-scroll']);
+var app = angular.module('ngMap');
 
 
 app.controller('analysis', function($scope, $http) {
     //alert(1);
     $http.get("/dailyRevenue").success(function (response) {
         //alert(2);
-            var data = response;
+        var data = response;
 
-            //alert(JSON.stringify(data));
+        //alert(JSON.stringify(data));
 
         var margin = {top: 20, right: 20, bottom: 30, left: 40},
             width = 960 - margin.left - margin.right,
@@ -217,10 +217,10 @@ app.controller('billing', function ($scope, $http) {
                 "search": $scope.search
             }
         }).success(function (response) {
-            if (response.status == 200) {
-                $scope.items = response.data.data;
-                //startPosition = $scope.items.length;
-            }
+            $scope.items = response;
+            //startPosition = $scope.items.length;
+        }).error(function(err){
+            $scope.items = [];
         });
     };
 
@@ -248,18 +248,14 @@ app.controller('billing', function ($scope, $http) {
     $scope.deleteBill = function (billID) {
 
         $http({
-            method: "GET",
+            method: "POST",
             url: '/deleteBill',
-            params: {
+            data: {
                 "billId": billID
             }
         }).success(function (response) {
 
-            if (response.status == 200) {
-                $scope.getBillList();
-            } else {
-                $scope.items = "";
-            }
+            $scope.getBillList();
 
         });
     }
@@ -341,7 +337,7 @@ app.controller('requests', function ($scope, $http) {
             }
 
         });
-    }
+    };
 
 
     $scope.approveDriver = function (email) {
