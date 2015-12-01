@@ -157,6 +157,9 @@ app.get('/requestedRide',driver.requestedRide);
 app.post('/updateDriverDetails', driver.updateDriverDetails);
 
 
+app.post('/addDriverImage', driver.addDriverImage);
+app.get('/getDriverImage', driver.getDriverImage);
+
 //error handling files
 
 app.get('/errorCustomer', customer.errorCustomer);
