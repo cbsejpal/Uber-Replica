@@ -25,12 +25,33 @@ app.controller('ngMap1', function ($rootScope, $scope, $http, NgMap) {
 
     });
 
+    $scope.rideCity = "";
+
     $scope.init = function(){
+        $scope.getCities();
+        $scope.getRidesFromCity();
+    };
+
+    $scope.getCities = function(){
         $http({
             method: "GET",
-            url: '/driverRideList',
+            url: '/cityList',
             params: {
-                "search": ""
+            }
+        }).success(function (response) {
+            $scope.cities = response.data;
+            //startPosition = $scope.items.length;
+        }).error(function(err){
+            $scope.cities = [];
+        });
+    };
+
+    $scope.getRidesFromCity = function(){
+        $http({
+            method: "GET",
+            url: '/cityRides',
+            params: {
+                "rideCity": $scope.rideCity
             }
         }).success(function (response) {
             $scope.rides = response.data;
@@ -40,23 +61,7 @@ app.controller('ngMap1', function ($rootScope, $scope, $http, NgMap) {
         });
     };
 
-    //$scope.getCurrentRideInfo();
-
-    //When the destination changed this method got called to set the longitude and latitude of destination
-    $scope.dplaceChanged = function () {
-        $scope.dplace = this.getPlace();
-        console.log(
-            $scope.dplace.geometry.location.lat(),
-            $scope.dplace.geometry.location.lng(), $scope.dplace
-        );
-        $scope.destination_pos = $scope.dplace.geometry.location.lat() + "," + $scope.dplace.geometry.location.lng();
-        $scope.destination = $scope.dplace.formatted_address;
-        console.log($scope.destination_pos);
-        console.log($scope.destination);
-        //vm.map.setCenter(vm.place.geometry.location);
-    };
-
-    //This method is of no use.
+        //This method is of no use.
     $rootScope.mouseover = function () {
         console.log('mouseover', this);
         this.style.backgroundColor = 'grey';

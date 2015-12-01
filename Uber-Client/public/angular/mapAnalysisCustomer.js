@@ -22,7 +22,7 @@ app.controller('ngMap1', function ($rootScope, $scope, $http, NgMap) {
     $scope.init = function(customerId){
         $http({
             method: "GET",
-            url: '/customerRideList',
+            url: '/customerRides',
             params: {
                 "customerId": customerId
             }

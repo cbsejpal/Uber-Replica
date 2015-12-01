@@ -22,7 +22,7 @@ app.controller('ngMap1', function ($rootScope, $scope, $http, NgMap) {
     $scope.init = function(driverId){
         $http({
             method: "GET",
-            url: '/driverRideList',
+            url: '/driverRides',
             params: {
                 "driverId": driverId
             }
