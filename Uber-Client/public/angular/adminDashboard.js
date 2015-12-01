@@ -154,6 +154,19 @@ app.controller('customers', ['$scope', '$http',function ($scope, $http) {
             $scope.items = [];
         });
     };
+    $scope.mapAnalysisCustomer = function(email){
+
+        $http({
+            method: "GET",
+            url: '/customerAnalysis',
+            params: {
+
+                "customerId": email
+            }
+        });
+
+    }
+
 
     $scope.getSearchCustomerList = function () {
         $http({
@@ -281,7 +294,7 @@ app.controller('requests', function ($scope, $http) {
         if (response.status == 200) {
 
             $scope.drivers = response.data.data;
-            alert(JSON.stringify($scope.drivers));
+   //         alert(JSON.stringify($scope.drivers));
 
         }
     });

@@ -20,12 +20,13 @@ exports.chartRender = function(req,res){
 
 exports.customerAnalysisChart = function(req,res){
 
+  console.log("print : "+req.param('customerId'));
   var customerId = req.param('customerId');
-  res.render('mapAnalysisChart', {customerId: customerId});
+  res.render('mapAnalysisCustomer', {customerId: customerId});
 };
 
 exports.driverAnalysisChart = function(req,res){
 
   var driverId = req.param('driverId');
-  res.render('mapAnalysisChart', {driverId: driverId});
+  res.render('mapAnalysisDriver', {driverId: driverId});
 };
