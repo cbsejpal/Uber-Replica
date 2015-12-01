@@ -741,3 +741,29 @@ exports.getDriverImage = function (req, res) {
         res.send("Success");
     });
 };
+
+exports.checkDriverSSN = function(req, res){
+
+    var ssn = req.param('ssn');
+
+    var msg_payload = {
+        ssn: ssn,
+        "func" : "checkDriverSSN"
+    }
+
+    var json_responses;
+
+    mq_client.make_request('driver_queue', msg_payload, function(err,results) {
+        //console.log(results);
+        if (err) {
+            res.send(500);
+
+        } else {
+            ////console.log("about results" + results);
+            json_responses = {"status" : results.status};
+            res.send(json_responses);
+        }
+    });
+
+
+};

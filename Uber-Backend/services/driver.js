@@ -444,3 +444,24 @@ exports.getDriverRating = function(msg, callback){
         }
     });
 };
+
+exports.checkDriverSSN = function(msg, callback){
+
+    var ssn = msg.ssn;
+
+    var json_response;
+
+    Driver.findAll({where: {ssn: ssn}}).then(function(drivers){
+
+        //console.log("email customers " + customers);
+
+        if(drivers.length > 0){
+            json_response = requestGen.responseGenerator(500, null);
+        }
+        else{
+            json_response = requestGen.responseGenerator(200, null);
+        }
+
+        callback(null, json_response);
+    });
+};
