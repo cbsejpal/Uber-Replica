@@ -246,7 +246,7 @@ exports.getDriverInformation = function (msg, callback) {
         if (driver) {
             //console.log("driver from sql " + JSON.stringify(driver));
 
-            Drivers.find({email: email}).lean().then(function(drivers){
+            Drivers.findOne({email: email}).lean().then(function(drivers){
 
                     if (drivers) {
                         //console.log("driver from mongodb " + JSON.stringify(drivers));

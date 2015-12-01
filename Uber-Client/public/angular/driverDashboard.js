@@ -16,10 +16,10 @@ app.controller('navbar',[ '$rootScope','$scope','$http','socket',function($scope
 				//alert(JSON.stringify(response));
 				if (response.status == 200) {
 					//alert(JSON.stringify(response.data.firstName));
-					$scope.firstName = response.data[0].firstName;
-					$scope.email = response.data[0].email;
-					if(typeof(response.data[0].currentRideId) != "undefined" && response.data[0].currentRideId.length>0) {
-						$rootScope.currentRideId = response.data[0].currentRideId;
+					$scope.firstName = response.data.firstName;
+					$scope.email = response.data.email;
+					if(typeof(response.data.currentRideId) != "undefined" && response.data.currentRideId.length>0) {
+						$rootScope.currentRideId = response.data.currentRideId;
 					}else{
 						$rootScope.currentRideId = false;
 					}
