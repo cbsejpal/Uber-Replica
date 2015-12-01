@@ -515,7 +515,7 @@ exports.addImagesToRide = function(req, res){
     var mongoose = require('mongoose');
     var Schema = mongoose.Schema;
 
-    var conn = mongoose.createConnection('mongodb://localhost:27017/uber');
+    var conn = mongoose.createConnection('mongodb://localhost:27017/neuber');
     var fs = require('fs');
 
     var Grid = require('gridfs-stream');
@@ -641,7 +641,7 @@ exports.getImagesOfRide = function (req, res) {
     var mongoose = require('mongoose');
     var Schema = mongoose.Schema;
 
-    var conn = mongoose.createConnection('mongodb://localhost:27017/uber');
+    var conn = mongoose.createConnection('mongodb://localhost:27017/neuber');
     var fs = require('fs');
 
     var Grid = require('gridfs-stream');
@@ -653,26 +653,28 @@ exports.getImagesOfRide = function (req, res) {
         var gfs = Grid(conn.db);
 
 
-        //var dirname = require('path').dirname(__dirname);
-        //var newPath = dirname + "/uploads/lol1.jpg";
+        var dirname = require('path').dirname(__dirname);
+        var newPath = dirname + "/uploads/"+image;
 
-        //var writestream = fs.createWriteStream(newPath);
+        var writestream = fs.createWriteStream(newPath);
 
 
         //var str = image.substring(1, image.length);
 
-        res.contentType('image/png');
+        //res.contentType('image/png');
 
         //console.log("str " + str);
         gfs.createReadStream({
             //_id: '5649b270c73c2e4c1746f9ca'
             filename: image
             //_id: '565c1f1c3d4803e82c5d0830'
-        }).pipe(res);
+        }).pipe(writestream);
 
         /*writestream.on('close', function (file) {
             res.redirect('/');
         });*/
+
+        res.send("kuch bhi");
     });
 };
 
