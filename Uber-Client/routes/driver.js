@@ -635,7 +635,12 @@ exports.driverRideBill = function(req, res){
 
 exports.requestedRide = function(req,res){
 
-    res.render('requestedRide');
+    if(req.session.driverId){
+        res.render('requestedRide');
+    }
+    else{
+        res.redirect('/');
+    }
 
 };
 
