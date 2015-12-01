@@ -1,9 +1,9 @@
-var app = angular.module('customers', []);
+var app = angular.module('ngMap');
 
 app.controller('socket',['$scope','socket',function($scope,socket){
 
 	socket.on('bill_generated', function (data) {
-		alert(JSON.stringify(data.bill.billingId));
+
 		window.location.assign('/customerRideBill?bill='+data.bill.billingId);
 	});
 
@@ -11,13 +11,22 @@ app.controller('socket',['$scope','socket',function($scope,socket){
 
 
 app.controller('rides', function($scope, $http) {
-	$http.get("/rideInfo").success(function(response) {
-		if (response.status == 200) {
-			$scope.rides = response.data;
+	$http({
+		method: "GET",
+		url : '/searchBills',
+		params : {
+			searchText : ""
 		}
+	}).success(function(response){
 
-	}).error(function(error){
-		window.location.assign('/errorCustomer');
+		// alert('inside');
+
+		$scope.rides = response;
+
+
+	}).error(function(){
+
+		alert("error");
 	});
 });
 

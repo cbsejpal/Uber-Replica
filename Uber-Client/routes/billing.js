@@ -91,7 +91,7 @@ exports.deleteBill = function(req, res){
 exports.searchBills = function(req, res){
 	var searchText =  req.param('searchText');
 
-	//Validations
+/*	//Validations
 	if( ! (searchText) ){
 
 
@@ -99,7 +99,7 @@ exports.searchBills = function(req, res){
 		json_responses = {"statusCode":500};
 		res.send(json_responses);
 	}
-
+*/
 	var msg_payload = {
 		"searchText": searchText,
 		"func" : "billingSearch"

@@ -1,6 +1,7 @@
-var app = angular.module('billings', []);
+var app = angular.module('ngMap');
 
 app.controller('billings', function($scope, $http){
+
 
 
     $scope.ratingForm = false;
@@ -32,6 +33,7 @@ app.controller('billings', function($scope, $http){
             $scope.customerId = response.customerId;
             $scope.driverId = response.driverId;
             $scope.rideAmount = response.rideAmount;
+
 
         }).error(function(){
 
