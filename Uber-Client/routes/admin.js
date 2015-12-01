@@ -520,7 +520,7 @@ exports.revenuePerDayWeekly = function(req,res){
             //console.log(err);
             res.status(500).send(null);
         } else {
-            console.log("revenue results" + results);
+            console.log("revenue results" + JSON.stringify(results));
             res.status(results.status).send(results.data);
         }
     });
