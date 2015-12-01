@@ -92,7 +92,7 @@ cnn.on('ready', function() {
 						});
 					});
 					break;
-					
+
 				case "getCustomerInformation":
 					customer.getCustomerInformation(message, function (err, res) {
 
@@ -105,7 +105,7 @@ cnn.on('ready', function() {
 						});
 					});
 					break;
-					
+
 				case "getImagesOfRide":
 					customer.getImagesOfRide(message, function (err, res) {
 
@@ -232,7 +232,7 @@ cnn.on('ready', function() {
 						});
 					});
 					break;
-				
+
 				case "updateDriver":
 					driver.updateDriver(message, function (err, res) {
 
@@ -245,7 +245,7 @@ cnn.on('ready', function() {
 						});
 					});
 					break;
-					
+
 				case "getDriverInformation":
 					driver.getDriverInformation(message, function (err, res) {
 
@@ -270,7 +270,7 @@ cnn.on('ready', function() {
 						});
 					});
 					break;
-					
+
 				case "getDriversInRange":
 					driver.getDriversInRange(message, function (err, res) {
 

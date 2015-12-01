@@ -35,7 +35,7 @@ exports.generateBill = function(req, res){
 		"pickUpLocation" : pickUpLocation,
 		"dropOffLocation" : dropOffLocation,
 		"rideDate" : rideDate,
-		"rideStartTime" : rideStartTime,
+		"rideStartTime" : rideStartDateTime,
 		"rideEndTime" : rideEndTime,
 		"func" : "generateBill"
 	};

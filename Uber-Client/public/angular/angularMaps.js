@@ -123,14 +123,35 @@ app.controller('ngMap1', function ($rootScope, $scope, $http, NgMap) {
          vm.place = 'current-location';
          vm.placeChanged('origin');*/
     };
+    
+    $rootScope.show = function(p){
 
-    $rootScope.show = function (p) {
+        var frameSrc  = p.videoURL;
+
+        $(function(){
+            $('iframe').attr("src",frameSrc.replace("watch?v=", "v/"));
+        });
+
+    	$scope.driverName = p.firstName;
+    	$scope.driverEmail = p.email;
+    	//$scope.driverVideo = p.videoURL;
+    	$scope.driverCity = p.city;
+
+        $http({
+            method: "GET",
+            url: '/getImagesOfRide',
+            params: {
+                image: p.email+".jpg"
+            }
+        }).success(function (response) {
+            //alert('./uploads');
+            //alert(response);
+            $scope.image = './uploads/'+ p.email+".jpg"
+
+        });
 
 
-        $scope.driverName = p.firstName;
-        $scope.driverEmail = p.email;
         $scope.driverVideo = p.videoURL;
-        $scope.driverCity = p.city;
 
     };
 

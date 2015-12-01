@@ -2,6 +2,9 @@
 var mq_client = require('../rpc/client');
 var requestGen = require('./commons/responseGenerator');
 
+
+var sessionEmail;
+
 exports.index = function (req,res){
 
     res.render('signupDriver');
@@ -11,6 +14,9 @@ exports.index = function (req,res){
 exports.driverDashboard =  function(req,res){
 
     if(req.session.driverId){
+
+        sessionEmail = req.session.driverId;
+
         res.header('Cache-Control','no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
         res.render('driverDashboard');
     }
@@ -75,8 +81,11 @@ exports.checkDriverEmail = function(req, res){
 exports.driverDetails = function(req, res){
 
     if(req.session.driverId){
+
+        sessionEmail = req.session.driverId;
+
         res.header('Cache-Control','no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
-        res.render('driverDetails', {title: "Driver Details"});
+        res.render('driverDetails', {title: "Driver Details", email: req.session.driverId});
     }
     else{
         res.redirect('/');
@@ -320,6 +329,58 @@ exports.deleteDriver = function(req, res){
     }
 
 };
+
+exports.deleteSelfDriver = function(req, res){
+
+    var email = req.session.driverId;
+    console.log("email"+email);
+
+    //Valdidations
+    if(email==undefined){
+        console.log("deleteDriver Parameters are not valid!" );
+        res.status(500);
+        json_responses = {"statusCode":500,"Request":"Invalid"};
+        res.send(json_responses);
+    }
+    else{
+        if( ! (email.length > 0 ) ){
+
+            if( !( (new RegExp("/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/")).test(email) ) ){
+
+                console.log("deleteDriver email validation entry error" );
+                res.status(500);
+                json_responses = {"statusCode":500};
+                res.send(json_responses);
+            }
+
+            console.log("deleteDriver validation entry error" );
+            res.status(500);
+            json_responses = {"statusCode":500};
+            res.send(json_responses);
+        }
+        else{
+            var msg_payload = {
+                "email": email,
+                "func" : "deleteDriver"
+            };
+
+
+            mq_client.make_request('driver_queue', msg_payload, function(err,results) {
+                //console.log(results);
+                if (err) {
+                    //console.log(err);
+                    res.status(500).send(null);
+                } else {
+                    res.send(results);
+                }
+            });
+        }
+    }
+    req.session.destroy();
+    res.redirect('/');
+
+};
+
 
 exports.getDriversInRange = function(req, res){
 
@@ -610,4 +671,80 @@ exports.getDriverRating = function(req, res){
         }
     });
 
+};
+
+
+exports.addDriverImage = function(req, res){
+
+    //var email = req.param('email');
+
+    //console.log("request " + req.param('email'));
+
+    var mongoose = require('mongoose');
+    var Schema = mongoose.Schema;
+
+    var conn = mongoose.createConnection('mongodb://localhost:27017/neuber');
+    var fs = require('fs');
+
+    var Grid = require('gridfs-stream');
+    Grid.mongo = mongoose.mongo;
+
+    var dirname = require('path').dirname(__dirname);
+    var filename = req.files.file.name;
+    var path = req.files.file.path;
+    var type = req.files.file.mimetype;
+
+    conn.once('open', function () {
+        console.log('open');
+        var gfs = Grid(conn.db);
+
+        var writestream = gfs.createWriteStream({
+            filename: sessionEmail +'.jpg'
+        });
+
+        fs.createReadStream(path).pipe(writestream);
+
+        writestream.on('close', function (file) {
+            // do something with `file`
+            console.log(file.filename + 'Written To DB');
+            //json_responses = requestGen.responseGenerator(200, "Written to DB");
+            //callback(null, json_responses);
+            res.redirect('/driverDashboard');
+        });
+    });
+
+};
+
+
+exports.getDriverImage = function (req, res) {
+
+    var image = req.param('email');
+
+    var mongoose = require('mongoose');
+    var Schema = mongoose.Schema;
+
+    var conn = mongoose.createConnection('mongodb://localhost:27017/neuber');
+    var fs = require('fs');
+
+    var Grid = require('gridfs-stream');
+    Grid.mongo = mongoose.mongo;
+
+    conn.once('open', function () {
+        console.log('open');
+        console.log('image name ' + image);
+        var gfs = Grid(conn.db);
+
+
+        var dirname = require('path').dirname(__dirname);
+        var newPath = dirname + "/uploads/"+image;
+
+        var writestream = fs.createWriteStream(newPath);
+
+
+        gfs.createReadStream({
+            filename: image
+        }).pipe(writestream);
+
+        res.send("Success");
+    });
 };
