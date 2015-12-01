@@ -30,3 +30,8 @@ module.exports.listen = function(app){
 exports.onInformationretrieved = function(userID,rideID){
     io.sockets.in(userID).emit('request_ride', {msg: 'You got a ride request.',rideID: rideID});
 };
+
+
+exports.onBillGenerated = function(userID,bill){
+    io.sockets.in(userID).emit('bill_generated', {msg: 'Your Bill generated.',bill: bill});
+};

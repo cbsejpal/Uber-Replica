@@ -58,10 +58,9 @@
     </ul>
 </div>
 <div class="col-md-9" ng-app="driverDetails" ng-controller="driverDetails">
-
     <form id="form" method="post" name="driverDetails" novalidate>
 
-        <div class="vehicle" ng-hide="vehicle">
+        <div class="vehicle" ng-hide="vehicle" ng-init="email='<%= email %>'">
             <div class="col-md-5">
                 <h2>VEHICLE INFORMATION</h2><hr>
                 <p style = "font-size:16px;"> Type of Vehicle :
@@ -101,16 +100,6 @@
         </div>
 
 
-        <div class="profilePhoto" ng-hide="profilePhoto">
-            <div class="col-md-8">
-                <h2>Please upload a photo of yours !</h2>
-                Upload : <br><br><input ng-model="profilePhoto" class="btn btn-lg btn-default" type= "file" required>
-                <br>
-                <input class="btn btn-lg btn-default click4" type="submit" ng-click="showVideo()" value="Continue">
-            </div>
-        </div>
-
-
         <div class="video" ng-hide="video">
             <div class="col-md-5">
                     <h2>VIDEO</h2><hr>
@@ -119,13 +108,23 @@
                         <span style="color:red" ng-show="driverDetails.VideoURL.$dirty && driverDetails.VideoURL.$invalid">
                             <span ng-show="driverDetails.VideoURL.$error.required">Video URL is required</span>
                         </span>
-                    <br><input class="btn btn-lg btn-success" ng-click="submit($event)" type="Submit" value="Submit" />
+                    <br><input class="btn btn-lg btn-success" ng-click="submit($event)" type="Submit" value="Continue" />
             </div>
         </div>
 
 
     </form>
-
+    <form id="form" method="post" name="uploadImage" action="/addDriverImage" enctype="multipart/form-data">
+        <div class="profilePhoto" ng-hide="profilePhoto">
+            <input type="hidden" ng-bind="email" name="email">
+            <div class="col-md-8">
+                <h2>Please upload a photo of yours !</h2>
+                Upload : <br><br><input name="file" id="file" class="btn btn-lg btn-default" type= "file" required>
+                <br>
+                <input class="btn btn-lg btn-default click4" type="submit" value="Submit">
+            </div>
+        </div>
+    </form>
 </div>
 
 

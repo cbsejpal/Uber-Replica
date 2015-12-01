@@ -86,10 +86,12 @@ app.get('/getCustomerInformation', customer.getCustomerInformation);
 app.post('/updateCustomer',customer.updateCustomer);
 app.get('/checkCustomerEmail', customer.checkCustomerEmail);
 app.get('/searchCustomers', customer.searchCustomer);
+app.get('/deleteSelfCustomer', customer.deleteSelfCustomer);
 
 //driver
 app.get('/searchDriver', driver.searchDriver);
 app.get('/deleteDriver', driver.deleteDriver);
+app.get('/deleteSelfDriver', driver.deleteSelfDriver);
 app.get('/getDriverInformation', driver.getDriverInformation);
 app.post('/updateDriver', driver.updateDriver);
 app.get('/getDriversInRange',driver.getDriversInRange);
@@ -154,6 +156,8 @@ app.get('/requestedRide',driver.requestedRide);
 
 app.post('/updateDriverDetails', driver.updateDriverDetails);
 
+app.post('/addDriverImage', driver.addDriverImage);
+app.get('/getDriverImage', driver.getDriverImage);
 
 //error handling files
 

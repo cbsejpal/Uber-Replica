@@ -1,5 +1,15 @@
 var app = angular.module('customers', []);
 
+app.controller('socket',['$scope','socket',function($scope,socket){
+
+	socket.on('bill_generated', function (data) {
+		alert(JSON.stringify(data));
+		window.location.assign('/customerRideBill?bill='+JSON.stringify(data.bill));
+	});
+
+}]);
+
+
 app.controller('rides', function($scope, $http) {
 	$http.get("/rideInfo").success(function(response) {
 		if (response.status == 200) {
@@ -11,12 +21,14 @@ app.controller('rides', function($scope, $http) {
 	});
 });
 
-app.controller('navbar', function($scope, $http) {
+app.controller('navbar',['$scope','$http','socket', function($scope, $http,socket) {
 
 
 	$http.get("/getCustomerInformation").success(function(response) {
 		if (response.status == 200) {
 			$scope.firstName = response.data.firstName;
+			$scope.email = response.data.email;
+			socket.emit('join',{ email: $scope.email });
 		}
 		else{
 			//window.location.assign('/logout');
@@ -25,7 +37,7 @@ app.controller('navbar', function($scope, $http) {
 	}).error(function(error){
 		window.location.assign('/errorCustomer');
 	});
-});
+}]);
 
 
 

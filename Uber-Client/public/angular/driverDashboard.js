@@ -3,21 +3,22 @@ var app = angular.module('drivers', []);
 app.controller('socket',['$scope','socket',function($scope,socket){
 
 	socket.on('request_ride', function (data) {
-		alert(data.rideID);
+		alert(JSON.stringify(data));
 		window.location.assign('/requestedRide');
 	});
 
 }]);
 
-app.controller('navbar',[ '$scope','$http','socket',function($scope, $http,socket) {
+app.controller('navbar',[ '$rootScope','$scope','$http','socket',function($scope,$rootScope, $http,socket) {
 
 	$http.get("/getDriverInformation")
 			.success(function(response) {
 				//alert(JSON.stringify(response));
 				if (response.status == 200) {
 					//alert(JSON.stringify(response.data.firstName));
-					$scope.firstName = response.data.firstName;
-					$scope.email = response.data.email;
+					$scope.firstName = response.data[0].firstName;
+					$scope.email = response.data[0].email;
+					$rootScope.currentRideId = response.data[0].currentRideId;
 					socket.emit('join',{ email: $scope.email });
 				}
 				else{
