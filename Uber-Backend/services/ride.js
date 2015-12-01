@@ -438,7 +438,7 @@ exports.rateCustomer = function (msg, callback) {
     var rating = msg.rating;
     var reviews = msg.reviews;
 
-    Customers.findOne({email: emailId}, function (doc, err) {
+    Customers.findOne({email: emailId}, function (err, doc) {
 
         doc.rides.push({
             rideId: rideId,

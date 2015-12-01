@@ -49,7 +49,7 @@ exports.createRide = function (req, res) {
                     res.status(500).send(null);
                 } else {
                     ////console.log("about results" + results);
-                    io.onInformationretrieved(driverId,result.data.rideId);
+                    io.onInformationretrieved(driverId,results.data.rideId);
                     console.log("Emit: ", driverId);
                     res.status(results.status).send(results.data);
                 }
@@ -391,7 +391,7 @@ exports.getRideInfo = function (req, res) {
 
 exports.rateDriver = function (req, res) {
 
-    var emailId = req.param('emailId');
+    var emailId = req.param('driverId');
     var rideId = req.param('rideId');
     var rating = req.param('rating');
     var reviews = req.param('reviews');
@@ -420,7 +420,7 @@ exports.rateDriver = function (req, res) {
 
 exports.rateCustomer = function (req, res) {
 
-    var emailId = req.param('emailId');
+    var emailId = req.param('customerId');
     var rideId = req.param('rideId');
     var rating = req.param('rating');
     var reviews = req.param('reviews');

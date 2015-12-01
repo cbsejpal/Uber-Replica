@@ -4,7 +4,7 @@ app.controller('socket',['$scope','socket',function($scope,socket){
 
 	socket.on('bill_generated', function (data) {
 		alert(JSON.stringify(data));
-		window.location.assign('/customerRideBill?bill='+JSON.stringify(data.bill));
+		window.location.assign('/customerRideBill?bill='+data.billingId);
 	});
 
 }]);

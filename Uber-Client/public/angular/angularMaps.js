@@ -10,7 +10,7 @@ app.run(function ($rootScope) {
 app.controller('navbar', ['socket', function (socket) {
     socket.on('bill_generated', function (data) {
         alert(JSON.stringify(data));
-        window.location.assign('/customerRideBill?bill='+JSON.stringify(data.bill));
+        window.location.assign('/customerRideBill?bill='+data.billingId);
     });
 }]);
 
@@ -164,7 +164,7 @@ app.controller('ngMap1', function ($rootScope, $scope, $http, NgMap) {
     });
 
     $rootScope.bookRide = function () {
-        if (typeof ($scope.origin) == 'undefined' || typeof ($scope.destination) == "undefined") {
+        if (typeof ($scope.origin) != 'undefined' || typeof ($scope.destination) != "undefined") {
             $http({
                 method: "POST",
                 url: '/createRide',

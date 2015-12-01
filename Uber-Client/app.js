@@ -159,6 +159,8 @@ app.post('/updateDriverDetails', driver.updateDriverDetails);
 app.post('/addDriverImage', driver.addDriverImage);
 app.get('/getDriverImage', driver.getDriverImage);
 
+app.get('/getBill', billing.getBill);
+
 //error handling files
 
 app.get('/errorCustomer', customer.errorCustomer);
