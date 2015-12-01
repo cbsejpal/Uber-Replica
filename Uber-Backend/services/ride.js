@@ -466,3 +466,86 @@ var findResult = function (results, name) {
     return result ? result.short_name : null;
 };
 
+
+
+exports.cityList = function(msg, callback){
+
+    var json_responses;
+
+    Rides.find({}, function(err, docs){
+        //console.log(docs + " docs");
+
+        if (docs.length > 0) {
+            //console.log("inside docs");
+
+            var cityList = [];
+
+            docs.forEach(function(doc){
+                if(!_.contains(cityList, doc.rideCity)){
+                    cityList.push(doc.rideCity);
+                }
+            });
+
+            json_responses = requestGen.responseGenerator(200, cityList);
+        } else {
+            //console.log("error");
+            json_responses = requestGen.responseGenerator(500, {message: 'No City Found'});
+        }
+        callback(null, json_responses);
+    });
+};
+
+exports.cityRides = function(msg, callback){
+
+    var rideCity = msg.rideCity;
+
+    var json_responses;
+    Rides.find({rideCity: rideCity}, function(err, docs){
+        //console.log(docs + " docs");
+
+        if (docs.length > 0) {
+            //console.log("inside docs");
+            json_responses = requestGen.responseGenerator(200, docs);
+        } else {
+            //console.log("error");
+            json_responses = requestGen.responseGenerator(500, {message: 'No Cities Found'});
+        }
+        callback(null, json_responses);
+    });
+};
+
+exports.driverRides = function(msg, callback){
+
+    var driverId = msg.driverId;
+    var json_responses;
+    Rides.find({driverId: driverId}, function(err, docs){
+        //console.log(docs + " docs");
+
+        if (docs.length > 0) {
+            //console.log("inside docs");
+            json_responses = requestGen.responseGenerator(200, docs);
+        } else {
+            //console.log("error");
+            json_responses = requestGen.responseGenerator(500, {message: 'No Ride Found with driver Id'});
+        }
+        callback(null, json_responses);
+    });
+};
+
+exports.customerRides = function(msg, callback){
+
+    var customerId = msg.customerId;
+    var json_responses;
+    Rides.find({customerId: customerId}, function(err, docs){
+        //console.log(docs + " docs");
+
+        if (docs.length > 0) {
+            //console.log("inside docs");
+            json_responses = requestGen.responseGenerator(200, docs);
+        } else {
+            //console.log("error");
+            json_responses = requestGen.responseGenerator(500, {message: 'No Ride Found with customer Id'});
+        }
+        callback(null, json_responses);
+    });
+};

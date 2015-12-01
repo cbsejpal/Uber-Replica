@@ -161,6 +161,11 @@ app.get('/getDriverImage', driver.getDriverImage);
 
 app.get('/getBill', billing.getBill);
 
+app.get('/cityList', ride.cityList);
+app.get('/cityRides', ride.cityRides);
+app.get('/driverRides', ride.driverRides);
+app.get('/customerRides', ride.customerRides);
+
 //error handling files
 
 app.get('/errorCustomer', customer.errorCustomer);

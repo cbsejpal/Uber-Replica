@@ -602,6 +602,57 @@ cnn.on('ready', function() {
 					});
 					break;
 
+				case "cityList":
+					ride.cityList(message, function (err, res) {
+
+						util.log("Correlation ID: " + m.correlationId);
+						// return index sent
+						cnn.publish(m.replyTo, res, {
+							contentType: 'application/json',
+							contentEncoding: 'utf-8',
+							correlationId: m.correlationId
+						});
+					});
+					break;
+
+				case "cityRides":
+					ride.cityRides(message, function (err, res) {
+
+						util.log("Correlation ID: " + m.correlationId);
+						// return index sent
+						cnn.publish(m.replyTo, res, {
+							contentType: 'application/json',
+							contentEncoding: 'utf-8',
+							correlationId: m.correlationId
+						});
+					});
+					break;
+
+				case "driverRides":
+					ride.driverRides(message, function (err, res) {
+
+						util.log("Correlation ID: " + m.correlationId);
+						// return index sent
+						cnn.publish(m.replyTo, res, {
+							contentType: 'application/json',
+							contentEncoding: 'utf-8',
+							correlationId: m.correlationId
+						});
+					});
+					break;
+
+				case "customerRides":
+					ride.customerRides(message, function (err, res) {
+
+						util.log("Correlation ID: " + m.correlationId);
+						// return index sent
+						cnn.publish(m.replyTo, res, {
+							contentType: 'application/json',
+							contentEncoding: 'utf-8',
+							correlationId: m.correlationId
+						});
+					});
+					break;
 
 			}
 		});
