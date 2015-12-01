@@ -179,7 +179,7 @@ app.controller('customers', ['$scope', '$http',function ($scope, $http) {
         });
     };
 
-    //$scope.getSearchCustomerList();
+    $scope.getSearchCustomerList();
 
 
     $scope.deleteCustomer = function (email) {
