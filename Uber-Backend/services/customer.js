@@ -292,3 +292,43 @@ exports.getCustomerRating = function(msg, callback){
         }
     });
 };
+
+exports.searchCustomer = function (msg, callback) {
+
+    var search = msg.search;
+    var offset = msg.startPosition;
+
+    Customer.findAll({
+        where: {
+            $or: [{
+                email: {$like: '%' + search + '%'}
+            }, {
+                firstName: {$like: '%' + search + '%'}
+            }, {
+                lastName: {$like: '%' + search + '%'}
+            }, {
+                address: {$like: '%' + search + '%'}
+            }, {
+                city: {$like: '%' + search + '%'}
+            }, {
+                state: {$like: '%' + search + '%'}
+            }, {
+                zipCode: {$like: '%' + search + '%'}
+            }, {
+                phoneNumber: {$like: '%' + search + '%'}
+            }, {
+                ssn: {$like: search}
+            }
+            ]
+        }
+        ,order:[['customer_id', 'ASC']], offset: offset,limit: 50}).then(function (customers) {
+        var json_responses;
+        if (customers) {
+            json_responses = requestGen.responseGenerator(200, customers);
+        }
+        else {
+            json_responses = requestGen.responseGenerator(500, {message: 'No driver details found.'});
+        }
+        callback(null, json_responses);
+    });
+};
