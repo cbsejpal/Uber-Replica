@@ -18,43 +18,59 @@ exports.generateBill = function(req, res){
 	//var rideAmount = req.param('rideAmount');
 
 	//Valdidations
-	/*if( ! (rideId.length > 0 && customerId.length > 0 && driverId.length > 0
-			&& pickUpLocation.length > 0 && dropOffLocation.length > 0 && rideDate.length > 0
-			&& rideStartTime.length > 0 && rideEndTime.length > 0) ){
+	if(rideId==undefined || customerId==undefined || driverId==undefined
+		|| pickUpLocation==undefined || dropOffLocation==undefined || rideDate==undefined
+			|| rideStartTime==undefined || rideEndTime==undefined){
 
-
-		console.log("generateBill validation entry error" );
+		console.log("generateBill parameter entry error" );
+		res.status(500);
 		json_responses = {"statusCode":500};
 		res.send(json_responses);
-	}*/
 
-	var msg_payload = {
-		"rideId" : rideId,
-		"customerId" : customerId,
-		"driverId" : driverId,
-		"pickUpLocation" : pickUpLocation,
-		"dropOffLocation" : dropOffLocation,
-		"rideDate" : rideDate,
-		"rideStartTime" : rideStartTime,
-		"rideEndTime" : rideEndTime,
-		"func" : "generateBill"
-	};
+	}
+	else{
+		if( ! (rideId.length > 0 && customerId.length > 0 && driverId.length > 0
+				&& pickUpLocation.length > 0 && dropOffLocation.length > 0 && rideDate.length > 0
+				&& rideStartTime.length > 0 && rideEndTime.length > 0) ){
 
-	mq_client.make_request('bill_queue', msg_payload, function(err,results) {
-		//console.log(results);
-		if (err) {
-			//console.log(err);
-			res.status(500).send(null);
-		} else {
-			////console.log("about results" + results);
-			if(results.status == 200){
-				io.onBillGenerated(customerId,results.data);
-				console.log("Emit: ", customerId);
-			}
-			res.status(results.status).send(results.data);
+
+			console.log("generateBill validation entry error" );
+			res.status(500);
+			json_responses = {"statusCode":500};
+			res.send(json_responses);
 		}
-	});
-	
+		else{
+
+			var msg_payload = {
+				"rideId" : rideId,
+				"customerId" : customerId,
+				"driverId" : driverId,
+				"pickUpLocation" : pickUpLocation,
+				"dropOffLocation" : dropOffLocation,
+				"rideDate" : rideDate,
+				"rideStartTime" : rideStartTime,
+				"rideEndTime" : rideEndTime,
+				"func" : "generateBill"
+			};
+
+			mq_client.make_request('bill_queue', msg_payload, function(err,results) {
+				//console.log(results);
+				if (err) {
+					//console.log(err);
+					res.status(500).send(null);
+				} else {
+					////console.log("about results" + results);
+					if(results.status == 200){
+						io.onBillGenerated(customerId,results.data);
+						console.log("Emit: ", customerId);
+					}
+					res.status(results.status).send(results.data);
+				}
+			});
+		}
+
+	}
+
 };
 
 exports.deleteBill = function(req, res){
@@ -62,44 +78,48 @@ exports.deleteBill = function(req, res){
 	var billId =  req.param('billId');
 
 	//Valdidations
-	if( ! (billId) ){
-
-
-		console.log("deleteBill validation entry error" );
+	if(billId==undefined){
+		console.log("deleteBill parameter entry error" );
+		res.status(500);
 		json_responses = {"statusCode":500};
 		res.send(json_responses);
 	}
+	else{
 
-	var msg_payload = {
-		"billId": billId,
-		"func" : "deleteBill"
-	};
+		if( ! (billId) ){
 
-
-	mq_client.make_request('bill_queue', msg_payload, function(err,results) {
-		//console.log(results);
-		if (err) {
-			//console.log(err);
-			res.status(500).send(null);
-		} else {
-			////console.log("about results" + results);
-			res.status(results.status).send(results.data);
+			console.log("deleteBill validation entry error" );
+			res.status(500);
+			json_responses = {"statusCode":500};
+			res.send(json_responses);
 		}
-	});
+		else{
+			var msg_payload = {
+				"billId": billId,
+				"func" : "deleteBill"
+			};
+
+
+			mq_client.make_request('bill_queue', msg_payload, function(err,results) {
+				//console.log(results);
+				if (err) {
+					//console.log(err);
+					res.status(500).send(null);
+				} else {
+					////console.log("about results" + results);
+					res.status(results.status).send(results.data);
+				}
+			});
+		}
+	}
+
 };
 
 exports.searchBills = function(req, res){
 	var searchText =  req.param('searchText');
 
-/*	//Validations
-	if( ! (searchText) ){
+	//Removed validations
 
-
-		console.log("searchBill validation entry error" );
-		json_responses = {"statusCode":500};
-		res.send(json_responses);
-	}
-*/
 	var msg_payload = {
 		"searchText": searchText,
 		"func" : "billingSearch"
@@ -122,19 +142,36 @@ exports.getBill = function(req, res){
 
 	var billId = req.param('billId');
 
-	var msg_payload = {
-		"billId": billId,
-		"func" : "getBill"
-	};
-
-	mq_client.make_request('bill_queue', msg_payload, function(err,results) {
-		//console.log(results);
-		if (err) {
-			//console.log(err);
-			res.status(500).send(null);
-		} else {
-			console.log("bill results " + results);
-			res.status(results.status).send(results.data);
+	if(billId==undefined){
+		console.log("getBill parameter entry error" );
+		res.status(500);
+		json_responses = {"statusCode":500};
+		res.send(json_responses);
+	}
+	else{
+		if(!billId){
+			console.log("getBill validation entry error" );
+			res.status(500);
+			json_responses = {"statusCode":500};
+			res.send(json_responses);
 		}
-	});
+		else{
+			var msg_payload = {
+				"billId": billId,
+				"func" : "getBill"
+			};
+
+			mq_client.make_request('bill_queue', msg_payload, function(err,results) {
+				//console.log(results);
+				if (err) {
+					//console.log(err);
+					res.status(500).send(null);
+				} else {
+					console.log("bill results " + results);
+					res.status(results.status).send(results.data);
+				}
+			});
+		}
+	}
+
 };

@@ -5,6 +5,10 @@ var requestGen = require('./commons/responseGenerator');
 var dateFormatter = require('./commons/dateFormatter');
 var request = require('request');
 
+//For dynamic algo
+var driverSchema = require('./model/driverSchema');
+var Drivers = driverSchema.Drivers; //mongoDB instance
+
 var Billings = billingSchema.Billings;
 
 exports.generateBill = function(msg, callback){
@@ -17,8 +21,16 @@ exports.generateBill = function(msg, callback){
 	var rideDate = dateFormatter.dateMMDDYYYYformater(new Date()); //msg.rideDate
 	var rideStartTime = msg.rideStartTime; //msg.rideStartDateTime
 	var rideEndTime =msg.rideEndTime; //msg.rideEndDateTime
-	var rideDistance ; //= msg.rideDistance;
+	//var rideDistance ; //= msg.rideDistance;
 	//var rideAmount = msg.rideAmount;
+
+	//Dynamic Algo Variables
+	var rideTime = new Date();
+	var rideDistance ;
+	var activeRides	;	//Query called
+	//var availableDrivers;	//Query called
+	var final_price = 0;
+	var base_price = 3;		// 3$ - minimal rate
 
 	request({
 		url: 'https://maps.googleapis.com/maps/api/distancematrix/json', //URL to hit
@@ -31,7 +43,57 @@ exports.generateBill = function(msg, callback){
 		} else {
 			rideDistance = JSON.parse(body).rows[0].elements[0].distance.value * 0.000621371;
 
-			//Call dynamic pricing algorithm here
+			//Setting variables for algo
+			Drivers.findAll({isBusy: true}).lean().then(function (driver) {
+
+				if (driver.length > 0) {
+					console.log("Total busy drivers" + driver);
+
+					activeRides = driver;
+				}
+
+			});
+
+			//Algo
+			// 	Change price according to rideDistance
+			if(rideDistance>1)
+				base_price = 1.5 * rideDistance ;
+			//	Change price according to number of active rides
+			if(activeRides<5){
+				final_price = base_price;
+			}
+			else{
+				final_price = base_price + activeRides*0.2;
+			}
+
+			/**	#FOR FUTURE USE
+			 * 	Disabled this module currently
+			 */
+			//	Change price according to number of available drivers
+			/*if(availableDrivers>20) {
+				final_price = final_price  - availableDrivers*0.2;
+			}
+			else if(availableDrivers>15) {
+				final_price = final_price  - availableDrivers*0.1;
+			}
+			else if(availableDrivers>10) {
+				final_price = final_price  - availableDrivers*0.05;
+			}
+			else {
+				final_price = final_price  + availableDrivers*0.2;
+			}*/
+			var day = rideTime.getUTCDay(); // It will return number of day in a week
+			var hour = rideTime.getUTCHours(); // It will return hours 0-23
+			//	Change price according to time
+			if((day>5 && hour<7) || (day>5 && hour>21)) {
+				if(rideDistance>1){
+					final_price = final_price + rideDistance;
+				}
+				else{
+					final_price = final_price + 1;
+				}
+			}
+
 
 
 			var json_responses;
@@ -42,7 +104,7 @@ exports.generateBill = function(msg, callback){
 				rideStartTime: rideStartTime,
 				rideEndTime: rideEndTime,
 				rideDistance: rideDistance,
-				rideAmount: rideDistance,
+				rideAmount: final_price,
 				pickUpLocation: pickUpLocation,
 				dropOffLocation: dropOffLocation,
 				customerId: customerId,
