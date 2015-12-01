@@ -161,6 +161,10 @@ app.get('/getDriverImage', driver.getDriverImage);
 
 app.get('/getBill', billing.getBill);
 
+app.get('/mapAnalysis',index.chartRender);
+app.get('/customerAnalysis',index.customerAnalysisChart);
+app.get('/driverAnalysis',index.driverAnalysisChart);
+
 app.get('/cityList', ride.cityList);
 app.get('/cityRides', ride.cityRides);
 app.get('/driverRides', ride.driverRides);
