@@ -39,22 +39,27 @@ app.controller('ngMap1', function ($rootScope, $scope, $http, NgMap) {
             params: {
             }
         }).success(function (response) {
-            $scope.cities = response.data;
+            $scope.cities = response;
+            $scope.selected = $scope.cities[0];
+
             //startPosition = $scope.items.length;
         }).error(function(err){
             $scope.cities = [];
         });
     };
 
-    $scope.getRidesFromCity = function(){
+    $scope.getRidesFromCity = function(city){
+        alert(city);
         $http({
             method: "GET",
             url: '/cityRides',
             params: {
-                "rideCity": $scope.rideCity
+                "rideCity": city
             }
         }).success(function (response) {
-            $scope.rides = response.data;
+           // alert(JSON.stringify(response));
+            $scope.rides = response;
+
             //startPosition = $scope.items.length;
         }).error(function(err){
             $scope.rides = [];

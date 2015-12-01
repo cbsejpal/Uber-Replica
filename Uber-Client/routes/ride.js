@@ -521,7 +521,7 @@ exports.customerRides = function(req,res){
             //console.log(err);
             res.status(500).send(null);
         } else {
-            ////console.log("about results" + results);
+            ////consFole.log("about results" + results);
             res.status(results.status).send(results.data);
         }
     });
