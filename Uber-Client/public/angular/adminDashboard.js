@@ -5,9 +5,9 @@ app.controller('analysis', function($scope, $http) {
     //alert(1);
     $http.get("/dailyRevenue").success(function (response) {
         //alert(2);
-            var data = response;
+        var data = response;
 
-            //alert(JSON.stringify(data));
+        //alert(JSON.stringify(data));
 
         var margin = {top: 20, right: 20, bottom: 30, left: 40},
             width = 960 - margin.left - margin.right,
@@ -217,8 +217,8 @@ app.controller('billing', function ($scope, $http) {
                 "search": $scope.search
             }
         }).success(function (response) {
-                $scope.items = response;
-                //startPosition = $scope.items.length;
+            $scope.items = response;
+            //startPosition = $scope.items.length;
         }).error(function(err){
             $scope.items = [];
         });
@@ -255,7 +255,7 @@ app.controller('billing', function ($scope, $http) {
             }
         }).success(function (response) {
 
-                $scope.getBillList();
+            $scope.getBillList();
 
         });
     }

@@ -16,10 +16,12 @@ app.controller('navbar',[ '$rootScope','$scope','$http','socket',function($scope
 				//alert(JSON.stringify(response));
 				if (response.status == 200) {
 					//alert(JSON.stringify(response.data.firstName));
-					$scope.firstName = response.data[0].firstName;
-					$scope.email = response.data[0].email;
-					if(typeof(response.data[0].currentRideId) != "undefined" && response.data[0].currentRideId.length>0) {
-						$rootScope.currentRideId = response.data[0].currentRideId;
+					//alert("inside navbar");
+					$scope.firstName = response.data.firstName;
+					$scope.email = response.data.email;
+
+					if(typeof(response.data.currentRideId) != "undefined" && response.data.currentRideId.length>0) {
+						$rootScope.currentRideId = response.data.currentRideId;
 					}else{
 						$rootScope.currentRideId = false;
 					}
@@ -27,6 +29,7 @@ app.controller('navbar',[ '$rootScope','$scope','$http','socket',function($scope
 					socket.emit('join',{ email: $scope.email });
 				}
 				else{
+					//alert("else");
 					//window.location.assign('/logout');
 				}
 
@@ -47,6 +50,7 @@ app.controller('myrides', function($scope, $http) {
 			$scope.rides = "";
 		}
 	}).error(function(error){
+		//alert("error");
 		window.location.assign('/errorDriver');
 	});
 });
@@ -57,6 +61,8 @@ app.controller('profile', function($scope, $http) {
 	$http.get("/getDriverInformation").success(function(response) {
 		//alert("dsadsad");
 		if (response.status == 200) {
+			//alert("inside profile");
+			//alert(JSON.stringify(response.data));
 			$scope.firstName = response.data.firstName;
 			$scope.lastName = response.data.lastName;
 			$scope.ssn = response.data.ssn;
@@ -68,10 +74,12 @@ app.controller('profile', function($scope, $http) {
 			$scope.phoneNumber = response.data.phoneNumber;
 		}
 		else{
+			//alert("else new");
 			//window.location.assign('/logout');
 		}
 
 	}).error(function(error){
+		//alert("error new");
 		window.location.assign('/errorDriver');
 	});
 

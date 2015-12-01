@@ -66,4 +66,3 @@ app.controller('ngMap1', function ($rootScope, $scope, $http, NgMap) {
 
 
 });
-

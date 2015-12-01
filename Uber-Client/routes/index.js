@@ -8,8 +8,8 @@ exports.index = function(req, res){
 };
 
 exports.login = function(req,res){
-	res.render('login');
-	
+  res.render('login');
+
 };
 exports.maps = function (req,res) {
   res.render('demoMaps');

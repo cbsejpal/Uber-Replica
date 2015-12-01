@@ -61,7 +61,7 @@ app.controller('ngMap1', function ($rootScope, $scope, $http, NgMap) {
         });
     };
 
-        //This method is of no use.
+    //This method is of no use.
     $rootScope.mouseover = function () {
         console.log('mouseover', this);
         this.style.backgroundColor = 'grey';
@@ -84,4 +84,3 @@ app.controller('ngMap1', function ($rootScope, $scope, $http, NgMap) {
 
 
 });
-
