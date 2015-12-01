@@ -28,7 +28,7 @@ exports.generateBill = function(req, res){
 		res.send(json_responses);
 
 	}
-	else{
+	else{/*
 		if( ! (rideId.length > 0 && customerId.length > 0 && driverId.length > 0
 				&& pickUpLocation.length > 0 && dropOffLocation.length > 0 && rideDate.length > 0
 				&& rideStartTime.length > 0 && rideEndTime.length > 0) ){
@@ -39,7 +39,7 @@ exports.generateBill = function(req, res){
 			json_responses = {"statusCode":500};
 			res.send(json_responses);
 		}
-		else{
+		else{*/
 
 			var msg_payload = {
 				"rideId" : rideId,
@@ -69,7 +69,7 @@ exports.generateBill = function(req, res){
 			});
 		}
 
-	}
+	//}
 
 };
 
