@@ -18,7 +18,12 @@ app.controller('navbar',[ '$rootScope','$scope','$http','socket',function($scope
 					//alert(JSON.stringify(response.data.firstName));
 					$scope.firstName = response.data[0].firstName;
 					$scope.email = response.data[0].email;
-					$rootScope.currentRideId = response.data[0].currentRideId;
+					if(typeof(response.data[0].currentRideId) != "undefined" && response.data[0].currentRideId.length>0) {
+						$rootScope.currentRideId = response.data[0].currentRideId;
+					}else{
+						$rootScope.currentRideId = false;
+					}
+
 					socket.emit('join',{ email: $scope.email });
 				}
 				else{
