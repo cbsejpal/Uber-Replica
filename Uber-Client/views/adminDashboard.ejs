@@ -10,9 +10,13 @@
 
     <title>Dashboard Admin</title>
 
+
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="angular/adminDashboard.js"></script>
+    <script src="angular/ng-infinite-scroll.min.js"></script>
 
     <script src="http://maps.google.com/maps/api/js?libraries=placeses,visualization,drawing,geometry,places"></script>
     <script src="http://code.angularjs.org/1.3.15/angular.js"></script>
@@ -185,8 +189,7 @@
 
             <!-- customers div -->
 
-            <div infinite-scroll="getSearchCustomerList()" infinite-scroll-distance="3" class="customers"
-                 ng-controller="customers">
+            <div class="customers" infinite-scroll="getSearchCustomerList()" infinite-scroll-distance="0" infinite-scroll-disabled = "{{loadMore}}"                 ng-controller="customers">
                 <center><h2 class="sub-header">Customers' list</h2></center>
                 <div class="col-md-9"></div>
                 <div class="col-md-3" style="margin-top:-55px;">
