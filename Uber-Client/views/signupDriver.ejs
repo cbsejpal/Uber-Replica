@@ -46,7 +46,7 @@
 					<span ng-show="registration.email.$error.pattern">Incorrect Email address.</span>
   				</span>
 		<div ng-hide="emailError">
-			<p style="color:red">This Email is already registered. Please use another email</p>
+			<p style="color:red">This Email is already in use. Please check again!</p>
 		</div>
 		<div ng-hide="emailSuccess">
 			<p style="color:green">Email is available!</p>
@@ -80,12 +80,19 @@
   		</span>
 
 		<p style = "font-size:16px;">* SSN ID : </p>
-		<input ng-model="ssn" class="form-control" ng-pattern="/^([0-9]{3}[-]*[0-9]{2}[-]*[0-9]{4})*$/" type="text" name="ssn" value="" placeholder="SSN (123-45-6789)" required>
+		<input ng-model="ssn" class="form-control" ng-pattern="/^([0-9]{3}[-]*[0-9]{2}[-]*[0-9]{4})*$/" ng-change="checkSSN()" ng-model-onblur type="text" name="ssn" value="" placeholder="SSN (123-45-6789)" required>
 
 		<span style="color:red" ng-show="registration.ssn.$dirty && registration.ssn.$invalid">
   					<span ng-show="registration.ssn.$error.required">SSN ID is required.</span>
 					<span ng-show="registration.ssn.$error.pattern">Enter a Valid SSN ID</span>
   		</span>
+
+		<div ng-hide="ssnError">
+			<p style="color:red">This SSN is already in use. Please check again</p>
+		</div>
+		<div ng-hide="ssnSuccess">
+			<p style="color:green">SSN is available!</p>
+		</div>
 
 
 		<br><p style = "font-size:16px;">* City : </p><input ng-model="city" ng-pattern="/^[a-zA-Z ]*$/" class="form-control" type="text" name="city" value="" placeholder="City" required>

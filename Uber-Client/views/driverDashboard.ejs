@@ -87,9 +87,10 @@
                 
                 <li><a href="javascript:void(0)" class="click3">Profile</a></li>
 
-                <li><a href="/deleteSelfDriver">Deactivate</a></li>
-
                 <li><a href="/logout">Log out</a></li>
+
+                <br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br>
+                <li><a href="/deleteSelfDriver" style="color: red;">Deactivate Your account</a></li>
             </ul>
 
         </div>
@@ -131,12 +132,8 @@
             </div>
 
 
-
-
-
-
-            <div class="profile" ng-controller="profile">
-                <form id="form" method="post" name='profileUpdate' style= "border-style:groove; padding : 50px 40px 10px 40px;" novalidate>
+            <div class="profile" ng-controller="profile" style="margin-top:-10px;">
+                <form id="form" method="post" name='profileUpdate' novalidate>
                 <center>  <h2 class="sub-header">PROFILE</h2></center>
                 <h4>General Information</h4><hr>
                 <div class="row">
@@ -255,10 +252,14 @@
                         </div>
                         <div class="col-md-3"><input class="form-control" type="text" ng-pattern= "/^([0-9]{3}[-]*[0-9]{2}[-]*[0-9]{4})*$/" ng-model="ssn" name="ssn" disabled required></div>
 
+                    </div>
+                    <br>
+                    <div class="row">
                         <div class="col-md-2">
                             <button type="submit" class="btn btn-success" ng-click="save($event)">Save </button>
 
                         </div>
+
                     </div>
                 </form>
             </div>

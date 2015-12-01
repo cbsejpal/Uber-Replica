@@ -11,7 +11,14 @@ exports.login = function(req,res){
 
 };
 exports.maps = function (req,res) {
-  res.render('demoMaps');
+
+  if(req.session.customerId){
+    res.render('demoMaps');
+  }
+  else{
+    res.redirect('/');
+  }
+
 };
 
 exports.chartRender = function(req,res){
