@@ -76,7 +76,7 @@ exports.loginCustomer = function(msg, callback){
 
     var json_responses;
 
-    Customer.findOne({where: {email: email, password: newPassword}}).then(function (user) {
+    Customer.findOne({attributes: ['email', 'password'], where: {email: email, password: newPassword}}).then(function (user) {
         if(user){
             json_responses = requestGen.responseGenerator(200, {message: 'customer login successful', user: user.email});
         }
