@@ -1,4 +1,4 @@
-var app = angular.module('drivers', []);
+var app = angular.module('drivers', ['infinite-scroll']);
 
 app.controller('socket',['$scope','socket',function($scope,socket){
 
