@@ -19,10 +19,11 @@ exports.generateBill = function(msg, callback){
 	var pickUpLocation = msg.pickUpLocation;
 	var dropOffLocation = msg.dropOffLocation;
 	var rideDate = dateFormatter.dateMMDDYYYYformater(new Date()); //msg.rideDate
-	var rideStartTime = msg.rideStartTime; //msg.rideStartDateTime
-	var rideEndTime =msg.rideEndTime; //msg.rideEndDateTime
+	var rideStartTime = new Date(msg.rideStartTime); //msg.rideStartDateTime
+	var rideEndTime = new Date(msg.rideEndTime); //msg.rideEndDateTime
 	//var rideDistance ; //= msg.rideDistance;
 	//var rideAmount = msg.rideAmount;
+
 
 	//Dynamic Algo Variables
 	var rideTime = new Date();
@@ -84,7 +85,7 @@ exports.generateBill = function(msg, callback){
 					console.log("day"+day);
 					console.log("hour"+hour);
 					//	Change price according to time
-					if((day>5 && hour>7) || (day>5 && hour<21)) {
+					if((day>5 && hour<7) || (day>5 && hour>21)) {
 						if(rideDistance>1){
 							final_price = final_price + rideDistance;console.log("weekendPrice normal time > 1");
 						}
@@ -114,8 +115,8 @@ exports.generateBill = function(msg, callback){
 						rideDate: rideDate,
 						rideStartTime: rideStartTime,
 						rideEndTime: rideEndTime,
-						rideDistance: rideDistance,
-						rideAmount: final_price,
+						rideDistance: Number((rideDistance).toFixed(2)),
+						rideAmount: Number((final_price).toFixed(2)),
 						pickUpLocation: pickUpLocation,
 						dropOffLocation: dropOffLocation,
 						customerId: customerId,
