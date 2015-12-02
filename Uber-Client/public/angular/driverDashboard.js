@@ -1,4 +1,4 @@
-var app = angular.module('drivers', []);
+var app = angular.module('drivers', ['infinite-scroll']);
 
 app.controller('socket',['$scope','socket',function($scope,socket){
 
@@ -24,7 +24,7 @@ app.controller('navbar',[ '$scope', '$rootScope','$http','socket',function($scop
 					}else{
 						$rootScope.currentRideId = false;
 					}
-					$rootScope.getRideInfo(response.data.email);
+					$rootScope.getRidesInitialInfo(response.data.email);
 
 					socket.emit('join',{ email: $scope.email });
 				}
@@ -40,26 +40,61 @@ app.controller('navbar',[ '$scope', '$rootScope','$http','socket',function($scop
 
 app.controller('myrides', function($scope,$rootScope, $http) {
 	//alert($rootScope.email);
-	
-	$rootScope.getRideInfo = function(email){
-		
-		alert("email " + email); 
-		$http({
-		method: "GET",
-		url : '/searchBills',
-		params : {
-			startPosition : 0,
-			searchText : email
-		}
-	}).success(function(response){
 
-		$scope.rides = response;
+	var startPosition = 0;
+	$scope.rides = [];
+	$scope.loadMore = false;
+	$rootScope.getRidesInitialInfo = function(driverId){
+		//alert("get rides intial info ");
+		$scope.driverId = driverId;
+		/*$http({
+			method: "GET",
+			url : '/searchBills',
+			params : {
+				startPosition : 0,
+				searchText : $scope.driverId
+			}
+		}).success(function(response){
+
+			// alert('inside');
+			//alert("length " + $scope.rides.length);
+			$scope.rides = response;
+			startPosition = $scope.rides.length;
 
 		}).error(function(){
+			alert("error");
+			$scope.items = [];
+			startPosition = $scope.rides.length;
+		});*/
+	};
 
-		alert("error");
-	});
-	}
+
+	$scope.getRidesInfo = function () {
+		$http({
+			method: "GET",
+			url: '/searchBills',
+			params: {
+				"search":  $scope.driverId,
+				"startPosition": startPosition
+			}
+		}).success(function (response) {
+			//alert("get rides info ");
+			var items = response;
+			if(items.length == 0){
+				$scope.loadMore = true;
+			}
+			for (var i = 0, len = items.length; i < len; ++i) {
+				$scope.rides.push(items[i]);
+			}
+			startPosition = $scope.rides.length;
+
+
+		}).error(function (err) {
+			alert("error");
+			$scope.items = [];
+			startPosition = $scope.rides.length;
+		});
+	};
 
 });
 

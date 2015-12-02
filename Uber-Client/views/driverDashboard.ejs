@@ -12,12 +12,13 @@
     <title>Dashboard Driver</title>
 
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-     <script src="http://code.angularjs.org/1.3.15/angular.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://code.angularjs.org/1.3.15/angular.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="https://cdn.socket.io/socket.io-1.3.7.js"></script>
     <script src="angular/driverDashboard.js"></script>
     <script src="angular/socket-service.js"></script>
+    <script src="angular/ng-infinite-scroll.min.js"></script>
     <!--<script>
         var socket = io.connect('http://localhost:3000');
         console.log(socket);
@@ -96,7 +97,8 @@
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
-            <div class="myrides" ng-controller="myrides">
+            <div class="myrides" infinite-scroll="getRidesInfo()" infinite-scroll-distance="0"
+                 infinite-scroll-disabled="{{loadMore}}" ng-controller="myrides">
                 <center>
                     <h2 class="sub-header">MY RIDES</h2>
                     </center>
