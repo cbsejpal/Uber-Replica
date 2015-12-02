@@ -1,4 +1,4 @@
-var app = angular.module('drivers', []);
+var app = angular.module('drivers', ['infinite-scroll']);
 
 app.controller('socket',['$scope','socket',function($scope,socket){
 
@@ -24,9 +24,10 @@ app.controller('navbar',[ '$scope', '$rootScope','$http','socket',function($scop
 					}else{
 						$rootScope.currentRideId = false;
 					}
+					socket.emit('join',{ email: response.data.email });
 					$rootScope.getRideInfo(response.data.email);
 
-					socket.emit('join',{ email: $scope.email });
+
 				}
 				else{
 					//alert("else");
