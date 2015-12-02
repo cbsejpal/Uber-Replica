@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+
+    <title>Travel modes in directions</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+    <link href="stylesheets/dashboard.css" rel="stylesheet">
+    <script src="http://maps.google.com/maps/api/js?libraries=placeses,visualization,drawing,geometry,places"></script>
+    <script src="http://code.angularjs.org/1.3.15/angular.js"></script>
+    <script src="http://rawgit.com/allenhwkim/angularjs-google-maps/master/build/scripts/ng-map.js"></script>
+    <script src="angular/mapAnalysisDriver.js"></script>
+    <style>
+        .custom-marker {
+            font-size: 1.5em;
+            padding: 10px;
+            background: #fff;
+            -webkit-border-radius: 2px;
+            -moz-border-radius: 2px;
+            border-radius: 2px;
+            border: #7F7F7F solid 1px;
+        }
+
+        .custom-marker:after {
+            content: '';
+            position: absolute;
+            border-style: solid;
+            border-width: 3px 3px 0;
+            border-color: #fff transparent;
+            display: block;
+            width: 0;
+            z-index: 1;
+            margin-left: -6px;
+            bottom: -6px;
+            left: 50%;
+        }
+
+        .custom-marker:before {
+            content: '';
+            position: absolute;
+            border-style: solid;
+            border-width: 3px 3px 0;
+            border-color: #7F7F7F transparent;
+            display: block;
+            width: 0;
+            z-index: 0;
+            margin-left: -6px;
+            bottom: -7px;
+            left: 50%;
+        }
+    </style>
+</head>
+<body ng-app="ngMap">
+
+<nav class="navbar navbar-inverse navbar-fixed-top" ng-controller="navbar">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">U B E R</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"
+                                                                                     style="font-size:30px;"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">Admin</a></li>
+
+                        <li class="divider"></li>
+
+                        <li><a href="logout">Logout</a></li>
+                    </ul>
+            </ul>
+        </div>
+    </div>
+
+</nav>
+
+<div class="container-fluid" ng-controller="ngMap1 as vm" ng-init = "init('<%= driverId %>')">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li class="active"><a>Driver Analysis<span class="sr-only">(current)</span></a></li>
+                <br>
+                <li>
+                    <button style="margin-left:10px;" class="btn btn-success"
+                            onclick="location.href ='adminDashboard';"> < Back to Dashboard
+                    </button>
+                </li>
+                <li><a href="logout">Log out</a></li>
+            </ul>
+
+        </div>
+        <br>
+
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
+
+            <ng-map zoom="12" center="current-position" style="height:500px; width:780px;">
+                <shape name="polyline" ng-repeat="ride in rides"
+                       path="[
+        [{{ride.pickUpLatLong}}],
+        [{{ride.dropOffLatLong}}]
+      ]"
+                       geodesic="true"
+                       stroke-color="#FF0000"
+                       stroke-opacity="1.0"
+                       stroke-weight="2">
+
+                </shape>
+            </ng-map>
+
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

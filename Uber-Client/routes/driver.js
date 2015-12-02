@@ -251,17 +251,18 @@ exports.loginDriver = function(req, res){
 exports.searchDriver = function(req, res){
 
     var search = req.param('search');
-
+    var startPosition = req.param('startPosition');
     //Valdidations
-    if( ! (search) ){
+  /*  if( ! (search) ){
 
         console.log("searchDriver validation entry error" );
         res.status(500);
         json_responses = {"statusCode":500};
         res.send(json_responses);
-    }
+    }*/
 
     var msg_payload = {
+        "startPosition" : startPosition,
         "search" : search,
         "func" : "searchDriver"
     };
@@ -644,7 +645,12 @@ exports.driverRideBill = function(req, res){
 
 exports.requestedRide = function(req,res){
 
-    res.render('requestedRide');
+    if(req.session.driverId){
+        res.render('requestedRide');
+    }
+    else{
+        res.redirect('/');
+    }
 
 };
 
@@ -664,6 +670,7 @@ exports.getDriverRating = function(req, res){
             res.status(500).send(null);
         } else {
             ////console.log("about results" + results);
+            console.log("in driver rating");
             res.status(results.status).send(results.data);
         }
     });
@@ -715,7 +722,7 @@ exports.addDriverImage = function(req, res){
 
 exports.getDriverImage = function (req, res) {
 
-    var image = req.param('email');
+    var image = req.param('image');
 
     var mongoose = require('mongoose');
     var Schema = mongoose.Schema;
@@ -742,6 +749,36 @@ exports.getDriverImage = function (req, res) {
             filename: image
         }).pipe(writestream);
 
-        res.send("Success");
+        setTimeout(function(){
+            res.send("Success");
+        }, 200);
+
+
     });
+};
+
+exports.checkDriverSSN = function(req, res){
+
+    var ssn = req.param('ssn');
+
+    var msg_payload = {
+        ssn: ssn,
+        "func" : "checkDriverSSN"
+    }
+
+    var json_responses;
+
+    mq_client.make_request('driver_queue', msg_payload, function(err,results) {
+        //console.log(results);
+        if (err) {
+            res.send(500);
+
+        } else {
+            ////console.log("about results" + results);
+            json_responses = {"status" : results.status};
+            res.send(json_responses);
+        }
+    });
+
+
 };

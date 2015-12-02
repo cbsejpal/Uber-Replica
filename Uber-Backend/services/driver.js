@@ -93,6 +93,7 @@ console.log(JSON.stringify(user));
 exports.searchDriver = function (msg, callback) {
 
     var search = msg.search;
+    var offset = msg.startPosition;
 
     Driver.findAll({
         where: {
@@ -116,7 +117,7 @@ exports.searchDriver = function (msg, callback) {
                 carDetails: {$like: '%' + search + '%'}
             }
             ]
-        }
+        },order:[['driver_id', 'ASC']], offset: offset,limit: 50
     }).then(function (drivers) {
         var json_responses;
         if (drivers) {
@@ -433,14 +434,44 @@ exports.getDriverRating = function(msg, callback){
                 var total = 0;
                 var count = doc.rides.length;
                 var Avg = 0;
+                var newCount = 0;;
                 for (var i = 0; i < count; i++) {
-                    driRating.push(doc.rides[i].rating);
-                    total += driRating[i];
+                    //console.log(i + " " + doc.rides[i].rating);
+                    if(typeof (doc.rides[i].rating) != 'undefined'){
+                        console.log("new i" + i);
+                        //riRating.push(doc.rides[i].rating);
+                        total += doc.rides[i].rating;
+                        newCount++;
+                    }
                 }
-                Avg = total/count;
+                //console.log("total " + total);
+                Avg = total/newCount;
+                //console.log("avg " + Avg );
+                //console.log("number " + Number(Avg).toFixed(1));
                 json_response = requestGen.responseGenerator(200,{data: Number(Avg).toFixed(1)});
                 callback(null, json_response);
             }
         }
+    });
+};
+
+exports.checkDriverSSN = function(msg, callback){
+
+    var ssn = msg.ssn;
+
+    var json_response;
+
+    Driver.findAll({where: {ssn: ssn}}).then(function(drivers){
+
+        //console.log("email customers " + customers);
+
+        if(drivers.length > 0){
+            json_response = requestGen.responseGenerator(500, null);
+        }
+        else{
+            json_response = requestGen.responseGenerator(200, null);
+        }
+
+        callback(null, json_response);
     });
 };

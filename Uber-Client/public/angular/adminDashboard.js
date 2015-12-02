@@ -1,13 +1,12 @@
-var app = angular.module('admin', ['infinite-scroll']);
+var app = angular.module('ngMap');
 
+app.controller('ridesPerArea', function($scope, $http){
 
-app.controller('analysis', function($scope, $http) {
-    //alert(1);
-    $http.get("/dailyRevenue").success(function (response) {
+    $http.get("/ridesPerArea").success(function (response) {
         //alert(2);
-            var data = response;
+        var data = response;
 
-            //alert(JSON.stringify(data));
+        //alert(JSON.stringify(data));
 
         var margin = {top: 20, right: 20, bottom: 30, left: 40},
             width = 960 - margin.left - margin.right,
@@ -26,7 +25,78 @@ app.controller('analysis', function($scope, $http) {
         var yAxis = d3.svg.axis()
             .scale(y)
             .orient("left")
-            .ticks(5, "%");
+            .ticks(10, "%");
+
+        var svg = d3.select(".ridePerArea").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        x.domain(data.map(function(d) { return d._id; }));
+        y.domain([0, d3.max(data, function(d) { return d.rides/100; })]);
+
+        svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + height + ")")
+            .call(xAxis);
+
+        svg.append("g")
+            .attr("class", "y axis")
+            .call(yAxis)
+            .append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 6)
+            .attr("dy", ".71em")
+            .style("text-anchor", "end")
+            .text("Rides in %");
+
+        svg.selectAll(".bar")
+            .data(data)
+            .enter().append("rect")
+            .attr("class", "bar")
+            .attr("x", function(d) { return x(d._id); })
+            .attr("width", x.rangeBand())
+            .attr("y", function(d) { return y(d.rides/100); })
+            .attr("height", function(d) { return height - y(d.rides/100); });
+
+        function type(d) {
+            d.rides = +d.rides;
+            return d;
+        }
+
+    });
+
+
+});
+
+
+app.controller('analysis', function($scope, $http) {
+    //alert(1);
+    $http.get("/dailyRevenue").success(function (response) {
+        //alert(2);
+        var data = response;
+
+        //alert(JSON.stringify(data));
+
+        var margin = {top: 20, right: 20, bottom: 30, left: 40},
+            width = 960 - margin.left - margin.right,
+            height = 500 - margin.top - margin.bottom;
+
+        var x = d3.scale.ordinal()
+            .rangeRoundBands([0, width], .1);
+
+        var y = d3.scale.linear()
+            .range([height, 0]);
+
+        var xAxis = d3.svg.axis()
+            .scale(x)
+            .orient("bottom");
+
+        var yAxis = d3.svg.axis()
+            .scale(y)
+            .orient("left")
+            .ticks(10, "%");
 
         var svg = d3.select(".analysis").append("svg")
             .attr("width", width + margin.left + margin.right)
@@ -50,7 +120,7 @@ app.controller('analysis', function($scope, $http) {
             .attr("y", 6)
             .attr("dy", ".71em")
             .style("text-anchor", "end")
-            .text("Sum Amount");
+            .text("Revenue in %");
 
         svg.selectAll(".bar")
             .data(data)
@@ -71,15 +141,6 @@ app.controller('analysis', function($scope, $http) {
 });
 
 app.controller('drivers', function ($scope, $http) {
-    $http.get("/showDrivers").success(function (response) {
-        if (response.status == 200) {
-            $scope.items = response.data.data;
-
-        }
-        else {
-            $scope.items = "";
-        }
-    });
 
     $scope.deleteDriver = function (email) {
 
@@ -97,21 +158,38 @@ app.controller('drivers', function ($scope, $http) {
 
             if (response.status == 200) {
 
-                $http.get("/showDrivers").success(function (response) {
-                    if (response.status == 200) {
-                        $scope.items = response.data.data;
-                    }
-                    else {
-
-                        $scope.items = "";
-                    }
-                });
+                $scope.getSearchDriverListInitial();
             }
 
         });
     };
 
-    $scope.searchDriver = function () {
+    var startPosition = 0;
+    $scope.search = " ";
+    $scope.items = [];
+    $scope.loadMore = false;
+
+    $scope.getSearchDriverListInitial = function () {
+        $http({
+            method: "GET",
+            url: '/searchDriver',
+            params: {
+                search: $scope.search,
+                startPosition: 0
+            }
+        }).success(function (response) {
+            if (response.status == 200) {
+                $scope.items = response.data;
+            }
+            else {
+                $scope.items = [];
+            }
+            startPosition = $scope.items.length;
+        });
+    };
+
+
+    $scope.getDriverList = function () {
         $http({
             method: "GET",
             url: '/searchDriver',
@@ -123,11 +201,14 @@ app.controller('drivers', function ($scope, $http) {
                 $scope.items = response.data;
             }
             else {
-                $scope.items = "";
+                $scope.items = [];
             }
+            startPosition = $scope.items.length;
 
         });
-    }
+    };
+
+    $scope.getSearchDriverListInitial();
 });
 
 
@@ -143,7 +224,7 @@ app.controller('customers', ['$scope', '$http',function ($scope, $http) {
             url: '/searchCustomers',
             params: {
                 "search": $scope.search,
-                "startPosition": startPosition
+                "startPosition": 0
             }
         }).success(function (response) {
 
@@ -152,10 +233,24 @@ app.controller('customers', ['$scope', '$http',function ($scope, $http) {
 
         }).error(function (err) {
             $scope.items = [];
+            startPosition = $scope.items.length;
         });
     };
+    $scope.mapAnalysisCustomer = function(email){
 
-    $scope.getSearchCustomerList = function () {
+        $http({
+            method: "GET",
+            url: '/customerAnalysis',
+            params: {
+
+                "customerId": email
+            }
+        });
+
+    };
+
+
+    $scope.getCustomerList = function () {
         $http({
             method: "GET",
             url: '/searchCustomers',
@@ -176,10 +271,11 @@ app.controller('customers', ['$scope', '$http',function ($scope, $http) {
 
         }).error(function (err) {
             $scope.items = [];
+            startPosition = $scope.items.length;
         });
     };
 
-    //$scope.getSearchCustomerList();
+    $scope.getSearchCustomerListInitial();
 
 
     $scope.deleteCustomer = function (email) {
@@ -209,57 +305,65 @@ app.controller('billing', function ($scope, $http) {
 
     var startPosition = 0;
     $scope.search = " ";
-    $scope.getBillList = function () {
+    $scope.items = [];
+    $scope.loadMore = false;
+
+    $scope.getSearchBillListInitial = function () {
         $http({
             method: "GET",
             url: '/searchBills',
             params: {
-                "search": $scope.search
+                "search": $scope.search,
+                "startPosition": 0
             }
         }).success(function (response) {
-            if (response.status == 200) {
-                $scope.items = response.data.data;
-                //startPosition = $scope.items.length;
-            }
+            $scope.items = response;
+            startPosition = $scope.items.length;
+        }).error(function(err){
+            $scope.items = [];
+            startPosition = $scope.items.length;
         });
     };
 
-    /*$scope.getLazyLoadingCustomerList = function(){
-     $http({
-     method: "GET",
-     url: '/showCustomers',
-     params: {
-     "startPosition":0
-     }
-     }).success(function (response) {
-     if (response.status == 200) {
-     var items = response.data.data;
-     for (var i = 0, len = items.length; i < len; ++i) {
-     $scope.items.push(items[i]);
-     }
-     startPosition = $scope.items.length;
-     }
-     });
-     };*/
+    $scope.getBillList = function () {
+        $http({
+            method: "GET",
+            url: '/searchCustomers',
+            params: {
+                "search": $scope.search,
+                "startPosition": startPosition
+            }
+        }).success(function (response) {
 
-    $scope.getBillList();
+            var items = response;
+            if(items.length == 0){
+                $scope.loadMore = true;
+            }
+            for (var i = 0, len = items.length; i < len; ++i) {
+                $scope.items.push(items[i]);
+            }
+            startPosition = $scope.items.length;
+
+        }).error(function (err) {
+            $scope.items = [];
+            startPosition = $scope.items.length;
+        });
+    };
+
+    $scope.getSearchBillListInitial();
 
 
     $scope.deleteBill = function (billID) {
 
         $http({
-            method: "GET",
+            method: "POST",
             url: '/deleteBill',
-            params: {
+            data: {
                 "billId": billID
             }
         }).success(function (response) {
 
-            if (response.status == 200) {
-                $scope.getBillList();
-            } else {
-                $scope.items = "";
-            }
+            $scope.getBillList();
 
         });
     }
@@ -285,7 +389,7 @@ app.controller('requests', function ($scope, $http) {
         if (response.status == 200) {
 
             $scope.drivers = response.data.data;
-            alert(JSON.stringify($scope.drivers));
+   //         alert(JSON.stringify($scope.drivers));
 
         }
     });
@@ -315,7 +419,7 @@ app.controller('requests', function ($scope, $http) {
             }
 
         });
-    }
+    };
 
 
     $scope.ignoreCustomer = function (email) {
@@ -341,7 +445,7 @@ app.controller('requests', function ($scope, $http) {
             }
 
         });
-    }
+    };
 
 
     $scope.approveDriver = function (email) {
@@ -373,7 +477,7 @@ app.controller('requests', function ($scope, $http) {
             }
 
         });
-    }
+    };
 
 
 });

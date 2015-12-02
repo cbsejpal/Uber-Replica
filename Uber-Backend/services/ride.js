@@ -54,7 +54,6 @@ exports.createRide = function (msg, callback) {
         else {
 
             console.log("customer " + JSON.stringify(customer));
-            console.log("length " + customer.length);
 
             if (customer) {
 
@@ -97,6 +96,13 @@ exports.createRide = function (msg, callback) {
                                             message: "Ride created successfully",
                                             rideId: rideId
                                         });
+
+                                        var fs = require('fs');
+
+                                        var dirname = "../Uber-Client";
+                                        var newPath = dirname + "/uploads/"+driverId+'.jpg';
+
+                                        fs.unlinkSync(newPath);
 
                                         callback(null, json_responses);
                                     }

@@ -228,53 +228,21 @@ exports.showCustomers =  function(req, res){
 
 	var startPosition = req.param('startPosition');
 
-    //Validations
-    if(startPosition==undefined){
-        console.log("showCustomers Parameters are not valid!" );
-        res.status(500);
-        json_responses = {"statusCode":500,"Request":"Invalid"};
-        res.send(json_responses);
-    }
-    else{
+    var msg_payload = {
+        "startPosition" : startPosition,
+        "func" : "showCustomers"
+    };
 
-        if( ! (startPosition.length > 0) ){
-
-            if( !( (new RegExp("/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/")).test(email) ) ){
-
-                console.log("showCustomers email validation entry error");
-                res.status(500);
-                json_responses = {"statusCode":500};
-                res.send(json_responses);
-            }
-
-
-            console.log("showCustomers validation entry error" );
-            res.status(500);
-            json_responses = {"statusCode":500};
-            res.send(json_responses);
+    mq_client.make_request('admin_queue', msg_payload, function(err,results) {
+        console.log("customers  : "+JSON.stringify(results));
+        if (err) {
+            //console.log(err);
+            res.status(500).send(null);
+        } else {
+            console.log("about results" + results);
+            res.status(200).send(results);
         }
-        else{
-
-            var msg_payload = {
-                "startPosition" : startPosition,
-                "func" : "showCustomers"
-            };
-
-            mq_client.make_request('admin_queue', msg_payload, function(err,results) {
-                console.log("customers  : "+JSON.stringify(results));
-                if (err) {
-                    //console.log(err);
-                    res.status(500).send(null);
-                } else {
-                    console.log("about results" + results);
-                    res.status(200).send(results);
-                }
-            });
-        }
-    }
-
-
-
+    });
 
 };
 
@@ -524,4 +492,23 @@ exports.revenuePerDayWeekly = function(req,res){
             res.status(results.status).send(results.data);
         }
     });
+};
+
+exports.ridesPerArea = function(req, res){
+
+    var msg_payload = {
+        "func" : "ridesPerArea"
+    };
+
+    mq_client.make_request('admin_queue', msg_payload, function(err,results) {
+        //console.log(results);
+        if (err) {
+            //console.log(err);
+            res.status(500).send(null);
+        } else {
+            console.log("revenue results" + JSON.stringify(results));
+            res.status(results.status).send(results.data);
+        }
+    });
+
 };

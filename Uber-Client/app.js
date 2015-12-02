@@ -130,8 +130,8 @@ app.post('/endRide', ride.endRide);
 
 app.post('/rateDriver', ride.rateDriver);
 app.post('/rateCustomer', ride.rateCustomer);
-app.post('/getCustomerRating', customer.getCustomerRating);
-app.post('/getDriverRating', driver.getDriverRating);
+app.get('/getCustomerRating', customer.getCustomerRating);
+app.get('/getDriverRating', driver.getDriverRating);
 
 
 //admin
@@ -161,10 +161,19 @@ app.get('/getDriverImage', driver.getDriverImage);
 
 app.get('/getBill', billing.getBill);
 
+app.get('/mapAnalysis',index.chartRender);
+app.get('/customerAnalysis',index.customerAnalysisChart);
+app.get('/driverAnalysis',index.driverAnalysisChart);
+
 app.get('/cityList', ride.cityList);
 app.get('/cityRides', ride.cityRides);
 app.get('/driverRides', ride.driverRides);
 app.get('/customerRides', ride.customerRides);
+
+app.get('/checkCustomerSSN', customer.checkCustomerSSN);
+app.get('/checkDriverSSN', driver.checkDriverSSN);
+
+app.get('/ridesPerArea', admin.ridesPerArea);
 
 //error handling files
 

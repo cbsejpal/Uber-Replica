@@ -1,5 +1,5 @@
 //loading the 'login' angularJS module
-var signupDriver = angular.module('signupDriver', []);
+var signupDriver = angular.module('signupDriver', ['ngMap']);
 //defining the login controller
 
 signupDriver.directive('ngModelOnblur', function() {
@@ -25,6 +25,9 @@ signupDriver.controller('signupDriver', function($scope, $http) {
 	$scope.emailError = true;
 	$scope.emailSuccess = true;
 
+	$scope.ssnError = true;
+	$scope.ssnSuccess = true;
+
 	$scope.checkEmail = function(){
 		$http({
 			method : "get",
@@ -48,6 +51,33 @@ signupDriver.controller('signupDriver', function($scope, $http) {
 	};
 
 
+	$scope.checkSSN = function(){
+		//alert('inside 1');
+		$http({
+			method : "get",
+			url : '/checkDriverSSN',
+			params : {
+				"ssn" : $scope.ssn
+			}
+		}).success(function(response) {
+			//alert('inside 2');
+			if(response.status == 500){
+				//alert('inside 3');
+				$scope.ssnError = false;
+				$scope.ssnSuccess = true;
+			}
+			else if(response.status == 200){
+				//alert('inside 4');
+				$scope.ssnError = true;
+				$scope.ssnSuccess = false;
+			}
+
+		}).error(function(error) {
+			alert("Error");
+		});
+	};
+
+
 
 	$scope.validate = function($event){
 
@@ -58,7 +88,8 @@ signupDriver.controller('signupDriver', function($scope, $http) {
 			field.$setDirty();
 		});
 
-		if($scope.registration.$error.required || $scope.registration.$error.pattern || !$scope.emailError ){
+		if($scope.registration.$error.required || $scope.registration.$error.pattern || !$scope.emailError
+				|| !$scope.ssnError ){
 			$event.preventDefault();
 			alert('Error! Please check all fields');
 		}

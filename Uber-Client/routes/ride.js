@@ -396,24 +396,54 @@ exports.rateDriver = function (req, res) {
     var rating = req.param('rating');
     var reviews = req.param('reviews');
 
-    var msg_payload = {
-        "rideId": rideId,
-        "emailId": emailId,
-        "rating": rating,
-        "reviews": reviews,
-        "func": "rateDriver"
-    };
+    if(emailId==undefined || rideId==undefined){
 
-    mq_client.make_request('ride_queue', msg_payload, function (err, results) {
-        //console.log(results);
-        if (err) {
-            //console.log(err);
-            res.status(500).send(null);
-        } else {
-            ////console.log("about results" + results);
-            res.status(results.status).send(results.data);
+        console.log("rateDriver parameter entry error");
+        res.status(500);
+        json_responses = {"statusCode":500};
+        res.send(json_responses);
+    }
+    else{
+
+        if( ! (emailId.length > 0 && rideId.length > 0 ) ){
+
+            if( !( (new RegExp("/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/")).test(emailId) ) ){
+
+                console.log("rateDriver email validation entry error");
+                res.status(500);
+                json_responses = {"statusCode":500};
+                res.send(json_responses);
+            }
+
+
+            console.log("rateDriver validation entry error" );
+            res.status(500);
+            json_responses = {"statusCode":500};
+            res.send(json_responses);
         }
-    });
+        else{
+
+            var msg_payload = {
+                "rideId": rideId,
+                "emailId": emailId,
+                "rating": rating,
+                "reviews": reviews,
+                "func": "rateDriver"
+            };
+
+            mq_client.make_request('ride_queue', msg_payload, function (err, results) {
+                //console.log(results);
+                if (err) {
+                    //console.log(err);
+                    res.status(500).send(null);
+                } else {
+                    ////console.log("about results" + results);
+                    res.status(results.status).send(results.data);
+                }
+            });
+        }
+    }
+
 
 };
 
@@ -521,7 +551,7 @@ exports.customerRides = function(req,res){
             //console.log(err);
             res.status(500).send(null);
         } else {
-            ////console.log("about results" + results);
+            ////consFole.log("about results" + results);
             res.status(results.status).send(results.data);
         }
     });

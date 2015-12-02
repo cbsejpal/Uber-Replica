@@ -198,7 +198,59 @@ exports.addImagesToRide = function(msg, callback){
 
     var json_responses;
 
-    var image = msg.image;
+    var mongoose = require('mongoose');
+    var Schema = mongoose.Schema;
+
+    var conn = mongoose.createConnection('mongodb://localhost:27017/neuber');
+    var fs = require('fs');
+
+    var Grid = require('gridfs-stream');
+    Grid.mongo = mongoose.mongo;
+
+    var dirname = require('path').dirname(__dirname);
+    var filename = msg.filename;
+    var path = msg.path;
+    var type = msg.type;
+
+    conn.once('open', function () {
+        console.log('open');
+        var gfs = Grid(conn.db);
+
+        // streaming to gridfs
+        //filename to store in mongodb
+        //var writestream = gfs.createWriteStream(dirname + '/' + path);
+
+        /*    {
+         filename: 'newFile1.jpg'
+         });*/
+
+        var writestream = gfs.createWriteStream({
+            filename: filename
+        });
+
+        fs.createReadStream(path).pipe(writestream);
+
+        // var read_stream =  fs.createReadStream(dirname + '/' + path);
+
+
+        //read_stream.pipe(writestream);
+
+        writestream.on('close', function (file) {
+            // do something with `file`
+            console.log(file.filename + 'Written To DB');
+
+            json_responses = requestGen.responseGenerator(200, "Written to DB");
+            callback(null, json_responses);
+            //res.redirect('/');
+        });
+    });
+};
+
+exports.getImagesOfRide = function(msg, callback){
+
+    var json_responses;
+
+    var billId = msg.billId;
 
     var mongoose = require('mongoose');
     var Schema = mongoose.Schema;
@@ -211,33 +263,40 @@ exports.addImagesToRide = function(msg, callback){
 
     conn.once('open', function () {
         console.log('open');
+        console.log('image name ' + billId+'.jpg');
         var gfs = Grid(conn.db);
 
-        // streaming to gridfs
-        //filename to store in mongodb
-        var writestream = gfs.createWriteStream({
-            filename: 'newFile.jpg'
-        });
-        fs.createReadStream(image).pipe(writestream);
 
-        writestream.on('close', function (file) {
-            // do something with `file`
-            console.log(file.filename + 'Written To DB');
-            json_responses = requestGen.responseGenerator(200, "Written to DB");
-            callback(null, json_responses);
+        var dirname = msg.dirname;
+        var newPath = dirname + "/uploads/"+billId+'.jpg';
+
+        var options = {filename : billId+'.jpg'};
+
+        gfs.exist(options, function (err, found) {
+            if (err) {
+                console.log(err);
+            }
+            else{
+                if(found){
+                    var writestream = fs.createWriteStream(newPath);
+
+                    gfs.createReadStream({
+                        filename: billId+'.jpg'
+                    }).pipe(writestream);
+
+                    json_responses = requestGen.responseGenerator(200, null);
+                    callback(null, json_responses);
+                }
+                else{
+                    json_responses = requestGen.responseGenerator(404, null);
+                    callback(null, json_responses);
+                }
+            }
         });
+
     });
+
 };
-
-exports.getImagesOfRide = function(msg, callback){
-
-    var json_responses;
-
-    json_responses = requestGen.responseGenerator(200, null);
-    callback(null, json_responses);
-};
-
-
 
 exports.checkCustomerEmail = function(msg, callback){
 
@@ -280,12 +339,20 @@ exports.getCustomerRating = function(msg, callback){
                 var custRating = [];
                 var total = 0;
                 var count = doc.rides.length;
-                var Avg = 0;
+                var newCount = 0;;
                 for (var i = 0; i < count; i++) {
-                    custRating.push(doc.rides[i].rating);
-                    total += custRating[i];
+                    //console.log(i + " " + doc.rides[i].rating);
+                    if(typeof (doc.rides[i].rating) != 'undefined'){
+                        //console.log("new i" + i);
+
+                        total += doc.rides[i].rating;
+                        newCount++;
+                    }
                 }
-                Avg = total/count;
+                //console.log("total " + total);
+                Avg = total/newCount;
+                //console.log("avg " + Avg );
+                //console.log("number " + Number(Avg).toFixed(1));
                 json_response = requestGen.responseGenerator(200,{data: Number(Avg).toFixed(1)});
                 callback(null, json_response);
             }
@@ -330,5 +397,26 @@ exports.searchCustomer = function (msg, callback) {
             json_responses = requestGen.responseGenerator(500, {message: 'No driver details found.'});
         }
         callback(null, json_responses);
+    });
+};
+
+exports.checkCustomerSSN = function(msg, callback){
+
+    var ssn = msg.ssn;
+
+    var json_response;
+
+    Customer.findAll({where: {ssn: ssn}}).then(function(customers){
+
+        //console.log("email customers " + customers);
+
+        if(customers.length > 0){
+            json_response = requestGen.responseGenerator(500, null);
+        }
+        else{
+            json_response = requestGen.responseGenerator(200, null);
+        }
+
+        callback(null, json_response);
     });
 };
