@@ -1,5 +1,22 @@
 var app = angular.module('ngMap');
 
+app.controller('navbar',['$scope','$http', function($scope, $http) {
+
+
+    $http.get("/getCustomerInformation").success(function(response) {
+        if (response.status == 200) {
+            $scope.firstName = response.data.firstName;
+            $scope.email = response.data.email;
+        }
+        else{
+            //window.location.assign('/logout');
+        }
+
+    }).error(function(error){
+        window.location.assign('/errorCustomer');
+    });
+}]);
+
 app.controller('billings', function($scope, $http){
 
 
