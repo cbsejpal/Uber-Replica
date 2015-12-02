@@ -721,7 +721,7 @@ exports.addDriverImage = function(req, res){
 
 exports.getDriverImage = function (req, res) {
 
-    var image = req.param('email');
+    var image = req.param('image');
 
     var mongoose = require('mongoose');
     var Schema = mongoose.Schema;
@@ -748,7 +748,11 @@ exports.getDriverImage = function (req, res) {
             filename: image
         }).pipe(writestream);
 
-        res.send("Success");
+        setTimeout(function(){
+            res.send("Success");
+        }, 200);
+
+
     });
 };
 
