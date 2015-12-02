@@ -192,8 +192,22 @@
     </form>
 
     <div class="row" ng-hide="goBack">
-        <p style="color: green"> Successfully submitted review!</p>
-        <a href="/customerDashboard">Go to Dashboard</a>
+        <div class="col-md-4">
+            <p style="color: green"> Successfully submitted review!</p>
+            <a href="/customerDashboard">Go to Dashboard</a>
+        </div>
+        <div class="col-md-6">
+            <p>Want to add image of the ride? </p>
+
+            <form id="form" method="post" name="uploadImage" action="/addImagesToRide" enctype="multipart/form-data">
+                <div class="col-md-8">
+                    <h2>Please upload images during ride !</h2>
+                    Upload : <br><br><input name="file" id="file" class="btn btn-lg btn-default" type= "file" required>
+                    <br>
+                    <input class="btn btn-lg btn-default click4" type="submit" value="Submit">
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 </body>
