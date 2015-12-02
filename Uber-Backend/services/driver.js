@@ -77,7 +77,7 @@ exports.loginDriver = function (msg, callback) {
     var newPassword = crypto.createHash('sha512').update(salt + password + salt).digest("hex");
 
     Driver.findOne({where: {email: email, password: newPassword}}).then(function (user) {
-
+console.log(JSON.stringify(user));
         if (user) {
             json_responses = requestGen.responseGenerator(200, {message: 'driver login successful', user: user.email});
         }
@@ -241,22 +241,22 @@ exports.getDriverInformation = function (msg, callback) {
     var email = msg.email;
     var json_responses;
     console.log(email);
-    Driver.findOne({where: {email: email}}).then(function (driver) {
+    Driver.findOne({where: {email: email}, raw: true}).then(function (driver) {
         console.log(email);
         if (driver) {
-            console.log("driver from sql " + driver);
+            //console.log("driver from sql " + JSON.stringify(driver));
 
-            Drivers.find({email: email}, function (err, drivers) {
-                if (drivers) {
-                    console.log("driver from mongodb " + drivers);
+            Drivers.findOne({email: email}).lean().then(function(drivers){
 
-                    json_responses = requestGen.responseGenerator(200, driver, drivers);
-                }
-                else {
-                    json_responses = requestGen.responseGenerator(200, driver, {message: "No rides found!"});
-                }
-                callback(null, json_responses);
-            });
+                    if (drivers) {
+                        //console.log("driver from mongodb " + JSON.stringify(drivers));
+                        json_responses = requestGen.responseGenerator(200, drivers, driver);
+                    }
+                    else {
+                        json_responses = requestGen.responseGenerator(200, driver, {message: "No rides found!"});
+                    }
+                    callback(null, json_responses);
+                });
         } else {
             json_responses = requestGen.responseGenerator(500, {message: "No Driver found"});
         }
@@ -418,7 +418,6 @@ exports.getDriverRating = function(msg, callback){
     var emailId = msg.emailId;
     var json_response;
 
-    console.log(emailId);
     Drivers.findOne( { email : emailId }, function(err, doc) {
 
         console.log(doc);

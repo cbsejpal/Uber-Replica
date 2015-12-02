@@ -3,19 +3,20 @@
 var billingSchema = require('./model/billingSchema');
 var requestGen = require('./commons/responseGenerator');
 var dateFormatter = require('./commons/dateFormatter');
+var request = require('request');
 
 var Billings = billingSchema.Billings;
 
 exports.generateBill = function(msg, callback){
-	
+
 	var rideId = msg.rideId;
 	var customerId = msg.customerId;
 	var driverId = msg.driverId;
 	var pickUpLocation = msg.pickUpLocation;
 	var dropOffLocation = msg.dropOffLocation;
 	var rideDate = dateFormatter.dateMMDDYYYYformater(new Date()); //msg.rideDate
-	var rideStartTime = dateFormatter.dateMMDDYYYYformater(new Date()); //msg.rideStartDateTime
-	var rideEndTime = dateFormatter.dateMMDDYYYYformater(new Date()); //msg.rideEndDateTime
+	var rideStartTime = msg.rideStartTime; //msg.rideStartDateTime
+	var rideEndTime =msg.rideEndTime; //msg.rideEndDateTime
 	var rideDistance ; //= msg.rideDistance;
 	//var rideAmount = msg.rideAmount;
 
@@ -25,41 +26,45 @@ exports.generateBill = function(msg, callback){
 		method: 'GET'
 	}, function(error, response, body) {
 		if (error) {
-			console.log(error);
+			json_responses = requestGen.responseGenerator(500, {message: " error generating location"});
+			callback(null,json_responses);
 		} else {
 			rideDistance = JSON.parse(body).rows[0].elements[0].distance.value * 0.000621371;
 
 			//Call dynamic pricing algorithm here
-		}
-	});
 
-	var json_responses;
 
-	var newBill = new Billings({
-		rideId: rideId,
-		rideDate: rideDate,
-		rideStartTime: rideStartTime,
-		rideEndTime: rideEndTime,
-		rideDistance: rideDistance,
-		rideAmount: rideDistance,
-		pickUpLocation: pickUpLocation,
-		dropOffLocation: dropOffLocation,
-		customerId: customerId,
-		driverId: driverId
-	});
+			var json_responses;
 
-	newBill.save(function(err) {
+			var newBill = new Billings({
+				rideId: rideId,
+				rideDate: rideDate,
+				rideStartTime: rideStartTime,
+				rideEndTime: rideEndTime,
+				rideDistance: rideDistance,
+				rideAmount: rideDistance,
+				pickUpLocation: pickUpLocation,
+				dropOffLocation: dropOffLocation,
+				customerId: customerId,
+				driverId: driverId
+			});
 
-		if (err) {
-			json_responses = requestGen.responseGenerator(500, {message: " error generating bill" });
-		}
-		else {
-			json_responses = requestGen.responseGenerator(200, newBill);
-		}
+			console.log(JSON.stringify(newBill));
+
+			newBill.save(function(err) {
+
+				if (err) {
+					console.log(err);
+					json_responses = requestGen.responseGenerator(500, {message: " error generating bill" });
+				}
+				else {
+					json_responses = requestGen.responseGenerator(200, newBill);
+				}
 //		billingSchema.closeConnection();
-		callback(null,json_responses);
+				callback(null,json_responses);
+			});
+		}
 	});
-
 };
 
 exports.billingSearch = function(msg, callback){
@@ -119,4 +124,29 @@ exports.deleteBill = function (msg, callback) {
 		}
 		callback(null, json_responses);
 	});
+};
+
+exports.getBill = function(msg, callback){
+
+	var billId = msg.billId;
+
+	var json_responses;
+
+	Billings.findOne({billingId: billId}, function(err, bill){
+		if (err) {
+			json_responses = requestGen.responseGenerator(500, {message: 'Error in Bill Finding'});
+			callback(null, json_responses);
+		}
+		else{
+			if(bill){
+				json_responses = requestGen.responseGenerator(200, bill);
+				callback(null, json_responses);
+			}
+			else{
+				json_responses = requestGen.responseGenerator(500, {message: 'No Bill Found'});
+				callback(null, json_responses);
+			}
+		}
+	});
+
 };

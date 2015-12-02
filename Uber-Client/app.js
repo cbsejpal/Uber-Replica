@@ -5,6 +5,7 @@
 
 var express = require('express')
     , http = require('http')
+    , multer = require('multer')
     , app = express()
     //, passport = require('passport')
     , server = http.Server(app)
@@ -30,6 +31,9 @@ app.configure(function(){
     app.set('port', process.env.PORT || 3000);
     app.set('views', __dirname + '/views');
     app.set('view engine', 'ejs');
+    app.use(express.static(path.join(__dirname, 'public')));
+    app.use('/uploads', express.static(__dirname + "/uploads"));
+    app.use(multer({dest: './uploads/'}));
     app.use(express.favicon());
     app.use(express.logger('dev'));
     app.use(express.bodyParser());
@@ -38,8 +42,8 @@ app.configure(function(){
         secret : 'mySECRETMongoDBString',
         resave : false, // don't save session if unmodified
         saveUninitialized : false, // don't create session until something stored
-        duration : 30 * 60 * 1000,
-        activeDuration : 5 * 60 * 1000,
+        duration : 300 * 60 * 1000,
+        activeDuration : 50 * 60 * 1000,
         store : new mongoStore({
             url : mongoSessionConnectURL
         })
@@ -49,7 +53,6 @@ app.configure(function(){
     //app.use(passport.expressSession());
 
     app.use(app.router);
-    app.use(express.static(path.join(__dirname, 'public')));
 });
 
 app.configure('development', function(){
@@ -68,8 +71,10 @@ app.get('/registerAdmin', admin.register);
 
 app.get('/listAllCustomers', customer.listAllCustomers);
 
+app.get('/addImagesToRide',customer.renderAddImagesToRide);
 app.post('/addImagesToRide',customer.addImagesToRide);
-app.get('/getImagesOfRide:image', customer.getImagesOfRide);
+app.get('/getImagesOfRide', customer.getImagesOfRide);
+app.get('/getImage', customer.getImage);
 app.get('/showCustomers', admin.showCustomers);
 app.get('/showDrivers', admin.showDrivers);
 app.get('/logout', logout.logout);
@@ -81,10 +86,12 @@ app.get('/getCustomerInformation', customer.getCustomerInformation);
 app.post('/updateCustomer',customer.updateCustomer);
 app.get('/checkCustomerEmail', customer.checkCustomerEmail);
 app.get('/searchCustomers', customer.searchCustomer);
+app.get('/deleteSelfCustomer', customer.deleteSelfCustomer);
 
 //driver
 app.get('/searchDriver', driver.searchDriver);
 app.get('/deleteDriver', driver.deleteDriver);
+app.get('/deleteSelfDriver', driver.deleteSelfDriver);
 app.get('/getDriverInformation', driver.getDriverInformation);
 app.post('/updateDriver', driver.updateDriver);
 app.get('/getDriversInRange',driver.getDriversInRange);
@@ -149,6 +156,15 @@ app.get('/requestedRide',driver.requestedRide);
 
 app.post('/updateDriverDetails', driver.updateDriverDetails);
 
+app.post('/addDriverImage', driver.addDriverImage);
+app.get('/getDriverImage', driver.getDriverImage);
+
+app.get('/getBill', billing.getBill);
+
+app.get('/cityList', ride.cityList);
+app.get('/cityRides', ride.cityRides);
+app.get('/driverRides', ride.driverRides);
+app.get('/customerRides', ride.customerRides);
 
 //error handling files
 

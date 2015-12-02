@@ -13,10 +13,11 @@
 
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="angular/adminDashboard.js"></script>
+
     <script src="angular/ng-infinite-scroll.min.js"></script>
 
     <link href="stylesheets/dashboard.css" rel="stylesheet">
@@ -170,8 +171,7 @@
 
             <!-- customers div -->
 
-            <div infinite-scroll="getSearchCustomerList()" infinite-scroll-distance="3" class="customers"
-                 ng-controller="customers">
+            <div class="customers" infinite-scroll="getSearchCustomerList()" infinite-scroll-distance="0" infinite-scroll-disabled = "{{loadMore}}"                 ng-controller="customers">
                 <center><h2 class="sub-header">Customers' list</h2></center>
                 <div class="col-md-9"></div>
                 <div class="col-md-3" style="margin-top:-55px;">
@@ -278,6 +278,9 @@
                         <th>#</th>
                         <th>Customer</th>
                         <th>Email</th>
+                        <th>City</th>
+                        <th>SSN</th>
+                        <th>Card</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -285,8 +288,10 @@
                     <tr>
                         <td>1</td>
                         <td>{{k.firstName}}</td>
-
                         <td>{{k.email}}</td>
+                        <td>{{k.city}}</td>
+                        <td>{{k.ssn}}</td>
+                        <td>{{k.creditCard}}</td>
 
                         <td>
                             <button class="btn btn-success" type="submit" ng-click="approveCustomer(k.email)">Approve
@@ -307,6 +312,10 @@
                         <th>#</th>
                         <th>Driver</th>
                         <th>Email</th>
+                        <th>City</th>
+                        <th>SSN</th>
+                        <th>Car</th>
+                        <th>License</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -316,6 +325,13 @@
                         <td>{{k.firstName}}</td>
 
                         <td>{{k.email}}</td>
+                        <td>{{k.city}}</td>
+                        <td>{{k.ssn}}</td>
+                        <td>{{k.carDetails}}</td>
+                        <td>{{k.license}}</td>
+
+
+
                         <td>
                             <button class="btn btn-success" type="button" ng-click="approveDriver(k.email)">Approve
                             </button>
@@ -328,10 +344,10 @@
             </div>
 
 
-            <div class="analysis">
+            <div class="analysis" ng-controller="analysis">
                 <svg class="chart"></svg>
                 <script src="js/d3.min.js" charset="utf-8"></script>
-                <script src="js/index.js"></script>
+                <!--<script src="js/index.js"></script>-->
             </div>
 
         </div>

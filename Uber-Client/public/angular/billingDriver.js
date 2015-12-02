@@ -9,19 +9,37 @@ app.controller('billings', function($scope, $http){
 
     $scope.init = function(bill){
 
-        $scope.billingId = bill.billingId;
-        $scope.rideId = bill.rideId;
-        $scope.rideDate = bill.rideDate;
-        $scope.pickUpLocation = bill.pickUpLocation;
-        $scope.dropOffLocation =  bill.dropOffLocation;
-        $scope.rideStartTime = bill.rideStartTime;
-        $scope.rideEndTime = bill.rideEndTime;
-        $scope.rideDistance = bill.rideDistance;
-        $scope.customerId = bill.customerId;
-        $scope.driverId = bill.driverId;
-        $scope.rideAmount = bill.rideAmount;
-    };
+        //alert(bill);
 
+        $http({
+            method: "GET",
+            url : '/getBill',
+            params : {
+                billId : bill
+            }
+        }).success(function(response){
+
+           // alert('inside');
+
+            $scope.billingId = response.billingId;
+            $scope.rideId = response.rideId;
+            $scope.rideDate = response.rideDate;
+            $scope.pickUpLocation = response.pickUpLocation;
+            $scope.dropOffLocation =  response.dropOffLocation;
+            $scope.rideStartTime = response.rideStartTime;
+            $scope.rideEndTime = response.rideEndTime;
+            $scope.rideDistance = response.rideDistance;
+            $scope.customerId = response.customerId;
+            $scope.driverId = response.driverId;
+            $scope.rideAmount = response.rideAmount;
+
+        }).error(function(){
+
+            alert("error");
+        });
+
+
+    };
 
     $scope.rating = function(rate){
         $scope.customerRating = rate;
@@ -30,22 +48,19 @@ app.controller('billings', function($scope, $http){
     $scope.submit = function(){
 
         $http({
-            method : "GET",
-            url : '/submitCustomerReview',
-            params : {
+            method : "POST",
+            url : '/rateCustomer',
+            data : {
+                rideId: $scope.rideId,
                 customerId: $scope.customerId,
                 rating: $scope.customerRating,
-                review: $scope.customerReview
+                reviews: $scope.customerReview
             }
         }).success(function(response) {
 
-            if (data.statusCode == 401) {
+            $scope.ratingForm = true;
+            $scope.goBack = false;
 
-            }
-            else{
-                $scope.ratingForm = true;
-                $scope.goBack = true;
-            }
         }).error(function(error){
 
         });

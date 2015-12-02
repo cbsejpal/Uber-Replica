@@ -49,7 +49,7 @@ exports.createRide = function (req, res) {
                     res.status(500).send(null);
                 } else {
                     ////console.log("about results" + results);
-                    io.onInformationretrieved(driverId,result.data.rideId);
+                    io.onInformationretrieved(driverId,results.data.rideId);
                     console.log("Emit: ", driverId);
                     res.status(results.status).send(results.data);
                 }
@@ -300,7 +300,7 @@ exports.endRide = function (req, res) {
                     res.status(500).send(null);
                 } else {
                     ////console.log("about results" + results);
-                    res.send(results);
+                    res.status(results.status).send(results.data);
                 }
             });
         }
@@ -331,6 +331,7 @@ exports.startRide = function (req, res) {
         else{
             var msg_payload = {
                 "rideId": rideId,
+                "driverId":driverId,
                 "func": "startRide"
             };
 
@@ -390,7 +391,7 @@ exports.getRideInfo = function (req, res) {
 
 exports.rateDriver = function (req, res) {
 
-    var emailId = req.param('emailId');
+    var emailId = req.param('driverId');
     var rideId = req.param('rideId');
     var rating = req.param('rating');
     var reviews = req.param('reviews');
@@ -419,7 +420,7 @@ exports.rateDriver = function (req, res) {
 
 exports.rateCustomer = function (req, res) {
 
-    var emailId = req.param('emailId');
+    var emailId = req.param('customerId');
     var rideId = req.param('rideId');
     var rating = req.param('rating');
     var reviews = req.param('reviews');
@@ -443,4 +444,85 @@ exports.rateCustomer = function (req, res) {
         }
     });
 
+};
+
+exports.cityList = function(req, res){
+
+    var msg_payload = {
+        "func" : "cityList"
+    };
+
+    mq_client.make_request('ride_queue', msg_payload, function (err, results) {
+        //console.log(results);
+        if (err) {
+            //console.log(err);
+            res.status(500).send(null);
+        } else {
+            ////console.log("about results" + results);
+            res.status(results.status).send(results.data);
+        }
+    });
+};
+
+exports.cityRides = function(req, res){
+
+    var rideCity = req.param('rideCity');
+
+    var msg_payload = {
+      "rideCity" : rideCity,
+      "func" : "cityRides"
+    };
+
+    mq_client.make_request('ride_queue', msg_payload, function (err, results) {
+        //console.log(results);
+        if (err) {
+            //console.log(err);
+            res.status(500).send(null);
+        } else {
+            ////console.log("about results" + results);
+            res.status(results.status).send(results.data);
+        }
+    });
+};
+
+exports.driverRides = function(req, res){
+
+    var driverId = req.param('driverId');
+
+    var msg_payload = {
+        "driverId" : driverId,
+        "func" : "driverRides"
+    };
+
+    mq_client.make_request('ride_queue', msg_payload, function (err, results) {
+        //console.log(results);
+        if (err) {
+            //console.log(err);
+            res.status(500).send(null);
+        } else {
+            ////console.log("about results" + results);
+            res.status(results.status).send(results.data);
+        }
+    });
+};
+
+exports.customerRides = function(req,res){
+
+    var customerId = req.param('customerId');
+
+    var msg_payload = {
+        "customerId" : customerId,
+        "func" : "customerRides"
+    };
+
+    mq_client.make_request('ride_queue', msg_payload, function (err, results) {
+        //console.log(results);
+        if (err) {
+            //console.log(err);
+            res.status(500).send(null);
+        } else {
+            ////console.log("about results" + results);
+            res.status(results.status).send(results.data);
+        }
+    });
 };

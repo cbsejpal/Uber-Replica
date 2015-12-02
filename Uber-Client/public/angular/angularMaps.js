@@ -7,13 +7,24 @@ app.run(function ($rootScope) {
 
 });
 
-app.controller('ngMap1', function ($rootScope, $scope,$http,NgMap) {
+app.controller('navbar', ['socket', function (socket) {
+    socket.on('bill_generated', function (data) {
+        alert(JSON.stringify(data.bill.billingId));
+        window.location.assign('/customerRideBill?bill='+data.bill.billingId);
+    });
+}]);
+
+
+app.controller('ngMap1', function ($rootScope, $scope, $http, NgMap) {
+
+
+
 
     NgMap.getMap().then(function (map) {
         $rootScope.map = map;
 
         //console.log(map.getCenter().lat() + ' ' + map.getCenter().lng());
-        $scope.getDriversWithInRadius(map.getCenter().lat(),map.getCenter().lng());
+        $scope.getDriversWithInRadius(map.getCenter().lat(), map.getCenter().lng());
         //Call get driver information here with map.getCenter.lat() with key currentLat
         // & map.getCenter().lng() with key currentLng
     });
@@ -21,7 +32,7 @@ app.controller('ngMap1', function ($rootScope, $scope,$http,NgMap) {
     var vm = this;
     vm.drivers = [];
 
-    $scope.getDriversWithInRadius = function (currLat,currLon) {
+    $scope.getDriversWithInRadius = function (currLat, currLon) {
         $http({
             method: "GET",
             url: '/getDriversInRange',
@@ -35,7 +46,7 @@ app.controller('ngMap1', function ($rootScope, $scope,$http,NgMap) {
             //checking the response data for statusCode
             if (data.status == 401) {
                 window.location.assign("/loginCustomer");
-            }else if(data.status == 500){
+            } else if (data.status == 500) {
                 alert('No driver found in your area');
             }
             else {
@@ -47,7 +58,7 @@ app.controller('ngMap1', function ($rootScope, $scope,$http,NgMap) {
         });
     };
 
-       //Filter all driver drivers to filter it that is in the 10 miles radius of current position
+    //Filter all driver drivers to filter it that is in the 10 miles radius of current position
     vm.filerPlace = function () {
         vm.drivers = $scope.drivers;
     };
@@ -114,68 +125,72 @@ app.controller('ngMap1', function ($rootScope, $scope,$http,NgMap) {
     };
     
     $rootScope.show = function(p){
-    	
+
+        var frameSrc  = p.videoURL;
+
+        $(function(){
+            $('iframe').attr("src",frameSrc.replace("watch?v=", "v/"));
+        });
+
     	$scope.driverName = p.firstName;
     	$scope.driverEmail = p.email;
-    	$scope.driverVideo = p.videoURL;
+    	//$scope.driverVideo = p.videoURL;
     	$scope.driverCity = p.city;
-    	
-    };
-    
-    
-  
-    $http.get("/getCustomerInformation").success(function(response) {
-		if (response.status == 200) {
-			$scope.customerName = response.data.firstName;
-			$scope.customerId = response.data.email;
-		}
-		});
-    
-    $rootScope.bookRide = function(driverEmail) {
+
         $http({
-            method: "POST",
-            url: '/createRide',
-            data: {
-
-                "pickUpLocation": $scope.origin,
-                "dropOffLocation": $scope.destination,
-                "pickUpLatLong": $scope.origin_pos,
-                "dropOffLatLong": $scope.destination_pos,
-                "driverId": $scope.driverEmail
+            method: "GET",
+            url: '/getImagesOfRide',
+            params: {
+                image: p.email+".jpg"
             }
-        }).success(function (data) {
-
-            //alert("Ride started ! Redirecting to your dashboard...");
-            alert(data.message + "Your ride is created successfully, Redirecting you to the dashboard !");
-            window.location.assign('/customerDashboard');
-
+        }).success(function (response) {
+            //alert('./uploads');
+            //alert(response);
+            $scope.image = './uploads/'+ p.email+".jpg"
 
         });
-    };
-
-    $rootScope.bookRide = function (driverEmail) {
-        $http({
-            method: "POST",
-            url: '/createRide',
-            data: {
-
-                "pickUpLocation": $scope.origin,
-                "dropOffLocation": $scope.destination,
-                "pickUpLatLong": $scope.origin_pos,
-                "dropOffLatLong": $scope.destination_pos,
-                "driverId": $scope.driverEmail
-            }
-        }).success(function (data) {
-            //alert("Ride started ! Redirecting to your dashboard...");
-            alert(data.message + "Your ride is created successfully, Redirecting you to the dashboard !");
-            window.location.assign('/customerDashboard');
 
 
-        }).error(function (data) {
-            alert(data.message);
-        });
+        $scope.driverVideo = p.videoURL;
 
     };
 
-});
+
+    $http.get("/getCustomerInformation").success(function (response) {
+        if (response.status == 200) {
+            $scope.customerName = response.data.firstName;
+            $scope.customerId = response.data.email;
+        }
+    });
+
+    $rootScope.bookRide = function () {
+        if (typeof ($scope.origin) != 'undefined' || typeof ($scope.destination) != "undefined") {
+            $http({
+                method: "POST",
+                url: '/createRide',
+                data: {
+
+                    "pickUpLocation": $scope.origin,
+                    "dropOffLocation": $scope.destination,
+                    "pickUpLatLong": $scope.origin_pos,
+                    "dropOffLatLong": $scope.destination_pos,
+                    "driverId": $scope.driverEmail
+                }
+            }).success(function (data) {
+                //alert("Ride started ! Redirecting to your dashboard...");
+                alert(data.message + "Your ride is created successfully, Redirecting you to the dashboard !");
+                window.location.assign('/customerDashboard');
+
+
+            }).error(function (data) {
+                alert(data.message);
+            });
+        }
+        else {
+            alert("Please enter the origin and destination properly !");
+        }
+    };
+
+})
+;
 

@@ -43,17 +43,22 @@ signupDriver.controller('signupDriver', function($scope, $http) {
 			}
 
 		}).error(function(error) {
-			alert("Error");
+			//alert("Error");
 		});
 	};
 
 
 
 	$scope.validate = function($event){
+
 		angular.forEach($scope.registration.$error.required, function(field) {
 		    field.$setDirty();
 		});
-		if($scope.registration.$error.required || !$scope.emailError){
+		angular.forEach($scope.registration.$error.pattern, function(field) {
+			field.$setDirty();
+		});
+
+		if($scope.registration.$error.required || $scope.registration.$error.pattern || !$scope.emailError ){
 			$event.preventDefault();
 			alert('Error! Please check all fields');
 		}

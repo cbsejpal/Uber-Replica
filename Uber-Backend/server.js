@@ -92,7 +92,7 @@ cnn.on('ready', function() {
 						});
 					});
 					break;
-					
+
 				case "getCustomerInformation":
 					customer.getCustomerInformation(message, function (err, res) {
 
@@ -105,7 +105,7 @@ cnn.on('ready', function() {
 						});
 					});
 					break;
-					
+
 				case "getImagesOfRide":
 					customer.getImagesOfRide(message, function (err, res) {
 
@@ -232,7 +232,7 @@ cnn.on('ready', function() {
 						});
 					});
 					break;
-				
+
 				case "updateDriver":
 					driver.updateDriver(message, function (err, res) {
 
@@ -245,7 +245,7 @@ cnn.on('ready', function() {
 						});
 					});
 					break;
-					
+
 				case "getDriverInformation":
 					driver.getDriverInformation(message, function (err, res) {
 
@@ -270,7 +270,7 @@ cnn.on('ready', function() {
 						});
 					});
 					break;
-					
+
 				case "getDriversInRange":
 					driver.getDriversInRange(message, function (err, res) {
 
@@ -602,6 +602,57 @@ cnn.on('ready', function() {
 					});
 					break;
 
+				case "cityList":
+					ride.cityList(message, function (err, res) {
+
+						util.log("Correlation ID: " + m.correlationId);
+						// return index sent
+						cnn.publish(m.replyTo, res, {
+							contentType: 'application/json',
+							contentEncoding: 'utf-8',
+							correlationId: m.correlationId
+						});
+					});
+					break;
+
+				case "cityRides":
+					ride.cityRides(message, function (err, res) {
+
+						util.log("Correlation ID: " + m.correlationId);
+						// return index sent
+						cnn.publish(m.replyTo, res, {
+							contentType: 'application/json',
+							contentEncoding: 'utf-8',
+							correlationId: m.correlationId
+						});
+					});
+					break;
+
+				case "driverRides":
+					ride.driverRides(message, function (err, res) {
+
+						util.log("Correlation ID: " + m.correlationId);
+						// return index sent
+						cnn.publish(m.replyTo, res, {
+							contentType: 'application/json',
+							contentEncoding: 'utf-8',
+							correlationId: m.correlationId
+						});
+					});
+					break;
+
+				case "customerRides":
+					ride.customerRides(message, function (err, res) {
+
+						util.log("Correlation ID: " + m.correlationId);
+						// return index sent
+						cnn.publish(m.replyTo, res, {
+							contentType: 'application/json',
+							contentEncoding: 'utf-8',
+							correlationId: m.correlationId
+						});
+					});
+					break;
 
 			}
 		});
@@ -643,6 +694,19 @@ cnn.on('ready', function() {
 
 				case "deleteBill":
 					billing.deleteBill(message, function (err, res) {
+
+						util.log("Correlation ID: " + m.correlationId);
+						// return index sent
+						cnn.publish(m.replyTo, res, {
+							contentType: 'application/json',
+							contentEncoding: 'utf-8',
+							correlationId: m.correlationId
+						});
+					});
+					break;
+
+				case "getBill":
+					billing.getBill(message, function (err, res) {
 
 						util.log("Correlation ID: " + m.correlationId);
 						// return index sent

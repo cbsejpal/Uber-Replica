@@ -1,22 +1,43 @@
-var app = angular.module('customers', []);
+var app = angular.module('ngMap');
+
+app.controller('socket',['$scope','socket',function($scope,socket){
+
+	socket.on('bill_generated', function (data) {
+
+		window.location.assign('/customerRideBill?bill='+data.bill.billingId);
+	});
+
+}]);
+
 
 app.controller('rides', function($scope, $http) {
-	$http.get("/rideInfo").success(function(response) {
-		if (response.status == 200) {
-			$scope.rides = response.data;
+	$http({
+		method: "GET",
+		url : '/searchBills',
+		params : {
+			searchText : ""
 		}
+	}).success(function(response){
 
-	}).error(function(error){
-		window.location.assign('/errorCustomer');
+		// alert('inside');
+
+		$scope.rides = response;
+
+
+	}).error(function(){
+
+		alert("error");
 	});
 });
 
-app.controller('navbar', function($scope, $http) {
+app.controller('navbar',['$scope','$http','socket', function($scope, $http,socket) {
 
 
 	$http.get("/getCustomerInformation").success(function(response) {
 		if (response.status == 200) {
 			$scope.firstName = response.data.firstName;
+			$scope.email = response.data.email;
+			socket.emit('join',{ email: $scope.email });
 		}
 		else{
 			//window.location.assign('/logout');
@@ -25,7 +46,7 @@ app.controller('navbar', function($scope, $http) {
 	}).error(function(error){
 		window.location.assign('/errorCustomer');
 	});
-});
+}]);
 
 
 
