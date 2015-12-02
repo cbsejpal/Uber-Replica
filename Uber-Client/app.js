@@ -130,8 +130,8 @@ app.post('/endRide', ride.endRide);
 
 app.post('/rateDriver', ride.rateDriver);
 app.post('/rateCustomer', ride.rateCustomer);
-app.post('/getCustomerRating', customer.getCustomerRating);
-app.post('/getDriverRating', driver.getDriverRating);
+app.get('/getCustomerRating', customer.getCustomerRating);
+app.get('/getDriverRating', driver.getDriverRating);
 
 
 //admin
