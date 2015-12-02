@@ -9,7 +9,7 @@ app.controller('socket',['$scope','socket',function($scope,socket){
 
 }]);
 
-app.controller('navbar',[ '$rootScope','$scope','$http','socket',function($scope,$rootScope, $http,socket) {
+app.controller('navbar',[ '$scope', '$rootScope','$http','socket',function($scope,$rootScope, $http,socket) {
 
 	$http.get("/getDriverInformation")
 			.success(function(response) {
@@ -18,13 +18,13 @@ app.controller('navbar',[ '$rootScope','$scope','$http','socket',function($scope
 					//alert(JSON.stringify(response.data.firstName));
 					//alert("inside navbar");
 					$scope.firstName = response.data.firstName;
-					$scope.email = response.data.email;
 
 					if(typeof(response.data.currentRideId) != "undefined" && response.data.currentRideId.length>0) {
 						$rootScope.currentRideId = response.data.currentRideId;
 					}else{
 						$rootScope.currentRideId = false;
 					}
+					$rootScope.getRideInfo(response.data.email);
 
 					socket.emit('join',{ email: $scope.email });
 				}
@@ -38,22 +38,32 @@ app.controller('navbar',[ '$rootScope','$scope','$http','socket',function($scope
 			});
 }]);
 
-app.controller('myrides', function($scope, $http) {
+app.controller('myrides', function($scope,$rootScope, $http) {
+	//alert($rootScope.email);
 	
-	$http.get("/driverRideList").success(function(response) {
-		//alert(JSON.stringify(response.status));
-		if (response.status == 200) {
-			//alert(JSON.stringify(response));
-			$scope.rides = response.data;
+	$rootScope.getRideInfo = function(email){
+		
+		alert("email " + email); 
+		$http({
+		method: "GET",
+		url : '/searchBills',
+		params : {
+			startPosition : 0,
+			searchText : email
 		}
-		else{
-			$scope.rides = "";
-		}
-	}).error(function(error){
-		//alert("error");
-		window.location.assign('/errorDriver');
+	}).success(function(response){
+
+		$scope.rides = response;
+
+		}).error(function(){
+
+		alert("error");
 	});
+	}
+
 });
+
+
 
 app.controller('profile', function($scope, $http) {
 
