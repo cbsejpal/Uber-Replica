@@ -1,4 +1,4 @@
-var app = angular.module('ngMap');
+var app = angular.module('ngMap',['infinite-scroll']);
 
 app.controller('ridesPerArea', function($scope, $http){
 
