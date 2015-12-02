@@ -22,7 +22,7 @@
     <script src="angular/customerDashboard.js"></script>
     <script src="https://cdn.socket.io/socket.io-1.3.7.js"></script>
     <script src="angular/socket-service.js"></script>
-
+    <script src="angular/ng-infinite-scroll.min.js"></script>
 
     <link href="stylesheets/dashboard.css" rel="stylesheet">
     <script>
@@ -69,7 +69,8 @@
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" ng-app="customers">
 
-            <div class="myrides" ng-controller="rides">
+            <div class="myrides" infinite-scroll="getRidesInfo()" infinite-scroll-distance="0"
+                 infinite-scroll-disabled="{{loadMore}}" ng-controller="rides">
                 <center>
                     <h2 class="sub-header">MY RIDES</h2></center>
                 <div class="table-responsive">
@@ -93,7 +94,7 @@
 
                             <td>{{k.pickUpLocation}}</td>
                             <td>{{k.dropOffLocation}}</td>
-                        <td> <a href="customerRideBill?bill={{k.billingId}}">Bill</a></td>
+                            <td> <a href="customerRideBill?bill={{k.billingId}}">Bill</a></td>
                         </tr>
 
                         <tr>
@@ -103,166 +104,166 @@
                             <td>
                                 <img ng-src="uploads/{{k.billingId}}.jpg" width="150" height="150" alt="No Image uploaded during ride" onError="this.onerror=null;src='uploads/not-found.png';">
                             </td>
-                    </tr>
+                        </tr>
 
-                    </tbody>
+                        </tbody>
 
-                </table>
-            </div>
-
-        </div>
-
-        <div class="profile" >
-            <form id="form" name='profileUpdate' method="post" ng-controller="profile" novalidate>
-
-            <center>  <h2 class="sub-header">PROFILE</h2></center>
-            <h4>General Information</h4><hr>
-            <div class="row">
-                <div class="col-md-2">
-                    <p>First name : </p>
-                </div>
-                <div class="col-md-3"><input class="form-control" type="text" ng-model="firstName" ng-pattern="/^([a-zA-Z]{1,20})$/" name="firstName" required>
-
-                </div>
-
-                <div class="col-md-2">
-                    <p>Last name : </p>
-                </div>
-                <div class="col-md-3"><input class="form-control" type="text" ng-model="lastName" ng-pattern="/^([a-zA-Z]{1,20})$/" name="lastName" required>
-
+                    </table>
                 </div>
 
             </div>
-            <div class="row">
-                <div class="col-md-5">
+
+            <div class="profile" >
+                <form id="form" name='profileUpdate' method="post" ng-controller="profile" novalidate>
+
+                    <center>  <h2 class="sub-header">PROFILE</h2></center>
+                    <h4>General Information</h4><hr>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <p>First name : </p>
+                        </div>
+                        <div class="col-md-3"><input class="form-control" type="text" ng-model="firstName" ng-pattern="/^([a-zA-Z]{1,20})$/" name="firstName" required>
+
+                        </div>
+
+                        <div class="col-md-2">
+                            <p>Last name : </p>
+                        </div>
+                        <div class="col-md-3"><input class="form-control" type="text" ng-model="lastName" ng-pattern="/^([a-zA-Z]{1,20})$/" name="lastName" required>
+
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
                     <span style="color:red" ng-show="profileUpdate.firstName.$dirty && profileUpdate.firstName.$invalid">
                           <span ng-show="profileUpdate.firstName.$error.required">First Name is required.</span>
                         <span ng-show="profileUpdate.firstName.$error.pattern">Please enter alphabets only</span>
 
                     </span>
-                </div>
-                <div class="col-md-5">
+                        </div>
+                        <div class="col-md-5">
                     <span style="color:red" ng-show="profileUpdate.lastName.$dirty && profileUpdate.lastName.$invalid">
                           <span ng-show="profileUpdate.lastName.$error.required">Last Name is required.</span>
                         <span ng-show="profileUpdate.lastName.$error.pattern">Please enter alphabets only</span>
                     </span>
-                </div>
-            </div>
-            <hr>
-            <div class="row">
-                <div class="col-md-2">
-                    <p> City : </p>
-                </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <p> City : </p>
+                        </div>
 
-                <div class="col-md-3"><input class="form-control" type="text" ng-model="city" ng-pattern="/^[a-zA-Z ]*$/" name="city" required></div>
-
-
-                <div class="col-md-2">
-                    <p> State : </p>
-                </div>
-                <div class="col-md-3"><input class="form-control" ng-pattern="/^(?:A[KLRZ]|C[AOT]|D[CE]|FL|GA|HI|I[ADLN]|K[SY]|LA|M[ADEINOST]|N[CDEHJMVY]|O[HKR]|PA|RI|S[CD]|T[NX]|UT|V[AT]|W[AIVY])*$/" type="text" ng-model="state" name="state" required></div>
+                        <div class="col-md-3"><input class="form-control" type="text" ng-model="city" ng-pattern="/^[a-zA-Z ]*$/" name="city" required></div>
 
 
-            </div>
-                <div class="row">
-                    <div class="col-md-5">
+                        <div class="col-md-2">
+                            <p> State : </p>
+                        </div>
+                        <div class="col-md-3"><input class="form-control" ng-pattern="/^(?:A[KLRZ]|C[AOT]|D[CE]|FL|GA|HI|I[ADLN]|K[SY]|LA|M[ADEINOST]|N[CDEHJMVY]|O[HKR]|PA|RI|S[CD]|T[NX]|UT|V[AT]|W[AIVY])*$/" type="text" ng-model="state" name="state" required></div>
+
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
                         <span style="color:red" ng-show="profileUpdate.city.$dirty && profileUpdate.city.$invalid">
                               <span ng-show="profileUpdate.city.$error.required">City is required.</span>
                             <span ng-show="profileUpdate.city.$error.pattern">Enter a Valid City Name</span>
 
                           </span>
-                    </div>
-                    <div class="col-md-5">
+                        </div>
+                        <div class="col-md-5">
                         <span style="color:red" ng-show="profileUpdate.state.$dirty && profileUpdate.state.$invalid">
                               <span ng-show="profileUpdate.state.$error.required">State is required.</span>
                             <span ng-show="profileUpdate.state.$error.pattern">Enter a Valid US State Code</span>
 
                           </span>
+                        </div>
                     </div>
-                </div>
-            <hr>
-            <div class="row">
-                <div class="col-md-2">
-                    <p> Email : </p>
-                </div>
-                <div class="col-md-3"><input ng-pattern="/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/" class="form-control" type="text" ng-model="email" name="email" disabled required></div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <p> Email : </p>
+                        </div>
+                        <div class="col-md-3"><input ng-pattern="/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/" class="form-control" type="text" ng-model="email" name="email" disabled required></div>
 
 
-                <div class="col-md-2">
-                    <p> Zip Code : </p>
-                </div>
-                <div class="col-md-3"><input ng-pattern="/^(\d{5}(-\d{4})?|[A-Z]\d[A-Z] *\d[A-Z]\d)$/" class="form-control" type="text" ng-model="zipCode" name="zipCode" required></div>
+                        <div class="col-md-2">
+                            <p> Zip Code : </p>
+                        </div>
+                        <div class="col-md-3"><input ng-pattern="/^(\d{5}(-\d{4})?|[A-Z]\d[A-Z] *\d[A-Z]\d)$/" class="form-control" type="text" ng-model="zipCode" name="zipCode" required></div>
 
 
 
-            </div>
-                <div class="row">
-                    <div class="col-md-5">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
                     <span style="color:red" ng-show="profileUpdate.email.$dirty && profileUpdate.email.$invalid">
                           <span ng-show="profileUpdate.email.$error.required">Email is required.</span>
                         <span ng-show="profileUpdate.email.$error.pattern">Incorrect Email address.</span>
                       </span>
-                    </div>
-                    <div class="col-md-5">
+                        </div>
+                        <div class="col-md-5">
                     <span style="color:red" ng-show="profileUpdate.zipCode.$dirty && profileUpdate.zipCode.$invalid">
                           <span ng-show="profileUpdate.zipCode.$error.required">Zipcode is required.</span>
                         <span ng-show="profileUpdate.zipCode.$error.pattern">Incorrect Zipcode.</span>
                       </span>
+                        </div>
                     </div>
-                </div>
-            <hr>
+                    <hr>
 
 
-            <div class="row">
-                <div class="col-md-2">
-                    <p> Mobile : </p>
-                </div>
-                <div class="col-md-3"><input ng-pattern= "/^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$/" class="form-control" type="text" ng-model="phoneNumber" name="phoneNumber" required></div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <p> Mobile : </p>
+                        </div>
+                        <div class="col-md-3"><input ng-pattern= "/^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$/" class="form-control" type="text" ng-model="phoneNumber" name="phoneNumber" required></div>
 
 
 
-                <div class="col-md-2">
-                    <p> CreditCard : </p>
-                </div>
-                <div class="col-md-3"><input class="form-control" ng-pattern="/^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$/" type="text" ng-model="creditCard" name="creditCard" required></div>
+                        <div class="col-md-2">
+                            <p> CreditCard : </p>
+                        </div>
+                        <div class="col-md-3"><input class="form-control" ng-pattern="/^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$/" type="text" ng-model="creditCard" name="creditCard" required></div>
 
-            </div>
-                <div class="row">
-                    <div class="col-md-5">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
                     <span style="color:red" ng-show="profileUpdate.phoneNumber.$dirty && profileUpdate.phoneNumber.$invalid">
                           <span ng-show="profileUpdate.phoneNumber.$error.required">Mobile number is required.</span>
                         <span ng-show="profileUpdate.phoneNumber.$error.pattern">Mobile number is incorrect.</span>
                       </span>
-                    </div>
-                    <div class="col-md-5">
+                        </div>
+                        <div class="col-md-5">
                     <span style="color:red" ng-show="profileUpdate.creditCard.$dirty && profileUpdate.creditCard.$invalid">
                           <span ng-show="profileUpdate.creditCard.$error.required">Credit card information is required.</span>
                         <span ng-show="profileUpdate.creditCard.$error.pattern">Credit Card Number is not valid.</span>
                     </span>
+                        </div>
                     </div>
-                </div>
-            <hr>
-                <div class="row">
-                    <div class="col-md-2">
-                        <p> SSN ID : </p>
-                    </div>
-                    <div class="col-md-3"><input class="form-control" type="text" ng-pattern= "/^([0-9]{3}[-]*[0-9]{2}[-]*[0-9]{4})*$/" ng-model="ssn" name="ssn" disabled required></div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <p> SSN ID : </p>
+                        </div>
+                        <div class="col-md-3"><input class="form-control" type="text" ng-pattern= "/^([0-9]{3}[-]*[0-9]{2}[-]*[0-9]{4})*$/" ng-model="ssn" name="ssn" disabled required></div>
 
 
-                </div>
-                <br>
-                <div class="row">
-                    <div class="col-md-2">
-                        <button type="submit" class="btn btn-success" ng-click="save($event)">Save </button>
-
                     </div>
-                </div>
-            </form>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-success" ng-click="save($event)">Save </button>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+
         </div>
-
-
     </div>
-</div>
 
 </div>
 
