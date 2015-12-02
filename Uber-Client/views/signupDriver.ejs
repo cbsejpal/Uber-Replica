@@ -116,7 +116,7 @@
 
 
 		<br><p style = "font-size:16px;">* Zipcode : </p>
-		<input ng-pattern="/^(\d{5}(-\d{4})?|[A-Z]\d[A-Z] *\d[A-Z]\d)$/" ng-model="zipCode" class="form-control" type="text" name="zipCode" value="" placeholder="zipCode" required>
+		<input ng-pattern="/(^\d{5}$)|(^\d{5}-\d{4}$)/" ng-model="zipCode" class="form-control" type="text" name="zipCode" value="" placeholder="zipCode" required>
 
 		<span style="color:red" ng-show="registration.zipCode.$dirty && registration.zipCode.$invalid">
   					<span ng-show="registration.zipCode.$error.required">Zipcode is required.</span>

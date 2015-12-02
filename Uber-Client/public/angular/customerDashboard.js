@@ -59,7 +59,7 @@ app.controller('rides', function($scope, $rootScope, $http) {
 			method: "GET",
 			url: '/searchBills',
 			params: {
-				"search":  $scope.customerId,
+				"searchText":  $scope.customerId,
 				"startPosition": startPosition
 			}
 		}).success(function (response) {

@@ -319,7 +319,7 @@ app.controller('billing', function ($scope, $http) {
             method: "GET",
             url: '/searchBills',
             params: {
-                "search": $scope.search,
+                "searchText": $scope.search,
                 "startPosition": 0
             }
         }).success(function (response) {
@@ -334,9 +334,9 @@ app.controller('billing', function ($scope, $http) {
     $scope.getBillList = function () {
         $http({
             method: "GET",
-            url: '/searchCustomers',
+            url: '/searchBills',
             params: {
-                "search": $scope.search,
+                "searchText": $scope.search,
                 "startPosition": startPosition
             }
         }).success(function (response) {

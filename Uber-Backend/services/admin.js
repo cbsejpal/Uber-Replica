@@ -99,7 +99,7 @@ exports.showCustomers = function (msg, callback) {
 exports.showCustomersForApproval = function (msg, callback) {
 
     var json_responses;
-    Customer.findAll({where: {verifyStatus: 0}}).then(function (customers) {
+    Customer.findAll({where: {verifyStatus: 0}, limit: 50} ).then(function (customers) {
         if (customers.length > 0) {
             json_responses = requestGen.responseGenerator(200, {data: customers});
         }
@@ -127,7 +127,7 @@ exports.showDrivers = function (msg, callback) {
 exports.showDriversForApproval = function (msg, callback) {
 
     var json_responses;
-    Driver.findAll({where: {verifyStatus: 0}}).then(function (driver) {
+    Driver.findAll({where: {verifyStatus: 0},  limit: 50}).then(function (driver) {
         if (driver.length > 0) {
             json_responses = requestGen.responseGenerator(200, {data: driver});
         } else {

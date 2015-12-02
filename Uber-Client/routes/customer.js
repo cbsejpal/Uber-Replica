@@ -16,7 +16,7 @@ exports.customerDashboard =  function(req,res){
     if(req.session.customerId){
         sessionEmail = req.session.customerId;
         res.header('Cache-Control','no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
-        res.render('customerDashboard');
+        res.render('customerDashboard', {customerId : req.session.customerId});
     }
     else{
         res.redirect('/');

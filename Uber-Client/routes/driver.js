@@ -18,7 +18,7 @@ exports.driverDashboard =  function(req,res){
         sessionEmail = req.session.driverId;
 
         res.header('Cache-Control','no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
-        res.render('driverDashboard');
+        res.render('driverDashboard', {driverId: req.session.driverId});
     }
 
     else{
