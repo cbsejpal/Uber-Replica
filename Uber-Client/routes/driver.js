@@ -251,8 +251,18 @@ exports.loginDriver = function(req, res){
 exports.searchDriver = function(req, res){
 
     var search = req.param('search');
+    var startPosition = req.param('startPosition');
+    //Valdidations
+  /*  if( ! (search) ){
+
+        console.log("searchDriver validation entry error" );
+        res.status(500);
+        json_responses = {"statusCode":500};
+        res.send(json_responses);
+    }*/
 
     var msg_payload = {
+        "startPosition" : startPosition,
         "search" : search,
         "func" : "searchDriver"
     };

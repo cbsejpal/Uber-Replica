@@ -1,6 +1,6 @@
 //loading the 'login' angularJS module
 
-var signupCustomer = angular.module('signupCustomer', []);
+var signupCustomer = angular.module('signupCustomer', ['ngMap']);
 //defining the login controller
 
 signupCustomer.directive('ngModelOnblur', function() {

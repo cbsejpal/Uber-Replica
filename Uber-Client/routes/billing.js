@@ -117,10 +117,11 @@ exports.deleteBill = function(req, res){
 
 exports.searchBills = function(req, res){
 	var searchText =  req.param('searchText');
-
+	var startPosition = req.param('startPosition');
 	//Removed validations
 
 	var msg_payload = {
+		"startPosition" : startPosition,
 		"searchText": searchText,
 		"func" : "billingSearch"
 	};

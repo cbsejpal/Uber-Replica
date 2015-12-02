@@ -93,6 +93,7 @@ console.log(JSON.stringify(user));
 exports.searchDriver = function (msg, callback) {
 
     var search = msg.search;
+    var offset = msg.startPosition;
 
     Driver.findAll({
         where: {
@@ -116,7 +117,7 @@ exports.searchDriver = function (msg, callback) {
                 carDetails: {$like: '%' + search + '%'}
             }
             ]
-        }
+        },order:[['driver_id', 'ASC']], offset: offset,limit: 50
     }).then(function (drivers) {
         var json_responses;
         if (drivers) {

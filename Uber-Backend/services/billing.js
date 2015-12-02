@@ -19,10 +19,11 @@ exports.generateBill = function(msg, callback){
 	var pickUpLocation = msg.pickUpLocation;
 	var dropOffLocation = msg.dropOffLocation;
 	var rideDate = dateFormatter.dateMMDDYYYYformater(new Date()); //msg.rideDate
-	var rideStartTime = msg.rideStartTime; //msg.rideStartDateTime
-	var rideEndTime =msg.rideEndTime; //msg.rideEndDateTime
+	var rideStartTime = new Date(msg.rideStartTime); //msg.rideStartDateTime
+	var rideEndTime = new Date(msg.rideEndTime); //msg.rideEndDateTime
 	//var rideDistance ; //= msg.rideDistance;
 	//var rideAmount = msg.rideAmount;
+
 
 	//Dynamic Algo Variables
 	var rideTime = new Date();
@@ -54,13 +55,13 @@ exports.generateBill = function(msg, callback){
 					//Algo
 					// 	Change price according to rideDistance
 					if(rideDistance>1)
-						base_price = 1.5 * rideDistance ;
+						base_price = 1.5 * rideDistance ;console.log("Distance > 1");
 					//	Change price according to number of active rides
 					if(activeRides<5){
-						final_price = base_price;
+						final_price = base_price;console.log("activeRides < 5");
 					}
 					else{
-						final_price = base_price + activeRides*0.2;
+						final_price = base_price + activeRides*0.2;console.log("activeRides > 5");
 					}
 
 					/**	#FOR FUTURE USE
@@ -79,31 +80,33 @@ exports.generateBill = function(msg, callback){
 					 else {
 					 final_price = final_price  + availableDrivers*0.2;
 					 }*/
-					var day = rideTime.getUTCDay(); // It will return number of day in a week
-					var hour = rideTime.getUTCHours(); // It will return hours 0-23
+					var day = rideTime.getDay(); // It will return number of day in a week
+					var hour = rideTime.getHours(); // It will return hours 0-23
+					console.log("day"+day);
+					console.log("hour"+hour);
 					//	Change price according to time
 					if((day>5 && hour<7) || (day>5 && hour>21)) {
 						if(rideDistance>1){
-							final_price = final_price + rideDistance;
+							final_price = final_price + rideDistance;console.log("weekendPrice normal time > 1");
 						}
 						else{
-							final_price = final_price + 1;
+							final_price = final_price + 1;console.log("weekendPrice normal time < 1");
 						}
 					}
 					//	Change price according to time
 					if((hour<7 || hour>21)) {
 						if (rideDistance > 1) {
-							final_price = final_price + rideDistance;
+							final_price = final_price + rideDistance;console.log("night time Normal days > 1");
 						}
 						else {
-							final_price = final_price + 1;
+							final_price = final_price + 1;console.log("night time Normal days < 1");
 						}
 						//Increasing 20% for weekends (Friday,Sat,Sunday)
 						if (day > 4 || day == 0) {
-							final_price = 1.20 * final_price;
+							final_price = 1.20 * final_price;console.log("Weekend today !!")
 						}
 					}
-
+					console.log(final_price);
 
 					var json_responses;
 
@@ -112,8 +115,8 @@ exports.generateBill = function(msg, callback){
 						rideDate: rideDate,
 						rideStartTime: rideStartTime,
 						rideEndTime: rideEndTime,
-						rideDistance: rideDistance,
-						rideAmount: final_price,
+						rideDistance: Number((rideDistance).toFixed(2)),
+						rideAmount: Number((final_price).toFixed(2)),
 						pickUpLocation: pickUpLocation,
 						dropOffLocation: dropOffLocation,
 						customerId: customerId,
@@ -148,6 +151,7 @@ exports.billingSearch = function(msg, callback){
 	var json_response;
 
 	var searchText = msg.searchText;
+	var offset = msg.startPosition;
 
 	var data = [];
 
@@ -180,7 +184,7 @@ exports.billingSearch = function(msg, callback){
 
 		}
 		callback(null, json_response);
-	});
+	}).skip(offset).limit(50);
 };
 
 exports.deleteBill = function (msg, callback) {
