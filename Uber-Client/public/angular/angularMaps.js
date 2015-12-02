@@ -150,6 +150,19 @@ app.controller('ngMap1', function ($rootScope, $scope, $http, NgMap) {
 
         });
 
+        $http({
+            method: "GET",
+            url: '/getDriverRating',
+            params: {
+                emailId: $scope.driverEmail
+            }
+        }).success(function (response) {
+            //alert('./uploads');
+            //alert(JSON.stringify(response));
+            $scope.driverRating = response.data;
+        }).error(function(){
+            alert("error");
+        });
 
         $scope.driverVideo = p.videoURL;
 

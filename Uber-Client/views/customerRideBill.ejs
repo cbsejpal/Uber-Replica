@@ -36,7 +36,9 @@
 <body ng-app="ngMap">
 <% include navbar.ejs %>
 
-<div class="container"  ng-controller="billings" ng-init="init('<%= bill %>')">
+<div class="container" style="margin-left: 90px;"  ng-controller="billings" ng-init="init('<%= bill %>')">
+    <br> <br> <br>
+
     <div class="row">
 
     </div>
@@ -122,7 +124,7 @@
     </div>
 
 
-<div class="col-md-4" style="margin-top:-200px; margin-left:950px;">
+<div class="col-md-4" style="margin-top:-200px; margin-left:930px;">
     <ng-map zoom="10" center="{{pickUpLocation}}" style="height: 250px; width:250px;" disable-default-u-i="true" draggable="false" >
         <directions
                 travel-mode="DRIVING"

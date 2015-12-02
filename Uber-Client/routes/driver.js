@@ -670,6 +670,7 @@ exports.getDriverRating = function(req, res){
             res.status(500).send(null);
         } else {
             ////console.log("about results" + results);
+            console.log("in driver rating");
             res.status(results.status).send(results.data);
         }
     });

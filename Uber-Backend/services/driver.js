@@ -434,11 +434,20 @@ exports.getDriverRating = function(msg, callback){
                 var total = 0;
                 var count = doc.rides.length;
                 var Avg = 0;
+                var newCount = 0;;
                 for (var i = 0; i < count; i++) {
-                    driRating.push(doc.rides[i].rating);
-                    total += driRating[i];
+                    //console.log(i + " " + doc.rides[i].rating);
+                    if(typeof (doc.rides[i].rating) != 'undefined'){
+                        console.log("new i" + i);
+                        //riRating.push(doc.rides[i].rating);
+                        total += doc.rides[i].rating;
+                        newCount++;
+                    }
                 }
-                Avg = total/count;
+                //console.log("total " + total);
+                Avg = total/newCount;
+                //console.log("avg " + Avg );
+                //console.log("number " + Number(Avg).toFixed(1));
                 json_response = requestGen.responseGenerator(200,{data: Number(Avg).toFixed(1)});
                 callback(null, json_response);
             }
