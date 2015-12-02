@@ -1,4 +1,4 @@
-var app = angular.module('ngMap',['infinite-scroll']);
+var app = angular.module('ngMap');
 
 app.controller('socket',['$scope','socket',function($scope,socket){
 
@@ -14,12 +14,12 @@ app.controller('rides', function($scope, $rootScope, $http) {
 
 	//alert("getRideImage");
 	var startPosition = 0;
-	$scope.rides = [];
+	$scope.items = [];
 	$scope.loadMore = false;
 	$rootScope.getRidesInitialInfo = function(customerId){
-		//alert("get rides intial info ");
+
 		$scope.customerId = customerId;
-		/*$http({
+		$http({
 			method: "GET",
 			url : '/searchBills',
 			params : {
@@ -29,11 +29,10 @@ app.controller('rides', function($scope, $rootScope, $http) {
 		}).success(function(response){
 
 			// alert('inside');
-			//alert("length " + $scope.rides.length);
+
 			$scope.rides = response;
-			alert("length " + response.length);
-			startPosition = response.length;
-			angular.forEach(response, function (res) {
+			startPosition = $scope.items.length;
+			angular.forEach(items, function (res) {
 
 				$http({
 					method: "GET",
@@ -50,31 +49,31 @@ app.controller('rides', function($scope, $rootScope, $http) {
 		}).error(function(){
 			alert("error");
 			$scope.items = [];
-			startPosition = $scope.rides.length;
-		});*/
+			startPosition = $scope.items.length;
+		});
 	};
 
 
 	$scope.getRidesInfo = function () {
 		$http({
 			method: "GET",
-			url: '/searchBills',
+			url: '/searchCustomers',
 			params: {
 				"search":  $scope.customerId,
 				"startPosition": startPosition
 			}
 		}).success(function (response) {
-			//alert("get rides info ");
+
 			var items = response;
 			if(items.length == 0){
 				$scope.loadMore = true;
 			}
 			for (var i = 0, len = items.length; i < len; ++i) {
-				$scope.rides.push(items[i]);
+				$scope.items.push(items[i]);
 			}
-			startPosition = $scope.rides.length;
+			startPosition = $scope.items.length;
 
-			angular.forEach(response, function (res) {
+			angular.forEach(items, function (res) {
 
 				$http({
 					method: "GET",
@@ -91,7 +90,7 @@ app.controller('rides', function($scope, $rootScope, $http) {
 		}).error(function (err) {
 			alert("error");
 			$scope.items = [];
-			startPosition = $scope.rides.length;
+			startPosition = $scope.items.length;
 		});
 	};
 
