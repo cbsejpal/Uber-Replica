@@ -24,9 +24,10 @@ app.controller('navbar',[ '$scope', '$rootScope','$http','socket',function($scop
 					}else{
 						$rootScope.currentRideId = false;
 					}
+					socket.emit('join',{ email: response.data.email });
 					$rootScope.getRideInfo(response.data.email);
 
-					socket.emit('join',{ email: $scope.email });
+
 				}
 				else{
 					//alert("else");
