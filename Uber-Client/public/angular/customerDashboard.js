@@ -10,53 +10,59 @@ app.controller('socket',['$scope','socket',function($scope,socket){
 }]);
 
 
-app.controller('rides', function($scope, $http) {
-	$http({
-		method: "GET",
-		url : '/searchBills',
-		params : {
-			searchText : ""
-		}
-	}).success(function(response){
+app.controller('rides', function($scope, $rootScope, $http) {
 
-		// alert('inside');
+	//alert("getRideImage");
+	$rootScope.getRidesInfo = function(customerId){
 
-		$scope.rides = response;
 
-		angular.forEach(response, function(res){
+		$http({
+			method: "GET",
+			url : '/searchBills',
+			params : {
+				startPosition : 0,
+				searchText : customerId
+			}
+		}).success(function(response){
+
+			// alert('inside');
+
+			$scope.rides = response;
+
+			angular.forEach(response, function(res){
 
 //			alert(res.billingId);
 
-			$http({
-				method: "GET",
-				url: '/getImagesOfRide',
-				params: {
-					billId: res.billingId
-				}
-			}).success(function(response){
+				$http({
+					method: "GET",
+					url: '/getImagesOfRide',
+					params: {
+						billId: res.billingId
+					}
+				}).success(function(response){
 //				alert("billId ");
+				});
+
 			});
 
+
+		}).error(function(){
+
+			alert("error");
 		});
 
-
-	}).error(function(){
-
-		alert("error");
-	});
-
-	//alert("getRideImage");
-
+	};
 
 });
 
-app.controller('navbar',['$scope','$http','socket', function($scope, $http,socket) {
+app.controller('navbar',['$scope','$rootScope', '$http','socket', function($scope, $rootScope, $http,socket) {
 
 
 	$http.get("/getCustomerInformation").success(function(response) {
 		if (response.status == 200) {
 			$scope.firstName = response.data.firstName;
 			$scope.email = response.data.email;
+			$rootScope.getRidesInfo(response.data.email);
 			socket.emit('join',{ email: $scope.email });
 		}
 		else{
