@@ -493,3 +493,22 @@ exports.revenuePerDayWeekly = function(req,res){
         }
     });
 };
+
+exports.ridesPerArea = function(req, res){
+
+    var msg_payload = {
+        "func" : "ridesPerArea"
+    };
+
+    mq_client.make_request('admin_queue', msg_payload, function(err,results) {
+        //console.log(results);
+        if (err) {
+            //console.log(err);
+            res.status(500).send(null);
+        } else {
+            console.log("revenue results" + JSON.stringify(results));
+            res.status(results.status).send(results.data);
+        }
+    });
+
+};

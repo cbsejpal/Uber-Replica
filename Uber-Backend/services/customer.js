@@ -288,7 +288,7 @@ exports.getImagesOfRide = function(msg, callback){
                     callback(null, json_responses);
                 }
                 else{
-                    json_responses = requestGen.responseGenerator(500, null);
+                    json_responses = requestGen.responseGenerator(404, null);
                     callback(null, json_responses);
                 }
             }
@@ -339,12 +339,20 @@ exports.getCustomerRating = function(msg, callback){
                 var custRating = [];
                 var total = 0;
                 var count = doc.rides.length;
-                var Avg = 0;
+                var newCount = 0;;
                 for (var i = 0; i < count; i++) {
-                    custRating.push(doc.rides[i].rating);
-                    total += custRating[i];
+                    //console.log(i + " " + doc.rides[i].rating);
+                    if(typeof (doc.rides[i].rating) != 'undefined'){
+                        //console.log("new i" + i);
+
+                        total += doc.rides[i].rating;
+                        newCount++;
+                    }
                 }
-                Avg = total/count;
+                //console.log("total " + total);
+                Avg = total/newCount;
+                //console.log("avg " + Avg );
+                //console.log("number " + Number(Avg).toFixed(1));
                 json_response = requestGen.responseGenerator(200,{data: Number(Avg).toFixed(1)});
                 callback(null, json_response);
             }

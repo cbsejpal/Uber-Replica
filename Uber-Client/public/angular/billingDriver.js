@@ -1,4 +1,4 @@
-var app = angular.module('billings', []);
+var app = angular.module('ngMap');
 
 app.controller('socket',['$scope','socket',function($scope,socket){
 

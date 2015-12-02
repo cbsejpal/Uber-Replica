@@ -21,7 +21,8 @@ var express = require('express')
     , billing = require('./routes/billing')
     , expressSession = require("express-session")
     , mongoStore = require("connect-mongo")(expressSession)
-    , mongo = require("./routes/mongo");
+    , mongo = require("./routes/mongo")
+    , compress = require('compression');
 
 
 //mongoDB session URL
@@ -31,6 +32,7 @@ app.configure(function(){
     app.set('port', process.env.PORT || 3000);
     app.set('views', __dirname + '/views');
     app.set('view engine', 'ejs');
+    //app.use(compress()); //Compression
     app.use(express.static(path.join(__dirname, 'public')));
     app.use('/uploads', express.static(__dirname + "/uploads"));
     app.use(multer({dest: './uploads/'}));
@@ -130,8 +132,8 @@ app.post('/endRide', ride.endRide);
 
 app.post('/rateDriver', ride.rateDriver);
 app.post('/rateCustomer', ride.rateCustomer);
-app.post('/getCustomerRating', customer.getCustomerRating);
-app.post('/getDriverRating', driver.getDriverRating);
+app.get('/getCustomerRating', customer.getCustomerRating);
+app.get('/getDriverRating', driver.getDriverRating);
 
 
 //admin
@@ -171,7 +173,10 @@ app.get('/driverRides', ride.driverRides);
 app.get('/customerRides', ride.customerRides);
 
 app.get('/checkCustomerSSN', customer.checkCustomerSSN);
-app.get('/checkDriverSSN', driver.checkDriverSSN)
+app.get('/checkDriverSSN', driver.checkDriverSSN);
+
+app.get('/ridesPerArea', admin.ridesPerArea);
+
 //error handling files
 
 app.get('/errorCustomer', customer.errorCustomer);

@@ -101,6 +101,43 @@ exports.loginCustomer = function(req, res){
             res.send(json_responses);
         }
         else{
+
+            //With REDIS
+            var msg_payload = {
+                "email" : email,
+                "password" : password,
+                "func" : "loginCustomer",
+                "reqtype": "/reddis/search",
+                "httpreqtype" : "GET",
+                "data" : {
+                    searchparam:email+password,
+                    operation:'loginCustomer'
+                }
+            };
+            console.log("Requsted to Reddis");
+            mq_client.make_request('customer_queue', msg_payload, function(err,results) {
+                console.log(results);
+                if (err) {
+                    console.log(err);
+                    json_responses = {"statusCode" : 401};
+                    res.send(json_responses);
+
+                } else {
+
+                    //console.log("results user " + JSON.stringify(results) );
+                    //console.log("about results" + results["user"]);
+                    req.session.customerId =  results.data.user;
+                    //console.log("session " + req.session.customerId);
+                    //res.status(results.status).send(results.data);
+                    json_responses = {"statusCode" : results.status};
+                    res.send(json_responses);
+
+                }
+            });
+
+
+            //Without REDIS
+            /*
             var msg_payload = {
                 "email" : email,
                 "password" : password,
@@ -125,7 +162,7 @@ exports.loginCustomer = function(req, res){
                     res.send(json_responses);
 
                 }
-            });
+            });*/
         }
     }
 };
@@ -555,7 +592,12 @@ exports.getImagesOfRide = function (req, res) {
             //console.log(err);
             res.status(500).send(null);
         } else {
-            res.status(results.status).send(results);
+
+            setTimeout(function(){
+                res.status(results.status).send(results);
+            }, 200);
+
+
         }
     });
 };

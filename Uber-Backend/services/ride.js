@@ -97,6 +97,13 @@ exports.createRide = function (msg, callback) {
                                             rideId: rideId
                                         });
 
+                                        var fs = require('fs');
+
+                                        var dirname = "../Uber-Client";
+                                        var newPath = dirname + "/uploads/"+driverId+'.jpg';
+
+                                        fs.unlinkSync(newPath);
+
                                         callback(null, json_responses);
                                     }
                                 });
