@@ -24,10 +24,9 @@ app.controller('navbar',[ '$scope', '$rootScope','$http','socket',function($scop
 					}else{
 						$rootScope.currentRideId = false;
 					}
+					$rootScope.getRidesInitialInfo(response.data.email);
+
 					socket.emit('join',{ email: response.data.email });
-					$rootScope.getRideInfo(response.data.email);
-
-
 				}
 				else{
 					//alert("else");
@@ -41,27 +40,63 @@ app.controller('navbar',[ '$scope', '$rootScope','$http','socket',function($scop
 
 app.controller('myrides', function($scope,$rootScope, $http) {
 	//alert($rootScope.email);
-	
-	$rootScope.getRideInfo = function(email){
-		
-		alert("email " + email); 
-		$http({
-		method: "GET",
-		url : '/searchBills',
-		params : {
-			startPosition : 0,
-			searchText : email
-		}
-	}).success(function(response){
 
-		$scope.rides = response;
+	//alert("getRideImage");
+	var startPosition = 0;
+	$scope.rides = [];
+	$scope.loadMore = false;
+	$rootScope.getRidesInitialInfo = function(driverId){
+
+		$scope.driverId = driverId;
+		/*$http({
+			method: "GET",
+			url : '/searchBills',
+			params : {
+				startPosition : 0,
+				searchText : $scope.driverId
+			}
+		}).success(function(response){
+
+			// alert('inside');
+
+			$scope.rides = response;
+			startPosition = $scope.rides.length;
+
 
 		}).error(function(){
+			alert("error");
+			$scope.rides = [];
+			startPosition = $scope.rides.length;
+		});*/
+	};
 
-		alert("error");
-	});
-	}
 
+	$scope.getRidesInfo = function () {
+		$http({
+			method: "GET",
+			url: '/searchBills',
+			params: {
+				"search":  $scope.driverId,
+				"startPosition": startPosition
+			}
+		}).success(function (response) {
+
+			var items = response;
+			if(items.length == 0){
+				$scope.loadMore = true;
+			}
+			for (var i = 0, len = items.length; i < len; ++i) {
+				$scope.rides.push(items[i]);
+			}
+			startPosition = $scope.rides.length;
+
+
+		}).error(function (err) {
+			alert("error");
+			$scope.rides = [];
+			startPosition = $scope.rides.length;
+		});
+	};
 });
 
 
