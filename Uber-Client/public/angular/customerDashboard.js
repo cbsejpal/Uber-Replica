@@ -23,11 +23,31 @@ app.controller('rides', function($scope, $http) {
 
 		$scope.rides = response;
 
+		angular.forEach(response, function(res){
+
+//			alert(res.billingId);
+
+			$http({
+				method: "GET",
+				url: '/getImagesOfRide',
+				params: {
+					billId: res.billingId
+				}
+			}).success(function(response){
+//				alert("billId ");
+			});
+
+		});
+
 
 	}).error(function(){
 
 		alert("error");
 	});
+
+	//alert("getRideImage");
+
+
 });
 
 app.controller('navbar',['$scope','$http','socket', function($scope, $http,socket) {

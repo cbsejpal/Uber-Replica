@@ -288,7 +288,7 @@ exports.getImagesOfRide = function(msg, callback){
                     callback(null, json_responses);
                 }
                 else{
-                    json_responses = requestGen.responseGenerator(500, null);
+                    json_responses = requestGen.responseGenerator(404, null);
                     callback(null, json_responses);
                 }
             }

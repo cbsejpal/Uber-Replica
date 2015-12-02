@@ -555,7 +555,12 @@ exports.getImagesOfRide = function (req, res) {
             //console.log(err);
             res.status(500).send(null);
         } else {
-            res.status(results.status).send(results);
+
+            setTimeout(function(){
+                res.status(results.status).send(results);
+            }, 200);
+
+
         }
     });
 };

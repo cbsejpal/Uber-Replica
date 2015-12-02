@@ -86,7 +86,6 @@
                         </tr>
                         </thead>
                         <tbody ng-repeat="k in rides">
-
                         <tr class="clickme">
                             <td>{{k.rideId}}</td>
                             <td>{{k.driverId}}</td>
@@ -99,26 +98,13 @@
 
                         <tr>
                             <td>
-
-
-
-                        <div class="img">
-
-
-                                <ng-map zoom="10" center="{{k.pickUpLocation}}" style="height: 250px; width:250px;" disable-default-u-i="true" draggable="false" >
-                                    <directions
-                                            travel-mode="DRIVING"
-                                            origin="{{k.pickUpLocation}}"
-                                            destination="{{k.dropOffLocation}}">
-                                    </directions>
-                                </ng-map>
-
-
-                        </div>
-
-
-                        </td>
+                                Ride Image
+                            </td>
+                            <td>
+                                <img ng-src="uploads/{{k.billingId}}.jpg" width="150" height="150" alt="No Image uploaded during ride" onError="this.onerror=null;src='uploads/not-found.png';">
+                            </td>
                     </tr>
+
                     </tbody>
 
                 </table>

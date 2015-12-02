@@ -171,7 +171,10 @@ app.get('/driverRides', ride.driverRides);
 app.get('/customerRides', ride.customerRides);
 
 app.get('/checkCustomerSSN', customer.checkCustomerSSN);
-app.get('/checkDriverSSN', driver.checkDriverSSN)
+app.get('/checkDriverSSN', driver.checkDriverSSN);
+
+app.get('/ridesPerArea', admin.ridesPerArea);
+
 //error handling files
 
 app.get('/errorCustomer', customer.errorCustomer);
