@@ -107,22 +107,22 @@
                             <th>Ride</th>
                             <th>Customer</th>
                             <th>Fare</th>
-                            <th>Car</th>
+                           
                             <th>PickUp</th>
                             <th>Dropoff</th>
-                            <th>Payment Method</th>
+                            <th>Bill Details</th>
                         </tr>
                         </thead>
                         <tbody ng-repeat="k in rides">
 
                         <tr>
-                            <td>1</td>
+                            <td>{{k.rideId}}</td>
                             <td>{{k.customerId}}</td>
-                            <td>$30</td>
-                            <td>UberX</td>
+                            <td>${{k.rideAmount}}</td>
+                            
                             <td>{{k.pickUpLocation}}</td>
                             <td>{{k.dropOffLocation}}</td>
-                            <td>**** credit card</td>
+                            <td> <a href="customerRideBill?bill={{k.billingId}}">Bill</a></td>
                         </tr>
                         </tbody>
 
