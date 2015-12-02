@@ -13,79 +13,45 @@ app.controller('socket',['$scope','socket',function($scope,socket){
 app.controller('rides', function($scope, $rootScope, $http) {
 
 	//alert("getRideImage");
-	var startPosition = 0;
-	$scope.search = " ";
-	$scope.items = [];
-	$scope.loadMore = false;
-	$rootScope.getRidesInitialInfo = function(customerId){
+	$rootScope.getRidesInfo = function(customerId){
 
-		$scope.customerId = customerId;
+
 		$http({
 			method: "GET",
 			url : '/searchBills',
 			params : {
 				startPosition : 0,
-				searchText : $scope.customerId
+				searchText : customerId
 			}
 		}).success(function(response){
 
 			// alert('inside');
 
 			$scope.rides = response;
-			startPosition = $scope.items.length;
-			getImage(response);
 
-		}).error(function(){
-			alert("error");
-			$scope.items = [];
-			startPosition = $scope.items.length;
-		});
-	};
+			angular.forEach(response, function(res){
 
-	$scope.getRidesInfo = function () {
-		$http({
-			method: "GET",
-			url: '/searchCustomers',
-			params: {
-				"search":  $scope.customerId,
-				"startPosition": startPosition
-			}
-		}).success(function (response) {
+//			alert(res.billingId);
 
-			var items = response;
-			if(items.length == 0){
-				$scope.loadMore = true;
-			}
-			for (var i = 0, len = items.length; i < len; ++i) {
-				$scope.items.push(items[i]);
-			}
-			startPosition = $scope.items.length;
-
-			getImage(response);
-
-		}).error(function (err) {
-			alert("error");
-			$scope.items = [];
-			startPosition = $scope.items.length;
-		});
-	};
-
-	var getImage = function(items){
-		angular.forEach(items, function(res){
-
-			$http({
-				method: "GET",
-				url: '/getImagesOfRide',
-				params: {
-					billId: res.billingId
-				}
-			}).success(function(response){
+				$http({
+					method: "GET",
+					url: '/getImagesOfRide',
+					params: {
+						billId: res.billingId
+					}
+				}).success(function(response){
 //				alert("billId ");
+				});
+
 			});
 
-		});
-	}
 
+		}).error(function(){
+
+			alert("error");
+		});
+
+	};
 
 });
 
@@ -185,16 +151,12 @@ app.controller('profile', function($scope, $http) {
 
 
 /*app.controller('payment', function($scope, $http) {
-
-
-	$http.get("/getCustomerInformation").success(function(response) {
-		if (response.status == 200) {
-
-			$scope.creditCard = response.data.creditCard;
-			//console.log(JSON.stringify($scope.customer));
-		}
-
-	}).error(function(error){
-		window.location.assign('/errorCustomer');
-	});
-});*/
+ $http.get("/getCustomerInformation").success(function(response) {
+ if (response.status == 200) {
+ $scope.creditCard = response.data.creditCard;
+ //console.log(JSON.stringify($scope.customer));
+ }
+ }).error(function(error){
+ window.location.assign('/errorCustomer');
+ });
+ });*/
