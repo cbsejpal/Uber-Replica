@@ -251,7 +251,7 @@ exports.loginDriver = function(req, res){
 exports.searchDriver = function(req, res){
 
     var search = req.param('search');
-
+    var startPosition = req.param('startPosition');
     //Valdidations
   /*  if( ! (search) ){
 
@@ -262,6 +262,7 @@ exports.searchDriver = function(req, res){
     }*/
 
     var msg_payload = {
+        "startPosition" : startPosition,
         "search" : search,
         "func" : "searchDriver"
     };

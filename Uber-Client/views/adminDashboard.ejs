@@ -141,7 +141,8 @@
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" ng-app="ngMap">
 
-            <div class="drivers" ng-controller="drivers">
+            <div class="drivers" infinite-scroll="getDriverList()" infinite-scroll-distance="0"
+                 infinite-scroll-disabled="{{loadMore}}" ng-controller="drivers">
                 <center><h2 class="sub-header">Drivers' list</h2></center>
                 <div class="col-md-9"></div>
                 <div class="col-md-3" style="margin-top:-55px;">
@@ -150,7 +151,7 @@
                             <input type="text" ng-model="search" style="float:right;" class="form-control"
                                    placeholder="Search for...">
 				      <span class="input-group-btn">
-				        <button class="btn btn-default" ng-click="searchDriver()" type="button">Go!</button>
+				        <button class="btn btn-default" ng-click="getSearchDriverListInitial()" type="button">Go!</button>
 				      </span>
                         </div>
                     </form>
@@ -191,7 +192,7 @@
 
             <!-- customers div -->
 
-            <div class="customers" infinite-scroll="getSearchCustomerList()" infinite-scroll-distance="0"
+            <div class="customers" infinite-scroll="getCustomerList()" infinite-scroll-distance="0"
                  infinite-scroll-disabled="{{loadMore}}" ng-controller="customers">
                 <center><h2 class="sub-header">Customers' list</h2></center>
                 <div class="col-md-9"></div>
@@ -246,7 +247,8 @@
 
             <!-- Billing div -->
 
-            <div class="billing" ng-controller="billing">
+            <div class="billing" infinite-scroll="getBillList()" infinite-scroll-distance="0"
+                 infinite-scroll-disabled="{{loadMore}}" ng-controller="billing">
                 <center><h2 class="sub-header">Bills list</h2></center>
                 <div class="col-md-9"></div>
                 <div class="col-md-3" style="margin-top:-55px;">
@@ -255,7 +257,7 @@
                             <input type="text" ng-model="search" style="float:right;" class="form-control"
                                    placeholder="Search for...">
 				      <span class="input-group-btn">
-				        <button class="btn btn-default" ng-click="getBillList()" type="button">Go!
+				        <button class="btn btn-default" ng-click="getSearchBillListInitial()" type="button">Go!
                         </button>
 				      </span>
                         </div>
