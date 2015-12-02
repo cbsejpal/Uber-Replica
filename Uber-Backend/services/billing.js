@@ -151,6 +151,7 @@ exports.billingSearch = function(msg, callback){
 	var json_response;
 
 	var searchText = msg.searchText;
+	var offset = msg.startPosition;
 
 	var data = [];
 
@@ -183,7 +184,7 @@ exports.billingSearch = function(msg, callback){
 
 		}
 		callback(null, json_response);
-	});
+	}).skip(offset).limit(50);
 };
 
 exports.deleteBill = function (msg, callback) {

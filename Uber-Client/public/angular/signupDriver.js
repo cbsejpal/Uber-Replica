@@ -1,5 +1,5 @@
 //loading the 'login' angularJS module
-var signupDriver = angular.module('signupDriver', []);
+var signupDriver = angular.module('signupDriver', ['ngMap']);
 //defining the login controller
 
 signupDriver.directive('ngModelOnblur', function() {
