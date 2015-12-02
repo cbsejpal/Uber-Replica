@@ -4,6 +4,7 @@ var customerSchema = require('./model/customerSchema');
 var driverSchema = require('./model/driverSchema');
 var requestGen = require('./commons/responseGenerator');
 var billingsSchema = require('./model/billingSchema');
+var rideSchema = require('./model/rideSchema');
 
 var Admin = adminSchema.Admin;
 var Customer = customerSchema.Customer; //mysql instance
@@ -11,7 +12,7 @@ var Customers = customerSchema.Customers; //mongoDB instance
 var Driver = driverSchema.Driver; //mysql instance
 var Drivers = driverSchema.Drivers; //mongoDB instance
 var Billings = billingsSchema.Billings;
-
+var Rides = rideSchema.Rides;
 
 exports.registerAdmin = function (msg, callback) {
 
@@ -261,4 +262,29 @@ exports.revenuePerDayWeekly = function (msg, callback) {
             callback(null, json_responses);
         }
     );
+};
+
+exports.ridesPerArea = function (msg, callback) {
+
+    var json_responses;
+
+    Rides.aggregate([
+        {
+            $group: {
+                _id: '$rideCity',
+                rides: {$sum: 1}
+            }
+        },
+        {$sort: {_id: 1}}
+    ], function (err, results) {
+        if (err) {
+            console.error(err);
+            json_responses = requestGen.responseGenerator(500, {message: "Error occured in revenue"});
+        } else {
+            console.error(results);
+            json_responses = requestGen.responseGenerator(200, results);
+        }
+        callback(null, json_responses);
+    });
+
 };

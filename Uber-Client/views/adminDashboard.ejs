@@ -33,6 +33,7 @@
             $('.analysis').hide();
             $('.billing').hide();
             $('.map-analysis').hide();
+            $('.ridePerArea').hide();
 
             $(".click1").on("click", function () {
                 $('.drivers').show();
@@ -41,6 +42,7 @@
                 $('.analysis').hide();
                 $('.billing').hide();
                 $('.map-analysis').hide();
+                $('.ridePerArea').hide();
             });
             $(".click2").on("click", function () {
                 $('.drivers').hide();
@@ -49,6 +51,7 @@
                 $('.analysis').hide();
                 $('.billing').hide();
                 $('.map-analysis').hide();
+                $('.ridePerArea').hide();
             });
 
 
@@ -59,6 +62,7 @@
                 $('.analysis').hide();
                 $('.billing').hide();
                 $('.map-analysis').hide();
+                $('.ridePerArea').hide();
             });
             $(".click4").on("click", function () {
                 $('.drivers').hide();
@@ -67,6 +71,7 @@
                 $('.analysis').show();
                 $('.billing').hide();
                 $('.map-analysis').hide();
+                $('.ridePerArea').hide();
             });
             $(".click5").on("click", function () {
                 $('.drivers').hide();
@@ -75,6 +80,7 @@
                 $('.analysis').hide();
                 $('.billing').show();
                 $('.map-analysis').hide();
+                $('.ridePerArea').hide();
             });
             $(".click6").on("click", function () {
                 $('.drivers').hide();
@@ -83,6 +89,16 @@
                 $('.analysis').hide();
                 $('.billing').hide();
                 $('.map-analysis').show();
+                $('.ridePerArea').hide();
+            });
+            $(".click7").on("click", function () {
+                $('.drivers').hide();
+                $('.customers').hide();
+                $('.requests').hide();
+                $('.analysis').hide();
+                $('.billing').hide();
+                $('.map-analysis').hide();
+                $('.ridePerArea').show();
             });
         });
 
@@ -135,6 +151,7 @@
                 <li class=""><a href="javascript:void(0)" class="click5">Billing Info</a></li>
                 <li><a href="javascript:void(0)" class="click4">Revenue per Day</a></li>
                 <li><a href="mapAnalysis" class="click6">Analysis -  Area Wise</a></li>
+                <li><a href="javascript:void(0)" class="click7">Rides per Area</a></li>
                 <li><a href="/logout">Log out</a></li>
             </ul>
 
@@ -381,7 +398,10 @@
                 <!--<script src="js/index.js"></script>-->
             </div>
 
-
+            <div class="ridePerArea" ng-controller="ridesPerArea">
+                <svg class="chart"></svg>
+                <script src="js/d3.min.js" charset="utf-8"></script>
+            </div>
 
         </div>
 
