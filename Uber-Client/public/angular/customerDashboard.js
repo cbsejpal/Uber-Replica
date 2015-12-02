@@ -13,45 +13,79 @@ app.controller('socket',['$scope','socket',function($scope,socket){
 app.controller('rides', function($scope, $rootScope, $http) {
 
 	//alert("getRideImage");
-	$rootScope.getRidesInfo = function(customerId){
+	var startPosition = 0;
+	$scope.search = " ";
+	$scope.items = [];
+	$scope.loadMore = false;
+	$rootScope.getRidesInitialInfo = function(customerId){
 
-
+		$scope.customerId = customerId;
 		$http({
 			method: "GET",
 			url : '/searchBills',
 			params : {
 				startPosition : 0,
-				searchText : customerId
+				searchText : $scope.customerId
 			}
 		}).success(function(response){
 
 			// alert('inside');
 
 			$scope.rides = response;
-
-			angular.forEach(response, function(res){
-
-//			alert(res.billingId);
-
-				$http({
-					method: "GET",
-					url: '/getImagesOfRide',
-					params: {
-						billId: res.billingId
-					}
-				}).success(function(response){
-//				alert("billId ");
-				});
-
-			});
-
+			startPosition = $scope.items.length;
+			getImage(response);
 
 		}).error(function(){
-
 			alert("error");
+			$scope.items = [];
+			startPosition = $scope.items.length;
 		});
-
 	};
+
+	$scope.getRidesInfo = function () {
+		$http({
+			method: "GET",
+			url: '/searchCustomers',
+			params: {
+				"search":  $scope.customerId,
+				"startPosition": startPosition
+			}
+		}).success(function (response) {
+
+			var items = response;
+			if(items.length == 0){
+				$scope.loadMore = true;
+			}
+			for (var i = 0, len = items.length; i < len; ++i) {
+				$scope.items.push(items[i]);
+			}
+			startPosition = $scope.items.length;
+
+			getImage(response);
+
+		}).error(function (err) {
+			alert("error");
+			$scope.items = [];
+			startPosition = $scope.items.length;
+		});
+	};
+
+	var getImage = function(items){
+		angular.forEach(items, function(res){
+
+			$http({
+				method: "GET",
+				url: '/getImagesOfRide',
+				params: {
+					billId: res.billingId
+				}
+			}).success(function(response){
+//				alert("billId ");
+			});
+
+		});
+	}
+
 
 });
 
