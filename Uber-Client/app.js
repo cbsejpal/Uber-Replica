@@ -21,7 +21,8 @@ var express = require('express')
     , billing = require('./routes/billing')
     , expressSession = require("express-session")
     , mongoStore = require("connect-mongo")(expressSession)
-    , mongo = require("./routes/mongo");
+    , mongo = require("./routes/mongo")
+    , compress = require('compression');
 
 
 //mongoDB session URL
@@ -31,6 +32,7 @@ app.configure(function(){
     app.set('port', process.env.PORT || 3000);
     app.set('views', __dirname + '/views');
     app.set('view engine', 'ejs');
+    //app.use(compress()); //Compression
     app.use(express.static(path.join(__dirname, 'public')));
     app.use('/uploads', express.static(__dirname + "/uploads"));
     app.use(multer({dest: './uploads/'}));
