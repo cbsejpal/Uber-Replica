@@ -194,17 +194,23 @@ app.controller('drivers', function ($scope, $http) {
             method: "GET",
             url: '/searchDriver',
             params: {
-                search: $scope.search
+                "search": $scope.search,
+                "startPosition": startPosition
             }
         }).success(function (response) {
-            if (response.status == 200) {
-                $scope.items = response.data;
+
+            var items = response;
+            if(items.length == 0){
+                $scope.loadMore = true;
             }
-            else {
-                $scope.items = [];
+            for (var i = 0, len = items.length; i < len; ++i) {
+                $scope.items.push(items[i]);
             }
             startPosition = $scope.items.length;
 
+        }).error(function (err) {
+            $scope.items = [];
+            startPosition = $scope.items.length;
         });
     };
 
