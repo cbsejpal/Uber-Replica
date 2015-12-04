@@ -76,7 +76,7 @@ app.controller('myrides', function($scope,$rootScope, $http) {
 			method: "GET",
 			url: '/searchBills',
 			params: {
-				"searchTe":  $scope.driverId,
+				"searchText":  $scope.driverId,
 				"startPosition": startPosition
 			}
 		}).success(function (response) {

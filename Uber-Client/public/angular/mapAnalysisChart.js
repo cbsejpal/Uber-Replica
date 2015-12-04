@@ -49,7 +49,7 @@ app.controller('ngMap1', function ($rootScope, $scope, $http, NgMap) {
     };
 
     $scope.getRidesFromCity = function(city){
-        alert(city);
+        //alert(city);
         $http({
             method: "GET",
             url: '/cityRides',
